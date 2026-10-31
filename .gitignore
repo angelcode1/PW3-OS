@@ -1,0 +1,23 @@
+# Source-only repository. Never publish raw Kindle captures, credentials or proprietary runtime files.
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+*.img
+*.bin
+*.elf
+*.so
+*.so.*
+*.dproj
+*.log
+*.zip
+*.bundle
+results-*/
+stage-r*/
+alpine-r*-official/
+pw3-readonly-evidence*/
