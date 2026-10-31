@@ -33,7 +33,7 @@ PROBES = {
     "init_locations.txt": "ls -ld /etc/upstart /etc/init /etc/init.d /sbin/init /etc/inittab 2>/dev/null || true",
     "upstart_names.txt": "ls -1 /etc/upstart/ 2>/dev/null || true",
     "init_names.txt": "ls -1 /etc/init.d/ 2>/dev/null || true",
-    "library_names.txt": "ls -1 /lib/ /usr/lib/ 2>/dev/null | grep -E 'lipc|eink|fb|power|pthread|c\\.so' || true",
+    "library_names.txt": "ls -1 /lib/ /usr/lib/ 2>/dev/null || true",
 }
 OPTIONAL_FILES = (
     "/etc/fstab", "/etc/inittab", "/etc/os-release",
@@ -50,6 +50,12 @@ def remote_ssh(host, port, script):
             "-o", "StrictHostKeyChecking=ask", "-p", str(port), "root@" + host, "sh", "-s"]
     return subprocess.run(argv, input=script.encode(), stdout=subprocess.PIPE,
                           stderr=subprocess.PIPE, timeout=25, check=False)
+
+def bounded_probe(name, command):
+    """Cap remote stdout using POSIX dd, supported by older BusyBox."""
+    return ("set -f\ncommand -v dd >/dev/null 2>&1 || exit 127\n"
+            + "( " + command + f" ) | dd bs=1 count={MAX_BYTES} 2>/dev/null\n")
+
 
 def file_script(path):
     assert path in OPTIONAL_FILES
@@ -70,12 +76,21 @@ def collect(args):
                 "host_redacted":True, "port":args.port, "entries":[], "errors":[]}
     records = []
     for name,cmd in PROBES.items():
-        result = remote_ssh(args.host,args.port, f"set -f\n( {cmd} ) | head -c {MAX_BYTES}\n")
+        result = remote_ssh(args.host,args.port, bounded_probe(name,cmd))
+        data = result.stdout[:MAX_BYTES]
+        if name == "library_names.txt":
+            # Old BusyBox rejects grep -E. Filter library names locally.
+            data = b"\n".join(line for line in data.splitlines()
+                              if re.search(rb"lipc|eink|fb|power|pthread|c\.so", line))
+            if data:
+                data += b"\n"
         if result.returncode:
             manifest["errors"].append({"item":name,"status":result.returncode,
                          "error":result.stderr.decode("utf8","replace")[:500]})
         else:
-            records.append(("diagnostics/"+name,result.stdout[:MAX_BYTES]))
+            records.append(("diagnostics/"+name,data))
+            if len(result.stdout) >= MAX_BYTES:
+                manifest.setdefault("possible_truncations", []).append(name)
     if args.include_init_scripts:
         for path in OPTIONAL_FILES:
             result = remote_ssh(args.host,args.port,file_script(path))
