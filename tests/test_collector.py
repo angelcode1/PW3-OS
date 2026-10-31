@@ -40,5 +40,28 @@ class CollectorTests(unittest.TestCase):
     def test_limits(self):
         self.assertLessEqual(c.MAX_BYTES, 32768)
 
+
+    def test_old_busybox_compatibility(self):
+        for command in c.PROBES.values():
+            self.assertNotIn("grep -E", command)
+        script = c.bounded_probe("kernel_version.txt", "uname -a")
+        self.assertIn("dd bs=1 count=32768", script)
+        self.assertNotIn("head -c", script)
+        self.assertNotIn("/tmp/", script)
+
+    def test_bounded_remote_capture_on_posix_shell(self):
+        short = subprocess.run(["sh", "-c", c.bounded_probe("test", "printf 'abcdef'")],
+                               capture_output=True, timeout=5)
+        self.assertEqual(short.returncode, 0)
+        self.assertEqual(short.stdout, b"abcdef")
+        long = subprocess.run(["sh", "-c", c.bounded_probe("test", "yes a")],
+                              capture_output=True, timeout=10)
+        self.assertEqual(long.returncode, 0)
+        self.assertEqual(len(long.stdout), c.MAX_BYTES)
+
+    def test_library_inventory_avoids_remote_grep(self):
+        self.assertEqual(c.PROBES["library_names.txt"],
+                         "ls -1 /lib/ /usr/lib/ 2>/dev/null || true")
+
 if __name__ == "__main__":
     unittest.main()
