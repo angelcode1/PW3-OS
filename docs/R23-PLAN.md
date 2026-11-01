@@ -106,7 +106,7 @@ The fail-closed JSON reviewer verdict was `FAIL`; there was **no** `R23_REAL_GEN
 - Also allow only four optional paths inside the temporary `KO_HOME`: `defaults.custom.lua`, `defaults.custom.lua.old`, `settings.reader.lua`, `settings.reader.lua.old`. A missing file returns the ordinary native error, which genuine KOReader code handles via `pcall`.
 - Continue rejecting every other `dofile`, including user scripts and `frontend/ui/data/onetime_migration.lua` execution. The intended migration hold and genuine `reader.lua` entrypoint are unchanged; update the ordered reviewer so it rejects a missing defaults marker.
 - Preserve the R21/R22 fixtures and all earlier source-audit contracts. All **59 host regression tests passed** (32 R21, 10 R22, 5 R23, 7 R23.1, 5 R23.2), plus new Lua syntax checks.
-- Candidate source-only ZIP `pw3-os-r23.2-reader-bootstrap.zip`, SHA-256 `bf92cd20cb6a15e5138e7c536393c41789933b9ab30cb603401159044263a304`; 94 archive entries verified. This ZIP is provided in the conversation rather than publicly committed.
+- Candidate source-only ZIP `pw3-os-r23.2-reader-bootstrap.zip`, SHA-256 `4775145ac160c2538a5cc453f40bb84a81cd8681a709516e244616019661ae53`; 93 archive entries verified. The superseded R23.1 checksum list is omitted to avoid stale hashes after the fixture fix. This ZIP is provided in the conversation rather than publicly committed.
 - Exact correction: [R23.2 defaults allowlist patch](../patches/r23.2-defaults-read-allowlist.patch).
 
 Run from the newly extracted R23.2 package with the existing local R13 stage:
