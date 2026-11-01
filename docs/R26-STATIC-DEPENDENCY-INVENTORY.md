@@ -4,6 +4,30 @@
 
 **R26 is a new source-only offline host tool, not an ARM runtime proof.** Its role is to catalog the *local, immutable R13 stage* for the future minimal Alpine rootfs. It records file paths/types/modes/SHA-256, symlink targets and risk, ELF32/ELF64 machine/ABI, PT_INTERP, DT_NEEDED, SONAME, RPATH/RUNPATH, potential dependency candidates in the stage, and approximate Lua literal references (regex-based). Static references are not the same as loaded files. Dynamic `dlopen`/Lua-computed paths, kernel firmware requests, optional scripts and missing fallback paths require later runtime studies.
 
+## R26 actual user-side result — 2026-11-01
+
+The user ran the R26 host suite and stage catalog. Its terminal reported `Ran 15 tests in 0.032s — OK (skipped=1)`, meaning **14 executed successfully and one skipped**, not 15 unskipped PASS. The real local R13 stage inventory then printed `R26_STATIC_CATALOG_CREATED; NO_DYNAMIC_TRACE; NOT_BOOTABLE`.
+
+Exact reported, shareable summary:
+
+| Metric | Observed |
+|---|---:|
+| Stage entries | 2,070 |
+| Regular files | 1,448 |
+| Directories | 287 |
+| Symlinks | 335 |
+| ELF objects | 83 |
+| ELF parse errors | 0 |
+| Lua files with literal-pattern matches | 722 |
+| ELF DT_NEEDED names with no staged candidate | 0 |
+| R25.3 lifecycle evidence checked | yes |
+
+Stage sentinel SHA-256: `7eb0d027b2b407fe6963ea9b9a1fe7fee1db96ae66f9399ece179238939176ed`. Full inventory stays local; only aggregated counts were provided.
+
+Crucial scope values: `files_observed_during_runtime=false`, `safe_to_delete_inferred=false`, `boot_authorized=false`, `device_access_authorized=false`, `firmware_write_authorized=false`, `immutable_hold=NOT_BOOTABLE`. These values are **not** evidence of dynamic execution or a safely removable-file set. No missing DT_NEEDED candidates is a filename/SONAME matching result, not a guarantee that the loader resolves all dependencies.
+
+The proposed R27 next phase is documented at [R27 source-only guest trace](R27-GUEST-SYSCALL-TRACE.md). It replays the existing synthetic R25.3 test while counting guest file access syscalls. **No R27 ARM/QEMU run has been reported**.
+
 ## R26 source-only deliverable
 
 `pw3-os-r26-static-dependency-inventory.zip` is provided in the current conversation, SHA-256 **`3084db2fe0ec7d13618eaee609bf42083a834bba096f0a0c657287e4a4c0fa0c`**, four internally hashed payload files plus checksum manifest. Pure Python stdlib: `r26/inventory.py`, `r26/elfscan.py`, `tests/test_inventory.py`, `README-R26.md`. ZIP integrity/hash verification PASS, **15/15 synthetic host regression tests PASS** (not a test against the proprietary user's R13 stage, which is not present here).
