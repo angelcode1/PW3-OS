@@ -85,6 +85,47 @@ cat results-r23.1-first-run/R23-EARLY-RESULT-REVIEW.json
 
 The raw staged runtime, proprietary firmware materials and device captures must remain local. The repository documents this experiment but does **not** contain the full R23.1 source archive.
 
+## R23.1 ARM failure and R23.2 correction — 2026-11-01
+
+The user ran R23.1 in their offline Docker/QEMU environment and reported:
+
+```text
+R23_REAL_READER_LUA_ENTER
+R23_REAL_SETUPKOENV_IMPORTED
+frontend/luadefaults.lua:50: Failed reading defaults.lua
+R23_EARLY_BOOTSTRAP_ARM_GATE_FAIL (exit=1)
+```
+
+The fail-closed JSON reviewer verdict was `FAIL`; there was **no** `R23_REAL_GENERIC_INIT_SYNTHETIC_ONLY` or completed premigration marker. Docker's legacy-builder deprecation warning and the printed `sha256:98e3...` image identifier are unrelated to this failure.
+
+**Cause:** KOReader's genuine `frontend/luadefaults.lua` loads the stock `defaults.lua` with `pcall(dofile, "defaults.lua")`. R23.1's Lua guard refused all `dofile` calls except its intentional migration stop, so it also blocked the required read-only defaults load. `LuaSettings:open()` and `LuaDefaults:open()` additionally probe optional temporary settings via `pcall(dofile, path)`, including missing-file fallbacks. These must not count as security-policy violations.
+
+**R23.2 host-tested correction** (ARM rerun pending):
+
+- Allow exactly `defaults.lua` from the pinned read-only staged KOReader working directory, checking its table return and `DHINTCOUNT==1`, with one-time marker `R23_REAL_DEFAULTS_LOADED_READ_ONLY`.
+- Also allow only four optional paths inside the temporary `KO_HOME`: `defaults.custom.lua`, `defaults.custom.lua.old`, `settings.reader.lua`, `settings.reader.lua.old`. A missing file returns the ordinary native error, which genuine KOReader code handles via `pcall`.
+- Continue rejecting every other `dofile`, including user scripts and `frontend/ui/data/onetime_migration.lua` execution. The intended migration hold and genuine `reader.lua` entrypoint are unchanged; update the ordered reviewer so it rejects a missing defaults marker.
+- Preserve the R21/R22 fixtures and all earlier source-audit contracts. All **59 host regression tests passed** (32 R21, 10 R22, 5 R23, 7 R23.1, 5 R23.2), plus new Lua syntax checks.
+- Candidate source-only ZIP `pw3-os-r23.2-reader-bootstrap.zip`, SHA-256 `bf92cd20cb6a15e5138e7c536393c41789933b9ab30cb603401159044263a304`; 94 archive entries verified. This ZIP is provided in the conversation rather than publicly committed.
+- Exact correction: [R23.2 defaults allowlist patch](../patches/r23.2-defaults-read-allowlist.patch).
+
+Run from the newly extracted R23.2 package with the existing local R13 stage:
+
+```sh
+cd ~/Downloads/pw3-os-r23.2-reader-bootstrap/src/r21-filemanager-core
+./HOST-VERIFY-R22.sh
+python3 -m unittest discover -s tests_r23 -v
+python3 -m unittest discover -s tests_r23_1 -v
+python3 -m unittest discover -s tests_r23_2 -v
+./run-r23-docker.sh \
+  "$HOME/Downloads/pw3-os-r13-alpine-dual-libc-fix/stage-r13-fixed" \
+  "$PWD/results-r23.2-first-run"
+cat results-r23.2-first-run/R23-EARLY-EMULATION.log
+cat results-r23.2-first-run/R23-EARLY-RESULT-REVIEW.json
+```
+
+An R23.2 ARM result remains **unknown**. If it passes, its only authorized milestone is `R23_EARLY_BOOTSTRAP_ARM_PASS`, with `r23_full_arm_startup_verified=false`, and **not** proof of FileManager startup, migrations, real-device access, independent boot or firmware operation.
+
 ## Remaining unproven boundaries
 
 Native Kindle `Device:init()`, full driver ioctl/display updates, actual evdev touch events, battery/frontlight/suspend, stock Upstart service replacement, independent boot/recovery, image deployment, and cold boot.
