@@ -171,6 +171,12 @@ cat results-r23.3-first-run/R23-UI-IMPORT-RESULT-REVIEW.json
 
 R23.3 source preflight, if successful, is not ARM startup evidence. The real migration path, top-level FileManager startup, genuine UI event-loop exit and proper application shutdown remain unproven. All existing safety holds persist.
 
+## R23.3 ARM result and R23.4 follow-up — 2026-11-01
+
+**R23.3 ARM/UIManager import: FAIL** (user-supplied log). Its genuine `reader.lua` passed through early bootstrap, explicit migration skip, and real Bidi setup, but the imported `ui/uimanager.lua` called `Device:_UIManagerReady()` which attempted `self.input:UIManagerReady(uimgr)`. R17's synthetic input lacks that callback. It therefore never reached `R23_REAL_UIMANAGER_MODULE_IMPORTED`. The R23.3 source-only candidate described above remains historically valid but **has been superseded for the next run**.
+
+**R23.4** retains genuine KOReader Device and UIManager code and supplies the missing one-time callback on the synthetic input instance only. The callback validates the originating UIManager and emits `R23_SYNTHETIC_INPUT_UIMANAGER_READY` once. The reviewer requires it before reporting imported UIManager. All 75 local host regressions and ZIP checks PASS; R23.4 ARM result remains **PENDING**. See [full R23.4 status](R23.4-STATUS.md) for exact reproduction command, checksum, proof boundary and safety holds. A source-level fix is **not** an ARM runtime pass.
+
 ## Remaining unproven boundaries
 
 Native Kindle `Device:init()`, full driver ioctl/display updates, actual evdev touch events, battery/frontlight/suspend, stock Upstart service replacement, independent boot/recovery, image deployment, and cold boot.
