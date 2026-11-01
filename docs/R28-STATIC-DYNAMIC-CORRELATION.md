@@ -1,6 +1,30 @@
 # R28 — offline static/dynamic dependency correlation
 
-**2026-11-01:** R25.3 verified synthetic ARM/QEMU lifecycle PASS; R26 user-generated catalog PASS (2,070 staged entries, 83 ELF objects); R27 user-generated guest syscall trace PASS (2,262 path attempts, 697 successful guest opens). **R28: 26/26 local synthetic host tests PASS; R28 on user's real staged R26/R27 inputs NOT YET RUN.**
+**2026-11-01:** R25.3 verified synthetic ARM/QEMU lifecycle PASS; R26 user-generated catalog PASS (2,070 staged entries, 83 ELF objects); R27 guest syscall trace PASS (2,262 path attempts, 697 successful guest opens). **R28: 26/26 local host tests PASS and user-side static/dynamic correlation PASS** (`R28_STATIC_DYNAMIC_CORRELATED`; details below).
+
+## R28 user-side result — verified by supplied output, 2026-11-01
+
+The user completed 26 host regression tests (`Ran 26 tests ... OK`) and ran `r28/correlate.py` against their private R26/R27 files and immutable local R13 stage. Its output was `R28_STATIC_DYNAMIC_CORRELATED; NO_PRUNING; NOT_BOOTABLE`, with reviewer verdict `R28_STATIC_DYNAMIC_CORRELATED`. Crucial measured aggregate evidence:
+
+| Class / metric | Result |
+|---|---:|
+| Staged R26 catalog entries revalidated | **2,070**, hashes revalidated |
+| Guest path attempts | 2,262 |
+| Guest open/openat attempts | 2,051 |
+| Successful guest open calls | 697 |
+| Successful calls lexically mapped to staged files | 665 (calls, not distinct files) |
+| Distinct staged regular files with successful-open evidence | **341** |
+| Staged catalog entries without successful-open evidence in this single trace | **1,729**, including directories and symlinks |
+| Stage lexical paths absent from catalog | **646 attempts**, no corresponding successful-open evidence reported |
+| Ambiguous FD-relative paths | **7 attempts**, mapping unproven |
+| Test-harness attempts | 774 |
+| Staged catalog path attempts (file+dir) | 743 |
+
+The 1,729 not evidenced includes the R26 catalog's 287 directories and 335 symlinks; by subtraction, 1,107 of the 1,448 regular staged files have **no direct successful-open evidence in this scenario**. This is **not** a safe-to-delete list. `stage_catalog_entries_not_evidenced_as_opened_in_this_one_trace` counts object paths, not unused file bytes or proof of which files are needed.
+
+Source R27 raw guest trace hash `d02193b9b800fdc59cd7b7bf6367c7e2835e0afcfe0e1663ff0f6faa7e6ef49a`, stage sentinel hash `7eb0d027b2b407fe6963ea9b9a1fe7fee1db96ae66f9399ece179238939176ed`; previous trace and stage evidence matched. The summary reports `complete_file_dependency_closure_proven=false`, `safe_to_delete_inferred=false`, `openat_relative_dirfd_mapping_proven=false`, `symlink_resolution_proven=false`, `new_rootfs_created=false`, and all boot/device/firmware authorizations false.
+
+**Next investigation:** Analyze the 646 absent lexical attempts and seven ambiguous dirfd-relative attempts **locally**, where private paths are available; do not paste the private R28 full correlation JSON into chat. A subsequent classification may generate conservative dependency risk/hold categories, not removals.
 
 ## Objective and no-pruning boundary
 
