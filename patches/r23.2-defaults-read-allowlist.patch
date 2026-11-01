@@ -1,0 +1,61 @@
+--- a/r23/early_entry_guard.lua
++++ b/r23/early_entry_guard.lua
+@@ -8,7 +8,7 @@
+        or path:find('/../',1,true) or path:match('/%.%.$') or path:match('/%.$') then return false end
+     return true
+ end
+-local stats={setup=0,settings=0,device=0,canvas=0,patches=0,version=0,migrations=0,denied=0}
++local stats={setup=0,defaults=0,settings=0,device=0,canvas=0,patches=0,version=0,migrations=0,denied=0}
+ local native_require=require
+ local native_dofile=dofile
+ local native_open=io.open
+@@ -109,12 +109,37 @@
+     print('R23_REAL_GENERIC_INIT_SYNTHETIC_ONLY')
+     return Device
+ end
++-- LuaDefaults:open() and LuaSettings:open() use dofile even to try absent
++-- optional settings files, via pcall. Only the official, staged defaults.lua
++-- and four narrowly scoped temporary settings filenames may reach native_dofile.
++-- The migration script, external user patches, and every other Lua source stay blocked.
++local function is_optional_temp_settings_file(path)
++    return path==home..'/defaults.custom.lua'
++        or path==home..'/defaults.custom.lua.old'
++        or path==home..'/settings.reader.lua'
++        or path==home..'/settings.reader.lua.old'
++end
+ -- Only mark success after the original reader.lua reaches this exact migration
+--- expression. Never run migrations; they are explicitly not authorized at R23.1.
++-- expression. Never run migrations; they are explicitly not authorized at R23.2.
+ dofile=function(path)
++    if path=='defaults.lua' then
++        assert(stats.setup==1 and stats.defaults==0,
++               'unexpected or repeated original defaults.lua load')
++        local defaults=native_dofile(path) -- exact allowlisted staged application source
++        assert(type(defaults)=='table' and defaults.DHINTCOUNT==1,
++               'staged defaults.lua failed its read-only contents contract')
++        stats.defaults=1
++        print('R23_REAL_DEFAULTS_LOADED_READ_ONLY')
++        return defaults
++    end
++    if is_optional_temp_settings_file(path) then
++        -- A missing optional file should raise the native file-not-found error.
++        -- LuaSettings and LuaDefaults catch it via pcall and use empty defaults.
++        return native_dofile(path)
++    end
+     if path=='frontend/ui/data/onetime_migration.lua' then
+         stats.migrations=stats.migrations+1
+-        assert(stats.setup==1 and stats.settings==1 and stats.device==1
++        assert(stats.setup==1 and stats.defaults==1 and stats.settings==1 and stats.device==1
+             and stats.canvas==1 and stats.version==1 and stats.patches==2,
+             'reader.lua did not reach migration in expected startup order')
+         print('R23_READER_REAL_PREMIGRATION_ORDER_CONFIRMED')
+--- a/review_r23.py
++++ b/review_r23.py
+@@ -4,6 +4,7 @@
+ EXPECTED = [
+     'R23_REAL_READER_LUA_ENTER',
+     'R23_REAL_SETUPKOENV_IMPORTED',
++    'R23_REAL_DEFAULTS_LOADED_READ_ONLY',
+     'R23_REAL_GENERIC_INIT_SYNTHETIC_ONLY',
+     'R23_VERSION_DISK_LOG_HELD',
+     'R23_READER_REAL_PREMIGRATION_ORDER_CONFIRMED',
