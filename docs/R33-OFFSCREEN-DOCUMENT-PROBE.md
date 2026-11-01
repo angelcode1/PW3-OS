@@ -1,6 +1,36 @@
 # R33 — genuine PDF and EPUB offscreen document engines
 
-**2026-11-02 status:** R25.3 and R32 remain **user-verified ARM/QEMU PASS**. Original R33 **ARM/QEMU FAIL** in the PDF test fixture due to omitted gamma/saturation arguments. Corrected R33.1 **33/33 host tests PASS, ARM/QEMU PENDING**. Neither PDF nor EPUB offscreen rendering has been verified on ARM.
+**2026-11-02 update:** **R33.1 genuine MuPDF PDF and CREngine EPUB offscreen rendering ARM/QEMU PASS (user-supplied)**. The same offline run reconfirmed R32 Ink Away temporary project persistence and R25.3 genuine UIManager event-loop/shutdown PASS. Original R33 failure at omitted gamma/saturation is retained as a historical test-harness fault. Full ReaderUI navigation, physical e-ink, migrations, hardware initialization, rootfs pruning and independent boot remain unverified.
+
+## R33.1 user-supplied ARM/QEMU PASS — 2026-11-01
+
+The user's local R33.1 run successfully completed the same original R32 persistence and R25 lifecycle gate alongside authentic MuPDF/CRE document rendering. Ordered markers:
+
+```text
+R32_GENUINE_INKAWAY_MENU_CANVAS_OPENED
+R32_GENUINE_INKAWAY_STROKE_SAVED_TO_TEMP
+R32_GENUINE_INKAWAY_PROJECT_RELOADED
+R33_ORIGINAL_DOCUMENT_FIXTURES_COPIED_TO_TEMP
+R33_GENUINE_MUPDF_PDF_OPENED
+R33_GENUINE_MUPDF_PDF_MEMORY_TILE_RENDERED
+R33_GENUINE_CRE_EPUB_LOADED
+R33_GENUINE_CRE_EPUB_MEMORY_VIEW_RENDERED
+R33_PDF_EPUB_CLOSED_TEMP_FIXTURES_ONLY
+R25_REAL_UIMANAGER_EVENT_LOOP_REACHED
+R25_SYNTHETIC_CLOSE_EVENT_DELIVERED
+R25_REAL_READER_SHUTDOWN_COMPLETED
+R25_REAL_READER_EXIT_BOUNDARY_PASS
+R33_DOCUMENT_OFFSCREEN_ARM_GATE_PASS
+R25_REAL_EVENT_LOOP_ARM_PASS
+R32_INKAWAY_PERSISTENCE_ARM_PASS
+R33_PDF_EPUB_OFFSCREEN_ARM_PASS
+```
+
+Three independent strict reviewers report `R25_REAL_EVENT_LOOP_ARM_PASS`, `R32_INKAWAY_PERSISTENCE_ARM_PASS`, and `R33_PDF_EPUB_OFFSCREEN_ARM_PASS`. The R33 reviewer fields `genuine_mupdf_pdf_memory_tile_render_verified`, `genuine_cre_epub_memory_view_render_verified`, `r32_inkaway_persistence_replayed`, and `r25_ui_lifecycle_replayed` are all true. Explicitly false: `full_reader_ui_document_open_verified`, `physical_render_verified`, `complete_dependency_closure_proven`, `migrations_executed`, `real_pw3_init`, and all boot/device/firmware/file-removal permissions. `NOT_BOOTABLE` remains.
+
+The terminal's repeated `sha256:e245901...` value is the Docker image digest, not a checksum of the ZIP archive. This is a **user-provided ARM/QEMU test result**, not a separately executed hosted CI verification. It is real native renderer execution with synthetic documents and memory surfaces, not a reader UI integration or device test.
+
+**Next proposed R34 scope:** instrument genuine FileManager → ReaderUI document-open and page-turn/close workflow with original non-copyright fixtures and synthetic display/input, without replacing production ReaderUI methods. An additional QEMU guest syscall trace for the combined R32/R33 workload should follow before constructing an audited independent Alpine userspace. No files may be classified as removable on this evidence.
 
 ## User-supplied R33 ARM failure and targeted R33.1 retry
 
