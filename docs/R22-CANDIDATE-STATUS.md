@@ -2,13 +2,15 @@
 
 ## Verification state
 
-**R22 ARM/QEMU: NOT RUN; R22 PASS: NOT CLAIMED.** The source-only R22 candidate was prepared as a downloadable conversation ZIP, not installed on Kindle hardware.
+**R22.0 ARM/QEMU: FAIL (2026-11-01); R22.1 corrected candidate: HOST VERIFIED, ARM RERUN PENDING; R22 PASS NOT CLAIMED.**
 
-- Unmodified R21.5 host regression suite: **32/32 passed**.
-- New R22 host verification: **9/9 passed**.
-- Four new Lua probe files passed a local Lua syntax check.
-- Source-only archive: `pw3-os-r22-plugin-integration-candidate.zip`; no stock firmware, captured Kindle data, or proprietary runtime binaries.
-- Offline ARM execution is **pending** because the local R13 stage is held on the user's Mac.
+- First ARM run successfully reached: `R22_REAL_PLUGINLOADER_ONLY_INKAWAY`, `R22_REAL_PLUGIN_INSTANCE_OWNED_BY_FILEMANAGER`, and `R22_REAL_DISPATCHER_AND_MENU_REGISTRATION`.
+- It then failed: `plugin_fixture_r22.lua:99: plugin instance retained after FM close`, `REAL_PLUGIN_LOAD FAIL (exit=1)`, and `R22_RESULT_REVIEW=FAIL`. The menu-canvas and negative-safety probes **were not executed** on that run.
+- Root cause: the R22 fixture called `UIManager:close(fm)` rather than genuine `FileManager:onClose()`, which is responsible for `PluginLoader:finalize()`. The direct UI call bypassed normal plugin-registry cleanup.
+- R22.1 calls `fm:onClose()`, asserts the genuine method source, and preserves plugin-registry, singleton, window-stack, flush, and safety postconditions. No direct manual finalization or weakened checks.
+- R21.5 host regression unchanged: **32/32 PASS**; R22.1 host regression: **10/10 PASS** (new teardown test added).
+- New source-only archive: `pw3-os-r22.1-plugin-integration.zip`, provided in the conversation. No firmware, captures, secrets, or proprietary runtimes committed.
+- **R22.1 ARM/QEMU has not run** in this environment; the user's retained R13 stage is required.
 
 ## What R22 candidate actually tests
 
@@ -26,13 +28,13 @@ These probe sources must be run using the retained full offline R21.5 handoff pl
 ## Mac commands after extracting R22 source-only ZIP
 
 ```sh
-cd ~/Downloads/pw3-os-r22-plugin-integration/src/r21-filemanager-core
+cd ~/Downloads/pw3-os-r22.1-plugin-integration/src/r21-filemanager-core
 ./HOST-VERIFY-R22.sh
 ./run-r22-docker.sh \
   "$HOME/Downloads/pw3-os-r13-alpine-dual-libc-fix/stage-r13-fixed" \
-  "$PWD/results-r22-first-run"
-cat results-r22-first-run/R22-EMULATION.log
-cat results-r22-first-run/R22-RESULT-REVIEW.json
+  "$PWD/results-r22.1-first-run"
+cat results-r22.1-first-run/R22-EMULATION.log
+cat results-r22.1-first-run/R22-RESULT-REVIEW.json
 ```
 
 The script refuses existing results folders, audits genuine staged sources before the run and uses Docker `--network none --read-only --cap-drop ALL` with no device mounts. If any required native source or ARM proof fails, **stop and preserve the failure logs**; do not claim R22 verified.
