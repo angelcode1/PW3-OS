@@ -10,6 +10,7 @@
 - R22.1 calls `fm:onClose()`, asserts the genuine method source, and preserves plugin-registry, singleton, window-stack, flush, and safety postconditions. No direct manual finalization or weakened checks.
 - R21.5 host regression unchanged: **32/32 PASS**; R22.1 host regression: **10/10 PASS** (new teardown test added).
 - New source-only archive: `pw3-os-r22.1-plugin-integration.zip`, provided in the conversation. No firmware, captures, secrets, or proprietary runtimes committed.
+- The exact fixture/source-audit/host-test diff is published at [`patches/r22.1-filemanager-close.patch`](../patches/r22.1-filemanager-close.patch). Apply against the original R22 candidate root only, or use the full corrected ZIP directly; do not mix source trees.
 - **R22.1 ARM/QEMU has not run** in this environment; the user's retained R13 stage is required.
 
 ## What R22 candidate actually tests
