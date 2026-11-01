@@ -1,6 +1,34 @@
 # PW3-OS R27 — guest syscall file-access trace (offline ARM/QEMU candidate)
 
-**2026-11-01 verified state:** R25.3 genuine `reader.lua` → FileManager → Ink Away-owned plugin → UIManager run → synthetic Close → Generic:exit path **ARM/QEMU PASS** (user-supplied). R26 static rootfs catalog **user-executed** with 2,070 entries, 83 ELF objects, 0 ELF parse errors, 0 unresolved staged DT_NEEDED name candidates. R26's 15-test run reported **one skip**. **R27 is host-tested, NOT YET EXECUTED ON ARM/QEMU.**
+**2026-11-01 verified state:** R27 guest-syscall trace **PASS** (user-supplied offline ARM/QEMU output, successful replay of R25.3). R26 static rootfs catalog **user-executed** with 2,070 entries, 83 ELF objects and no ELF parse errors. R26's 15-test run reported **one skip**. R28 offline static/dynamic correlation is separately host-tested but has not been executed against the user's local inputs.
+
+## R27 user-side verified trace outcome — 2026-11-01
+
+The user provided `R27_GUEST_SYSCALL_TRACE_CAPTURED` and `R27-SUMMARY.json` after a successful `R25_REAL_EVENT_LOOP_ARM_PASS` replay. Observed aggregate counts:
+
+| Field | Value |
+|---|---:|
+| Trace lines | 6,113 |
+| Guest path syscalls/attempts | 2,262 |
+| Successful guest open syscalls | 697 |
+| Failed guest path attempts | 1,471 |
+| Open / openat requests | 2,040 / 11 |
+| Stat64 / lstat64 / access requests | 207 / 3 / 1 |
+| Relative guest paths | 1,199 |
+| Test-harness paths | 774 |
+| Staged KOReader app paths | 161 |
+| Other staged rootfs paths | 36 |
+| Synthetic temp paths | 72 |
+| Other guest paths | 18 |
+| Guest proc / device-or-sys | 1 / 1 |
+
+All reported 2,262 path syscall events were parsed (`unparsed_path_syscall_count=0`, `unresolved_guest_path_attempt_count=0`); guest path categories and call classes sum to 2,262. The successful-open count and failed-attempt count are **not complementary** because non-open metadata syscalls and successful metadata probes also contribute to total path attempts.
+
+R26 stage-sentinel SHA-256 matched: `7eb0d027b2b407fe6963ea9b9a1fe7fee1db96ae66f9399ece179238939176ed`. Private raw trace SHA-256 was reported as `d02193b9b800fdc59cd7b7bf6367c7e2835e0afcfe0e1663ff0f6faa7e6ef49a`. The printed Docker image `sha256:e245901...` is not a release archive checksum. **Raw paths were not supplied and remain private.**
+
+The reviewer explicitly states `complete_file_dependency_closure_proven=false`, `safe_to_delete_inferred=false`, `host_qemu_file_access_traced=false`, `kernel_firmware_requests_traced=false`, `migrations_executed=false`, and all device/firmware/boot authorizations `false`. This gate is **real user-side evidence for one synthetic ARM/QEMU lifecycle**, not an independent OS boot, complete dependency inventory or safe deletion list.
+
+**Next milestone:** R28 correlates local private R26 stage inventory with local R27 observations and original trace to extract counts of successful opens matching staged entries, without publishing paths or creating a rootfs. See [R28 status](R28-STATIC-DYNAMIC-CORRELATION.md).
 
 ## Tool and boundary
 
