@@ -1,6 +1,12 @@
 # R38.2 — temporary single-path metadata loader under the pinned R25 deny gate
 
-**2026-11-02:** R38 original ARM/QEMU **FAIL** after per-book migration/flush; R38.1 ARM/QEMU **FAIL** after migration/flush on an exact-sidecar `dofile` check. The original R25/R32/R33/R34/R35 passes, R36 correlation and R37 source preflight remain valid. **R38.2 is HOST-TESTED ONLY (60/60 host tests PASS), ARM/QEMU PENDING.** This is NOT a production full ReaderUI test.
+**2026-11-02 update:** Original R38.2 user-side ARM/QEMU **application workload completed** genuine per-book migration, temporary sidecar exact-file reload/token verification and loader restoration, with fresh R25/R32/R33 PASS. However the **original R38.2 strict reviewer returned FAIL**, because the container probe printed the stale `R38_1_TEMP_DOCSETTINGS_MIGRATION_ARM_GATE_PASS` marker instead of the required `R38_2_...` label. This failure must remain recorded. [R38.2.1](R38-2-1-GATE-MARKER-REPAIR.md) corrects only the release marker and supplies an optional pinned, read-only retrospective reviewer; user-side R38.2.1 validation is pending.
+
+## User-supplied R38.2 evidence and release-gate issue
+
+The user log showed, in sequence, `R38_GENUINE_DOCSETTINGS_MIGRATION_IN_MEMORY`, `R38_GENUINE_DOCSETTINGS_SIDECAR_FLUSHED_TO_TEMP`, `R38_2_SCOPED_TEMP_METADATA_LOADER_INSTALLED`, `R38_1_EXACT_TEMP_SIDECAR_DATA_PARSED`, `R38_1_RELOAD_SOURCE_CANDIDATE_MATCHED`, `R38_1_GENUINE_RELOAD_TOKEN_AND_DATA_MATCH`, `R38_2_SCOPED_TEMP_METADATA_LOADER_RESTORED`, `R38_GENUINE_DOCSETTINGS_SIDECAR_RELOADED_FROM_TEMP`, and normal synthetic UIManager shutdown. Three earlier strict reviewers PASS. The strict R38.2 reviewer *alone* returned `FAIL` with error `missing or duplicated marker: R38_2_TEMP_DOCSETTINGS_MIGRATION_ARM_GATE_PASS` because the emitted gate was labelled `R38_1_TEMP_DOCSETTINGS_MIGRATION_ARM_GATE_PASS` in the source script. No new guest execution or retrospective reconciliation has yet been reported for R38.2.1. Do not mislabel the original reviewer result PASS.
+
+See [R38.2.1 marker repair](R38-2-1-GATE-MARKER-REPAIR.md).
 
 ## Root cause verified by the original pinned source
 
