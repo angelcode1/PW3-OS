@@ -2,7 +2,27 @@
 
 **2026-11-02. Latest verified ARM:** User-supplied `R34_READERUI_IMPORT_ARM_PASS` with fresh R25, R32, R33 strict reviewers PASS. ReaderUI was imported, **not instantiated**, and no per-book migration, reader navigation, hardware initialization or boot occurred.
 
-**R35 host-tested only: 33/33 synthetic tests PASS. R35 ARM/QEMU is NOT RUN.** Source-only archive available in the current ChatGPT conversation: `pw3-os-r35-workload-file-trace.zip`, SHA-256 `90f40b21027fc4da9d21833d1db34656d3d3a29324aa36c648e9da70a2a7b869`. ZIP integrity, six payload checksums, shell and Python syntax verified. It contains no R13 rootfs, Kindle firmware, copyrighted books or local private trace records.
+**R35 USER ARM/QEMU PASS**, supplied by the user with four fresh reviewer PASS outputs. The 33/33 synthetic host tests also passed. This is a QEMU guest syscall trace of one combined synthetic workload, not complete dependency closure. Source-only archive available in the current ChatGPT conversation: `pw3-os-r35-workload-file-trace.zip`, SHA-256 `90f40b21027fc4da9d21833d1db34656d3d3a29324aa36c648e9da70a2a7b869`. ZIP integrity, six payload checksums, shell and Python syntax verified. It contains no R13 rootfs, Kindle firmware, copyrighted books or local private trace records.
+
+## User-side R35 verified aggregate result — 2026-11-02
+
+The user supplied `R35_GUEST_WORKLOAD_TRACE_CAPTURED`, plus fresh `R25_REAL_EVENT_LOOP_ARM_PASS`, `R32_INKAWAY_PERSISTENCE_ARM_PASS`, `R33_PDF_EPUB_OFFSCREEN_ARM_PASS`, and `R34_READERUI_IMPORT_ARM_PASS`. The R35 JSON reports:
+
+| Observed aggregate | R27 startup-only | R35 combined |
+|---|---:|---:|
+| Guest path syscall attempts | 2,262 | **4,995** |
+| Successful guest open calls | 697 | **1,007** |
+| Failed guest path attempts | 1,471 | **3,745** |
+| Distinct lexical paths with successful opens | 369 | **543** |
+| Additional distinct successful-open lexical paths vs R27 | — | **175** |
+| Additional distinct *stage-like* lexical successful-open paths | — | **132** |
+| Guest trace lines | 6,113 | **10,822** |
+
+R35 used 4,501 `open`, 16 `openat`, 473 `stat64`, 4 `lstat64` and one `access` call. All 4,995 path syscalls were parsed, with zero unresolved path attempts. Raw R35 trace SHA-256: `5a564aeea8ba6b46cf77e36dee86784afae8829ed772d4f2335f725dda8fdcbe`. The original R27 trace and R26 stage sentinel SHA-256 digests matched the user-supplied values.
+
+The **175** and **132** are counts of lexical path strings, **not verified additional distinct regular staged files**. The R35 guest environment includes temporary storage, the test harness, unresolved working-directory context and unvalidated symlink behavior. It is not safe to infer any file removal, closure, Kindle hardware operation or new rootfs.
+
+**Next:** [R36 stage-catalog lexical correlation](R36-EXPANDED-WORKLOAD-CATALOG-CORRELATION.md) will revalidate the private R26/R27/R35 evidence locally, then count newly observed *cataloged regular files* rather than equating distinct raw path strings with staged file dependencies.
 
 ## Motivation and scope
 
