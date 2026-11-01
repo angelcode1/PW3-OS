@@ -1,6 +1,23 @@
 # R39.0 — separate real ReaderUI activation trial
 
-**Status (2026-11-02): SOURCE-ONLY/HOST PASS, ARM/QEMU PENDING.** The source-only `pw3-os-r39.0-readerui-activation-trial.zip` has release SHA-256 `e77c99ccc36bb0a4309d1a957ac88a36d8a012f04fc4269b97cc647c3d63aedb`. Its ZIP integrity and ten internal payload hashes verify; **35/35 host tests PASS**, Python/shell syntax and three Lua source parses PASS. No staged rootfs or Kindle firmware is distributed. This is **not** an independently bootable image.
+**2026-11-02 update:** Original R39.0 **USER ARM/QEMU TRIAL FAIL**, although an independently executed, unchanged R25.3 baseline reviewer returned `R25_REAL_EVENT_LOOP_ARM_PASS`. Genuine FileManager opened the original two-page PDF and scheduled the real ReaderUI coroutine. ReaderUI failed during `init()` at line 120 because the R17 synthetic Input adapter lacked `inhibitInput`; error recovery then hit missing `inhibitInputUntil` at line 730. R39 ReaderUI instance/page navigation remain unverified. [R39.1](R39-1-READERUI-INPUT-LIFECYCLE-FIX.md) corrects only this synthetic input adapter gap; **51/51 host tests PASS; user-side ARM/QEMU pending**. Never reinterpret original R39.0 reviewer FAIL as PASS.
+
+## R39.0 user-supplied ARM/QEMU evidence
+
+The user-supplied local output confirms the unmodified R25 baseline first: `R25_REAL_EVENT_LOOP_ARM_GATE_PASS` and reviewer `R25_REAL_EVENT_LOOP_ARM_PASS`. The distinct R39 trial then reached:
+
+```text
+R39_ORIGINAL_TWO_PAGE_PDF_COPIED_TO_TEMP
+R39_GENUINE_FILEMANAGER_OPENFILE_READERUI_SCHEDULED
+INFO opening file /tmp/r25-ko-home/library/r39-original-two-pages.pdf
+[!] doShowReader coroutine crashed:
+frontend/apps/reader/readerui.lua:120: attempt to call method 'inhibitInput' (a nil value)
+...
+frontend/apps/reader/readerui.lua:730: attempt to call method 'inhibitInputUntil' (a nil value)
+R39_READERUI_FIRST_ACTIVATION_ARM_GATE_FAIL (exit=1)
+```
+
+R39's independent reviewer returned `FAIL` for missing `R39_REAL_READERUI_INSTANCE_AND_TWO_PAGE_PDF_OPENED`. This is correct and remains the historical status; the first error is a missing input API on the synthetic R17 instance, not a failed PDF fixture or a proven ReaderUI constructor. `Generic:setIgnoreInput`, `Generic:notifyBookState` and the synthetic memory-screen's `setWindowTitle` already exist and do not require replacement. See the bounded synthetic Input adapter correction in [R39.1](R39-1-READERUI-INPUT-LIFECYCLE-FIX.md).
 
 ## Basis and boundaries
 
