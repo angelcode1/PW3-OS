@@ -1,6 +1,19 @@
 # R38 — genuine per-book migration with disposable DocSettings sidecar
 
-**2026-11-02 status:** **R37 user-side source preflight PASS**, validating six staged ReaderUI-related source files and R25 event-loop guard against R34/R36 prior evidence. **R38 is a source-only candidate: 33/33 synthetic host tests PASS; R38 ARM/QEMU result PENDING.** This is **not** full ReaderUI instance startup or page navigation.
+**2026-11-02 update:** **Original R38 user-side ARM/QEMU FAIL** at the post-flush `DocSettings:open()` source-candidate assertion. The test did reach genuine legacy per-book migration in memory and an observed successful temporary sidecar flush, but **did not verify a fresh settings reload or the full R25/R32/R33 replay**. The original 33/33 host tests PASS remain synthetic only. [R38.1](R38-1-TEMP-SIDECAR-RELOAD-PROOF.md) is a separate stricter host-tested retry (45 tests PASS; user-side ARM still pending).
+
+## Original R38 user-side ARM failure (2026-11-02)
+
+User terminal output: original source checks and R37 preflight PASS, then genuine `reader.lua`, Ink Away save/reload, MuPDF PDF tile, CREngine EPUB memory view, `R38_GENUINE_DOCSETTINGS_OPENED_TEMP_ONLY`, genuine migration of CRe margins (10/12/14/16) and space condensing (65), `R38_GENUINE_DOCSETTINGS_MIGRATION_IN_MEMORY`, and `R38_GENUINE_DOCSETTINGS_SIDECAR_FLUSHED_TO_TEMP`. Then:
+
+```text
+/r38/migrate_sidecar.lua:71: DocSettings read unexpected source candidate
+R38_TEMP_DOCSETTINGS_MIGRATION_ARM_GATE_FAIL (exit=1)
+```
+
+All fresh R25/R32/R33/R38 strict reviewers returned FAIL because the failure prevented the original event loop from resuming. Earlier *separate* R25/R32/R33/R34/R35 successes remain valid. The exact `source_candidate` string and the actual reloaded settings were not logged, so do not attribute this conclusively to a nil field, a bad serialization, or a filesystem error. An existing physical Kindle or persistent rootfs was never accessed or modified.
+
+R38.1 introduces independent exact-file validation and a unique fresh DocSettings roundtrip marker instead of removing the provenance check. See the separate [R38.1 host-tested retry](R38-1-TEMP-SIDECAR-RELOAD-PROOF.md). The first R38 output directory must remain unchanged.
 
 ## Why this gate
 
