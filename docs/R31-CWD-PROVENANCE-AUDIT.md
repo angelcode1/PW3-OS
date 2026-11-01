@@ -1,6 +1,24 @@
 # R31 — conditional launch-CWD provenance audit, not guest-CWD proof
 
-**2026-11-01:** R30 **user-side PASS**, `R30_NEGATIVE_LOOKUPS_AND_DIRFD_SYNTAX_TRIAGED`; all 646 absent-catalog lexical guest lookups failed, and all seven previously ambiguous successful `openat` calls printed `AT_FDCWD`. **R31 is source-only and host tested (21/21 synthetic tests PASS). R31 has NOT yet been executed on the user's local evidence.**
+**2026-11-01:** R30 user-side PASS, and **R31 user-side PASS** (`R31_CWD_CONDITIONAL_CANDIDATES_AUDITED`; 21 host regression tests PASS). The seven successful `AT_FDCWD` open calls yielded seven conditional staged-directory candidates. No real CWD lineage, symlink resolution, dependency closure, rootfs creation or pruning was proven.
+
+## R31 verified local result — user-supplied 2026-11-01
+
+The user ran 21 host tests (`Ran 21 tests ... OK`) and the offline `r31/audit_cwd.py` program against original R26–R30 private evidence. Verdict `R31_CWD_CONDITIONAL_CANDIDATES_AUDITED`.
+
+| User-supplied metric | Value |
+|---|---:|
+| Successful ambiguous `AT_FDCWD` calls examined | 7 |
+| Conditional `stage_catalog_dir` candidates | 7 |
+| Captured successful guest CWD-change syscalls | 0 |
+| Unparsed CWD-change events | 0 |
+| Original path attempts rechecked | 2,262 |
+| Pinned published runner source hash matched | yes |
+| R30 summary independently recomputed and matched | yes |
+
+The original runner's pinned SHA-256 is `0614ac65cb2a2786eb5a8b11b536fe5aa320aace49f03c7c65f3c07eba227ca0`; R26 stage sentinel and R27 raw trace hashes match previous supplied evidence. **All seven are staged-directory lexical candidates, not proof that a directory FD was opened or the target path resolved.** The reviewer says `conditional_mapping_only_not_fd_target_proof=true`, `runner_executed_identity_proven=false`, `guest_cwd_lineage_complete_proven=false`, `symlink_resolution_proven=false`, `dependency_closure_proven=false`, `safe_to_delete_inferred=false`, `new_rootfs_created=false`, and `immutable_hold=NOT_BOOTABLE`.
+
+Next: [R32 Ink Away project persistence probe](R32-INKAWAY-PERSISTENCE.md), a separate ARM/QEMU workload designed to exercise more real application paths; it does not change the original R31 inference or authorizations.
 
 ## Motivation and limits
 
