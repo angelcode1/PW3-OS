@@ -1,6 +1,26 @@
 # R38.2.1 — gate-label repair; optional read-only retrospective reviewer
 
-**2026-11-02:** User's original R38.2 ARM/QEMU runtime completed all expected genuine application checkpoints and its fresh R25/R32/R33 reviewers PASS. The original strict R38.2 reviewer **FAILed** solely because the shipping container probe printed `R38_1_TEMP_DOCSETTINGS_MIGRATION_ARM_GATE_PASS`, whereas the reviewer required `R38_2_TEMP_DOCSETTINGS_MIGRATION_ARM_GATE_PASS`. **Original review remains FAIL.** The separate repaired source-only R38.2.1 package passed **79/79 host tests** (includes the 60 original R38.2 tests and 19 new gate/reconciliation regressions); R38.2.1 has NOT run on user's ARM/QEMU yet.
+**2026-11-02 verified:** User ran **79/79 R38.2.1 host tests PASS** and the pinned retrospective reviewer returned **`R38_2_EXISTING_ARM_EVIDENCE_GATE_RECONCILED`** on the original R38.2 local evidence. Original R38.2 strict reviewer remains **FAIL** because the shipping runner printed the old `R38_1_...` marker. **No new ARM execution occurred.** The user's reconciliation confirmed the source hashes and one-marker-only substitution before applying unchanged strict R38.2 review logic in memory. Genuine temporary per-book settings migration/roundtrip is supported by the original ARM run and this independent retrospective gate; full ReaderUI remains unverified.
+
+## Confirmed user-side reconciliation of the original ARM run
+
+The user completed the new R38.2.1 host suite (`Ran 79 tests … OK`), then ran `r38/reconcile_existing.py` with the original R38.2 release, existing R38.2 results and a fresh output path. Actual verdict: **`R38_2_EXISTING_ARM_EVIDENCE_GATE_RECONCILED`**; `reconciliation_status=PASS`.
+
+The resulting JSON explicitly records:
+
+- `original_release_sources_sha256_revalidated=true`
+- `original_runtime_log_sha256=d1c4ef49f0e576db959aaeec171060cf20e134b2219a361e992ac41ca38938ad`
+- `original_user_side_r38_2_reviewer_verdict=FAIL` (historical, unchanged)
+- `original_failure_was_pinned_release_gate_marker_mismatch=true`
+- `exact_old_to_new_marker_substitution_in_memory_only=true`
+- `corrected_r38_2_strict_reviewer_in_memory_pass=true`
+- `genuine_per_book_migration_execution_supported=true`
+- `exact_temp_sidecar_file_reloaded_supported=true`
+- `loader_guard_restoration_supported=true`
+- `fresh_r25_r32_r33_reviews_verified=true`
+- `original_log_unchanged=true`, `new_arm_execution_performed=false`
+
+All boot/device/firmware/file-removal flags remain false, `NOT_BOOTABLE`. In particular, `full_reader_ui_document_open_verified=false`, `page_navigation_verified=false`, `global_startup_migrations_executed=false` and `complete_dependency_closure_proven=false` are preserved. This resolves a **reviewer release-marker inconsistency**, not the separate, harder UI workflow and hardware questions.
 
 ## Evidenced R38.2 runtime facts
 
