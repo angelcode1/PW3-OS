@@ -1,0 +1,57 @@
+--- a/src/r21-filemanager-core/r22/plugin_fixture_r22.lua
++++ b/src/r21-filemanager-core/r22/plugin_fixture_r22.lua
+@@ -93,10 +93,20 @@
+ local function finish(fm)
+     assert(FM.instance==fm and #UI._window_stack==1)
+     local before=flushes
+-    UI:close(fm)
++    -- R22.1: genuine FileManager:onClose() is responsible for plugin
++    -- finalization and settings persistence. UIManager:close(fm) only
++    -- dispatches onCloseWidget; it bypasses PluginLoader:finalize().
++    -- Do not manually finalize the plugin or weaken the cleanup assertion.
++    assert(debug.getinfo(fm.onClose,'S').source:find('frontend/apps/filemanager/filemanager%.lua'),
++           'stock FileManager close path not selected')
++    assert(Loader:getPluginInstance('ink-away')==instance,
++           'pre-close plugin instance unexpectedly absent')
++    assert(fm:onClose()==true,'real FileManager close did not complete')
+     assert(FM.instance==nil and #UI._window_stack==0)
+     assert(flushes>before and settings.file==nil,'FileManager must flush in memory')
+-    assert(not Loader:isPluginLoaded('ink-away'),'plugin instance retained after FM close')
++    assert(not Loader:isPluginLoaded('ink-away'),'plugin instance retained after genuine FM close')
++    assert(Loader:getPluginInstance('ink-away')==nil,
++           'stale plugin instance accessible after FM close')
+     guard:assert_isolated()
+ end
+ return {init=init,finish=finish,UI=UI,FM=FM,Loader=Loader,root=root,
+--- a/src/r21-filemanager-core/audit_r22.py
++++ b/src/r21-filemanager-core/audit_r22.py
+@@ -15,6 +15,8 @@
+         'PluginLoader:loadPlugins()',
+         'PluginLoader:createPluginInstance(',
+         'self:registerModule(plugin_module.name, plugin_or_err)',
++        'function FileManager:onClose()',
++        'PluginLoader:finalize()',
+     ),
+     'plugins/ink-away.koplugin/main.lua': (
+         'local InkAway = WidgetContainer:extend{',
+--- a/src/r21-filemanager-core/tests_r22/test_r22.py
++++ b/src/r21-filemanager-core/tests_r22/test_r22.py
+@@ -45,6 +45,19 @@
+         self.assertIn("name='ink-away',path=root,disabled=false",s)
+         self.assertIn('assert(#enabled==1',s)
+         self.assertIn("Loader:getPluginInstance('ink-away')",s)
++    def test_real_filemanager_teardown_not_ui_shortcut(self):
++        s=(BASE/'r22/plugin_fixture_r22.lua').read_text()
++        close=s[s.index('local function finish(fm)'):s.index('return {init=init,finish=finish')]
++        self.assertIn('fm:onClose()==true', close)
++        self.assertNotIn('UI:close(fm)', close.split('assert(fm:onClose()==true')[0])
++        self.assertIn("not Loader:isPluginLoaded('ink-away')", close)
++        self.assertIn("Loader:getPluginInstance('ink-away')==nil", close)
++        self.assertIn('flushes>before', close)
++        self.assertIn('#UI._window_stack==0', close)
++        self.assertNotIn('    Loader:finalize()', close)
++        self.assertIn('function FileManager:onClose()',
++                      __import__('audit_r22').CONTRACTS['frontend/apps/filemanager/filemanager.lua'])
++
+     def test_real_menu_callback_not_view_shortcut(self):
+         s=(BASE/'r22/02_canvas_menu_stroke.lua').read_text()
