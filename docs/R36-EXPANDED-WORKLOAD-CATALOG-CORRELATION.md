@@ -2,7 +2,27 @@
 
 **2026-11-02:** The user confirmed **R35_GUEST_WORKLOAD_TRACE_CAPTURED** (real offline ARM/QEMU synthetic app workload, fresh R25/R32/R33/R34 strict reviewers PASS). R35 recorded **4,995** guest file path attempts and **1,007** successful open syscalls, versus R27's 2,262 attempts and 697 opens; **175 additional distinct successful-open lexical path strings**, of which **132 were stage-like**. These are not yet proven distinct staged regular-file counts.
 
-**R36 source-only tool is host tested (31/31 synthetic tests PASS); user-side R36 run pending.** This gate maps verified private evidence to verified staged catalog entries, without altering the stage or claiming an Alpine boot.
+**R36 USER-SIDE PASS**, as reported by the user: `R36_EXPANDED_WORKLOAD_CATALOG_CORRELATED`, with SHA-revalidated R26 catalog and private R27/R35 replay. The 31/31 host tests also passed. No rootfs mutation, boot or pruning. This gate maps verified private evidence to verified staged catalog entries, without altering the stage or claiming an Alpine boot.
+
+## User-verified R36 results — 2026-11-02
+
+The user ran R36 on their private evidence. It independently revalidated the **2,070**-entry R26 catalog, all staged hashes, R27/R35 raw trace vs observations, and the prior R28 mappings. The aggregate summary reports:
+
+| Property | R27 startup trace | R35 combined workload |
+|---|---:|---:|
+| Distinct staged **regular files** with successful-open evidence | 341 | **472** |
+| Files appearing in R27 but not R35 | — | **0** |
+| **New** distinct cataloged regular files opened in R35 | — | **131** |
+| Distinct cataloged regular files without successful-open evidence across either trace (`UNKNOWN_HOLD`) | | **976 / 1,448** |
+| Successful guest opens (calls, not files) | 697 | 1,007 |
+
+R35's 132 new *stage-like lexical strings* therefore correspond to **131 new cataloged regular files** under the conservative R28 lexical mapper; the difference must not be interpreted as a missing file without inspecting private records. R35 has nine ambiguous dirfd-relative events; directory-FD target/CWD and symlink resolution remain unproven. R35's 1,111 stage-looking absent-catalog lexical attempts include failures and are not evidence of missing required files.
+
+The summary preserves `complete_dependency_closure_proven=false`, `files_unobserved_are_not_unused=true`, `safe_to_delete_inferred=false`, `guest_working_directory_resolution_proven=false`, `symlink_resolution_proven=false`, `new_rootfs_created=false`, `stage_rootfs_mutated=false`, and every boot, device, firmware and removal authorization false; `NOT_BOOTABLE`. No device action or deletion was performed.
+
+R27 raw SHA `d02193b9b800fdc59cd7b7bf6367c7e2835e0afcfe0e1663ff0f6faa7e6ef49a`; R35 raw SHA `5a564aeea8ba6b46cf77e36dee86784afae8829ed772d4f2335f725dda8fdcbe`; stage sentinel SHA `7eb0d027b2b407fe6963ea9b9a1fe7fee1db96ae66f9399ece179238939176ed`.
+
+**Next:** Add genuinely new ReaderUI opening/turning/return workloads with audited, ephemeral document settings and separate application-loop/event reviewers; then collect their guest path traces. Do not classify the 976 unobserved regular files as safe to remove.
 
 ## Evidence and privacy boundary
 
