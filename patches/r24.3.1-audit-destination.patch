@@ -1,0 +1,6 @@
+--- a/src/r21-filemanager-core/run-r24.3-docker.sh
++++ b/src/r21-filemanager-core/run-r24.3-docker.sh
+@@
+-python3 "$DIR/audit_r24_2.py" --stage "$STAGE" --out "$RESULTS/R24.3-SOURCE.json"
++python3 "$DIR/audit_r24_2.py" --stage "$STAGE" --out "$RESULTS/R24.2-SOURCE.json"
+ python3 "$DIR/audit_r24_3.py" --stage "$STAGE" --out "$RESULTS/R24.3-SOURCE.json"
