@@ -1,6 +1,28 @@
 # R34.0 — genuine ReaderUI module import under the verified synthetic lifecycle
 
-**2026-11-02:** R33.1 user-side `R33_PDF_EPUB_OFFSCREEN_ARM_PASS` with fresh R25 + R32 reviewers remains verified. **R34.0 is a new source-only candidate; 32/32 host tests PASS; ARM/QEMU execution has NOT been reported.** It verifies genuine ReaderUI module import and method-source contracts, **not** ReaderUI initialization, document opening, navigation or migrations.
+**2026-11-02:** **R34.0 genuine ReaderUI module import ARM/QEMU PASS (user-provided runtime log and four strict reviewers).** It reconfirmed R25, R32, R33 PASS in the same offline synthetic run. ReaderUI was not instantiated; document-settings migration and navigation were not executed; all boot/device/firmware protections remain false and `NOT_BOOTABLE`.
+
+## User-side verified ARM/QEMU result
+
+The user reported `R34_READERUI_IMPORT_ARM_GATE_PASS` and supplied the complete trace plus fresh independent R25, R32, R33, R34 reviewer JSON. The authentic `reader.lua` ran FileManager, real Ink Away menu/stroke/project reload, MuPDF PDF memory tile, CREEngine EPUB memory view, and then:
+
+```text
+R34_GENUINE_READERUI_MODULE_IMPORTED
+R34_GENUINE_READERUI_ENTRYPOINTS_VERIFIED
+R34_GENUINE_DOC_SETTINGS_MIGRATION_ENTRYPOINT_VERIFIED
+R34_READERUI_INITIALIZATION_AND_MIGRATION_NOT_EXECUTED
+R25_REAL_UIMANAGER_EVENT_LOOP_REACHED
+R25_REAL_READER_SHUTDOWN_COMPLETED
+R34_READERUI_IMPORT_R33_R32_R25_LIFECYCLE_PASS
+R25_REAL_EVENT_LOOP_ARM_PASS
+R32_INKAWAY_PERSISTENCE_ARM_PASS
+R33_PDF_EPUB_OFFSCREEN_ARM_PASS
+R34_READERUI_IMPORT_ARM_PASS
+```
+
+R34 reviewer `readerui_module_import_verified=true`, `readerui_method_source_anchors_verified=true`, `genuine_docsettings_migration_module_import_verified=true`, `r25_r32_r33_lifecycle_replayed=true`. Explicit false: `readerui_instance_created`, `full_reader_ui_document_open_verified`, `document_settings_migration_executed`, `page_navigation_verified`, `dependency_closure_proven`, `real_pw3_init`, all hardware/device/firmware/boot/removal permissions. As elsewhere, Docker image digest `sha256:e2459...` is not a release ZIP checksum.
+
+This **does not** prove full ReaderUI startup. The source path through `FileManager:openFile` → `ReaderUI:showReader` → `UIManager:nextTick` is a separate scenario requiring controlled synthetic events and audited temporary-only document settings.
 
 ## Boundaries and motivation
 
