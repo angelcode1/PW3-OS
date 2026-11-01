@@ -47,6 +47,44 @@ The source audit chains existing R17–R22 source gates. It reads only fixed sta
 - Run only offline Docker/QEMU (`--network none --read-only --cap-drop ALL`, no device mounts), with a new output directory and fail-closed ordered reviewer. Preserve R21.5 and R22.1 results independently.
 - Name future runtime marker `R23_ARM_READER_STARTUP_PASS` **only** if full startup plus teardown and safety checks actually pass. Do not infer this from static auditing.
 
+## R23 source preflight: user-reported PASS, 2026-11-01
+
+The user executed the R23 source audit against their retained R13 stage and provided the JSON verdict:
+
+```text
+R23_SOURCE_PREFLIGHT_PASS
+R23_ARM_STARTUP_PENDING; NO_DEVICE_ACCESS; NO_BOOT_ACTIONS; NOT_BOOTABLE
+```
+
+The JSON maps 35 staged source files to SHA-256 digests and required startup contracts. Its `r22_arm_verified=false`, `plugin_execution_verified=false`, and `real_reader_lua_executed=false` fields are deliberately **source-audit-scoped**, not a contradiction of the separately supplied successful R22.1 ARM run.
+
+### R23.1 early-bootstrap candidate
+
+Source-only archive: `pw3-os-r23.1-reader-bootstrap.zip`, delivered separately in the conversation.
+
+- Archive SHA-256: `e4685fd5a64d62a4ac48431f69253666987fdbbbce1fa7bb84018a4c73756f0d`; 90 internal payload-file hashes verified.
+- Local regressions: 32 R21 + 10 R22.1 + 5 R23 + 7 R23.1 = **54 PASS**. Two new Lua files also passed local syntax checks.
+- First ARM/QEMU runtime probe now packaged, **not executed or ARM-verified here**.
+- Runs the unmodified staged `reader.lua` using synthetic PW3 (not stock Kindle device selector) and a temporary KO_HOME. It uses genuine `LuaSettings:open()` and `Generic:init()` with memory-backed screen, and attempts the genuine `CanvasContext:init()` before an intentional migration boundary stop.
+- Explicit holds prevent userpatch script execution, application directory version-log writes, and migration execution; the probe must fail closed if a source, permission, dependency, IO guard or startup assertion is incompatible. The full reader event loop and normal app shutdown are **not tested** by R23.1.
+- The fail-closed reviewer can report only `R23_EARLY_BOOTSTRAP_ARM_PASS` for this limited boundary, with `r23_full_arm_startup_verified=false`, and must never emit `R23_ARM_READER_STARTUP_PASS`.
+
+Commands after extracting the new archive:
+
+```sh
+cd ~/Downloads/pw3-os-r23.1-reader-bootstrap/src/r21-filemanager-core
+./HOST-VERIFY-R22.sh
+python3 -m unittest discover -s tests_r23 -v
+python3 -m unittest discover -s tests_r23_1 -v
+./run-r23-docker.sh \
+  "$HOME/Downloads/pw3-os-r13-alpine-dual-libc-fix/stage-r13-fixed" \
+  "$PWD/results-r23.1-first-run"
+cat results-r23.1-first-run/R23-EARLY-EMULATION.log
+cat results-r23.1-first-run/R23-EARLY-RESULT-REVIEW.json
+```
+
+The raw staged runtime, proprietary firmware materials and device captures must remain local. The repository documents this experiment but does **not** contain the full R23.1 source archive.
+
 ## Remaining unproven boundaries
 
 Native Kindle `Device:init()`, full driver ioctl/display updates, actual evdev touch events, battery/frontlight/suspend, stock Upstart service replacement, independent boot/recovery, image deployment, and cold boot.
