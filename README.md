@@ -1,6 +1,6 @@
 # PW3-OS — independent Kindle Paperwhite 3 userspace research
 
-**Checkpoint:** R23.2 — `R23_EARLY_BOOTSTRAP_ARM_PASS` (user-supplied offline ARM/QEMU, controlled premigration hold). R22.1 genuine PluginLoader → Ink Away integration also PASS. The user's R23.3 ARM run **FAILED** at the synthetic input `UIManagerReady` callback. R23.4 corrects the fixture, **75 local host tests PASS**, ARM rerun pending. **Full `reader.lua` startup remains unverified.**
+**Checkpoint:** R23.4 — `R23_4_UI_IMPORT_ARM_PASS` (user-supplied offline ARM/QEMU, genuine `reader.lua` through Bidi and UIManager import, synthetic input handshake). Prior R22.1 genuine PluginLoader → Ink Away and R23.2 premigration bootstrap also PASS. **Full `reader.lua` FileManager startup, device operation and independent boot remain unverified.**
 
 Goal: a minimal Alpine ARMv7 userspace with official KOReader `kindlepw2` and Ink Away, isolated GNU compatibility runtime, and a standalone PW3 device adapter. Application validation remains **offline ARM/QEMU with synthetic UI**. Genuine FileManager → PluginLoader → Ink Away menu, canvas, stroke/save/return and clean close are covered by the user's R22.1 log. The separate v6 physical interface inventory was read-only; independent boot and physical hardware operation have **not** been demonstrated.
 
@@ -8,7 +8,8 @@ Goal: a minimal Alpine ARMv7 userspace with official KOReader `kindlepw2` and In
 
 - [`docs/HANDOVER.md`](docs/HANDOVER.md): verified milestone, prerequisites, limitations and R22 continuation.
 - [`docs/R22-CANDIDATE-STATUS.md`](docs/R22-CANDIDATE-STATUS.md): R22.0 teardown regression resolved in R22.1; **three ARM gates and fail-closed reviewer PASS in the user-supplied log**. R21 + R22 host regressions: 42 tests passed; no Kindle device execution.
-- [`docs/R23-PLAN.md`](docs/R23-PLAN.md): the genuine `reader.lua` startup roadmap; user-reported R23.2 premigration ARM PASS. [R23.4 status](docs/R23.4-STATUS.md): R23.3 failed UIManager input handshake, R23.4 fixes the synthetic callback (75 host checks PASS; ARM pending).
+- [`docs/R23-PLAN.md`](docs/R23-PLAN.md): genuine `reader.lua` startup roadmap. [R23.4 status](docs/R23.4-STATUS.md): user-reported **R23.4 ARM UIManager-import PASS** with prior R23.3 failure preserved; no FileManager/event-loop execution yet.
+- [`docs/PW3-MINIMAL-USERSPACE-ROADMAP.md`](docs/PW3-MINIMAL-USERSPACE-ROADMAP.md): long-term independent Alpine ARMv7 + KOReader rootfs strategy; dependency tracing, manifest-based allowlist, kernel/firmware essentials and recovery gates. Not a boot/install plan.
 - [`tools/pw3_collect_v6_hostcap.py`](tools/pw3_collect_v6_hostcap.py): **preferred, device-verified v6** opt-in, read-only SSH collector with Mac-side output caps; writes only a local ZIP. The earlier `tools/collect_pw3_readonly.py` is superseded and should not be used on old Kindle BusyBox.
 - [`docs/COLLECTION.md`](docs/COLLECTION.md): v6 data handling and collection instructions.
 - [`docs/PW3-HARDWARE-EVIDENCE-V6.md`](docs/PW3-HARDWARE-EVIDENCE-V6.md): sanitized 2026-11-01 real Kindle read-only inventory; **17/17 probes**, EPDC/Cypress/MAX77696/Upstart interface names established (not hardware operations).
