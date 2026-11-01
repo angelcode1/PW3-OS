@@ -9,7 +9,7 @@ import tempfile
 import unittest
 import zipfile
 
-SCRIPT = Path(__file__).with_name('pw3_collect_v6_hostcap.py')
+SCRIPT = Path(__file__).resolve().parents[1] / 'tools' / 'pw3_collect_v6_hostcap.py'
 spec = importlib.util.spec_from_file_location('pw3_v6', SCRIPT)
 m = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = m
