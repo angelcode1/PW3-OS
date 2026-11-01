@@ -1,10 +1,10 @@
-# PW3-OS handover — R21.5 verified checkpoint
+# PW3-OS handover — R22.1 ARM plugin integration checkpoint
 
 **Date:** 2026-11-01 (Australia/Brisbane). **Research and educational purposes only.**
 
-## Confirmed result
+## Previous R21.5 confirmed result
 
-The user's latest ARM/QEMU Docker run reported:
+The user's earlier ARM/QEMU Docker run reported:
 
 ```text
 BOOTSTRAP_HOLD PASS
@@ -36,8 +36,25 @@ Build an independent lightweight userspace for Kindle Paperwhite 3 with the stoc
 - R19.4: actual Ink Away view constructor, memory paint, gesture stroke, temporary save/reopen.
 - R20: actual Ink Away `UIManager:show()` / stroke / `close()` lifecycle with temporary storage.
 - R21.5: actual FileManager/FileChooser import, start, memory painting, and close with plugin activation held off.
+- R22.1: user-reported ARM/QEMU PASS for real PluginLoader Ink Away-only loading, FileManager ownership, menu/canvas synthetic stroke/save, genuine close cleanup and negative-safety denials; 3/3 ARM gates, reviewer PASS. R22.0 teardown failure remains recorded as historical.
 
-**Not proven:** `reader.lua` complete startup, real plugin-loader activation, FileManager→Ink Away navigation, actual e-ink display/ioctls, touch, real battery/frontlight/suspend, networking, complete Amazon LIPC replacement, Kindle-side runtime, independent boot, recovery, or bootable image.
+**Still not proven:** `reader.lua` complete startup, full stock device initialization, actual e-ink display/ioctls, real touch input, battery/frontlight/suspend, network operation, complete Amazon LIPC replacement, Kindle-side application runtime, independent boot, recovery, or bootable image. Genuine PluginLoader and FileManager→Ink Away integration **was** verified in R22.1 under host ARM/QEMU with synthetic screen/input (see next section).
+
+## R22.1 latest evidence and R23 continuation
+
+From the user's 2026-11-01 `results-r22.1-first-run` log:
+
+```text
+REAL_PLUGIN_LOAD PASS
+MENU_CANVAS_LIFECYCLE PASS
+NEGATIVE_SAFETY PASS
+R22_ARM_PLUGIN_INTEGRATION_PASS
+R22_RESULT_REVIEW=PASS
+```
+
+The result reviewer reports `genuine_inkaway_plugin_verified=true` and `r22_arm_verified=true`, but `real_pw3_init=false` and all boot/firmware/hardware-write authorizations false. These are user-supplied logs, not independently rerun here. R22 host regressions (32 old + 10 new) pass locally.
+
+R23 starts with a **nonexecuting source preflight** for KOReader `v2026.07.2`'s real `reader.lua`, its setup/settings/patch/migration entrypoint, and the existing R17–R22 source audits; five new R23 host tests pass locally. The later ARM startup test has **not** run. See [R23 plan](R23-PLAN.md). Never treat a source-audit success as runtime proof.
 
 ## Immutable safety hold
 
@@ -76,8 +93,8 @@ python3 tools/collect_pw3_readonly.py --host 192.168.8.102 --port 2222 --collect
 
 It writes **only** a local archive. Review the archive for identifying data before sharing. The repo is public.
 
-## R22 continuation
+## Historical R22 approach (completed under ARM/QEMU R22.1)
 
-Study actual `frontend/pluginloader.lua`, `frontend/apps/filemanager/filemanager.lua` and `plugins/ink-away.koplugin/main.lua` in the local stage. Enable only Ink Away through KOReader's public plugin-loader path and temporary settings, holding all other plugin activations off. Verify plugin instance ownership by FileManager, menu/action registration, real canvas open/stroke/save/close and return to FileManager. Preserve all previous R21 guards and tests. Neither real device actions nor boot become authorized if R22 passes.
+Previously, the task was to study actual `frontend/pluginloader.lua`, `frontend/apps/filemanager/filemanager.lua` and `plugins/ink-away.koplugin/main.lua` in the local stage. Enable only Ink Away through KOReader's public plugin-loader path and temporary settings, holding all other plugin activations off. Verify plugin instance ownership by FileManager, menu/action registration, real canvas open/stroke/save/close and return to FileManager. Preserve all previous R21 guards and tests. Neither real device actions nor boot become authorized if R22 passes.
 
 More detailed offline handover, full R21.5 source and old test ZIPs are in the downloadable archive, **not in this first GitHub text commit**.
