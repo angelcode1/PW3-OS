@@ -1,6 +1,25 @@
 # R39.1 — bounded synthetic input lifecycle for genuine ReaderUI activation
 
-**2026-11-02 status: 51/51 host tests PASS; user-side R39.1 ARM/QEMU PENDING.** The original R39.0 user's independent R25.3 control returned **PASS**, but first ReaderUI activation trial returned **FAIL**. This source-only R39.1 retry changes only the **forked R39 synthetic Input lifecycle adapter**, the distinct R39 reviewer and SHA-pinned source manifest. No original staged KOReader source, native engine, two-page PDF fixture or pinned R25.3 control has been changed.
+**2026-11-02 update: USER-SUPPLIED R39.1 ARM/QEMU PASS.** The independent unchanged R25 control returned `R25_REAL_EVENT_LOOP_ARM_PASS`. Genuine `FileManager:openFile` opened the original two-page PDF, scheduled ReaderUI through the real `nextTick` coroutine, and an actual `ReaderUI.instance` was verified. The two synthetic Input lifecycle hooks were reached on their success path; a synthetic Close led to clean genuine UIManager shutdown and distinct R39 strict reviewer `R39_READERUI_FIRST_ACTIVATION_ARM_PASS`. R39.1 has 51/51 host tests PASS. **No page change, FileManager return, physical render, global migration, boot or file removal was verified.**
+
+## User-side R39.1 ARM evidence
+
+The local output reports `R39_READERUI_FIRST_ACTIVATION_ARM_GATE_PASS` and `R39_READERUI_FIRST_ACTIVATION_ARM_PASS` with independent original R25 reviewer PASS. In the guest log, the genuine FileManager opens `/tmp/r25-ko-home/library/r39-original-two-pages.pdf`, the real ReaderUI initializes and prints:
+
+```text
+R39_ORIGINAL_TWO_PAGE_PDF_COPIED_TO_TEMP
+R39_GENUINE_FILEMANAGER_OPENFILE_READERUI_SCHEDULED
+R39_1_GENUINE_READERUI_INPUT_INHIBIT_REQUESTED_SYNTHETIC_ONLY
+R39_1_GENUINE_READERUI_INPUT_RELEASE_REQUESTED_SYNTHETIC_ONLY
+R39_REAL_READERUI_INSTANCE_AND_TWO_PAGE_PDF_OPENED
+R39_REAL_UIMANAGER_LOOP_AFTER_READERUI_NEXTTICK
+R39_SYNTHETIC_CLOSE_SENT_TO_READERUI
+R39_REAL_READER_SHUTDOWN_COMPLETED
+R39_REAL_READER_EXIT_BOUNDARY_PASS
+R39_READERUI_FIRST_ACTIVATION_ARM_GATE_PASS
+```
+
+The strict R39 reviewer marks `genuine_filemanager_openfile_scheduled_readerui`, `genuine_readerui_instance_created`, `genuine_two_page_pdf_open_verified`, `genuine_readerui_input_lifecycle_calls_verified`, `readerui_closed_through_synthetic_event` and `independent_r25_baseline_control_pass` true. It explicitly leaves `page_navigation_verified`, `returned_to_filemanager_verified`, `physical_render_verified`, `real_pw3_init`, `global_startup_migrations_executed`, `complete_dependency_closure_proven` false, with `NOT_BOOTABLE`. The original R39.0 failure remains preserved separately. This successful ReaderUI initialization is stronger than R34 import, but still does not establish page navigation.
 
 ## Confirmed original R39.0 failure
 
