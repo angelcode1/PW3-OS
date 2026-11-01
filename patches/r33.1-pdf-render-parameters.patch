@@ -1,0 +1,11 @@
+--- a/r33/documents_guard.lua
++++ b/r33/documents_guard.lua
+@@ -46,7 +46,8 @@ local function exercise_documents(fm)
+            'PDF must have at least one real page')
+     print('R33_GENUINE_MUPDF_PDF_OPENED')
+     local pdfrect={x=0,y=0,w=96,h=96}
+-    local tile=assert(pdf:renderPage(1,pdfrect,1,0), 'MuPDF offscreen render returned no tile')
++    -- Explicit neutral gamma and saturation: genuine Document:getFullPageHash concatenates both.
++    local tile=assert(pdf:renderPage(1,pdfrect,1,0,1.0,1.0), 'MuPDF offscreen render returned no tile')
+     assert(tile.bb and type(tile.bb.getWidth)=='function' and tile.bb:getWidth()>0,
+            'MuPDF render missing a real memory tile')
