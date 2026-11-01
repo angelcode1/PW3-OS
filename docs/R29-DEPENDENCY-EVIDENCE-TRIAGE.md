@@ -1,6 +1,6 @@
 # R29 — host-side dependency evidence triage after verified R28 PASS
 
-**2026-11-01:** User-reported R28 `R28_STATIC_DYNAMIC_CORRELATED` **PASS** after running 26/26 tests and correlating the verified R26 static stage with R27/QEMU private guest file attempts. **R29 is host-tested against synthetic fixtures only (26/26 tests PASS), and has NOT been run on the user's local R26–R28 evidence.** No rootfs was created or modified.
+**2026-11-01:** User-reported R28 `R28_STATIC_DYNAMIC_CORRELATED` PASS and **R29 `R29_DEPENDENCY_EVIDENCE_TRIAGED` PASS on the actual private R26–R28 evidence**. R29's 26 host tests passed. No rootfs was created or modified.
 
 ## Facts from the user's R28 summary
 
@@ -9,6 +9,30 @@ The R26 stage had **2,070 catalog entries**: 1,448 regular files, 335 symlinks, 
 R28 observed **646** stage-looking lexical path attempts without a matching R26 catalog entry and **seven** ambiguous directory-FD-relative attempts. Its aggregate positive-open mapping has no `stage_lexical_path_not_in_catalog` category, but path-level outcomes and the unique attempted names must be checked locally. The 646 attempts could include failed dynamic-loader searches, absent optional files, or path-normalization artefacts; no specific cause or errno is proven without the private trace. R28 expressly did not establish symlink resolution, dirfd resolution, kernel firmware requirements, host-QEMU file access, or complete dependency closure.
 
 R28 stage sentinel SHA-256 `7eb0d027b2b407fe6963ea9b9a1fe7fee1db96ae66f9399ece179238939176ed` and R27 raw trace SHA-256 `d02193b9b800fdc59cd7b7bf6367c7e2835e0afcfe0e1663ff0f6faa7e6ef49a` matched the supplied summaries. **No files are inferred safe to delete**, and the program is **NOT_BOOTABLE**.
+
+## User-side verified R29 result — 2026-11-01
+
+The user reported `Ran 26 tests ... OK`, then `R29_DEPENDENCY_EVIDENCE_TRIAGED; NO_PRUNING; NOT_BOOTABLE` and full aggregate `R29-SUMMARY.json`. It verified R28 private hash manifest, rechecked path mapping counts, and matched the R26 stage sentinel and R27 raw trace digest.
+
+| R29 evidence cohort | User-reported count |
+|---|---:|
+| Catalog regular staged files | 1,448 |
+| Unique staged regular files with successful guest open evidence | 341 |
+| Staged regular files without successful-open evidence (`UNKNOWN_HOLD`) | 1,107 |
+| ELF DT_NEEDED candidate paths without open evidence (`REVIEW_HOLD`) | 20 |
+| Of these, candidates referred to by opened ELF objects | 6 |
+| Lua source files with literal-reference patterns but no observed open | 475 |
+| Unverified Lua literal-pattern matches | 6,302 |
+| Stage-like lexical failed lookup attempts | 646 |
+| Unique stage-like absent lexical path strings | 595 |
+| Successful open calls with ambiguous dirfd-relative path | 7 |
+| Symlinks flagged for lexical escape | 0 |
+
+All **646** stage-like lexical paths missing from the R26 catalog failed; no successful opens were reported in that class. The **seven** fd-relative opens succeeded, but their base directory is not established by R27/R28; they remain an important dependency uncertainty. No ELF loader resolution, full Lua module coverage, kernel firmware dependencies, or actual PW3 hardware effects were proven.
+
+Exact previous stage sentinel `7eb0d027b2b407fe6963ea9b9a1fe7fee1db96ae66f9399ece179238939176ed`; trace SHA-256 `d02193b9b800fdc59cd7b7bf6367c7e2835e0afcfe0e1663ff0f6faa7e6ef49a`. Values are user-supplied, not independently rerun in CI. The printed verdict preserves `safe_to_delete_inferred=false`, `new_rootfs_created=false`, `openat_dirfd_resolution_proven=false`, `symlink_resolution_proven=false`, and `NOT_BOOTABLE`.
+
+**Next source-only gate:** [R30 failed-lookup return patterns and dirfd *syntax* classification](R30-LOOKUP-DIRFD-AUDIT.md), not proof of actual fd-directory resolution or a deletion allowlist.
 
 ## R29 narrow deliverable
 
