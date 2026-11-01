@@ -1,0 +1,32 @@
+name: PW3 host-only collector checks
+
+on:
+  push:
+    paths:
+      - 'tools/pw3_collect_v6_hostcap.py'
+      - 'tests/test_collector_v6.py'
+      - '.github/workflows/pw3-host-checks.yml'
+  pull_request:
+    paths:
+      - 'tools/pw3_collect_v6_hostcap.py'
+      - 'tests/test_collector_v6.py'
+      - '.github/workflows/pw3-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-collector-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Python version
+        run: python3 --version
+      - name: Run host-only regression tests (no SSH to Kindle)
+        run: python3 -m unittest discover -s tests -p 'test_collector_v6.py' -v
+      - name: Verify dry run and published revision
+        run: |
+          python3 tools/pw3_collect_v6_hostcap.py --version
+          python3 tools/pw3_collect_v6_hostcap.py
