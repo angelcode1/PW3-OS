@@ -1,6 +1,44 @@
 # R33 — genuine PDF and EPUB offscreen document engines
 
-**2026-11-01 status:** R32 genuine Ink Away menu, synthetic stroke, temporary project save, parser reload and R25 real UIManager loop/shutdown **ARM/QEMU PASS** (user-supplied reviewers). **R33 host-only: 27/27 tests PASS; ARM/QEMU run PENDING.** EPUB/PDF rendering has NOT been verified on ARM.
+**2026-11-02 status:** R25.3 and R32 remain **user-verified ARM/QEMU PASS**. Original R33 **ARM/QEMU FAIL** in the PDF test fixture due to omitted gamma/saturation arguments. Corrected R33.1 **33/33 host tests PASS, ARM/QEMU PENDING**. Neither PDF nor EPUB offscreen rendering has been verified on ARM.
+
+## User-supplied R33 ARM failure and targeted R33.1 retry
+
+The user's R33 log reached genuine `reader.lua`, FileManager, R32 Ink Away project persistence, `R33_ORIGINAL_DOCUMENT_FIXTURES_COPIED_TO_TEMP`, and `R33_GENUINE_MUPDF_PDF_OPENED`. It then failed at:
+
+```text
+frontend/document/document.lua:398: attempt to concatenate local 'saturation' (a nil value)
+R33_DOCUMENT_OFFSCREEN_ARM_GATE_FAIL (exit=1)
+```
+
+All three fresh R25, R32, R33 reviewers correctly reported **FAIL**, because the R33 test never resumed the event-loop/shutdown after the exception. This does not undo the separate R25.3 or R32 ARM successes.
+
+The R33 test overlay incorrectly called `pdf:renderPage(1,pdfrect,1,0)`; genuine KOReader v2026.07.2 `Document:renderPage(pageno,rect,zoom,rotation,gamma,saturation,hinting)` includes both numeric values in `Document:getFullPageHash`. Its neutral gamma is `GAMMA_NO_GAMMA=1.0`, and unmodified saturation is `1.0`. **Only the test overlay** now supplies both parameters: `pdf:renderPage(1,pdfrect,1,0,1.0,1.0)`.
+
+R33.1 changes no native renderer, test document fixture, staged rootfs, R32/R25 pin, strict reviewer or Docker safety setting. **33/33 synthetic host tests PASS** (27 previous, 6 new), Python/shell/Lua syntax PASS, ZIP integrity and 12 payload SHA-256 checks PASS. Source-only ZIP `pw3-os-r33.1-pdf-render-arguments-fix.zip`, SHA-256 `b3d6070b6f3c1b3923f11784d65486ba9db20ff168c1584a27465f525b7422bf`. **R33.1 ARM execution remains pending.**
+
+### Mac retry: do not overwrite previous evidence
+
+```sh
+cd ~/Downloads
+unzip pw3-os-r33.1-pdf-render-arguments-fix.zip
+cd pw3-os-r33.1-pdf-render-arguments-fix
+python3 -m unittest discover -s tests -v
+
+./run-r33-docker.sh \
+  "$HOME/Downloads/pw3-os-r13-alpine-dual-libc-fix/stage-r13-fixed" \
+  "$HOME/Downloads/pw3-os-r24.3.1-audit-output-fix/src/r21-filemanager-core" \
+  "$HOME/Downloads/pw3-os-r32-inkaway-persistence" \
+  "$HOME/Downloads/pw3-os-r32-inkaway-first-run/R32-RESULT-REVIEW.json" \
+  "$HOME/Downloads/pw3-os-r33.1-offscreen-first-run"
+
+tail -n 160 "$HOME/Downloads/pw3-os-r33.1-offscreen-first-run/R33-EMULATION.log"
+cat "$HOME/Downloads/pw3-os-r33.1-offscreen-first-run/R33-R25-REVIEW.json"
+cat "$HOME/Downloads/pw3-os-r33.1-offscreen-first-run/R33-R32-REVIEW.json"
+cat "$HOME/Downloads/pw3-os-r33.1-offscreen-first-run/R33-REVIEW.json"
+```
+
+The target verdict is still `R33_PDF_EPUB_OFFSCREEN_ARM_PASS`, only after three fresh reviewers succeed. New actual ARM failures must remain FAIL and be diagnosed individually.
 
 ## Narrow objective
 
