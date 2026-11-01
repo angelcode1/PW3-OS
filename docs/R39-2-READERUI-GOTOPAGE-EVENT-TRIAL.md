@@ -2,7 +2,19 @@
 
 **2026-11-02 status:** The user confirmed **R39.1 `R39_READERUI_FIRST_ACTIVATION_ARM_PASS`** on offline ARM/QEMU, with a separate unchanged R25 control `R25_REAL_EVENT_LOOP_ARM_PASS`. The genuine FileManager opened a SHA-pinned synthetic two-page PDF via `openFile()`, asynchronous `ReaderUI:showReader()` reached a real ReaderUI instance, and the two synthetic Input lifecycle methods were successfully exercised, followed by a clean Close/Generic shutdown. The user-provided R39.1 reviewer retains `page_navigation_verified=false`, `returned_to_filemanager_verified=false`, `physical_render_verified=false` and `NOT_BOOTABLE`.
 
-**R39.2 source-only implementation is now HOST-TESTED: 71/71 regression tests PASS; ARM/QEMU NOT YET RUN.** R39.2 does not claim new document-navigation proof until the user's separate R39.2 guest trace and new strict reviewer pass.
+**R39.2 USER ARM/QEMU FAIL** (historical result preserved): after independent unchanged R25 PASS, the original page-turn experiment reached genuine ReaderUI initialization and success-path synthetic Input release, then failed at `/r39/loop_guard.lua:422: R39.2 first page not genuinely drawn before input`. The new ReaderPaging event was **not delivered**, so page navigation was not verified. Source analysis shows `ReaderView.state.drawn` is assigned only for the non-paging/CRE branch, not genuine PDF pages. This was a test-instrumentation defect, not evidence of a failed PDF rendering. [R39.2.1](R39-2-1-GENUINE-PDF-DRAW-COMPLETION.md) uses a real post-return PDF draw observer instead; **90/90 host tests PASS, ARM pending**. The original R39.2 result stays FAIL.
+
+## User-supplied failure and verified source explanation (2026-11-02)
+
+The original R39.2 ARM execution passed `R39_PINNED_SOURCES_AND_TWO_PAGE_FIXTURE_PASS`, reproduced the independent original R25 `R25_REAL_EVENT_LOOP_ARM_PASS`, and reached `R39_ORIGINAL_TWO_PAGE_PDF_COPIED_TO_TEMP`, `R39_GENUINE_FILEMANAGER_OPENFILE_READERUI_SCHEDULED`, and both `R39_1_GENUINE_READERUI_INPUT_...SYNTHETIC_ONLY` success markers. Immediately before delivering its proposed page-turn event, the forked guard asserted `reader.view.state.drawn==true`; genuine PDF ReaderView had not set this flag. Trace:
+
+```text
+/r39/loop_guard.lua:422: R39.2 first page not genuinely drawn before input
+R39_2_PAGE_TURN_ARM_GATE_FAIL (exit=1)
+R39-REVIEW.json: verdict FAIL, missing R39_REAL_READERUI_INSTANCE_AND_TWO_PAGE_PDF_OPENED
+```
+
+Upstream KOReader v2026.07.2 `frontend/apps/reader/modules/readerview.lua` `ReaderView:paintTo` dispatches PDF pages through `self:drawSinglePage(bb,x,y)`, but sets `self.state.drawn=true` **only** in the non-paging branch, after `if self.ui.paging then ... else ...`. This is why the R39.2 PDF assertion was invalid. The log does not demonstrate whether a real PDF paint occurred; do not infer either success or failure. The historical R39.2 output and FAIL reviewer remain unchanged; see [R39.2.1](R39-2-1-GENUINE-PDF-DRAW-COMPLETION.md) for a narrowly instrumented retry.
 
 ## R39.2 changed scope
 
