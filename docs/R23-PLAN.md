@@ -25,7 +25,7 @@ The first R23 runtime probe should use an explicit **synthetic temporary directo
 
 ## First deliverable: static source preflight
 
-Source-only `pw3-os-r23-reader-startup-preflight.zip` is supplied separately in the conversation; its staged KOReader binaries are **not** embedded. It contains the unchanged R22.1 sources, `audit_r23.py`, and five host tests.
+Source-only `pw3-os-r23-reader-startup-preflight.zip` is supplied separately in the conversation; its staged KOReader binaries are **not** embedded. ZIP SHA-256: `e7d48e55f34ca71d47156a2206d082bf977bba5de441e85aab668708d1786626` (81 internal file digests verified). The source contracts were also checked against the eight pinned upstream KOReader v2026.07.2 files. It contains the unchanged R22.1 sources, `audit_r23.py`, and five host tests.
 
 ```sh
 cd ~/Downloads/pw3-os-r23-reader-startup-preflight/src/r21-filemanager-core
