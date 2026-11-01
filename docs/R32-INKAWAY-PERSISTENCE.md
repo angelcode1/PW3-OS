@@ -1,6 +1,34 @@
 # R32 — genuine Ink Away stroke/save/reload during synthetic R25 lifecycle
 
-**2026-11-01:** User-side R25.3 real KOReader `reader.lua` → FileManager → Ink Away plugin ownership → UIManager run → synthetic Close → clean shutdown **ARM/QEMU PASS**. R31 conditional CWD provenance audit **user-side PASS** (7 conditional staged-directory candidates). **R32 is a source-only ARM/QEMU candidate; 23/23 local host tests PASS; no R32 ARM result has been reported.**
+**2026-11-01:** **R32 genuine Ink Away stroke/save/project-reload within real reader.lua lifecycle ARM/QEMU PASS (user-supplied log and both reviewers)**. R25.3 verified synthetic application lifecycle and R31 conditional CWD audit also PASS. The R32 host suite passed 23 tests. No physical Kindle access, independent boot or EPUB/PDF rendering has been proven.
+
+## User-supplied R32 ARM/QEMU PASS — 2026-11-01
+
+The user ran `run-r32-docker.sh` and provided the complete emulation log plus independent strict R25 and R32 reviewer JSON. The log established:
+
+```text
+R24_REAL_FILEMANAGER_SHOWFILES
+R24_INKAWAY_INSTANCE_OWNED_BY_FILEMANAGER
+R32_GENUINE_INKAWAY_MENU_CANVAS_OPENED
+R32_GENUINE_INKAWAY_STROKE_SAVED_TO_TEMP
+R32_GENUINE_INKAWAY_PROJECT_RELOADED
+R25_REAL_UIMANAGER_EVENT_LOOP_REACHED
+R25_SYNTHETIC_CLOSE_EVENT_DELIVERED
+R25_REAL_GENERIC_EXIT_SYNTHETIC_ONLY
+R25_REAL_READER_SHUTDOWN_COMPLETED
+R25_REAL_READER_EXIT_BOUNDARY_PASS
+R32_INKAWAY_PERSISTENCE_R25_LIFECYCLE_BOUNDARY_PASS
+R25_REAL_EVENT_LOOP_ARM_GATE_PASS
+R32_INKAWAY_PERSISTENCE_ARM_GATE_PASS
+R25_REAL_EVENT_LOOP_ARM_PASS
+R32_INKAWAY_PERSISTENCE_ARM_PASS
+```
+
+R25 fresh reviewer verdict `R25_REAL_EVENT_LOOP_ARM_PASS`: real reader entry, FileManager, Ink Away-only plugin, UIManager loop and normal exit all `true`. R32 reviewer verdict `R32_INKAWAY_PERSISTENCE_ARM_PASS`: `genuine_inkaway_menu_canvas_verified=true`, `genuine_inkaway_synthetic_stroke_saved_to_temp=true`, `genuine_inkaway_project_reload_verified=true`, `genuine_uimanager_event_loop_executed=true`, `r25_replay_verified=true`.
+
+R32 marked `epub_pdf_rendering_verified=false`, `complete_dependency_closure_proven=false`, `migrations_executed=false`, `real_pw3_init=false`, and every device/firmware/boot/removal authorization `false`; hold `NOT_BOOTABLE`. The successfully reloaded *project data parser* is not proof that the user visibly reopened the canvas window. The image-builder `sha256:e245...` printed in the console is not a release archive SHA.
+
+**Next step:** separate offline-document workload probes, tested on **synthetically authored, non-copyright documents**, to exercise PDF/EPUB engines and in-memory rendering; no physical display writes. Do not treat the R32 PASS as if either document format were verified.
 
 ## Why R32, and what it actually tests
 
