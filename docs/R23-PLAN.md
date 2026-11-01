@@ -100,7 +100,7 @@ The fail-closed JSON reviewer verdict was `FAIL`; there was **no** `R23_REAL_GEN
 
 **Cause:** KOReader's genuine `frontend/luadefaults.lua` loads the stock `defaults.lua` with `pcall(dofile, "defaults.lua")`. R23.1's Lua guard refused all `dofile` calls except its intentional migration stop, so it also blocked the required read-only defaults load. `LuaSettings:open()` and `LuaDefaults:open()` additionally probe optional temporary settings via `pcall(dofile, path)`, including missing-file fallbacks. These must not count as security-policy violations.
 
-**R23.2 host-tested correction** (ARM rerun pending):
+**R23.2 host-tested correction** (subsequently ARM-verified PASS, as recorded below):
 
 - Allow exactly `defaults.lua` from the pinned read-only staged KOReader working directory, checking its table return and `DHINTCOUNT==1`, with one-time marker `R23_REAL_DEFAULTS_LOADED_READ_ONLY`.
 - Also allow only four optional paths inside the temporary `KO_HOME`: `defaults.custom.lua`, `defaults.custom.lua.old`, `settings.reader.lua`, `settings.reader.lua.old`. A missing file returns the ordinary native error, which genuine KOReader code handles via `pcall`.
@@ -124,7 +124,52 @@ cat results-r23.2-first-run/R23-EARLY-EMULATION.log
 cat results-r23.2-first-run/R23-EARLY-RESULT-REVIEW.json
 ```
 
-An R23.2 ARM result remains **unknown**. If it passes, its only authorized milestone is `R23_EARLY_BOOTSTRAP_ARM_PASS`, with `r23_full_arm_startup_verified=false`, and **not** proof of FileManager startup, migrations, real-device access, independent boot or firmware operation.
+R23.2 **subsequently passed** its user-supplied ARM/QEMU early-bootstrap gate (see below). Its scope remains limited: no FileManager launch, migration execution, native Kindle interfaces or independent boot.
+
+## R23.2 ARM/QEMU early-bootstrap PASS — user-supplied, 2026-11-01
+
+The user supplied the complete R23.2 early emulation log and reviewer JSON:
+
+```text
+R23_REAL_READER_LUA_ENTER
+R23_REAL_SETUPKOENV_IMPORTED
+R23_REAL_DEFAULTS_LOADED_READ_ONLY
+R23_REAL_GENERIC_INIT_SYNTHETIC_ONLY
+R23_VERSION_DISK_LOG_HELD
+R23_READER_REAL_PREMIGRATION_ORDER_CONFIRMED
+R23_NO_MIGRATIONS_OR_USERPATCH_EXECUTION
+R23_EARLY_BOOTSTRAP_BOUNDARY_PASS
+R23_EARLY_BOOTSTRAP_ARM_GATE_PASS
+R23_EARLY_BOOTSTRAP_ARM_PASS
+```
+
+The reviewer recorded `premigration_boundary_reached=true`, `real_reader_lua_entrypoint_reached=true`, `r23_full_arm_startup_verified=false`, `migrations_executed=false`, `real_pw3_init=false`, and all boot/device/hardware-write authorizations false. This is a **user-supplied offline ARM/QEMU PASS**, not a GitHub-run ARM execution. The console `sha256:7cb98d50...` is not identified as a release ZIP checksum and is not used to authenticate a public artifact.
+
+This supersedes the R23.1 failed fixture and establishes that its narrowly corrected R23.2 counterpart reached the deliberate premigration boundary.
+
+## R23.3 source-only candidate — UIManager import edge
+
+**Status: 68 local host regression tests PASS; ARM/QEMU test NOT YET RUN.** Source-only archive `pw3-os-r23.3-ui-import-boundary.zip`, provided separately in the conversation. SHA-256: `aaba7224fcb310a87876bc8eb7eb0d39d1f53d6d37048632fbe78b2c8f8b1399`. ZIP integrity and internal checksum manifest validated.
+
+The staged, unmodified KOReader `v2026.07.2` `reader.lua` progresses through the R23.2 verified startup sequence. At the exact migration-script `dofile`, a strict harness **skips the script without executing it**, producing an explicit mandatory marker. Execution then continues through genuine `ui/bidi.lua` `Bidi.setup()`, real `ui/uimanager.lua` module initialization and stops immediately after the import through an intentional held exception; it does not start FileManager, `UIManager:run()`, Ink Away, or normal application shutdown. The original R23.2 fixture/reviewer are retained separately.
+
+An additional static stage audit checks real `reader.lua`, `frontend/ui/bidi.lua`, and `frontend/ui/uimanager.lua` source markers, startup order and hashes. New R23.3 fail-closed reviewer rejects missing/reordered/duplicate gates, any denied operation, or a false full-startup marker. All runs remain in offline Docker with read-only staged rootfs, writable `/tmp` only, no devices or network. The only possible PASS claim for this candidate is `R23_UI_IMPORT_ARM_PASS`, **not** `R23_ARM_READER_STARTUP_PASS`.
+
+Local host suites: **32 R21 + 10 R22 + 5 R23 + 7 R23.1 + 5 R23.2 + 9 R23.3 = 68 PASS**.
+
+```sh
+cd ~/Downloads
+unzip pw3-os-r23.3-ui-import-boundary.zip
+cd pw3-os-r23.3-ui-import-boundary/src/r21-filemanager-core
+python3 -m unittest discover -s tests_r23_3 -v
+./run-r23.3-docker.sh \
+  "$HOME/Downloads/pw3-os-r13-alpine-dual-libc-fix/stage-r13-fixed" \
+  "$PWD/results-r23.3-first-run"
+cat results-r23.3-first-run/R23-UI-IMPORT-EMULATION.log
+cat results-r23.3-first-run/R23-UI-IMPORT-RESULT-REVIEW.json
+```
+
+R23.3 source preflight, if successful, is not ARM startup evidence. The real migration path, top-level FileManager startup, genuine UI event-loop exit and proper application shutdown remain unproven. All existing safety holds persist.
 
 ## Remaining unproven boundaries
 
