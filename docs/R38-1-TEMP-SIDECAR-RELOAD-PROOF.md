@@ -1,6 +1,19 @@
 # R38.1 — exact temporary sidecar and genuine fresh DocSettings reload proof
 
-**2026-11-02 status:** Original R38 **ARM/QEMU FAIL**, after reaching genuine in-memory migration and temporary sidecar flush, at `/r38/migrate_sidecar.lua:71: DocSettings read unexpected source candidate`. Original R25/R32/R33/R34/R35 PASS results remain intact. **R38.1 source-only retry: 45/45 host regression tests PASS; ARM/QEMU PENDING.** Do not claim R38.1 persistence is verified until the user's new local run.
+**2026-11-02 update:** **R38.1 USER ARM/QEMU FAIL** at `migrate_sidecar.lua:79: R38.1 exact saved metadata could not be loaded from temp file`. The log reached genuine per-book migration and temporary sidecar flush but did not prove valid saved metadata or reload. The pinned R25.3 `dofile` allowlist was found to deliberately reject this new sidecar path, and R38.1 caught that denial inside `pcall`. **R38.2** applies a time-limited, single-path temp metadata exception, restores the R25 guard, and has **60/60 host tests PASS; ARM/QEMU pending**. See [R38.2](R38-2-SCOPED-SIDECAR-LOADER.md).
+
+## Actual user-side R38.1 failure
+
+The user-supplied log showed genuine startup, Ink Away save/reload, MuPDF PDF and CREEngine EPUB memory rendering, `R38_GENUINE_DOCSETTINGS_OPENED_TEMP_ONLY`, genuine CRe margin/space-condensing migration, `R38_GENUINE_DOCSETTINGS_MIGRATION_IN_MEMORY` and `R38_GENUINE_DOCSETTINGS_SIDECAR_FLUSHED_TO_TEMP`. It then failed at:
+
+```text
+/r38/migrate_sidecar.lua:79: R38.1 exact saved metadata could not be loaded from temp file
+R38_1_TEMP_DOCSETTINGS_MIGRATION_ARM_GATE_FAIL (exit=1)
+```
+
+All four fresh reviewer JSON files returned `FAIL` because R25's event-loop marker was never reached. Prior separate R25–R37 proof remains valid. The original R38 and R38.1 failed outputs are preserved separately.
+
+Source analysis revealed a **harness incompatibility**, not proven metadata corruption: the SHA-pinned R25.3 `loop_guard.lua` defines its own `dofile` function with exact allowlisted sources, and all other paths go through `deny('DOFILE:'..path)`. The newly generated `/tmp/r25-ko-home/library/r33-original.sdr/metadata.epub.lua` is not allowlisted. Since R38.1 does `pcall(dofile,filename)`, the deny is caught and the original generic assertion fires. The later genuine `DocSettings:open` would hit the same gate. A corrected, narrowly-scoped temporary metadata loader is now documented in [R38.2](R38-2-SCOPED-SIDECAR-LOADER.md).
 
 ## Narrow correction
 
