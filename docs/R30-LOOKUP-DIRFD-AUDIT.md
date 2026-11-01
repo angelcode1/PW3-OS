@@ -2,7 +2,30 @@
 
 **2026-11-01:** User has verified `R29_DEPENDENCY_EVIDENCE_TRIAGED` on R26–R28 private evidence (26 host tests PASS); 1,448 staged regular files, 341 with direct guest open evidence, 1,107 without open evidence (`UNKNOWN_HOLD`), 20 ELF DT_NEEDED candidate paths without open evidence (six from observed ELF objects), 475 unobserved Lua literal-source files, 646 unsuccessful stage-looking path attempts (595 unique), and seven successful `openat` calls whose directory-FD base is ambiguous.
 
-**R30 is a new source-only, locally host-tested candidate: 27/27 synthetic regression tests PASS. R30 has NOT yet been run against the user's actual R27–R29 private files.** This is not an OS build, syscall FD lineage proof, dependency-completeness claim or rootfs deletion gate.
+**R30 user-side VERIFIED (2026-11-01):** 27 host tests PASS and real private trace audit verdict `R30_NEGATIVE_LOOKUPS_AND_DIRFD_SYNTAX_TRIAGED`. The user-supplied summary confirms 646 negative lookups and all seven ambiguous-successful openat calls have printed `AT_FDCWD` (see observations below). No FD-target or cwd lineage proven.
+
+**R30 has now been executed successfully against the user's actual R27–R29 private files, with 27 host tests PASS.** This is not an OS build, syscall FD lineage proof, dependency-completeness claim or rootfs deletion gate.
+
+## User-supplied R30 result
+
+```text
+Ran 27 tests ... OK
+R30_NEGATIVE_LOOKUPS_AND_DIRFD_SYNTAX_TRIAGED; NO_PRUNING; NOT_BOOTABLE
+```
+
+Verified aggregate counters: **2,262** path attempts rechecked; **646** stage-lexical missing lookup attempts and **595** distinct missing-path strings; all 646 reported raw QEMU return value **-1**. Avoid interpreting the raw return as a specific errno without inspecting the exact guest syscall semantics. Filename-pattern classes:
+
+| Heuristic class | Calls | Unique names |
+|---|---:|---:|
+| Lua-like | 439 | 427 |
+| ELF SONAME/library-like | 111 | 99 |
+| Font-like | 14 | 5 |
+| Other/no extension | 82 | 64 |
+| **Total** | **646** | **595** |
+
+The **seven** ambiguous `openat` paths all had successful opens and all used **`AT_FDCWD`** as the first argument (rather than an unknown numeric directory FD). This **narrows** resolution to the process's current working directory; it does not establish a path without validating CWD provenance and any intervening guest `chdir`/`fchdir`. The R30 tool correctly reports `openat_dirfd_target_paths_resolved=false`. There is no evidence of a rootfs being created or any safe file deletion.
+
+The R26 sentinel `7eb0d027b2b407fe6963ea9b9a1fe7fee1db96ae66f9399ece179238939176ed` and R27 raw trace SHA `d02193b9b800fdc59cd7b7bf6367c7e2835e0afcfe0e1663ff0f6faa7e6ef49a` match prior user evidence. Full trace and path tables stay private.
 
 ## Scope and source artifact
 
