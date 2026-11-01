@@ -2,7 +2,7 @@
 
 ## Verification state
 
-**R22.0 ARM/QEMU: FAIL (2026-11-01); R22.1 corrected candidate: HOST VERIFIED, ARM RERUN PENDING; R22 PASS NOT CLAIMED.**
+**Historical sequence:** R22.0 ARM/QEMU failed teardown (2026-11-01); R22.1 corrected the genuine FileManager close path and subsequently passed all ARM gates on the user's Mac. See the verified-result section below.
 
 - First ARM run successfully reached: `R22_REAL_PLUGINLOADER_ONLY_INKAWAY`, `R22_REAL_PLUGIN_INSTANCE_OWNED_BY_FILEMANAGER`, and `R22_REAL_DISPATCHER_AND_MENU_REGISTRATION`.
 - It then failed: `plugin_fixture_r22.lua:99: plugin instance retained after FM close`, `REAL_PLUGIN_LOAD FAIL (exit=1)`, and `R22_RESULT_REVIEW=FAIL`. The menu-canvas and negative-safety probes **were not executed** on that run.
@@ -11,7 +11,34 @@
 - R21.5 host regression unchanged: **32/32 PASS**; R22.1 host regression: **10/10 PASS** (new teardown test added).
 - New source-only archive: `pw3-os-r22.1-plugin-integration.zip`, provided in the conversation. No firmware, captures, secrets, or proprietary runtimes committed.
 - The exact fixture/source-audit/host-test diff is published at [`patches/r22.1-filemanager-close.patch`](../patches/r22.1-filemanager-close.patch). Apply against the original R22 candidate root only, or use the full corrected ZIP directly; do not mix source trees.
-- **R22.1 ARM/QEMU has not run** in this environment; the user's retained R13 stage is required.
+- **Independent ARM rerun not available here:** The user's retained R13 stage was used for their successful ARM/QEMU run; source-only artifacts do not include that stage.
+
+## R22.1 ARM/QEMU result — user-supplied PASS, 2026-11-01
+
+**R22.1 ARM/QEMU: PASS (user-supplied execution output and reviewer JSON).** This supersedes the earlier R22.0 failure and R22.1 rerun-pending status above. The earlier FAILED run remains documented as historical evidence.
+
+The user reported from `results-r22.1-first-run`:
+
+```text
+REAL_PLUGIN_LOAD PASS
+MENU_CANVAS_LIFECYCLE PASS
+NEGATIVE_SAFETY PASS
+R22_ARM_PLUGIN_INTEGRATION_PASS
+NO_DEVICE_ACCESS; NO_BOOT_ACTIONS; NOT_BOOTABLE; ONLY_INKAWAY_PLUGIN; SYNTHETIC_UI_ONLY
+R22_RESULT_REVIEW=PASS
+```
+
+Reviewer claims: `verdict=PASS`, `r22_arm_verified=true`, `genuine_inkaway_plugin_verified=true`; `boot_authorized=false`, `firmware_write_authorized=false`, `hardware_write_authorized=false`, `real_pw3_init=false`. This records the reported execution, not an independent rerun by a GitHub runner.
+
+The ARM log confirms:
+- Genuine Ink Away-only PluginLoader discovery, FileManager-owned instance, dispatcher/menu registration, and `R22_FILEMANAGER_CLEAN_CLOSE`.
+- Canvas opened from the menu, memory-painted, handled synthetic UI gesture input, saved under temporary storage and returned to FileManager.
+- Fail-closed Amazon-device, shell, and outside-temporary-storage denials; clean FileManager close.
+- KOReader's `libkoreader-monolibtic.so` absence message and deprecated Ink Away metadata-name warning were nonfatal in this run.
+
+The reported `sha256:102343eeb9f1621418e302ad9712f58c0d85a087e6348c5d11ff430f1985a3d0` has no explicit artifact type in this message; do not treat it as a verified source ZIP checksum or a released Git tree.
+
+**Still not proven:** full `reader.lua` startup, real PW3 device init, real framebuffer/evdev operation, battery/frontlight control, suspend/resume, recovery, independent boot, and a bootable OS image. The full stage and raw output remain local.
 
 ## What R22 candidate actually tests
 
