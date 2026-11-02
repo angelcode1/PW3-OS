@@ -1,6 +1,18 @@
 # R39.2.2 — bounded genuine UIManager repaint for PDF page-turn proof
 
-**2026-11-02 status: HOST-ONLY PASS — 116/116 tests; ARM/QEMU PENDING.** This is a separate trial after user-side **R39.2.1 ARM/QEMU FAIL**, and preserves that historical failure plus the independent original R25 control PASS and earlier R39.1 ReaderUI-activation ARM PASS.
+**2026-11-02 USER-SIDE ARM FAIL** (historical strict reviewer preserved). The host suite reported 116/116 PASS, and the unmodified independent R25 control again returned `R25_REAL_EVENT_LOOP_ARM_PASS`. R39.2.2 opened the genuine two-page PDF through FileManager, initialized genuine ReaderUI, completed synthetic Input inhibition/release and emitted `R39_2_2_BOUNDED_REAL_UIMANAGER_REPAINT_REQUESTED_PAGE1`; the next bounded poll still saw no completed page-1 PDF draw, and the guard failed at `R39.2.2 page1 genuine PDF paint still missing after real UIManager repaint`. The strict reviewer also returned FAIL. **No `GotoPage(2)` event was delivered.** Cause of missing paint still unknown: [R39.2.3](R39-2-3-PAINT-PATH-DIAGNOSTIC.md) adds bounded paint-path observations (131 host tests PASS, ARM pending), not an unverified third retry.
+
+## Actual R39.2.2 user-side failure
+
+The supplied local execution confirms the unchanged R25 control reviewer PASS. Its distinct R39.2.2 guest log reached genuine ReaderUI input lifecycle, then:
+
+```text
+R39_2_2_BOUNDED_REAL_UIMANAGER_REPAINT_REQUESTED_PAGE1
+/r39/loop_guard.lua:480: R39.2.2 page1 genuine PDF paint still missing after real UIManager repaint
+R39_2_PAGE_TURN_ARM_GATE_FAIL (exit=1)
+```
+
+The independent R39 reviewer returned `FAIL` because `R39_2_1_GENUINE_MUPDF_PAGE1_DRAW_COMPLETED` was absent. This proves a bounded repaint was *requested*, not that `UIManager:_repaint`, `InputContainer:paintTo`, `ReaderView:paintTo`, or `drawSinglePage` ran. Original R39.2.2 evidence must remain unchanged, and no source or runtime gate may be waived to force PASS. The next [R39.2.3 diagnostic-only fork](R39-2-3-PAINT-PATH-DIAGNOSTIC.md) traces which genuine paint boundary was reached.
 
 ## Actual R39.2.1 failure and source diagnosis
 
