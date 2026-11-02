@@ -18,7 +18,7 @@ The separate `r394/analyze_denial_provenance.py` demands the existing strict R39
 
 ## Host-provenance release
 
-Session archive `pw3-os-r39.4.3-denied-operation-provenance-diagnostic.zip`, SHA-256 `8ef3e57b8ecf7a2d31787f59a6da23e115c123bedf894822fab46df9ec5c0ceb`; 61 ZIP entries, CRC and all 60 SHA-256 manifest items PASS. New experimental guard SHA-256 `6316ed566fedad8a72591d6e60678524f530454d0fb49517cdf46c6151c4527a`; analyzer SHA-256 `a74b0e7af52e9b291d10a341e6e9ae505fe947a4d2eaef34ff2c5270dd18569b`. Original strict reviewer SHA-256 remains `b2d7a44f1acedeb6ec9899074e91bb0f4d3a4fed63b15d0816ff9d7b99d51e57`.
+Session archive `pw3-os-r39.4.3-denied-operation-provenance-diagnostic.zip`, SHA-256 `f27ed32b599c0d9f345d7c783a171f26df063876d285740bdaa1e892fa083388`; 61 ZIP entries, CRC and all 60 SHA-256 manifest items PASS. New experimental guard SHA-256 `6316ed566fedad8a72591d6e60678524f530454d0fb49517cdf46c6151c4527a`; analyzer SHA-256 `a74b0e7af52e9b291d10a341e6e9ae505fe947a4d2eaef34ff2c5270dd18569b`. Original strict reviewer SHA-256 remains `b2d7a44f1acedeb6ec9899074e91bb0f4d3a4fed63b15d0816ff9d7b99d51e57`.
 
 **356/356 host regressions PASS**, Python compileall and POSIX shell syntax PASS, six Lua files pass Lua 5.4 syntax-only load via liblua5.4. No actual new ARM/QEMU run for R39.4.3 has been carried out in the research session. The downloadable archive's `README-R39.4.3.md` contains the Mac Docker run, fresh result directory, post-run analyzer, and evidence ZIP collection.
 
