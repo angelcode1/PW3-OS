@@ -1,6 +1,26 @@
 # R39.2.4 — genuine PDF scroll-layout paint and two-page input event
 
-**Status 2026-11-02: HOST-TESTED ONLY (156/156 Python tests PASS); ARM/QEMU PENDING.** The user-side R39.2.3 diagnostic succeeded in identifying the missing observation branch; **its original strict page-navigation reviewer still FAILed** and the unchanged original R25 control PASS remains valid. No R39.2.4 guest run has been reported.
+**2026-11-02 USER-SIDE ARM/QEMU PASS — `R39_2_READERUI_PAGE_TURN_ARM_PASS`.** The independent unchanged R25 control also returned `R25_REAL_EVENT_LOOP_ARM_PASS`. Actual ARM guest log confirms genuine PDF scroll page 1 draw, real UIManager `GotoPage(2)` event, genuine page 2 scroll draw, synthetic Close and clean Generic exit. Strict R39 review reports `page_navigation_verified=true`, `navigation_through_real_uimanager_input_verified=true`, `genuine_pdf_scroll_draw_completion_verified=true`, `page2_reader_view_drawn_verified=true`. It explicitly leaves `returned_to_filemanager_verified=false`, physical rendering, global migrations, complete closure, boot and hardware false. Original R39.2–R39.2.3 failed gate evidence remains unchanged.
+
+## User-provided final page-turn proof
+
+The user reported 156 host tests PASS, fresh `R39_PINNED_SOURCES_AND_TWO_PAGE_FIXTURE_PASS`, original R25 `R25_REAL_EVENT_LOOP_ARM_GATE_PASS` and `R25_REAL_EVENT_LOOP_ARM_PASS`, followed by `R39_2_PAGE_TURN_ARM_GATE_PASS` and strict `R39_2_READERUI_PAGE_TURN_ARM_PASS`. The ARM trace supplies this ordered evidence:
+
+```text
+R39_2_1_GENUINE_MUPDF_PAGE1_DRAW_COMPLETED
+R39_2_4_GENUINE_SCROLL_PAGE1_DRAW_RETURNED
+R39_REAL_READERUI_INSTANCE_AND_TWO_PAGE_PDF_OPENED
+R39_2_READER_PAGE1_DRAWN_AND_CURRENT_PAGE_VERIFIED
+R39_2_GOTOPAGE2_SENT_THROUGH_REAL_UIMANAGER_INPUT
+R39_2_1_GENUINE_MUPDF_PAGE2_DRAW_COMPLETED
+R39_2_4_GENUINE_SCROLL_PAGE2_DRAW_RETURNED
+R39_2_READER_PAGE2_DRAWN_AND_CURRENT_PAGE_VERIFIED
+R39_SYNTHETIC_CLOSE_SENT_TO_READERUI
+R39_REAL_READER_EXIT_BOUNDARY_PASS
+R39_2_PAGE_TURN_ARM_GATE_PASS
+```
+
+The strict review shows `genuine_pdf_scroll_draw_completion_verified=true` and `genuine_pdf_draw_single_page_completion_verified=false`, exactly matching the active PDF scroll layout. The documented next gate is **a separate Home→FileManager return test**: this user-side result does not establish document-close/reopen state or final FM teardown, and no physical e-ink display was used.
 
 ## What the genuine R39.2.3 diagnostic proved
 
