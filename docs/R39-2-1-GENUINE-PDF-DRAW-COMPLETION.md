@@ -1,6 +1,12 @@
 # R39.2.1 — genuine PDF draw-completion proof (not `state.drawn`)
 
-**Status 2026-11-02:** ORIGINAL R39.2 user-side ARM/QEMU **FAIL** before GotoPage; independent original R25 control PASS, R39.1 genuine ReaderUI activation already PASS. **R39.2.1 HOST TESTS 90/90 PASS, ARM/QEMU PENDING.** Never relabel the old R39.2 reviewer FAIL or claim page-turn success from this source-only release.
+**2026-11-02 update:** R39.2.1 **USER ARM/QEMU FAIL** at `/r39/loop_guard.lua:471: R39.2.1 first page must complete genuine MuPDF draw before input`, before any `GotoPage(2)` event; independently replayed original R25 control PASS and real ReaderUI initialization/input-release reached. The original R39.2.1 reviewer remains FAIL. No completed PDF paint call was observed before the first synthetic input poll; this alone does **not** establish a renderer fault or correct repaint scheduling. Source inspection also identified that the old reviewer ordered the `R39_REAL_READERUI_INSTANCE...` first-input marker before the first PDF draw marker, contrary to the possible real `UIManager:_repaint`→`Input:waitEvent` order. [R39.2.2](R39-2-2-BOUNDED-REPAINT-PROOF.md) uses one bounded real-UIManager `setDirty` retry per page and corrects reviewer ordering; **116/116 host tests PASS; ARM/QEMU pending**.
+
+## Actual R39.2.1 user-side failure
+
+The local log and fresh reviewer reported original R25 `R25_REAL_EVENT_LOOP_ARM_PASS`, then R39.2.1 `R39_2_PAGE_TURN_ARM_GATE_FAIL (exit=1)` and strict `FAIL` (missing `R39_REAL_READERUI_INSTANCE_AND_TWO_PAGE_PDF_OPENED`). Genuine FileManager two-page PDF open, ReaderUI asynchronous construction, `R39_1_GENUINE_READERUI_INPUT_INHIBIT_REQUESTED_SYNTHETIC_ONLY` and `R39_1_GENUINE_READERUI_INPUT_RELEASE_REQUESTED_SYNTHETIC_ONLY` had all occurred. The first-page draw counter remained zero when the guard's `Input:waitEvent` callback ran; no GotoPage event was dispatched.
+
+Unlike the earlier R39.2 state flag problem, R39.2.1 waits for a genuine completed PDF draw. The available log does not show UIManager's dirty state, repaint queue or why no draw preceded that first input poll. An explicit bounded *genuine UIManager* repaint retry followed by the same draw counter is a legitimate test of the next boundary, not proof that repaint had occurred. The original strict review's draw/instance marker order would also reject a successful paint-before-first-input sequence and is addressed separately in [R39.2.2](R39-2-2-BOUNDED-REPAINT-PROOF.md). Preserve R39.2.1's FAIL.
 
 ## Proven R39.2 cause
 
