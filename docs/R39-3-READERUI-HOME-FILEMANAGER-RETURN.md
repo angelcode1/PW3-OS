@@ -1,6 +1,6 @@
 # R39.3 — genuine ReaderUI Home → FileManager return
 
-**2026-11-02 status: HOST VERIFIED ONLY (202/202 regression tests PASS); ARM/QEMU PENDING.** R39.2.4's previous user-supplied ARM/QEMU run **passed** strict `R39_2_READERUI_PAGE_TURN_ARM_PASS`, with independently rerun original R25 strict `R25_REAL_EVENT_LOOP_ARM_PASS`. R39.3 is a distinct new test. The original R39.2.4 reviewer and all previous failures are preserved unchanged.
+**2026-11-02 status: HOST VERIFIED ONLY (203/203 regression tests PASS); ARM/QEMU PENDING.** R39.2.4's previous user-supplied ARM/QEMU run **passed** strict `R39_2_READERUI_PAGE_TURN_ARM_PASS`, with independently rerun original R25 strict `R25_REAL_EVENT_LOOP_ARM_PASS`. R39.3 is a distinct new test. The original R39.2.4 reviewer and all previous failures are preserved unchanged.
 
 ## Confirmed foundation: R39.2.4 user-side PASS
 
@@ -16,16 +16,16 @@ R39.3 forks only the separately labeled offline synthetic R39.2.4 test, **not** 
 
 The test allows the prior **one genuine `UIManager:setDirty` retry per PDF page**, never direct drawing, and imposes a maximum **five input polls, three dispatched events**. No ReaderUI, ReaderPaging, ReaderView, Document, FileManager or UIManager production method is replaced. It cannot be marked PASS if Home is not dispatched, document refs are retained, FM does not reappear or cleanup is incomplete.
 
-**Temporary metadata containment:** KOReader's new DocSettings object does *not* have a guaranteed `.file` member; the source-correct path is `doc_sidecar_dir .. '/' .. sidecar_filename`. R39.3 checks this derived path is under disposable `/tmp/r25-ko-home` and retains existing hard denials of writes outside that home. This does **not** independently validate the final sidecar bytes, and no broad file-access trace is claimed.
+**Path provenance refinement:** Genuine `util.splitFilePathName(file)` returns the parent directory with a trailing `/` when `ReaderUI:showFileManager` calls `FileManager:showFiles`; that stock method then normalizes the directory via `ffiUtil.realpath`. R39.3 requires exactly this trailing-slash handoff at the genuine source-pinned call and the expected normalized temporary library path after FileManager construction. Both are verified in a new host regression; no unbounded path normalization is accepted.\n\n**Temporary metadata containment:** KOReader's new DocSettings object does *not* have a guaranteed `.file` member; the source-correct path is `doc_sidecar_dir .. '/' .. sidecar_filename`. R39.3 checks this derived path is under disposable `/tmp/r25-ko-home` and retains existing hard denials of writes outside that home. This does **not** independently validate the final sidecar bytes, and no broad file-access trace is claimed.
 
 ## Separate source pins, reviewers and tests
 
 - `r39/review_r39_2_4.py` is the preserved original strict R39.2.4 reviewer, SHA-256 `2b514a92d02e48610d931a85496237744647ebdfe42586909bf1629ddd08dae9`; inherited regression tests still exercise it without conflating historical contracts.
 - The **new** `r39/review_r39.py` checks the strict order: both genuine page draws, `GotoPage(2)`, new Home event, genuine document release, new FileManager, final Close and original Generic exit. It requires positive previous user-side R39.1 activation and R39.2.4 page-turn review JSON, R38.2.1 reconciliation and a **fresh independent original R25 baseline PASS**.
 - `r39/check_inputs.py` SHA-pins new overlay and archived old reviewer, original stage source SHA256s and original R25 guard, six genuine KOReader sources, original two-page PDF SHA, ReaderView Git blob, and explicit `NOT_BOOTABLE` holds.
-- **202/202 host tests PASS**, Python compileall, POSIX shell syntax and three Lua 5.4 syntax-only parses PASS. ZIP integrity and **26 internal payload SHA256 hashes verified**. These are **host tests only; no R39.3 ARM run has yet occurred**.
+- **203/203 host tests PASS**, Python compileall, POSIX shell syntax and three Lua 5.4 syntax-only parses PASS. ZIP integrity and **26 internal payload SHA256 hashes verified**. These are **host tests only; no R39.3 ARM run has yet occurred**.
 
-Conversation ZIP: `pw3-os-r39.3-home-filemanager-return.zip` SHA-256 **`2bf92d88815aeb4fda8ea058f4fc5f2b1df45c542faf2ce9740afb75e86c38ba`**.
+Conversation ZIP: `pw3-os-r39.3-home-filemanager-return.zip` SHA-256 **`9928454f2f3b0ae30d7ba97194e7125475b7ccaa785f42f6a24d433ee30acedc`**.
 
 ## Mac run (new output directory; old results untouched)
 
