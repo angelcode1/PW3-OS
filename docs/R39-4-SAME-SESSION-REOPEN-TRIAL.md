@@ -40,3 +40,11 @@ R39_4_SAME_SESSION_REOPEN_ARM_PASS
 Only a new, user-side ARM/QEMU run can establish the last two. R39.4's new strict reviewer is `r394/review_r394.py`; original historical reviewers remain distinct and unmodified.
 
 **Holds:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. All 976 prior `UNKNOWN_HOLD` staged files remain retained. There is no physical device demonstration, global startup migration, dependency closure or boot authorization.
+
+## 2026-11-02 — original R39.4 user-side ARM trial FAIL (preserved)
+
+The user provided the original unmodified `R39.4-ARM-EVIDENCE.zip`: ZIP CRC PASS; fresh independent original R25 strict control `R25_REAL_EVENT_LOOP_ARM_PASS`; pinned R39.4 source preflight `R39_4_PINNED_SOURCES_PASS`. The guest completed the genuine first ReaderUI two-page MuPDF draw, real `GotoPage(2)`, first Home return, clean first PDF engine release and registry zero; the returned genuine FileManager invoked its original `openFile` for the same disposable PDF and queued the second genuine ReaderUI coroutine.
+
+The second `ReaderUI:init` then invoked genuine `Input:inhibitInput(true)` at staged source line 120, but the **experimental R39.4 synthetic Input adapter** still asserted `stats.filemanager==1`. Actual `stats.filemanager==2` was correct after the first Home. The guard threw `R39 synthetic Input lifecycle called out of order`; the error recovery `inhibitInputUntil(0.2)` also failed. The strict reviewer stayed `FAIL` with no `R39_4_DISTINCT_READERUI_AND_PDF_DOCUMENT_REOPENED` marker, and the gate emitted `R39_4_REOPEN_ARM_GATE_FAIL (exit=1)`. **No genuine second ReaderUI, second PDF draw, second Home or final Close is verified by R39.4.**
+
+The diagnosis is a **harness-only lifecycle precondition**, not evidence of a KOReader PDF reopen failure. This result does not invalidate R39.3.3 user-side ARM PASS or the independent R25 baseline. See [R39.4.1 correction](R39-4-1-REPEAT-INPUT-LIFECYCLE-FIX.md). The prior 291 host tests were insufficient to detect the second-run counter assumption; never relabel the original ARM FAIL.
