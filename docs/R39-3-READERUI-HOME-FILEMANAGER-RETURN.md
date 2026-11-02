@@ -1,6 +1,23 @@
 # R39.3 — genuine ReaderUI Home → FileManager return
 
-**2026-11-02 status: HOST VERIFIED ONLY (203/203 regression tests PASS); ARM/QEMU PENDING.** R39.2.4's previous user-supplied ARM/QEMU run **passed** strict `R39_2_READERUI_PAGE_TURN_ARM_PASS`, with independently rerun original R25 strict `R25_REAL_EVENT_LOOP_ARM_PASS`. R39.3 is a distinct new test. The original R39.2.4 reviewer and all previous failures are preserved unchanged.
+**2026-11-02 USER ARM/QEMU FAIL**. Fresh unchanged independent R25 control `R25_REAL_EVENT_LOOP_ARM_PASS`, genuine original two-page PDF scrolling and `GotoPage(2)` with successful page-1/page-2 MuPDF scroll draws PASS. The new `Home` event was dispatched, but the R39.3 experimental `FileManager:showFiles` wrapper failed **before invoking the genuine returned FileManager constructor** at its combined condition `R39.3 ReaderUI document not genuinely closed before FM return`. Exact failed predicate not logged; strict reviewer remains FAIL and return-to-FileManager is not verified. **[R39.3.1](R39-3-1-HOME-CLOSE-STATE-DIAGNOSTIC.md)** is a single read-only pre-assertion snapshot/release diagnostic (235 host tests PASS; user ARM pending), not an asserted fix.
+
+## Actual R39.3 user-side failure
+
+The user ran R39.3 with the original unchanged R25 control and received:
+
+```text
+R25_REAL_EVENT_LOOP_ARM_PASS
+R39_2_4_GENUINE_SCROLL_PAGE1_DRAW_RETURNED
+R39_2_GOTOPAGE2_SENT_THROUGH_REAL_UIMANAGER_INPUT
+R39_2_4_GENUINE_SCROLL_PAGE2_DRAW_RETURNED
+R39_2_READER_PAGE2_DRAWN_AND_CURRENT_PAGE_VERIFIED
+R39_3_HOME_SENT_THROUGH_REAL_UIMANAGER_INPUT
+/r39/loop_guard.lua:322: R39.3 ReaderUI document not genuinely closed before FM return
+R39_3_HOME_RETURN_ARM_GATE_FAIL (exit=1)
+```
+
+The actual strict R39.3 `R39-REVIEW.json` returned `FAIL` for missing `R39_3_GENUINE_FILEMANAGER_RETURNED_AFTER_HOME`. The error occurs *inside the experimental wrapper*, immediately before calling the real `FileManager:showFiles` constructor. The original assertion combined four checks: `ReaderUI.instance==nil`, saved ReaderUI's `document==nil`, saved PDF `is_open==false`, and saved PDF `_document==nil`. It did not print which check failed. Real KOReader `Document:close` is reference counted; an outstanding registry reference can keep an engine live even after the ReaderUI reference is released. That possibility is **not yet proven or exonerated** by the log. The original failed results must remain unchanged; [R39.3.1](R39-3-1-HOME-CLOSE-STATE-DIAGNOSTIC.md) captures the exact states and registry reference count before the same strict assertion.
 
 ## Confirmed foundation: R39.2.4 user-side PASS
 
