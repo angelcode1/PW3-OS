@@ -34,3 +34,11 @@ The full source release is a separate conversation ZIP; this repository document
 Only a fresh guest run that emits `R25_REAL_EVENT_LOOP_ARM_PASS`, `R39_4_REOPEN_ARM_GATE_PASS` and `R39_4_SAME_SESSION_REOPEN_ARM_PASS` after both reviewers pass can establish this lifecycle. Until then, ARM/QEMU **PENDING**.
 
 **Holds:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. Physical PW3 display, hardware initialization, global startup migrations, independent boot, full dependency closure and 976 `UNKNOWN_HOLD` files remain unverified.
+
+## Subsequent R39.4.1 real ARM/QEMU result (2026-11-02)
+
+The user's `R39.4.1-ARM-EVIDENCE.zip` (SHA-256 `2d75d2acfb4f0666539ef84b1a5fa060e7a84229d74e3fd55740ef0d908c538c`) passed ZIP CRC and independently verified the unmodified R25 control (`R25_REAL_EVENT_LOOP_ARM_PASS`) and source preflight (`R39_4_PINNED_SOURCES_PASS` with `r3941_repeat_input_lifecycle_fix_pinned=true`). The original R39.4.1 strict reviewer returned `FAIL` and the experimental gate emitted `R39_4_REOPEN_ARM_GATE_FAIL (exit=1)`.
+
+The genuine first PDF cycle and first Home→FileManager completed. The returned FileManager opened the same PDF, and a **distinct second ReaderUI successfully ran the previously failing two Input lifecycle calls**. The second original MuPDF scroll draw returned on **page 1**. A second real UIManager Home was dispatched. The new second-Home snapshot reported `raw_engine_nil=true`, inherited engine sentinel `false`, `registry_refs=none`, released ReaderUI and distinct second PDF. The failure moved to the experimental post-`stock_show` assertion `R39.4 second FileManager not active` (line 370); no `R39_4_SECOND_DOCUMENT_ENGINE_CLOSED_REGISTRY_EMPTY` or final FileManager Close marker was emitted.
+
+The failed predicate is one or more of the second returned FileManager chooser/path, UIManager top widget, or denied-operation count. **None is individually identified by this log.** Do not assume a production bug or waive the gate. R39.4.2 adds a diagnostic-only read-only snapshot at that precise point, preserving the same strict reviewer and test holds. See [R39.4.2](R39-4-2-SECOND-FILEMANAGER-STATE-DIAGNOSTIC.md).
