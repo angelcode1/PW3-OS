@@ -23,3 +23,19 @@ Session archive `pw3-os-r39.4.3-denied-operation-provenance-diagnostic.zip`, SHA
 **356/356 host regressions PASS**, Python compileall and POSIX shell syntax PASS, six Lua files pass Lua 5.4 syntax-only load via liblua5.4. No actual new ARM/QEMU run for R39.4.3 has been carried out in the research session. The downloadable archive's `README-R39.4.3.md` contains the Mac Docker run, fresh result directory, post-run analyzer, and evidence ZIP collection.
 
 Original R39.4, R39.4.1, and R39.4.2 strict `FAIL` evidence is preserved; no source/package update justifies asserting an ARM PASS. **NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE.** The 976 staged `UNKNOWN_HOLD` files remain retained; no physical Kindle test, migrations or independent boot proof.
+
+## User-supplied ARM/QEMU result (2026-11-03)
+
+The user reran R39.4.3 from a dedicated source directory, keeping its result directory outside that tree. All 60 source-manifest entries checked OK, and all 356 host Python tests PASS. The fresh independent R25 guest and strict reviewer returned `R25_REAL_EVENT_LOOP_ARM_PASS`. The experimental R39.4 source preflight returned `R39_4_PINNED_SOURCES_PASS`, but the R39.4 guest gate returned `R39_4_REOPEN_ARM_GATE_FAIL (exit=1)`; original strict `R394-REVIEW.json` remains `FAIL`.
+
+In the original guest log, exactly one denied-operation marker appeared after `R39_4_REOPEN_REQUESTED_FROM_RETURNED_FILEMANAGER`, before `R39_4_GENUINE_FILEMANAGER_REOPEN_SCHEDULED`:
+
+```text
+R39_4_3_FIRST_DENIAL kind=DOFILE caller=other line=0 cycle=2 events=2 filemanagers=2
+```
+
+The second genuine ReaderUI still opened the same PDF, completed a real MuPDF scroll draw, delivered Home, released the PDF engine and registry and constructed the correct returned FileManager. The R39.4.2 state observation still showed `fm_present=true`, expected chooser path, `stack_depth=1`, `top_is_fm=true`; `R39_4_3_DENIAL_SUMMARY count=1` remained the sole failed strict predicate. Final FileManager Close/Generic teardown is not verified.
+
+R39.4.3's caller probe reported `other/0`, which does not identify either the caller or the forbidden Lua file. The evidence **does not authorize a blanket temporary-file `dofile` exemption**. Inspect [R39.4.4 exact-target/caller diagnostic](R39-4-4-DOFILE-TARGET-DIAGNOSTIC.md).
+
+Evidence ZIP (held in user conversation) SHA-256 `ae6c71dc76d5cfee89e8cbff30ad1935a4b1562782632e91efd5aebce66dc96a`; standalone JSON SHA-256 `851ff8d4168f9fc12622927d9981cc3f4ad90dca8ec810c855b7a9e06ce600a9`.
