@@ -21,3 +21,23 @@ Research session source artifact: `pw3-os-r39.4.5-source-bound-sidecar-reopen-tr
 Extract the ZIP into a **new isolated source directory**, and write results into a **sibling** output directory, as detailed in its `README-R39.4.5.md`. Run the unchanged original R25 baseline, original R39.4 strict reviewer, and separate R39.4.5 reviewer in that order. Preserve any FAIL and upload the raw log and reviews rather than widening the exception.
 
 **Immutable holds:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. Preserve 976 prior `UNKNOWN_HOLD` staged files. Physical Kindle operation, global migrations and independent boot are unverified. For research and educational purposes only.
+
+## Actual user-side R39.4.5 ARM/QEMU result (2026-11-03)
+
+The user uploaded fresh `R39.4.5-ARM-EVIDENCE.zip` SHA-256 `deff97dc0201201a8c2f08773d3fc53e5d0b368d6c515b8bc922530163d7f3ec` and independent `R39.4.5-SIDECAR-REVIEW.json` SHA-256 `2ee75178fb018ad28110fc85c356db2f3b120d9700ae393c64d6e7c574db581a`. ZIP CRC PASS. The independent original R25 review is `R25_REAL_EVENT_LOOP_ARM_PASS`; R39.4.5 experimental source preflight is `R39_4_PINNED_SOURCES_PASS` with `r3945_source_bound_sidecar_pinned=true`. The **original R39.4 strict and separate R39.4.5 reviewers both remain `FAIL`**. No completed second Home→FileManager lifecycle is verified.
+
+The actual guest emitted:
+
+```text
+R39_4_5_SIDECAR_GATE exact=true c_pcall=true docsettings=true fresh_write=true regular_file=true cycle2=false
+R39_4_3_FIRST_DENIAL kind=DOFILE caller=other line=0 cycle=2 events=2 filemanagers=2
+R39_4_SECOND_GENUINE_PDF_SCROLL_DRAW_RETURNED page=1
+R39_4_DISTINCT_READERUI_AND_PDF_DOCUMENT_REOPENED
+R39_4_SECOND_HOME_SENT_THROUGH_REAL_UIMANAGER_INPUT
+R23_DENIED_SIDECAR_WRITE_PROVENANCE
+R39_4_REOPEN_ARM_GATE_FAIL (exit=1)
+```
+
+Inspection of the experimental guard establishes why the first gate's last bit was false: R39.4 moves the closed first PDF to `r394_first_doc` and deliberately clears `r39_saved_doc` before the second genuine FileManager opening. R39.4.5 mistakenly rechecks `r3933_pdf_engine_released()`, whose implementation reads the cleared `r39_saved_doc`. After the denied DOFILE was caught internally, genuine KOReader still opened and drew the second PDF. The second Home metadata write-open then violated the experimental **first-Home-only** writer condition at `r394/loop_guard.lua:180`. No safety block was bypassed, and the denied counter cannot be reset to claim PASS.
+
+These are two host-harness lifecycle contract errors, not proven production KOReader failures. [R39.4.6](R39-4-6-TWO-CYCLE-SIDECAR-WRITES.md) uses the archived first document's real engine state and permits a second exact metadata write-open under the unchanged original writer/source/mode identity, with separate fail-closed review. R39.4.5 remains an actual ARM FAIL.
