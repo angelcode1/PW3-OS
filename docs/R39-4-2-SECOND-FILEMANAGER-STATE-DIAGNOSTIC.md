@@ -28,3 +28,20 @@ Research-session archive `pw3-os-r39.4.2-second-filemanager-state-diagnostic.zip
 For the exact nine-argument Mac Docker run, new output directory, diagnostic analyzer and evidence ZIP, see the archive's `README-R39.4.2.md`. Old source/manifests are included as historical artifacts; verify **`SHA256SUMS-R3942`** for the new release.
 
 Do not prune any of 976 staged `UNKNOWN_HOLD` files or alter the existing Kindle installation. **NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE.** No physical Kindle operation, independent boot, full dependency closure or global migrations are established.
+
+## 2026-11-03 — actual R39.4.2 ARM/QEMU diagnostic captured
+
+The user supplied `R39.4.2-ARM-EVIDENCE.zip` (SHA-256 `fa46b4ad3c397f18a76f267f74518d236602084047875c58e142fa84210cdeab`), including the independent fresh R25 strict reviewer PASS, source preflight PASS with `r3942_second_filemanager_snapshot_pinned=true`, original strict R39.4 `FAIL`, original guest log and the separate diagnostic JSON. ZIP CRC passes and the standalone JSON agrees with the archive.
+
+After genuine second scroll draw and second Home with released raw PDF engine and empty registry, the post-`stock_show` snapshot was:
+
+```text
+R39_4_2_SECOND_FILEMANAGER_STATE
+fm_present=true chooser_present=true chooser_path_kind=expected
+stack_depth=1 fm_stack_index=1 top_widget_present=true
+top_is_fm=true top_is_second_reader=false top_is_first_reader=false
+denied_zero=false
+```
+
+The separate analyzer concluded `failed_original_predicates=["denied_operation_recorded"]`, with `root_cause_determined=false` and `second_filemanager_return_verified=false`. The original strict reviewer `FAIL` remains unchanged because the internal blocked-operation counter `stats.denied` is nonzero, despite the FileManager being genuinely present and active. A blocked operation may have raised an error caught internally by KOReader, but this has **not been proven** and must **not** be presumed acceptable. See [R39.4.3](R39-4-3-FIRST-DENIAL-PROVENANCE.md) for first-denial provenance without a bypass or reset.
+
