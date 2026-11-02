@@ -1,6 +1,14 @@
 # R39.2.3 — diagnostic trace of genuine UIManager → ReaderUI → ReaderView PDF paint
 
-**2026-11-02 status:** Previous R39.2.2 user-side ARM/QEMU **FAIL**, with independently rerun unchanged original R25 PASS. R39.2.2's bounded `UIManager:setDirty(reader,'full')` was requested, but its **next synthetic input poll still observed no successful original PDF page-1 draw**. No page-turn event was sent. R39.2.3 is **source-only/host-tested: 131/131 regression tests PASS, ARM/QEMU pending.** The successful R39.1 genuine ReaderUI activation evidence remains valid.
+**2026-11-02 user-side verified:** The original R39.2.3 ARM/QEMU page-navigation gate remained **FAIL**, with independent unchanged R25 control `R25_REAL_EVENT_LOOP_ARM_PASS`. Separately, the diagnostic-only analyzer returned **`R39_2_3_PAINT_PATH_FAILURE_DIAGNOSTIC_CAPTURED`**, explicitly leaving `page_navigation_verified=false` and original strict reviewer unchanged. It captured four real UIManager repaint entries/returns, two ReaderUI container paints and two ReaderView paints. Both ReaderView paints logged **`paging=true scroll=true page=1 bb=true`**. The earlier observer only counted `drawSinglePage`, which is *not invoked* for PDF scroll layout; genuine `ReaderView:paintTo` calls `drawScrollPages` instead. **Root cause of the zero observed single-page calls is now identified.** A new [R39.2.4](R39-2-4-SCROLL-RENDER-OBSERVER.md) host-tested trial instruments genuine scroll rendering and keeps page navigation unverified until ARM.
+
+## Confirmed diagnostic and source-derived interpretation
+
+The user-side `R39.2.3-PAINT-DIAGNOSTIC.json` records `ui_repaint_entries=4`, `ui_repaint_returns=4`, `reader_container_paints=2`, `reader_view_paints=2`, `synthetic_input_polls=2`, and `actual_page2_draw_verified=false`. Both genuine ReaderView paints in the guest log reported `paging=true scroll=true page=1 bb=true`. The second paint followed `R39_2_2_BOUNDED_REAL_UIMANAGER_REPAINT_REQUESTED_PAGE1`, so the real UIManager dirty/repaint chain was working.
+
+Source inspection of KOReader v2026.07.2 shows `ReaderView:paintTo` branches on `self.ui.paging` and `self.page_scroll`: **scroll=true dispatches `self:drawScrollPages(bb,x,y)` at line 196**, while `drawSinglePage` at line 198 is only the *non-scroll* PDF path. The original `drawScrollPages` iterates the real `page_states`, calling `self.document:drawPage` per entry. The R39.2.3 guard observed only `drawSinglePage` completions, which accounts for the zeros. This **does not retrospectively prove** that a scroll render completed or that a page turn occurred, and the strict R39.2.3 reviewer FAIL remains untouched.
+
+[R39.2.4](R39-2-4-SCROLL-RENDER-OBSERVER.md) adds a post-success observer on the original `drawScrollPages` code, credits only the actual selected page and requires a fresh page-2 draw after real `GotoPage(2)`; it has 156 host tests PASS and awaits user-side ARM/QEMU.
 
 ## Precise outstanding question
 
