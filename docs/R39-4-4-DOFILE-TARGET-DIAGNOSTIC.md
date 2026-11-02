@@ -30,3 +30,11 @@ This is a separately downloadable research-session ZIP, not a bootable image. It
 **Strict R39.4 ARM result remains FAIL; no R39.4.4 ARM result yet.** No allowlist expansion is justified without the exact observed target and source.
 
 **Immutable safety holds:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. Preserve all 976 `UNKNOWN_HOLD` staged files. No physical Kindle screen, kernel, boot, firmware or hardware test. Research and educational purposes only.
+
+## Actual R39.4.4 user-side ARM/QEMU diagnostic (2026-11-03)
+
+The user supplied `R39.4.4-ARM-EVIDENCE(1).zip` (SHA-256 `6aca158057f5e25685c825db9d7f4be37c497a4283437fd149e729bdb1159f80`) and matching `R39.4.4-DOFILE-TARGET(1).json` (SHA-256 `11064277736be12e7473ba5fb3d2414242673f501cbd4ca4ec752e65da97cec8`). ZIP CRC and cross-file diagnostic consistency PASS. The original separate R25 strict control PASS, experimental source preflight PASS, and original R39.4 strict review remains FAIL.
+
+The guest recorded one first denied DOFILE in cycle 2, exactly after the first Home and before the new ReaderUI's async initialization, at `events=2 filemanagers=2`. The exact path-kind classifier returned `exact_pdf_sidecar` for the disposable PDF's `r39-original-two-pages.sdr/metadata.pdf.lua`. Immediate caller classification remained `other line=0`, so the independent diagnostic correctly reported `exact_sidecar_proven=false` and `root_cause_determined=false`: **the target identity alone does not prove the call's origin**. The genuine second ReaderUI nevertheless rendered the PDF, released it through Home, and returned to a correctly situated FileManager. `stats.denied=1` correctly prevented second-return and final-Close PASS markers.
+
+Upstream `DocSettings:open` evaluates existing sidecar candidates via `pcall(dofile, candidate_path)` at line 276. The C `pcall` frame can be what `debug.getinfo(2)` sees; R39.4.5 verifies frame identity and the original loaded `DocSettings:open` function at frame 3, together with exact path and a generated-first-cycle write. The original R39.4.4 strict FAIL and source diagnostic must remain intact. See [R39.4.5](R39-4-5-SOURCE-BOUND-SIDECAR-TRIAL.md).
