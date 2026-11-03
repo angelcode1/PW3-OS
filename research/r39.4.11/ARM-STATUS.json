@@ -1,9 +1,9 @@
 {
   "milestone": "R39.4.11",
-  "status": "HOST_TESTED_ONLY_ARM_QEMU_PENDING",
-  "current_validated_arm_milestone": "R39.3.3",
+  "status": "USER_VERIFIED_SYNTHETIC_ARM_QEMU_PASS",
+  "current_validated_arm_milestone": "R39.4.11",
   "previous_arm_trial": "R39.4.10",
-  "previous_arm_strict_verdict": "FAIL",
+  "previous_arm_strict_verdict": "FAIL (preserved)",
   "previous_arm_independent_r25": "PASS",
   "host_tests_passed": 563,
   "new_host_tests": 25,
@@ -22,5 +22,18 @@
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
   "immutable_hold": "NOT_BOOTABLE",
-  "full_source_files_uploaded_to_repository": false
+  "full_source_files_uploaded_to_repository": true,
+  "user_arm_original_strict_verdict": "R39_4_SAME_SESSION_REOPEN_ARM_PASS",
+  "user_arm_independent_verdict": "R39_4_11_THREE_SOURCE_BOUND_READS_ARM_PASS",
+  "user_arm_independent_r25": "R25_REAL_EVENT_LOOP_ARM_PASS",
+  "evidence_zip_sha256": "a4f97cf1f1d8348438756de1a1e757b8b21094f8fd9ef662f6b18e1413847800",
+  "evidence_log_sha256": "e6ae2318ab6a484b19eb1c25afc302453846d3b7e8c24195c640df25dedef819",
+  "original_strict_review_sha256": "d5774bc66bde162f4578f2afe53a50c8cc481df3f964a843fdf58b45e3da2b58",
+  "independent_review_sha256": "4bd0dac126cc1e4d9533c322ea22707df13b36a89b3eead6b33c86557f39c70f",
+  "three_original_sidecar_reads_verified": true,
+  "two_sidecar_write_opens_verified": true,
+  "two_genuine_home_returns_verified": true,
+  "second_filemanager_final_close_verified": true,
+  "zero_denials_verified": true,
+  "complete_dependency_closure_proven": false
 }

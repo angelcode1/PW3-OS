@@ -1,6 +1,6 @@
 # PW3-OS — independent Kindle Paperwhite 3 userspace research
 
-**Latest fully user-verified ARM application milestone: R39.3.3 PASS.** R39.4.10 user-side ARM/QEMU trial **FAIL**: the genuine second PdfDocument constructor source-bound metadata read succeeded, but a third exact-sidecar `dofile` request from the subsequent ReaderUI initialization was denied; original R39.4 and separate R39.4.10 reviewers remain FAIL while the independent R25 control PASS remains unchanged. **R39.4.11 has 563 passing host tests; ARM/QEMU pending.** No physical Kindle display, independent boot, firmware writes, dependency closure or pruning is verified. **NOT_BOOTABLE**.
+**Latest user-verified offline ARM/QEMU application milestone: R39.4.11 PASS** (`R39_4_11_THREE_SOURCE_BOUND_READS_ARM_PASS`). The original independent R25 baseline, original R39.4 strict reviewer (`R39_4_SAME_SESSION_REOPEN_ARM_PASS`) and separate R39.4.11 reviewer PASS on the same user-supplied evidence. Two genuine ReaderUI/PDF sessions in one process opened the identical two-page PDF: two Home→FileManager returns, page-2 MuPDF scroll on reopen, three exact source-bound metadata reads (FileManager, PdfDocument, ReaderUI:init), two original metadata write-opens, zero denied operations, both PDF engines released with DocumentRegistry empty, final FileManager Close and clean UIManager teardown (exit 0). R39.4.7–R39.4.10 historical FAILs remain preserved. **Synthetic only:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. Independent boot, hardware display, global migrations and complete runtime dependency closure remain unverified.
 
 Goal: a minimal Alpine ARMv7 userspace with official KOReader `kindlepw2` and Ink Away, isolated GNU compatibility runtime, and a standalone PW3 device adapter. Application validation remains **offline ARM/QEMU with synthetic UI**. Genuine FileManager → PluginLoader → Ink Away menu, canvas, stroke/save/return and clean close are covered by the user's R22.1 log. The separate v6 physical interface inventory was read-only; independent boot and physical hardware operation have **not** been demonstrated.
 
@@ -73,3 +73,6 @@ For research and educational purposes only.
 - [R39.4.9 actual failed guest and R39.4.10 host-tested PdfDocument trial](research/r39.4.10/README.md).
 
 - [R39.4.10 actual ARM failure and R39.4.11 third source-bound metadata-read trial](research/r39.4.11/README.md): source integrity, strict lifecycle gates and Mac/QEMU commands. ARM R39.4.11 pending; `NOT_BOOTABLE`.
+
+- [R39.4.11 user-verified ARM/QEMU evidence](docs/R39-4-11-ARM-VERIFIED.md): original R25 + R39.4 strict and independent source-bound PASS, evidence hashes and limits.
+- [R40 offline dynamic dependency evidence plan](docs/R40-OFFLINE-DEPENDENCY-EVIDENCE-PLAN.md): read-only proposed next gate, no deletion or boot authorization.

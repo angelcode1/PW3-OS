@@ -1,6 +1,6 @@
 # R39.4.11 — three original PDF metadata consumers in one genuine reopen
 
-**Status 2026-11-03: HOST-TESTED ONLY, ARM/QEMU PENDING, NOT_BOOTABLE.**
+**Status 2026-11-03: USER-VERIFIED OFFLINE ARM/QEMU PASS; NOT_BOOTABLE.**
 
 The user's unmodified R39.4.10 ARM evidence ZIP SHA-256 is `10b9d4205e705a5119ba7f840e5ec2c6acbb5d3ccf30f1f20848a1366820a3c9`, ZIP CRC PASS. The independent original R25 strict ARM control remained `R25_REAL_EVENT_LOOP_ARM_PASS`. Source preflight was `R39_4_PINNED_SOURCES_PASS`, with the R39.4.10 PdfDocument phase pinned. The *original strict R39.4 and separate R39.4.10 reviewers* both correctly returned `FAIL`; the stage did **not** reach `R39_4_SECOND_DOCUMENT_ENGINE_CLOSED_REGISTRY_EMPTY` or final FileManager Close proof.
 
@@ -27,3 +27,9 @@ R39.4.11 is a bounded experimental test of **three** source-specific, exact-side
 Extract into isolated `~/Downloads/pw3-os-r39.4.11-isolated`, not directly into Downloads, and run outputs into sibling `~/Downloads/pw3-os-r39.4.11-third-read-first-run`. Read the archive's `README-R39.4.11.md` for the complete nine-argument `sh ./run-r394-docker.sh`, separate `r394/review_r39411.py` command and `R39.4.11-ARM-EVIDENCE.zip` collection. Always preserve any strict FAIL as such.
 
 **Safety:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. All 976 `UNKNOWN_HOLD` staged files are retained. No physical PW3 test or independent boot is authorized. For research and educational purposes only.
+
+## Actual user-verified ARM/QEMU pass (2026-11-03)
+
+The user uploaded `R39.4.11-ARM-EVIDENCE.zip` (SHA-256 `a4f97cf1f1d8348438756de1a1e757b8b21094f8fd9ef662f6b18e1413847800`). All five ZIP entries pass CRC. The external independent review is byte-for-byte identical to the ZIP review. The original R25 control is `R25_REAL_EVENT_LOOP_ARM_PASS`; pinned source preflight is `R39_4_PINNED_SOURCES_PASS`; unchanged original strict review is `R39_4_SAME_SESSION_REOPEN_ARM_PASS`; separate source-bound review is `R39_4_11_THREE_SOURCE_BOUND_READS_ARM_PASS`. The raw guest log proves three distinct exact-sidecar read paths, two genuine write-open markers, `R39_4_3_DENIAL_SUMMARY count=0`, two Home/engine-release/registry-empty lifecycles, final FileManager Close, UIManager teardown exit code 0 and `R39_4_REOPEN_ARM_GATE_PASS`. 563 packaged host regressions were independently rerun and PASS.
+
+The verified ARM outcome supersedes only the previously pending milestone declaration; historical R39.4.7–R39.4.10 strict FAILs remain preserved. Full experimental source, checker, reviewer, patch and tests are now versioned under `research/r39.4.11/`, with the original 106-entry release ZIP separately verifiable. See [verified milestone](../../docs/R39-4-11-ARM-VERIFIED.md). No independent boot, hardware tests, source pruning or global migrations are authorized.

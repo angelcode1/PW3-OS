@@ -1,0 +1,487 @@
+--- a/r394/loop_guard.lua
++++ b/r394/loop_guard.lua
+@@ -188,15 +188,15 @@
+             and caller.currentline==1147
+             and type(caller.source)=='string'
+             and caller.source:match('^@?frontend/util%.lua$')~=nil
+-        -- R39.4.6: exactly one genuine write-open in each Home close.
+-        -- The second is legal only AFTER one source-bound sidecar read and
++        -- R39.4.11: exactly one genuine write-open in each Home close.
++        -- The second is legal only AFTER THREE individually audited reads and
+         -- a genuine second PDF draw; no new target, caller or write mode.
+         local first_write=(stats.events==2 and r394_cycle==1 and
+                            stats.filemanager==1 and r3945_sidecar_writes==0 and
+                            r39_home_sent and not r39_home_returned)
+         local second_write=(stats.events==3 and r394_cycle==2 and
+                             stats.filemanager==2 and r3945_sidecar_writes==1 and
+-                            r3945_sidecar_loads==2 and r394_second_home_sent and
++                            r3945_sidecar_loads==3 and r394_second_home_sent and
+                             not r394_second_home_returned and
+                             r394_second_scroll_returned and r394_input_lifecycles==2 and
+                             r394_first_doc~=nil and r394_first_doc.is_open==false and
+@@ -1209,9 +1209,9 @@
+         local plain_file=lfs and type(lfs.symlinkattributes)=='function' and
+             lfs.symlinkattributes(path,'mode')=='file' and
+             lfs.symlinkattributes(home..'/library/r39-original-two-pages.sdr','mode')=='directory'
+-        -- R39.4.7: two distinct genuine DocSettings:open calls occur during
+-        -- the same second PDF opening: one from FileManager:openFile, then
+-        -- another at original ReaderUI:init line 131. The latter runs after
++        -- R39.4.11: three distinct genuine DocSettings:open calls occur:
++        -- FileManager:openFile, PdfDocument:init and ReaderUI:init line 131.
++        -- The last runs after
+         -- the new PDF may have obtained a DocumentRegistry reference, so the
+         -- first phase's zero-registry precondition cannot apply to it.
+         -- The second phase instead validates original ReaderUI:init function
+@@ -1309,6 +1309,26 @@
+             r39_input_until==0 and diag_reader()==nil and
+             archived_first_engine_closed and r394_first_pdf_released() and
+             registry_empty and original_pdf_size and original_pdf_init
++        -- R39.4.11: third and last genuine DocSettings read belongs to
++        -- ReaderUI:init() line 131, AFTER PdfDocument:init's source-bound
++        -- read and AFTER Input:inhibitInput(true) started second init.
++        -- The new document has a live registry reference; unlike phase 2,
++        -- zero registry refs would be an invalid condition here. Prove the
++        -- registered live PDF is distinct from the archived closed first PDF.
++        local registered_second=registry and registry.registry and
++            registry.registry[r39_pdf] and registry.registry[r39_pdf].doc
++        local live_second_document=registered_second~=nil and
++            registered_second~=r394_first_doc and
++            registered_second.file==r39_pdf and
++            registered_second.is_open==true and
++            rawget(registered_second,'_document')~=nil and
++            registry:getReferenceCount(r39_pdf)==1
++        local from_real_readerui_init=second_context and
++            r3945_sidecar_loads==2 and r394_input_lifecycles==2 and
++            real_fm.instance==nil and r39_input_inhibit==1 and
++            r39_input_until==0 and diag_reader()==nil and
++            archived_first_engine_closed and original_readerui_init and
++            live_second_document
+         if r3945_sidecar_loads==0 then
+             print('R39_4_8_RETURNED_FM_SIDECAR_CONTEXT present='..tostring(returned_fm~=nil)..
+                   ' active='..tostring(not not returned_fm_active)..
+@@ -1319,6 +1339,12 @@
+                   ' input_cycle1='..tostring(r394_input_lifecycles==1)..
+                   ' prior_document_released='..tostring(not not r394_first_pdf_released())..
+                   ' registry_empty='..tostring(not not registry_empty))
++        elseif r3945_sidecar_loads==2 then
++            print('R39_4_11_READERUI_INIT_SIDECAR_CONTEXT fm_closed='..
++                  tostring(real_fm~=nil and real_fm.instance==nil)..
++                  ' input_cycle2='..tostring(r394_input_lifecycles==2)..
++                  ' prior_document_released='..tostring(not not archived_first_engine_closed)..
++                  ' registered_second_document='..tostring(not not live_second_document))
+         end
+         if r3945_sidecar_loads==0 then
+             print('R39_4_5_SIDECAR_GATE exact=true c_pcall='..tostring(not not from_c_pcall)..
+@@ -1334,18 +1360,27 @@
+                   ' pdf_init='..tostring(not not original_pdf_init)..
+                   ' regular_file='..tostring(not not plain_file)..
+                   ' phase2='..tostring(not not from_pdfdocument_second_open))
+-            -- R39.4.7/8/9 expected an earlier consumer and remain
+-            -- historical failed ARM source contracts, not the current gate.
++            -- Earlier incorrect predictions remain separate historical FAILs.
++        elseif r3945_sidecar_loads==2 then
++            print('R39_4_11_READERUI_INIT_SIDECAR_GATE exact=true c_pcall='..
++                  tostring(not not from_c_pcall)..
++                  ' docsettings='..tostring(not not from_original_docsettings)..
++                  ' readerui_init='..tostring(not not original_readerui_init)..
++                  ' regular_file='..tostring(not not plain_file)..
++                  ' phase3='..tostring(not not from_real_readerui_init))
+         end
+         if from_c_pcall and from_original_docsettings and plain_file and
+-           (from_returned_filemanager or from_pdfdocument_second_open) then
++           (from_returned_filemanager or from_pdfdocument_second_open or
++            from_real_readerui_init) then
+             local value=native_dofile(path)
+             assert(type(value)=='table','R39.4.7 generated metadata not a table')
+             r3945_sidecar_loads=r3945_sidecar_loads+1
+             if from_returned_filemanager then
+                 print('R39_4_5_GENUINE_DOCSETTINGS_SIDECAR_LOADED_FROM_FIRST_CYCLE')
++            elseif from_pdfdocument_second_open then
++                print('R39_4_10_GENUINE_PDFDOCUMENT_DOCSETTINGS_SIDECAR_RELOADED')
+             else
+-                print('R39_4_10_GENUINE_PDFDOCUMENT_DOCSETTINGS_SIDECAR_RELOADED')
++                print('R39_4_11_GENUINE_READERUI_INIT_DOCSETTINGS_SIDECAR_RELOADED')
+             end
+             return value
+         end
+@@ -1396,7 +1431,7 @@
+            stats.discovery>=1 and stats.discovery<=3 and
+            stats.loop==1 and stats.events==4 and stats.device_exit==1 and
+            stats.os_exit==1 and stats.meminfo_reads>0 and
+-           r3945_sidecar_writes==2 and r3945_sidecar_loads==2 and
++           r3945_sidecar_writes==2 and r3945_sidecar_loads==3 and
+            stats.meminfo_closes==stats.meminfo_reads and stats.denied==0,
+            'incomplete R25 real loop/shutdown state')
+     assert(real_fm.instance==nil and not real_loader:isPluginLoaded('ink-away'),
+--- a/r394/check_inputs.py
++++ b/r394/check_inputs.py
+@@ -7,7 +7,7 @@
+ ROOT=Path(__file__).resolve().parents[1]
+ sys.path.insert(0,str(ROOT/'r39'))
+ import check_inputs as prior
+-R394_PINS={'r394/loop_guard.lua': '3d0a919c48218ef6e4103e242c952c4b27aec93a4d4f4a8118e62428a27e9eb3', 'r394/readerui_activation.lua': '0a396bb187530930077d63f0efeb751a1af036963826a54cb904818c824cf32a', 'r394/01_readerui_activation.lua': 'ddd1e2233f3420196f74eaf8da04d72b4422d00d7d1e2956a935ce53f7d69b2b', 'r394/probe_in_container.sh': 'cdc991b1b719535d3a324f355f18e6d9f9db0cf8e0894293893e0e19282149fa', 'r394/review_r394.py': 'b2d7a44f1acedeb6ec9899074e91bb0f4d3a4fed63b15d0816ff9d7b99d51e57', 'r394/fixtures/r39-original-two-pages.pdf': '17f2bf493433c9664457dd51f0e3e31e2f67b88b0480f97a3ed9dc2ade7170db'} # independently sha-pinned new overlay
++R394_PINS={'r394/loop_guard.lua': 'e7f1d0872f91b1ddfac42f9d7f35309072293d9dd551ad5543c455a1bebf88a7', 'r394/readerui_activation.lua': '0a396bb187530930077d63f0efeb751a1af036963826a54cb904818c824cf32a', 'r394/01_readerui_activation.lua': 'ddd1e2233f3420196f74eaf8da04d72b4422d00d7d1e2956a935ce53f7d69b2b', 'r394/probe_in_container.sh': 'cdc991b1b719535d3a324f355f18e6d9f9db0cf8e0894293893e0e19282149fa', 'r394/review_r394.py': 'b2d7a44f1acedeb6ec9899074e91bb0f4d3a4fed63b15d0816ff9d7b99d51e57', 'r394/fixtures/r39-original-two-pages.pdf': '17f2bf493433c9664457dd51f0e3e31e2f67b88b0480f97a3ed9dc2ade7170db'} # independently sha-pinned new overlay
+ PRIOR_R3933_SENTINEL_SHA256='0495144ebea105d337ea0bcf0b7009bcb679b3dcaafaa22f2ed3a48753f1dbb6'
+ SAFETY=('boot_authorized','device_access_authorized','firmware_write_authorized','hardware_write_authorized','file_removal_authorized')
+ def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+@@ -38,10 +38,14 @@
+         raise ValueError('R39.4.9 DocumentRegistry strict reviewer hash differs')
+     if sha(here/'r394/review_r39410.py')!='bb551fd506a0bee7f160d4fd72b62ffde04697a87409d046edcf191716d37fc6':
+         raise ValueError('R39.4.10 PdfDocument strict reviewer hash differs')
++    if sha(here/'r394/review_r39411.py')!='688e38c0229103b6557bc5a33d39301997d068ef8bd4869f080fc70f16824021':
++        raise ValueError('R39.4.11 source-bound ReaderUI third-sidecar reviewer hash differs')
+     # The stage's actual PdfDocument and DocSettings source hashes are inherited
+     # from prior.inspect; pin the original PdfDocument constructor/metadata lines.
+     if prior.STAGE_DOCUMENT_PINS.get('frontend/document/pdfdocument.lua')!='963cbae1a42e5cb163361e89585a47ca2994477cac5741da743d314fa2b5fe60':
+         raise ValueError('R39.4.10 inherited staged PdfDocument source pin changed')
++    if prior.STAGE_PINS.get('frontend/apps/reader/readerui.lua')!='54290763c2593dd853c15ff2f6bfa15f5f73cce721dd2447f84ca8ea842138b7' or prior.STAGE_PINS.get('frontend/docsettings.lua')!='2ac292560866b8ecae40cfd8afa7bc79adf84d62711619ab3e476edaa82a0ad0':
++        raise ValueError('R39.4.11 original staged ReaderUI/DocSettings pins changed')
+     if sha(Path(previous_r3933))!=PRIOR_R3933_SENTINEL_SHA256:
+         raise ValueError('R39.4 expected exact user-side R39.3.3 sentinel reviewer hash')
+     witness=json.loads(Path(previous_r3933).read_text())
+@@ -52,7 +56,7 @@
+     for f in SAFETY:
+         if witness.get(f) is not False:raise ValueError('R39.4 prior sentinel safety hold missing: '+f)
+     return dict(verdict='R39_4_PINNED_SOURCES_PASS',
+-        r394_new_overlay_sha256_verified=True,r3941_repeat_input_lifecycle_fix_pinned=True,r3942_second_filemanager_snapshot_pinned=True,r3943_denial_provenance_pinned=True,r3944_dofile_target_pinned=True,r3945_source_bound_sidecar_pinned=True,r3946_two_home_sidecar_write_pinned=True,r3947_two_source_bound_sidecar_reads_pinned=True,r3948_phase_specific_filemanager_pinned=True,r3949_documentregistry_provider_phase_pinned=True,r39410_pdfdocument_constructor_phase_pinned=True,r394_pins=R394_PINS,
++        r394_new_overlay_sha256_verified=True,r3941_repeat_input_lifecycle_fix_pinned=True,r3942_second_filemanager_snapshot_pinned=True,r3943_denial_provenance_pinned=True,r3944_dofile_target_pinned=True,r3945_source_bound_sidecar_pinned=True,r3946_two_home_sidecar_write_pinned=True,r3947_two_source_bound_sidecar_reads_pinned=True,r3948_phase_specific_filemanager_pinned=True,r3949_documentregistry_provider_phase_pinned=True,r39410_pdfdocument_constructor_phase_pinned=True,r39411_readerui_init_third_read_pinned=True,r394_pins=R394_PINS,
+         inherited_r3933_source_preflight=old['verdict'],
+         prior_actual_r3933_arm_verified=True,
+         prior_r3933_sentinel_sha256=PRIOR_R3933_SENTINEL_SHA256,arm_run_proven=False,
+--- a/r394/review_r39411.py
++++ b/r394/review_r39411.py
+@@ -0,0 +1,111 @@
++#!/usr/bin/env python3
++"""R39.4.11: require all three distinct original source-bound sidecar reads.
++
++Fresh R25 baseline and untouched original strict R39.4, R39.4.5 and
++R39.4.6 are mandatory. R39.4.7--R39.4.10 historical ARM FAILs stay FAIL.
++"""
++import argparse,json,re
++from pathlib import Path
++from review_r3946 import review as original_two_cycle
++from review_r3945 import GATE as FIRST_GATE, LOADED as FIRST_LOAD
++from review_r39410 import SECOND_CTX,SECOND_GATE,SECOND_LOAD
++from review_r3947 import TARGET,CLEAN
++from review_r3948 import FIRST_CTX
++from review_r394 import SAFETY
++THIRD_CTX=('R39_4_11_READERUI_INIT_SIDECAR_CONTEXT fm_closed=true '
++           'input_cycle2=true prior_document_released=true registered_second_document=true')
++THIRD_GATE=('R39_4_11_READERUI_INIT_SIDECAR_GATE exact=true c_pcall=true '
++            'docsettings=true readerui_init=true regular_file=true phase3=true')
++THIRD_LOAD='R39_4_11_GENUINE_READERUI_INIT_DOCSETTINGS_SIDECAR_RELOADED'
++
++def review(log,baseline,pins,prior,strict):
++    if pins.get('r39411_readerui_init_third_read_pinned') is not True:
++        raise ValueError('R39.4.11 source-pinned third ReaderUI metadata read required')
++    old=original_two_cycle(log,baseline,pins,prior,strict)
++    if old['verdict']!='R39_4_6_TWO_CYCLE_SIDECAR_REOPEN_ARM_PASS':
++        raise ValueError('original R39.4 / R39.4.5 / R39.4.6 strict reviewers must PASS')
++    lines=log.splitlines()
++    def one(s):
++        matches=[i for i,x in enumerate(lines) if x==s]
++        if len(matches)!=1:raise ValueError('missing/duplicate strict R39.4.11 marker: '+s)
++        return matches[0]
++    expected_prefixes={
++        'R39_4_4_DOFILE_TARGET ':3,
++        'R39_4_5_SIDECAR_GATE ':1,
++        'R39_4_10_PDFDOCUMENT_SIDECAR_CONTEXT ':1,
++        'R39_4_10_PDFDOCUMENT_SIDECAR_GATE ':1,
++        'R39_4_11_READERUI_INIT_SIDECAR_CONTEXT ':1,
++        'R39_4_11_READERUI_INIT_SIDECAR_GATE ':1,
++    }
++    for prefix,count in expected_prefixes.items():
++        if sum(x.startswith(prefix) for x in lines)!=count:
++            raise ValueError('wrong number of source-bound observations: '+prefix)
++    targets=[i for i,x in enumerate(lines) if x.startswith('R39_4_4_DOFILE_TARGET ')]
++    if len(targets)!=3 or any(lines[i]!=TARGET for i in targets):
++        raise ValueError('exactly three original disposable PDF sidecar observations required')
++    prohibited=('R39_4_7_READERUI_SIDECAR_GATE ',
++                'R39_4_8_READERUI_SIDECAR_CONTEXT ',
++                'R39_4_9_REGISTRY_PROVIDER_SIDECAR_GATE ',
++                'R39_4_9_REGISTRY_PROVIDER_SIDECAR_CONTEXT ')
++    if any(x.startswith(prohibited) for x in lines):
++        raise ValueError('obsolete sidecar consumer claim must not be relabeled PASS')
++    inh=[i for i,x in enumerate(lines) if x=='R39_1_GENUINE_READERUI_INPUT_INHIBIT_REQUESTED_SYNTHETIC_ONLY']
++    rel=[i for i,x in enumerate(lines) if x=='R39_1_GENUINE_READERUI_INPUT_RELEASE_REQUESTED_SYNTHETIC_ONLY']
++    if len(inh)!=2 or len(rel)!=2:
++        raise ValueError('exactly two genuine ReaderUI Input lifecycles required')
++    draws=[i for i,x in enumerate(lines) if re.fullmatch(r'R39_4_SECOND_GENUINE_PDF_SCROLL_DRAW_RETURNED page=[12]',x)]
++    if len(draws)!=1:raise ValueError('exactly one genuine reopened PDF draw required')
++    if not (
++        one('R39_3_FILEMANAGER_ACTIVE_AFTER_HOME') <
++        one('R39_4_REOPEN_REQUESTED_FROM_RETURNED_FILEMANAGER') <
++        targets[0] < one(FIRST_CTX) < one(FIRST_GATE) < one(FIRST_LOAD) <
++        one('R39_4_GENUINE_FILEMANAGER_REOPEN_SCHEDULED') <
++        targets[1] < one(SECOND_CTX) < one(SECOND_GATE) < one(SECOND_LOAD) <
++        inh[1] < targets[2] < one(THIRD_CTX) < one(THIRD_GATE) < one(THIRD_LOAD) <
++        rel[1] < draws[0] <
++        one('R39_4_DISTINCT_READERUI_AND_PDF_DOCUMENT_REOPENED') <
++        one('R39_4_SECOND_HOME_SENT_THROUGH_REAL_UIMANAGER_INPUT') <
++        one('R39_4_6_SECOND_GENUINE_SIDECAR_WRITE_OPEN') <
++        one(CLEAN) <
++        one('R39_4_SECOND_DOCUMENT_ENGINE_CLOSED_REGISTRY_EMPTY') <
++        one('R39_4_FINAL_CLOSE_SENT_TO_SECOND_FILEMANAGER') <
++        one('R39_REAL_READER_EXIT_BOUNDARY_PASS')):
++        raise ValueError('three original read phases / two writes / final close reordered')
++    if any('R23_DENIED_' in x or x.startswith('R39_4_3_FIRST_DENIAL ') or
++           'coroutine crashed' in x or 'stack traceback' in x for x in lines):
++        raise ValueError('denied operation or runtime exception invalidates PASS')
++    return dict(verdict='R39_4_11_THREE_SOURCE_BOUND_READS_ARM_PASS',
++        genuine_filemanager_provider_read_verified=True,
++        genuine_pdfdocument_constructor_read_verified=True,
++        genuine_readerui_init_read_verified=True,
++        exact_generated_metadata_three_reads_and_two_write_opens_verified=True,
++        second_document_registry_ref_and_distinct_engine_source_verified=True,
++        two_home_returns_and_final_filemanager_close_verified=True,
++        independent_original_strict_and_r3945_r3946_reviews_pass=True,
++        independent_r25_baseline_control_pass=True,
++        prior_r3947_through_r39410_arm_failures_preserved=True,
++        physical_display_verified=False,global_startup_migrations_executed=False,
++        complete_dependency_closure_proven=False,real_pw3_init=False,
++        immutable_hold='NOT_BOOTABLE',**{x:False for x in SAFETY})
++
++def main():
++    ap=argparse.ArgumentParser()
++    for arg in ('log','baseline','preflight','previous-r39-3-3','strict-review','out'):
++        ap.add_argument('--'+arg,required=True,type=Path)
++    a=ap.parse_args()
++    if a.out.exists() or a.out.is_symlink():
++        raise FileExistsError('R39.4.11 refuses overwrite of existing evidence')
++    try:
++        result=review(a.log.read_text(),json.loads(a.baseline.read_text()),
++                      json.loads(a.preflight.read_text()),
++                      json.loads(a.previous_r39_3_3.read_text()),
++                      json.loads(a.strict_review.read_text()))
++        code=0
++    except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError,UnicodeError) as e:
++        result=dict(verdict='FAIL',error=str(e),immutable_hold='NOT_BOOTABLE',
++                    **{x:False for x in SAFETY})
++        code=1
++    a.out.write_text(json.dumps(result,sort_keys=True,indent=2)+'\n')
++    print(result['verdict'])
++    return code
++if __name__=='__main__':raise SystemExit(main())
+--- a/tests/test_r39_4_11.py
++++ b/tests/test_r39_4_11.py
+@@ -0,0 +1,101 @@
++"""R39.4.11: third source-bound `ReaderUI:init` read, no host fixture is ARM proof."""
++import unittest,hashlib,json,sys,zipfile,importlib.util
++from pathlib import Path
++ROOT=Path(__file__).resolve().parents[1]
++sys.path.insert(0,str(ROOT/'r394'))
++from review_r39411 import review,THIRD_CTX,THIRD_GATE,THIRD_LOAD,SECOND_CTX,SECOND_GATE,SECOND_LOAD,TARGET,CLEAN
++from review_r3945 import GATE as FIRST_GATE,LOADED as FIRST_LOAD
++import test_r39_4_6 as oldfixture
++spec=importlib.util.spec_from_file_location('check11',ROOT/'r394/check_inputs.py')
++check=importlib.util.module_from_spec(spec);spec.loader.exec_module(check)
++class ThirdGenuineSidecarRead(unittest.TestCase):
++    def fixture(self):
++        a=oldfixture.StrictTwoCycle().fixture()
++        a[2]['r39411_readerui_init_third_read_pinned']=True
++        log=a[0]
++        from review_r3948 import FIRST_CTX
++        log=log.replace(FIRST_GATE,TARGET+'\n'+FIRST_CTX+'\n'+FIRST_GATE,1)
++        log=log.replace('R39_4_GENUINE_FILEMANAGER_REOPEN_SCHEDULED\n',
++          'R39_4_GENUINE_FILEMANAGER_REOPEN_SCHEDULED\n'+TARGET+'\n'+SECOND_CTX+'\n'+SECOND_GATE+'\n'+SECOND_LOAD+'\n',1)
++        marker='R39_1_GENUINE_READERUI_INPUT_INHIBIT_REQUESTED_SYNTHETIC_ONLY'
++        i=log.rfind(marker)
++        assert i>=0
++        i+=len(marker)
++        log=log[:i]+'\n'+TARGET+'\n'+THIRD_CTX+'\n'+THIRD_GATE+'\n'+THIRD_LOAD+log[i:]
++        log=log.replace('R39_4_SECOND_DOCUMENT_ENGINE_CLOSED_REGISTRY_EMPTY',
++                        CLEAN+'\nR39_4_SECOND_DOCUMENT_ENGINE_CLOSED_REGISTRY_EMPTY',1)
++        a[0]=log
++        return a
++    def test_fixture_only_host_pass(self):
++        result=review(*self.fixture())
++        self.assertEqual(result['verdict'],'R39_4_11_THREE_SOURCE_BOUND_READS_ARM_PASS')
++        self.assertTrue(result['exact_generated_metadata_three_reads_and_two_write_opens_verified'])
++        self.assertFalse(result['boot_authorized'])
++    def reject(self,change,reason):
++        a=self.fixture();change(a)
++        with self.assertRaisesRegex(ValueError,reason):review(*a)
++    def test_unpinned_source(self):self.reject(lambda a:a[2].__setitem__('r39411_readerui_init_third_read_pinned',False),'source-pinned')
++    def test_original_strict_fails(self):self.reject(lambda a:a[4].__setitem__('verdict','FAIL'),'strict PASS')
++    def test_independent_r25_fails(self):self.reject(lambda a:a[1].__setitem__('verdict','FAIL'),'R25 baseline')
++    def test_no_third_context(self):self.reject(lambda a:a.__setitem__(0,a[0].replace(THIRD_CTX+'\n','')),'source-bound observations')
++    def test_no_third_gate(self):self.reject(lambda a:a.__setitem__(0,a[0].replace(THIRD_GATE+'\n','')),'source-bound observations')
++    def test_no_third_load(self):self.reject(lambda a:a.__setitem__(0,a[0].replace(THIRD_LOAD+'\n','')),'strict R39.4.11 marker')
++    def test_third_context_false(self):self.reject(lambda a:a.__setitem__(0,a[0].replace('registered_second_document=true','registered_second_document=false')),'strict R39.4.11 marker')
++    def test_third_wrong_caller(self):self.reject(lambda a:a.__setitem__(0,a[0].replace('readerui_init=true','readerui_init=false')),'strict R39.4.11 marker')
++    def test_third_wrong_phase(self):self.reject(lambda a:a.__setitem__(0,a[0].replace('phase3=true','phase3=false')),'strict R39.4.11 marker')
++    def test_third_not_regular(self):self.reject(lambda a:a.__setitem__(0,a[0].replace('regular_file=true phase3=true','regular_file=false phase3=true')),'strict R39.4.11 marker')
++    def test_third_no_pcall(self):self.reject(lambda a:a.__setitem__(0,a[0].replace('c_pcall=true docsettings=true readerui_init','c_pcall=false docsettings=true readerui_init')),'strict R39.4.11 marker')
++    def test_duplicate_third_marker(self):self.reject(lambda a:a.__setitem__(0,a[0].replace(THIRD_GATE,THIRD_GATE+'\n'+THIRD_GATE,1)),'source-bound observations')
++    def test_duplicate_third_target(self):self.reject(lambda a:a.__setitem__(0,a[0]+'\n'+TARGET),'source-bound observations')
++    def test_wrong_third_target(self):
++        def f(a):
++            index=a[0].rfind(TARGET)
++            a[0]=a[0][:index]+TARGET.replace('exact_pdf_sidecar','other_temp_home')+a[0][index+len(TARGET):]
++        self.reject(f,'exactly three original disposable')
++    def test_missing_first_read(self):self.reject(lambda a:a.__setitem__(0,a[0].replace(FIRST_LOAD+'\n','')),'single fully verified sidecar load')
++    def test_missing_pdfconstructor(self):self.reject(lambda a:a.__setitem__(0,a[0].replace(SECOND_LOAD+'\n','')),'strict R39.4.11 marker')
++    def test_third_after_input_release(self):
++        def f(a):
++            chunk=TARGET+'\n'+THIRD_CTX+'\n'+THIRD_GATE+'\n'+THIRD_LOAD+'\n'
++            a[0]=a[0].replace(chunk,'')
++            marker='R39_1_GENUINE_READERUI_INPUT_RELEASE_REQUESTED_SYNTHETIC_ONLY'
++            i=a[0].rfind(marker)+len(marker)
++            a[0]=a[0][:i]+'\n'+chunk+a[0][i:]
++        self.reject(f,'reordered')
++    def test_third_before_input_inhibit(self):
++        def f(a):
++            chunk=TARGET+'\n'+THIRD_CTX+'\n'+THIRD_GATE+'\n'+THIRD_LOAD+'\n'
++            a[0]=a[0].replace(chunk,'')
++            marker='R39_1_GENUINE_READERUI_INPUT_INHIBIT_REQUESTED_SYNTHETIC_ONLY'
++            i=a[0].rfind(marker)
++            a[0]=a[0][:i]+chunk+a[0][i:]
++        self.reject(f,'reordered')
++    def test_denied_preserves_fail(self):self.reject(lambda a:a.__setitem__(0,a[0]+'\nR39_4_3_FIRST_DENIAL kind=DOFILE'),'denied|runtime')
++    def test_original_strict_fails_if_final_close_missing(self):self.reject(lambda a:a.__setitem__(0,a[0].replace('R39_4_FINAL_CLOSE_SENT_TO_SECOND_FILEMANAGER','')),'missing/duplicate')
++    def test_safety_bounds_in_guard(self):
++        s=(ROOT/'r394/loop_guard.lua').read_text()
++        for x in ('frame4.func==readerui.init','frame4.currentline==131','r3945_sidecar_loads==2 and r394_input_lifecycles==2',
++                  'registered_second~=r394_first_doc','registered_second.is_open==true','registry:getReferenceCount(r39_pdf)==1',
++                  'archived_first_engine_closed and original_readerui_init','from_real_readerui_init',
++                  'from_returned_filemanager or from_pdfdocument_second_open or',
++                  'r3945_sidecar_writes==2 and r3945_sidecar_loads==3',
++                  "if path==r3945_sidecar then", "deny('DOFILE:'..tostring(path))"):
++            self.assertIn(x,s)
++        self.assertNotIn('stats.denied=0',s)
++    def test_pins(self):
++        self.assertEqual(hashlib.sha256((ROOT/'r394/loop_guard.lua').read_bytes()).hexdigest(),check.R394_PINS['r394/loop_guard.lua'])
++        self.assertIn(hashlib.sha256((ROOT/'r394/review_r39411.py').read_bytes()).hexdigest(),(ROOT/'r394/check_inputs.py').read_text())
++    def test_old_reviewers_untouched(self):
++        hashes={'review_r394.py':'b2d7a44f1acedeb6ec9899074e91bb0f4d3a4fed63b15d0816ff9d7b99d51e57',
++                'review_r3945.py':'8e28fb054aacc0ed4999deafd6b909ce5d88791a7e32451ea0e66c7d2cd322e0',
++                'review_r3946.py':'58587bd90bf6bd56c626d39fdc5690775ac5cf8bed9a152ba69de369822d74ef',
++                'review_r39410.py':'bb551fd506a0bee7f160d4fd72b62ffde04697a87409d046edcf191716d37fc6'}
++        for name,d in hashes.items():self.assertEqual(hashlib.sha256((ROOT/'r394'/name).read_bytes()).hexdigest(),d)
++    def test_actual_failed_r39410_not_upgraded(self):
++        path=Path('/mnt/data/R39.4.10-ARM-EVIDENCE.zip')
++        if not path.exists():self.skipTest('actual ARM archive not here')
++        with zipfile.ZipFile(path) as z:
++            a=self.fixture();a[0]=z.read('R394-EMULATION.log').decode();a[1]=json.loads(z.read('R394-R25-BASELINE-CONTROL.json'));a[2]=json.loads(z.read('R394-SOURCE-PREFLIGHT.json'));a[4]=json.loads(z.read('R394-REVIEW.json'))
++        self.assertEqual(a[4]['verdict'],'FAIL')
++        with self.assertRaisesRegex(ValueError,'source-pinned'):review(*a)
++if __name__=='__main__':unittest.main()
+--- a/tests/test_r39_4_10.py
++++ b/tests/test_r39_4_10.py
+@@ -93,7 +93,7 @@
+             'r3945_sidecar_loads==1 and r394_input_lifecycles==1',
+             'from_returned_filemanager or from_pdfdocument_second_open',
+             "if path==r3945_sidecar then", "deny('DOFILE:'..tostring(path))",
+-            'r3945_sidecar_writes==2 and r3945_sidecar_loads==2'):
++            'r3945_sidecar_writes==2 and r3945_sidecar_loads==3'):
+             self.assertIn(marker,s)
+         self.assertNotIn('stats.denied=0',s)
+     def test_guard_checker_hash_pinned(self):
+--- a/tests/test_r39_4_7.py
++++ b/tests/test_r39_4_7.py
+@@ -92,7 +92,7 @@
+                        "r39_input_inhibit==1", "r39_input_until==0", "real_fm.instance==nil",
+                        "r394_first_doc.is_open==false", "r394_first_reader.document==nil",
+                        "r394_second_home_sent", "deny('DOFILE:'..tostring(path))",
+-                       'r3945_sidecar_writes==2 and r3945_sidecar_loads==2'):
++                       'r3945_sidecar_writes==2 and r3945_sidecar_loads==3'):
+             self.assertIn(anchor,source)
+         self.assertNotIn('stats.denied=0',source)
+         self.assertIn("if path==r3945_sidecar then",source)
+--- a/tests/test_r39_4_6.py
++++ b/tests/test_r39_4_6.py
+@@ -64,7 +64,7 @@
+         self.assertNotIn('r3945_sidecar_writes==1 and r3933_pdf_engine_released()',s)
+     def test_narrow_writes(self):
+         s=(ROOT/'r394/loop_guard.lua').read_text()
+-        for v in ("path==r3945_sidecar", "mode=='wb'", "caller.func==util.writeToFile", "caller.currentline==1147", 'r3945_sidecar_writes==0','r3945_sidecar_writes==1','r3945_sidecar_loads==1','r394_second_home_sent','r394_second_scroll_returned','r394_input_lifecycles==2',"deny('SIDECAR_WRITE_PROVENANCE')", 'stats.denied==0','r3945_sidecar_writes==2 and r3945_sidecar_loads==2'):
++        for v in ("path==r3945_sidecar", "mode=='wb'", "caller.func==util.writeToFile", "caller.currentline==1147", 'r3945_sidecar_writes==0','r3945_sidecar_writes==1','r3945_sidecar_loads==1','r394_second_home_sent','r394_second_scroll_returned','r394_input_lifecycles==2',"deny('SIDECAR_WRITE_PROVENANCE')", 'stats.denied==0','r3945_sidecar_writes==2 and r3945_sidecar_loads==3'):
+             self.assertIn(v,s)
+         self.assertNotIn('stats.denied=0',s)
+     def test_reader_is_only_one_source_identity(self):
+--- a/R394.11-SOURCE-BASELINE.json
++++ b/R394.11-SOURCE-BASELINE.json
+@@ -0,0 +1,28 @@
++{
++  "boot_authorized": false,
++  "file_removal_authorized": false,
++  "firmware_write_authorized": false,
++  "host_tests_passed": 563,
++  "immutable_hold": "NOT_BOOTABLE",
++  "metadata_write_opens_required": 2,
++  "milestone": "R39.4.11",
++  "new_host_tests": 25,
++  "original_r25_actual_arm_pass": true,
++  "original_staged_docsettings_source_sha256": "2ac292560866b8ecae40cfd8afa7bc79adf84d62711619ab3e476edaa82a0ad0",
++  "original_staged_pdfdocument_source_sha256": "963cbae1a42e5cb163361e89585a47ca2994477cac5741da743d314fa2b5fe60",
++  "original_staged_readerui_source_sha256": "54290763c2593dd853c15ff2f6bfa15f5f73cce721dd2447f84ca8ea842138b7",
++  "original_strict_r394_reviewer_unchanged": true,
++  "physical_device_access": false,
++  "prior_r39410_actual_arm_verdict": "FAIL",
++  "source": {
++    "r394/check_inputs.py": "a4a44554c6dc15442090a48895d5fb1097707721f335a3dc2014c870482d64a3",
++    "r394/loop_guard.lua": "e7f1d0872f91b1ddfac42f9d7f35309072293d9dd551ad5543c455a1bebf88a7",
++    "r394/review_r39411.py": "688e38c0229103b6557bc5a33d39301997d068ef8bd4869f080fc70f16824021",
++    "tests/test_r39_4_10.py": "182fa337f22b1b720d0a1a8c798d0e801171766055b02aa06ad7c89bfe45f24c",
++    "tests/test_r39_4_11.py": "249b66dbc513b120d0b38cafad342416e7d5041c779da7d3feaf0a634c96f3dd",
++    "tests/test_r39_4_6.py": "336dddb75a40a6d669c060819df5238a1b51a2e7fe35bfa49994f86e55713cdd",
++    "tests/test_r39_4_7.py": "309b55585bb0e522a04807ecc0565f6454599833317eb449a0d7e62f7ea03aa1"
++  },
++  "status": "HOST_TESTED_ONLY_ARM_QEMU_PENDING",
++  "three_source_bound_metadata_reads_required": true
++}
+--- a/README-R39.4.11.md
++++ b/README-R39.4.11.md
+@@ -0,0 +1,52 @@
++# R39.4.11 — third genuine ReaderUI:init metadata sidecar read
++
++**Status: HOST-TESTED ONLY; ARM/QEMU PENDING; NOT_BOOTABLE.**
++
++The actual R39.4.10 guest was a strict FAIL after the previously blocked PdfDocument constructor metadata read succeeded. A **third** `dofile` was denied just after the second `ReaderUI:init` called `Input:inhibitInput(true)`. Original KOReader v2026.07.2 `frontend/apps/reader/readerui.lua` calls `DocSettings:open(file)` at line 131. The user-supplied R39.4.10 independent R25 guest control stayed PASS; original strict R39.4 and separate R39.4.10 reviews FAIL. Preserve those exact results.
++
++The R39.4.11 experimental guard allows **exactly three**, source-bound reads of the *same* first-cycle-created disposable PDF sidecar, in fixed order: genuine FileManager provider lookup, original PdfDocument constructor conversion, then genuine `ReaderUI:init` at line 131 (after Input inhibit, before release). The third phase requires original Lua function identity and source line, the first PDF already closed, an open distinct second PDF present in the DocumentRegistry with reference count exactly 1, the same exact ordinary (not symlink) sidecar and original `DocSettings:open` through C `pcall`. All additional or alternate `dofile` attempts remain denied. The original two genuine metadata write-opens remain exact-source/mode-bound, with the second requiring the third successful sidecar read. Previous historical R39.4.7–R39.4.10 predictions/reviewers are retained, not repurposed.
++
++The separate strict `r394/review_r39411.py` requires independently rerun unchanged original R39.4, R39.4.5, R39.4.6 and R25 gates PASS, three exact ordered source-bound sidecar observations, zero denied operations, both genuine Home returns, an empty DocumentRegistry on second close and final genuine FileManager Close. Nothing in this source trial constitutes an ARM PASS.
++
++Run with fresh sibling output (same eight inherited inputs plus source and output):
++
++```sh
++cd "$HOME/Downloads"
++SRC="$HOME/Downloads/pw3-os-r39.4.11-isolated"
++mkdir -p "$SRC"
++unzip -q pw3-os-r39.4.11-readerui-third-sidecar-arm-trial.zip -d "$SRC"
++cd "$SRC"
++shasum -a 256 -c SHA256SUMS-R39411
++python3 -m unittest discover -s tests -q
++sh ./run-r394-docker.sh \
++  "$HOME/Downloads/pw3-os-r13-alpine-dual-libc-fix/stage-r13-fixed" \
++  "$HOME/Downloads/pw3-os-r24.3.1-audit-output-fix/src/r21-filemanager-core" \
++  "$HOME/Downloads/pw3-os-r37-readerui-boundary-first-run.json" \
++  "$HOME/Downloads/R38.2.1-EXISTING-EVIDENCE-RECONCILED.json" \
++  "$PWD" \
++  "$HOME/Downloads/pw3-os-r39.1-readerui-activation-first-run/R39-REVIEW.json" \
++  "$HOME/Downloads/pw3-os-r39.2.4-scroll-first-run/R39-REVIEW.json" \
++  "$HOME/Downloads/pw3-os-r39.3.3-home-first-run/R39.3.3-SENTINEL-REVIEW.json" \
++  "$HOME/Downloads/pw3-os-r39.4.11-third-read-first-run"
++```
++
++Run the separate reviewer regardless of guest PASS/FAIL if the input files exist:
++
++```sh
++python3 r394/review_r39411.py \
++  --log "$HOME/Downloads/pw3-os-r39.4.11-third-read-first-run/R394-EMULATION.log" \
++  --baseline "$HOME/Downloads/pw3-os-r39.4.11-third-read-first-run/R394-R25-BASELINE-CONTROL.json" \
++  --preflight "$HOME/Downloads/pw3-os-r39.4.11-third-read-first-run/R394-SOURCE-PREFLIGHT.json" \
++  --previous-r39-3-3 "$HOME/Downloads/pw3-os-r39.3.3-home-first-run/R39.3.3-SENTINEL-REVIEW.json" \
++  --strict-review "$HOME/Downloads/pw3-os-r39.4.11-third-read-first-run/R394-REVIEW.json" \
++  --out "$HOME/Downloads/R39.4.11-THREE-READS-REVIEW.json"
++cd "$HOME/Downloads"
++zip -j R39.4.11-ARM-EVIDENCE.zip \
++  pw3-os-r39.4.11-third-read-first-run/R394-EMULATION.log \
++  pw3-os-r39.4.11-third-read-first-run/R394-R25-BASELINE-CONTROL.json \
++  pw3-os-r39.4.11-third-read-first-run/R394-SOURCE-PREFLIGHT.json \
++  pw3-os-r39.4.11-third-read-first-run/R394-REVIEW.json \
++  R39.4.11-THREE-READS-REVIEW.json
++```
++
++Preserve failed evidence unchanged. The original R25 control and all original staged KOReader files remain unchanged. **NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE**. Preserve all 976 `UNKNOWN_HOLD` staged files. Research and educational purposes only.

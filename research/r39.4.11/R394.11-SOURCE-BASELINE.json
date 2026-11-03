@@ -1,0 +1,28 @@
+{
+  "boot_authorized": false,
+  "file_removal_authorized": false,
+  "firmware_write_authorized": false,
+  "host_tests_passed": 563,
+  "immutable_hold": "NOT_BOOTABLE",
+  "metadata_write_opens_required": 2,
+  "milestone": "R39.4.11",
+  "new_host_tests": 25,
+  "original_r25_actual_arm_pass": true,
+  "original_staged_docsettings_source_sha256": "2ac292560866b8ecae40cfd8afa7bc79adf84d62711619ab3e476edaa82a0ad0",
+  "original_staged_pdfdocument_source_sha256": "963cbae1a42e5cb163361e89585a47ca2994477cac5741da743d314fa2b5fe60",
+  "original_staged_readerui_source_sha256": "54290763c2593dd853c15ff2f6bfa15f5f73cce721dd2447f84ca8ea842138b7",
+  "original_strict_r394_reviewer_unchanged": true,
+  "physical_device_access": false,
+  "prior_r39410_actual_arm_verdict": "FAIL",
+  "source": {
+    "r394/check_inputs.py": "a4a44554c6dc15442090a48895d5fb1097707721f335a3dc2014c870482d64a3",
+    "r394/loop_guard.lua": "e7f1d0872f91b1ddfac42f9d7f35309072293d9dd551ad5543c455a1bebf88a7",
+    "r394/review_r39411.py": "688e38c0229103b6557bc5a33d39301997d068ef8bd4869f080fc70f16824021",
+    "tests/test_r39_4_10.py": "182fa337f22b1b720d0a1a8c798d0e801171766055b02aa06ad7c89bfe45f24c",
+    "tests/test_r39_4_11.py": "249b66dbc513b120d0b38cafad342416e7d5041c779da7d3feaf0a634c96f3dd",
+    "tests/test_r39_4_6.py": "336dddb75a40a6d669c060819df5238a1b51a2e7fe35bfa49994f86e55713cdd",
+    "tests/test_r39_4_7.py": "309b55585bb0e522a04807ecc0565f6454599833317eb449a0d7e62f7ea03aa1"
+  },
+  "status": "HOST_TESTED_ONLY_ARM_QEMU_PENDING",
+  "three_source_bound_metadata_reads_required": true
+}
