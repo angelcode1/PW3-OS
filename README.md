@@ -1,6 +1,6 @@
 # PW3-OS — independent Kindle Paperwhite 3 userspace research
 
-**Latest user-verified ARM application milestone: R39.3.3 PASS.** R39.4.9 ARM/QEMU FAIL: the first source-bound PDF sidecar read succeeded, but the second was denied because its genuine PdfDocument constructor frames did not match the guessed DocumentRegistry provider-chain assertion. Its original strict reviewer and independent new reviewer remain FAIL. **R39.4.10 has 538 passing host tests; ARM/QEMU pending.** No physical Kindle display, boot, firmware writes, dependency closure or pruning is verified. NOT_BOOTABLE.
+**Latest fully user-verified ARM application milestone: R39.3.3 PASS.** R39.4.10 user-side ARM/QEMU trial **FAIL**: the genuine second PdfDocument constructor source-bound metadata read succeeded, but a third exact-sidecar `dofile` request from the subsequent ReaderUI initialization was denied; original R39.4 and separate R39.4.10 reviewers remain FAIL while the independent R25 control PASS remains unchanged. **R39.4.11 has 563 passing host tests; ARM/QEMU pending.** No physical Kindle display, independent boot, firmware writes, dependency closure or pruning is verified. **NOT_BOOTABLE**.
 
 Goal: a minimal Alpine ARMv7 userspace with official KOReader `kindlepw2` and Ink Away, isolated GNU compatibility runtime, and a standalone PW3 device adapter. Application validation remains **offline ARM/QEMU with synthetic UI**. Genuine FileManager → PluginLoader → Ink Away menu, canvas, stroke/save/return and clean close are covered by the user's R22.1 log. The separate v6 physical interface inventory was read-only; independent boot and physical hardware operation have **not** been demonstrated.
 
@@ -71,3 +71,5 @@ For research and educational purposes only.
 - [R39.4.8 returned FileManager sidecar phase trial](docs/R39-4-8-RETURNED-FM-READ-PHASE.md): [versioned source](research/r39.4.8/README-R39.4.8.md) and strict reviewer; 478 host tests PASS, ARM pending; original R39.4.7 FAIL preserved.
 
 - [R39.4.9 actual failed guest and R39.4.10 host-tested PdfDocument trial](research/r39.4.10/README.md).
+
+- [R39.4.10 actual ARM failure and R39.4.11 third source-bound metadata-read trial](research/r39.4.11/README.md): source integrity, strict lifecycle gates and Mac/QEMU commands. ARM R39.4.11 pending; `NOT_BOOTABLE`.
