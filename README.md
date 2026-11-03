@@ -140,3 +140,5 @@ For research and educational purposes only.
 - [R40.4.3.5.3 source-bound zero-extent synthetic geometry correction](research/r40.4.3.5.3/RELEASE-STATUS.json): only two guest event positions add w=0,h=0, staged geometry gate and unchanged original strict reviewer. 40 host tests PASS; ARM guest PENDING; NOT_BOOTABLE.
 
 - [R40.4.3.5.3 uploaded public ARM gesture review PASS](research/r40.4.3.5.3/RELEASE-STATUS.json): source-bound native UIManager → InputContainer → InkAwayView two-finger pan/release reviewer reports PASS (9,931 syscalls; 4,793 decoded paths; 34 scratch write-opens, 13 mkdirs, 0 renames). Two uploaded public JSON reports byte-identical; private raw trace not independently replayed. No menu, stroke, save/reload, physical-device, boot or pruning authorization; NOT_BOOTABLE.
+
+- [R40.4.3.6 proposed native drawing trial](research/r40.4.3.6/RELEASE-STATUS.json): separate collector and source-bound UIManager touch/pan/release → InkAwayView close/save → Project.load synthetic trial; 12 portable host tests PASS, ARM/QEMU PENDING, prior strict reviewers unchanged. NOT_BOOTABLE, no device access or pruning.

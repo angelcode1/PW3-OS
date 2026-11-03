@@ -1,0 +1,13 @@
+# R40.4.3.6 — native synthetic Ink Away drawing, close/save and reload experiment
+
+For research and educational purposes only. **HOST TESTED; ARM/QEMU PENDING; NOT_BOOTABLE.**
+
+The uploaded R40.4.3.5.3 public reports claim that the original strict QEMU reviewer accepted a synthetic two-finger pan/release through original UIManager → InputContainer → staged InkAwayView. This uploaded public evidence was not independently replayed against raw QEMU stdout/stderr/exit.
+
+The R40.4.3.6 release adds one source-bound guest block after that proven pan-release boundary: three native synthetic gestures (touch, pan, pan_release) drive the original InkAwayView's pen tool; original closeCanvas flushes the scheduled stroke and runs onCloseWidget/saveDocument; original Project.load reopens the scratch-only drawing and checks exactly one ink stroke. It does **not** call Canvas:startStroke, Canvas:finishStroke or Project.save directly from the new guest insertion. The original R40.4.3.5.3/R40.4.3.5 strict reviewers are mandatory and unchanged. A new reviewer additionally requires ordered drawing, original save/reload and original FileManager return markers, original QEMU zero exit and scratch-only decoded mutations, including a positive write-open and rename count; unlinks remain refused.
+
+Standalone conversation release `pw3-os-r40.4.3.6-native-draw-save.zip`, SHA-256 `9c3303ca4fa2bd0e5e338c8561883845dad2dd1b56a13e0dcb6099127a427d15`, 42,528 bytes, 14 members (13 manifest digests); clean extraction and checksum verification PASS; **12 portable host tests PASS**; shell syntax PASS. Runnable source, Mac commands, separate read-only private staged-source collector, strict reviewers and repeatable wrapper are packaged in `README-R40.4.3.6.md` and `RUN-R40436-MAC.sh` inside that ZIP. Original staged private Lua sources and raw QEMU traces are **not** committed.
+
+The collector can capture additional Ink Away plugin Lua sources and seven KOReader UI/geometry modules to a separate private local ZIP; only its aggregate JSON is public-shareable. Source and stage preflight must pass before Docker; previous 2,070-entry R26 inventory and 13-file private-source capture are rechecked. The prebuilt offline Docker image, readonly original stage, network off, dropped capabilities, unprivileged UID and tmpfs synthetic HOME remain mandatory.
+
+**Limitations:** ARM/QEMU guest not yet executed; staged file-open union not recomputed (historic 347 only); original decoder incomplete, physical pen/touch and menu events untested, provenance and complete dependency closure unproven. Preserve 1,101 unobserved regular stage files, 976 historical UNKNOWN_HOLD and optional puzzles. **No boot/device/hardware/firmware writes, file removal or pruning; NOT_BOOTABLE.**
