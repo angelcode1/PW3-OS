@@ -1,0 +1,22 @@
+--- a/tests/test_r40.py
++++ b/tests/test_r40.py
+@@ -107,7 +107,18 @@
+             with self.assertRaises(ValueError):check.check_paths(ROOT,stage,core,out)
+     def test_outside_output_pass(self):
+         with tempfile.TemporaryDirectory() as stage, tempfile.TemporaryDirectory() as core, tempfile.TemporaryDirectory() as out:
+-            self.assertEqual(check.check_paths(ROOT,stage,core,Path(out)/'NEW'),str(Path(out)/'NEW'))
++            self.assertEqual(check.check_paths(ROOT,stage,core,Path(out)/'NEW'),str((Path(out)/'NEW').resolve()))
++    def test_outside_output_alias_resolves_canonically(self):
++        # Portable reproduction of macOS /var -> /private/var path aliases.
++        # The return value is the canonical output; source/stage/core isolation remains enforced.
++        with tempfile.TemporaryDirectory() as stage, tempfile.TemporaryDirectory() as core, tempfile.TemporaryDirectory() as out:
++            actual = Path(out)/'actual'
++            actual.mkdir()
++            alias = Path(out)/'alias'
++            alias.symlink_to(actual, target_is_directory=True)
++            candidate = alias/'NEW'
++            self.assertEqual(check.check_paths(ROOT,stage,core,candidate), str(candidate.resolve()))
++
+     def test_same_output_avoided(self):
+         with tempfile.TemporaryDirectory() as d:
+             p=Path(d)/'exists.json';p.write_text('DATA')

@@ -27,3 +27,7 @@ The guest observation covers only a **single** synthetic two-cycle PDF/Ink Away 
 The archive's `README-R40.md` contains exact paths and a 9-argument `sh ./run-r40-docker.sh` command matching the previous R39.4.11 stage/core/reviews. Fresh source directory: `~/Downloads/pw3-os-r40.0-isolated`; fresh sibling output: `~/Downloads/pw3-os-r40.0-observation-first-run`. Package only `R40-SUMMARY.json` and `R40-REVIEW.json` as `R40.0-SHAREABLE-EVIDENCE.zip`, never raw logs.
 
 **Immutable holds:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. Stage data, original firmware, existing kernel, hardware interfaces and recovery are untouched. Research and educational purposes only.
+
+## 2026-11-03 user-side Mac follow-up
+
+Original R40.0 Mac Python host suite: 602 tests, **one failed, three skipped** because the path-isolation **test** compared the canonical `/private/var/...` output with the unresolved `/var/...` alias. The production path validator remains safe and unchanged. The corrected R40.0.1 release adds one portable symlink-alias test and passes 603 host tests on Linux; user-side Mac and ARM/QEMU re-execution are pending. See [R40.0.1](../r40.0.1/README.md). Do not treat the failed test as a completed ARM trace.

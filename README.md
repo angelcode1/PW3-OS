@@ -76,3 +76,5 @@ For research and educational purposes only.
 
 - [R39.4.11 user-verified ARM/QEMU evidence](docs/R39-4-11-ARM-VERIFIED.md): original R25 + R39.4 strict and independent source-bound PASS, evidence hashes and limits.
 - [R40.0 offline QEMU syscall-file observation source release](research/r40.0/README.md): 602 host tests PASS, ZIP checksums verified, ARM/QEMU **not yet run**; path details private, only summary counts shareable. [R40 requirements and limits](docs/R40-OFFLINE-DEPENDENCY-EVIDENCE-PLAN.md). No deletion or boot authorization.
+
+- [R40.0.1 macOS canonical path test fix](research/r40.0.1/README.md): repaired R40.0 host regression (`/var` vs `/private/var`); 603 host tests PASS on Linux, Mac rerun and ARM syscall observation pending. No security policy change.
