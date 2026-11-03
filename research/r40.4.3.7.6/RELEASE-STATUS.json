@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.6",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_READ_ONLY_SOURCE_COLLECTOR_LOCAL_STAGE_COLLECTION_PENDING",
+  "status": "UPLOADED_PRIVATE_MENU_SOURCE_ARCHIVE_AND_PUBLIC_AUDIT_VERIFIED_SOURCE_ONLY",
   "release_zip": "pw3-os-r40.4.3.7.6-menu-source-collector.zip",
   "release_sha256": "a7ed49cf57dc16cf71113ffd429cd0f2be2a7d9c31d9bc5802c1fb4b2db47a53",
   "release_bytes": 9766,
@@ -15,7 +15,7 @@
   "existing_source_identity_crosscheck_count": 3,
   "source_only": true,
   "private_original_staged_sources_in_github": false,
-  "mac_stage_collection": "PENDING",
+  "mac_stage_collection": "USER_UPLOADED_PUBLIC_SUMMARY_AND_PRIVATE_ARCHIVE",
   "guest_arm_qemu_execution": "NOT_RUN",
   "new_tools_menu_widget_exercised": false,
   "prior_r375_public_arm_review_sha256": "4c203e95ba6b94d9391e2a7e63817891750e522ff3f255b24cc340e6706431b9",
@@ -35,5 +35,12 @@
   "hardware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "public_source_verdict": "R404376_MENU_STATIC_SOURCE_CANDIDATES_OBSERVED_NOT_EXECUTED",
+  "private_archive_sha256": "44889dbfd47a18854beaeec2c739bb11afca1033c10c125ec2f576573d568e83",
+  "private_source_count": 9,
+  "private_source_total_bytes": 330308,
+  "private_archive_crc_and_member_digests_verified": true,
+  "known_original_stage_sources_unchanged_reported": true,
+  "source_execution": false
 }
