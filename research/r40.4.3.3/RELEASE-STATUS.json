@@ -23,8 +23,8 @@
     "plugin_loader"
   ],
   "new_staged_sources_requested": 6,
-  "local_stage_source_recheck": "PENDING",
-  "r26_2070_entry_recheck": "PENDING_MAC",
+  "local_stage_source_recheck": "USER_REPORTED_PASS_SOURCE_ONLY",
+  "r26_2070_entry_recheck": "USER_REPORTED_ALL_REHASHED",
   "read_only": true,
   "no_lua_or_guest_execution": true,
   "guest_view_event_runtime": "NOT_TESTED_HOLD",
@@ -44,5 +44,14 @@
   "hardware_write_authorized": false,
   "file_removal_authorized": false,
   "future_optional_puzzles": "FUTURE_OPTIONAL_NOT_BUILT_NOT_TESTED_HOLD",
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_terminal_host_tests_passed": 62,
+  "user_terminal_verdict": "R40_4_3_3_UI_EVENT_SOURCE_CANDIDATES_OBSERVED_NOT_EXECUTED",
+  "user_terminal_contract_status": "EXPECTED_UI_METHOD_NAMES_SEEN_STATICALLY_NOT_EXECUTED",
+  "user_terminal_source_roles_confirmed": 6,
+  "user_terminal_r26_entries_rehashed": 2070,
+  "user_terminal_r26_regular_rehashed": 1448,
+  "user_terminal_r26_symlinks_rechecked": 335,
+  "user_terminal_r26_dirs_rechecked": 287,
+  "source_gate_is_runtime_pass": false
 }

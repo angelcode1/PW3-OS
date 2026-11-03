@@ -1,0 +1,13 @@
+# R40.4.3.4 — genuine Ink Away widget show/close experiment
+
+**Host tests 52 PASS, shell syntax PASS. Guest ARM/QEMU still PENDING. NOT_BOOTABLE.** This is a narrower *original staged widget activation* trial, **not** a full Ink Away menu/input/stroke/save/return test.
+
+The previously verified R40.4.3.3 staged UI source audit reports expected method names in six original KOReader modules, but cannot prove runtime event ownership. Rather than inventing mocks or asserting full menu/stylus success, this experimental guest extends the original **corrected R40.4.1.1** FileManager-only guard by exactly one SHA-pinned view show/close block in a separately versioned copy. It requires FileManager-owned Ink Away plugin and the original staged `InkAway:openCanvas()` method; calls it from the bounded genuine UIManager synthetic poll; requires the original `inkaway_view` on UIManager's real window stack; closes the view via original UIManager; asserts FileManager is still top; then lets all previous FileManager-only shutdown assertions run unchanged. It does **not** deliver an actual menu or pen/touch event, call Canvas stroke/save/reload, or test physical display.
+
+The new independent QEMU reviewer requires exact original and new lifecycle markers, source-pinned QEMU split decoding, zero exit, confinement of decoded writes/renames/mkdirs to disposable HOME and no decoded unlink or unapproved mutation. Partial syscall decoding and bounded scenario limit the claim. The stage is mounted readonly, network disabled, Docker privileges dropped, and the existing image is used without rebuild. All public output is counts-only; raw logs and path records stay private.
+
+**Versioned release ZIP:** `pw3-os-r40.4.3.4-inkaway-view-only.zip`, SHA-256 `a8c3d218704fdca53fdff86fff1eab62ffd3416dc1bce5117adf94206932033c` (35,239 bytes; 10 members, 9 member SHA-256 records, CRC verified). 52 Python tests and shell syntax checks PASS. Complete runnable release with exact Mac commands: `README-R40.4.3.4.md` inside downloadable conversation ZIP. The accompanying SHA256SUMS manifest is retained here for reference; this GitHub folder tracks provenance, not private stage files.
+
+**Historical scope:** R40.4.3.2 genuine Canvas-model/Project save and reload ARM PASS, independently reviewed. R40.4.3.3 stage UI *source only* PASS. R40.4.3.4 view guest not yet executed; do not interpret as UI PASS before independent review. Full canvas/pen event/save/return is still NOT_TESTED_HOLD.
+
+**Hard holds:** all 1,101 unobserved regular stage files retained; all 976 historical UNKNOWN_HOLD retained; future puzzle pack not built. No firmware, device, hardware or boot access and no pruning; `NOT_BOOTABLE`. Research/education only.

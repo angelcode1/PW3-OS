@@ -118,3 +118,6 @@ For research and educational purposes only.
 - [R40.4.3.2 uploaded raw-QEMU replay independently verified](research/r40.4.3.2/RELEASE-STATUS.json): original decoder and strict reviewer reproduce byte-identical public verdict; 388 syscall lines, 198 decoded path operations, 1 confined write-open, 1 rename, 0 unlink. Its 18 staged-file opens add zero to 347 prior observed-open regular files. Real InkAwayView/pen remains HOLD.
 
 - [R40.4.3.3 staged KOReader UI event ownership *source-only* gate](research/r40.4.3.3/RELEASE-STATUS.json): 62 host tests PASS, six UI/KOReader source modules queued for read-only Mac stage verification; versioned full-source ZIP checksum pinned, local stage and ARM/UI results pending. No new QEMU test or pruning.
+
+- [R40.4.3.3 user-side staged UI source-only PASS](research/r40.4.3.3/RELEASE-STATUS.json): 62 host tests PASS, six genuine UI source modules statically checked, all 2,070 original R26 stage entries rehashed. No UI event executed.
+- [R40.4.3.4 experimental Ink Away original widget show/close](research/r40.4.3.4/RELEASE-STATUS.json): 52 host tests PASS and ZIP verified; QEMU guest pending. Only original plugin openCanvas and UIManager show/close attempted, not menu callback, stylus, stroke or save. NOT_BOOTABLE.
