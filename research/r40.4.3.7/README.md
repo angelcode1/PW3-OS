@@ -13,3 +13,10 @@ Standalone conversation ZIP: `pw3-os-r40.4.3.7-plugin-entry.zip`; SHA-256 `cd644
 After extracting to `~/Downloads/pw3-os-r40.4.3.7-plugin-entry`, run `sh "$HOME/Downloads/pw3-os-r40.4.3.7-plugin-entry/RUN-R40437-MAC.sh" test`, then `sh "$HOME/Downloads/pw3-os-r40.4.3.7-plugin-entry/RUN-R40437-MAC.sh" trial` once into a fresh output directory. Share only `R40437-REVIEW.json`, `R40437-SUMMARY.json` or the categorical failure marker. No source or image pulling/physical hardware access.
 
 **Immutable holds:** `NOT_BOOTABLE`, no device/firmware/hardware writes or boot, no file pruning or removal, no new observed-stage union (historic 347), retain all 1,101 unobserved regular stage files and 976 historical UNKNOWN_HOLD, no authenticated R26 provenance and no complete dependency closure. Menu widget event remains NOT_TESTED_HOLD.
+
+
+## Uploaded R40.4.3.7 public failure (2026-11-03)
+
+The user's `R40437-REVIEW.json` SHA-256 is `519223f60913dc7994293db231ffaa06a53579ed9f17b9e1006f8e96d6558dbb`. It records `verdict=R40_4_3_7_GUEST_OR_ORIGINAL_STRICT_REVIEW_HOLD`, `failure_class=SOURCE_OR_GUEST_OR_OLD_STRICT_OR_NEW_EVENT_REVIEW_HOLD_NO_PRIVATE_TRACE`, `genuine_original_plugin_native_entry_event_exercised=false`. Critically, `original_strict_r40436_reviewer_pass=false` is an **unconditional generic failure-fallback field** of this R37 wrapper; it does *not* establish that the prior R36 reviewer ran and independently failed. The previous R40.4.3.6 public bounded drawing/save PASS remains historical, not retracted. No R37 plugin entry PASS, real menu interaction, or boot authorization.
+
+The raw R37 guest stdout, stderr and exit are intentionally private and were not supplied, so the failure stage cannot be inferred from the uploaded JSON. Rather than changing guest source or rerunning QEMU without a diagnosis, [R40.4.3.7.1](../r40.4.3.7.1/README.md) provides a SHA-verified local read-only existing-run diagnostic. It exports fixed source checkpoint names and counts only, optionally replaying the source-pinned previous R36 strict reviewer on the local trace. No raw paths/source or errors are published. All earlier holds remain; **NOT_BOOTABLE**.

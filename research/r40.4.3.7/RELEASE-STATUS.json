@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7",
   "date": "2026-11-03",
-  "status": "HOST_TESTED_ARM_QEMU_PENDING",
+  "status": "UPLOADED_PUBLIC_REVIEW_HOLD_NO_PRIVATE_TRACE",
   "release_zip": "pw3-os-r40.4.3.7-plugin-entry.zip",
   "release_sha256": "cd644f75f4186aa65ccfdd9d1b99f1efbfd2847889547914477c68f7bea6d074",
   "release_bytes": 37889,
@@ -16,7 +16,7 @@
   "original_R26_2070_preflight": "REQUIRED",
   "original_13_private_source_recheck": "REQUIRED",
   "staged_main_lua_and_uimanager_sha_pinned": true,
-  "arm_qemu_execution": "PENDING",
+  "arm_qemu_execution": "PUBLIC_REVIEW_HOLD_RAW_TRACE_NOT_SUPPLIED",
   "native_plugin_entry_event_exercised": false,
   "menu_widget_event_exercised": false,
   "physical_pw3_verified": false,
@@ -33,5 +33,12 @@
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "public_review_sha256": "519223f60913dc7994293db231ffaa06a53579ed9f17b9e1006f8e96d6558dbb",
+  "public_review_verdict": "R40_4_3_7_GUEST_OR_ORIGINAL_STRICT_REVIEW_HOLD",
+  "original_strict_r40436_reviewer_pass_reported": false,
+  "original_strict_r40436_reviewer_executed_or_passed": "UNDETERMINED_GENERIC_FAILURE_DEFAULT",
+  "no_guest_pass": true,
+  "failure_class": "SOURCE_OR_GUEST_OR_OLD_STRICT_OR_NEW_EVENT_REVIEW_HOLD_NO_PRIVATE_TRACE",
+  "next_step": "R40.4.3.7.1_DIAGNOSE_EXISTING_RUN_PRIVATE_TRACE_SAFE"
 }
