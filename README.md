@@ -123,3 +123,5 @@ For research and educational purposes only.
 - [R40.4.3.4 experimental Ink Away original widget show/close](research/r40.4.3.4/RELEASE-STATUS.json): 52 host tests PASS and ZIP verified; QEMU guest pending. Only original plugin openCanvas and UIManager show/close attempted, not menu callback, stylus, stroke or save. NOT_BOOTABLE.
 
 - [R40.4.3.4 user terminal reports strict reviewer view-only ARM PASS](research/r40.4.3.4/RELEASE-STATUS.json): original Ink Away `openCanvas` → UIManager view show/close → FileManager restoration; public JSON records and independent raw-trace replay pending. No menu-event, pen, drawing, save or observed-file union update claimed; `NOT_BOOTABLE`.
+
+- [R40.4.3.4 uploaded public strict review and summary verified](research/r40.4.3.4/RELEASE-STATUS.json): identical SHA-256 `cf697e8ba649f2552eb888461033cbb16f8bf27bdccca74ec9a17bed19452054`, reviewer reports 9,907 QEMU syscalls, 4,793 decoded paths and 34 write-opens/13 mkdirs/0 renames under scratch HOME. Raw QEMU trace not received or independently replayed; Ink Away input/stroke/save and new stage-file union remain HOLD.
