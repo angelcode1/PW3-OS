@@ -154,3 +154,5 @@ For research and educational purposes only.
 - [R40.4.3.7.3 live handler provenance trial](research/r40.4.3.7.3/RELEASE-STATUS.json): R372 guest HOLD after plugin registration, before onInkAwayOpen handler source. New two-check same-source original method gate, unchanged original native event and R372/R37/R36/R353/R35 strict reviewer chain; 24 host tests PASS, ARM QEMU pending. NOT_BOOTABLE, no device/firmware or pruning.
 
 - [R40.4.3.7.4 live method lookup diagnostic](research/r40.4.3.7.4/RELEASE-STATUS.json): R373 public review HOLD after plugin registration, before handler-function checkpoint. Source-pinned nonmutating Lua instance/prototype lookup classifier, 20 host tests PASS; ARM/QEMU pending, original strict reviewer unchanged; NOT_BOOTABLE.
+
+- [R40.4.3.7.4.1 host manifest repair](research/r40.4.3.7.4.1/RELEASE-STATUS.json): original R374 Mac test failure independently reproduced from generated Python caches; repaired strictly allowlisted metadata and added read-only Docker daemon/context/image diagnostic. 23 host tests PASS, guest/reviewer byte-identical, ARM image still pending; NOT_BOOTABLE.

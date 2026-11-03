@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.4",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_ARM_QEMU_PENDING",
+  "status": "ORIGINAL_R374_HOST_MANIFEST_BUG_CONFIRMED_REPLACED_BY_R3741_ARM_PENDING",
   "release_zip": "pw3-os-r40.4.3.7.4-live-method-classifier.zip",
   "release_sha256": "d34e80327bfa44e85d52cb313f2d16bc467f73f93f50715dee1e43c1d473cef0",
   "release_bytes": 36956,
@@ -35,5 +35,9 @@
   "hardware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "original_host_test_reproducibility_issue": "EXTRA_PYTHON_PYC_CACHE_FILES_CAUSE_MANIFEST_LINE_COUNT_MISMATCH",
+  "original_guest_arm_executed": false,
+  "original_docker_image_inspect_marker": "R404374_EXISTING_OFFLINE_IMAGE_UNAVAILABLE",
+  "replacement_release": "R40.4.3.7.4.1"
 }
