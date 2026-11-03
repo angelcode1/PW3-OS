@@ -109,3 +109,6 @@ For research and educational purposes only.
 
 - [R40.4.3.0 Mac staged Ink Away static source declarations PASS](research/r40.4.3.0/RELEASE-STATUS.json): four staged Lua files scanned, five named API declarations seen; all 2,070 original R26 entries rechecked; runtime canvas still untested.
 - [R40.4.3.1 prospective Ink Away view/stroke/save source chain](research/r40.4.3.1/README.md): 45 host tests PASS, Mac stage inspection pending. Checks potential destination-remove fallback and must later enforce disposable HOME write confinement under QEMU. No ARM PASS, no stage mutation.
+
+- [R40.4.3.1 Mac source-chain audit PASS](research/r40.4.3.1/RELEASE-STATUS.json): 45 host tests, nine staged Ink Away Lua files source-inspected, 2,070 R26 entries rechecked; staged atomic-save fallback can remove destination if rename fails. **Source only, no runtime save proof**.
+- [R40.4.3.2 bounded staged canvas-model/storage ARM trial](research/r40.4.3.2/README.md): 59 host regressions PASS, checksum-verified versioned ZIP. Independent offline QEMU model stroke, atomic save, reload scenario pending; full InkAwayView and pen lifecycle remain `NOT_TESTED_HOLD`.

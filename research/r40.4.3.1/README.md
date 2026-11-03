@@ -13,3 +13,9 @@ Five additional source roles: `ink/view.lua`, `ink/view/document.lua`, `ink/view
 The original R40.4.2 observed file-open union remains 347; all 1,101 unobserved regular entries and previous 976 UNKNOWN_HOLD retained, not additive. Future optional puzzles unbuilt.
 
 **Research only:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`.
+
+## R40.4.3.1 user-side result (2026-11-03)
+
+The user reports **45 host tests PASS** and a source-bound local run yielding `R40_4_3_1_SOURCE_ROUTE_OBSERVED_NOT_EXECUTED`. The local audit rechecked all 2,070 R26 entries (1,448 regular hashes, 335 symlinks, 287 directory types) and the 4 original staged Ink Away source records, plus 5 additional source files: view, view/document, view/stroke, view/input, and serializer. All anticipated lexical API markers were found. **Crucially, the original staged `Storage.writeAtomic` contains the destination `os.remove(path)` fallback**, so a QEMU save scenario must confine even failure-path unlinks to isolated tmpfs HOME. This is **not** a runtime test; no canvas, stylus, view, file save, or write-isolation ARM PASS is claimed. The original 347 two-scenario observed-file union is unchanged.
+
+The follow-on [R40.4.3.2 model/storage experiment](../r40.4.3.2/README.md) is a deliberately narrower ARM/QEMU experimental release: genuine staged Canvas stroke → Project.save/Storage.writeAtomic → reload, all under synthetic /tmp, with independent guest trace review. It **does not** test InkAwayView/UIManager or pen gestures. **R40.4.3.2 ARM result is pending**. The complete Python/Lua/shell release remains a separate, hashed downloadable ZIP; no stage changes are authorized.

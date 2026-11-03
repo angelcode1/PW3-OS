@@ -8,7 +8,7 @@
   "release_integrity": "VERIFIED",
   "host_tests": 45,
   "host_tests_status": "PASS",
-  "mac_stage_audit": "PENDING",
+  "mac_stage_audit": "USER_REPORTED_SOURCE_ROUTE_PASS",
   "source_only": true,
   "guest_lua_executed": false,
   "arm_qemu_new_scenario": "NOT_TESTED_HOLD",
@@ -20,7 +20,7 @@
     "SHA256SUMS-R40431": "b9a0322245ed1886a57670de3af230546e6647ea12b520ca6782eaf6609d6b71",
     "SCENARIO-MATRIX-R40431.json": "fd34ad0f6448cf2099369590f4a899d7eb773c97ae4167488565f5c14ec13187"
   },
-  "r26_entries_local_reverification_pending": 2070,
+  "r26_entries_local_reverification_pending": null,
   "source_roles": [
     "ink/view.lua",
     "ink/view/document.lua",
@@ -38,5 +38,17 @@
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
   "future_puzzles": "FUTURE_OPTIONAL_NOT_BUILT_NOT_TESTED_HOLD",
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "mac_stage_audit_verdict": "R40_4_3_1_SOURCE_ROUTE_OBSERVED_NOT_EXECUTED",
+  "mac_host_tests_reported": 45,
+  "mac_reverified_stage_entries": 2070,
+  "mac_reverified_regular_sha256": 1448,
+  "mac_reverified_symlink_targets": 335,
+  "mac_reverified_directories": 287,
+  "mac_staged_modules_examined": 5,
+  "mac_prior_staged_modules_rechecked": 4,
+  "mac_static_lexical_contract": "EXPECTED_LEXICAL_ROUTE_SEEN_NOT_RUNTIME_PROVEN",
+  "mac_atomic_write_fallback_remove_signal": true,
+  "mac_write_path_isolation_runtime_proven": false,
+  "r26_entries_local_reverification_complete": true
 }
