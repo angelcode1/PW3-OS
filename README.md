@@ -102,3 +102,5 @@ For research and educational purposes only.
 
 - [R40.4.1 corrected-release FileManager-only user-side review PASS](research/r40.4.1/ARM-STATUS.json): 6,139 QEMU lines, 2,407 decoded path operations; independent reviewer reports FileManager/Ink Away ownership and clean Close, no PDF opened. Collector's `guest_filemanager_only_reviewer_pass=false` is an intentionally pre-review field. Raw trace stayed private, so only supplied independent-reviewer result and public counters were inspected.
 - [R40.4.2 local read-only two-scenario staged-open comparison](research/r40.4.2/README.md): 46 host regression tests PASS; source ZIP SHA-256 `b34fa8a311089379f590bd844f21342ac1457fea6202aa50d76e580839a2107a`; actual Mac comparison pending. No file-removal inference.
+
+- [R40.4.2 user-verified PDF vs FileManager observed-open union](research/r40.4.2/ARM-STATUS.json): 338 shared, 9 PDF-scenario-only, 0 FileManager-only-exclusive, 347 union; 1,101 unobserved files retained. Independent new Ink Away canvas trace pending, no pruning.
