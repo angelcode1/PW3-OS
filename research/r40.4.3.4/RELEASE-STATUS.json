@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.4",
   "date": "2026-11-03",
-  "status": "HOST_TESTED_ARM_QEMU_PENDING",
+  "status": "USER_TERMINAL_REPORTS_STRICT_REVIEWER_ARM_PASS_PUBLIC_FILES_PENDING",
   "release_name": "pw3-os-r40.4.3.4-inkaway-view-only.zip",
   "zip_sha256": "a8c3d218704fdca53fdff86fff1eab62ffd3416dc1bce5117adf94206932033c",
   "zip_bytes": 35239,
@@ -20,7 +20,7 @@
   "menu_event_exercised": false,
   "stylus_or_input_event_exercised": false,
   "stroke_save_or_reload_exercised": false,
-  "new_arm_qemu_guest_status": "PENDING",
+  "new_arm_qemu_guest_status": "USER_REPORTED_QEMU_AND_REVIEWER_PASS",
   "source_release_location": "complete versioned conversation ZIP",
   "original_stage_modified": false,
   "stage_mount_readonly": true,
@@ -39,5 +39,15 @@
   "hardware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_reported_preflight": "R40434_STAGE_UI_GUARD_AND_R26_PREFLIGHT_PASS",
+  "user_reported_review": "R40_4_3_4_GENUINE_INKAWAY_VIEW_SHOW_CLOSE_ARM_PASS",
+  "user_reported_runner_final": "R40_4_3_4_GENUINE_INKAWAY_VIEW_SHOW_CLOSE_ARM_PASS; INPUT_STROKE_SAVE_NOT_TESTED; NOT_BOOTABLE",
+  "public_review_received": false,
+  "public_summary_received": false,
+  "raw_guest_trace_independently_replayed": false,
+  "genuine_view_event_owner_proof_scope": "Original source-bound plugin openCanvas() and UIManager show/close; no menu event or pen event",
+  "new_observed_regular_stage_open_union": "NOT_RECOMPUTED_HOLD",
+  "source_integrity_rechecked_in_reported_preflight": true,
+  "last_update_basis": "User terminal stdout only; do not treat as independent raw-trace replay"
 }

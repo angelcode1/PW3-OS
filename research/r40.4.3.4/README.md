@@ -11,3 +11,10 @@ The new independent QEMU reviewer requires exact original and new lifecycle mark
 **Historical scope:** R40.4.3.2 genuine Canvas-model/Project save and reload ARM PASS, independently reviewed. R40.4.3.3 stage UI *source only* PASS. R40.4.3.4 view guest not yet executed; do not interpret as UI PASS before independent review. Full canvas/pen event/save/return is still NOT_TESTED_HOLD.
 
 **Hard holds:** all 1,101 unobserved regular stage files retained; all 976 historical UNKNOWN_HOLD retained; future puzzle pack not built. No firmware, device, hardware or boot access and no pruning; `NOT_BOOTABLE`. Research/education only.
+
+
+## User-reported ARM/QEMU view-only success (2026-11-03)
+
+User ran the versioned R40.4.3.4 guest and reported `R40434_STAGE_UI_GUARD_AND_R26_PREFLIGHT_PASS; NOT_BOOTABLE`, followed by `R40_4_3_4_GENUINE_INKAWAY_VIEW_SHOW_CLOSE_ARM_PASS` from the strict reviewer and the runner's final matching marker `...; INPUT_STROKE_SAVE_NOT_TESTED; NOT_BOOTABLE`. The release reviewer (read from the pinned ZIP) requires each historical FileManager lifecycle marker plus exactly one of each new view-open/UIManager ownership/view-close marker, ordered cleanly, and inspects decoded guest mutations under the synthetic HOME. This **supports terminal-reported QEMU strict reviewer PASS**, *not yet independently replayed* by the assistant; the public `R40434-REVIEW.json`, `R40434-SUMMARY.json` and raw trace have not yet been supplied. Do not infer menu event, gesture, pen, stroke, save/reload, real device operation or new observed-file union from terminal strings alone.
+
+**Evidence to request:** output folder `pw3-os-r40.4.3.4-view-only-first-run` should contain `R40434-REVIEW.json` and `R40434-SUMMARY.json`. Share those **public** files only; keep private `trace/` on Mac unless a separately bounded replay becomes necessary. Previous 347-file observed-open baseline unchanged until source-bound new-trace crosswalk is performed. No pruning, no boot and no firmware/device access, `NOT_BOOTABLE`.

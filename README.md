@@ -121,3 +121,5 @@ For research and educational purposes only.
 
 - [R40.4.3.3 user-side staged UI source-only PASS](research/r40.4.3.3/RELEASE-STATUS.json): 62 host tests PASS, six genuine UI source modules statically checked, all 2,070 original R26 stage entries rehashed. No UI event executed.
 - [R40.4.3.4 experimental Ink Away original widget show/close](research/r40.4.3.4/RELEASE-STATUS.json): 52 host tests PASS and ZIP verified; QEMU guest pending. Only original plugin openCanvas and UIManager show/close attempted, not menu callback, stylus, stroke or save. NOT_BOOTABLE.
+
+- [R40.4.3.4 user terminal reports strict reviewer view-only ARM PASS](research/r40.4.3.4/RELEASE-STATUS.json): original Ink Away `openCanvas` → UIManager view show/close → FileManager restoration; public JSON records and independent raw-trace replay pending. No menu-event, pen, drawing, save or observed-file union update claimed; `NOT_BOOTABLE`.
