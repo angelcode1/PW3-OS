@@ -78,3 +78,5 @@ For research and educational purposes only.
 - [R40.0 offline QEMU syscall-file observation source release](research/r40.0/README.md): 602 host tests PASS, ZIP checksums verified, ARM/QEMU **not yet run**; path details private, only summary counts shareable. [R40 requirements and limits](docs/R40-OFFLINE-DEPENDENCY-EVIDENCE-PLAN.md). No deletion or boot authorization.
 
 - [R40.0.1 macOS canonical path test fix](research/r40.0.1/README.md): repaired R40.0 host regression (`/var` vs `/private/var`); 603 host tests PASS on Linux, Mac rerun and ARM syscall observation pending. No security policy change.
+
+- [R40.0.2 traced stdout/stderr and strict exit-marker correction](research/r40.0.2/README.md): R40.0.1 real guest trace observed 2,713 path operations but strict reviewers FAIL; R40.0.2 host-tested 628 PASS, offline ARM/QEMU retry pending; no pruning or boot rights.
