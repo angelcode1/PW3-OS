@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.5.1",
   "date": "2026-11-03",
-  "status": "HOST_TESTED_DIAGNOSTIC_ONLY_OFFLINE_QEMU_PENDING",
+  "status": "GUEST_EXIT_1_UNKNOWN_CATEGORY_AND_REPORTER_OUTPUT_PATH_BUG_CONFIRMED",
   "name": "pw3-os-r40.4.3.5.1-root-cause-only.zip",
   "zip_sha256": "525400aef7e4e1d4d6952514d4b921aaf18615882852fb9db38c9684cbfcc2ec",
   "zip_bytes": 43121,
@@ -21,7 +21,7 @@
   "previous_guest_evidence": "R40435_QEMU_EXIT_1_AFTER_VIEW_ADDED_BEFORE_GESTURE_READY",
   "previous_mutation_guard": "PASS_LOCAL_REDACTED_DIAGNOSTIC",
   "root_cause": "UNKNOWN_PENDING_NEW_PUBLIC_FIXED_CATEGORY_REPORT",
-  "qemu_guest_diagnostic_status": "PENDING",
+  "qemu_guest_diagnostic_status": "USER_GUEST_RAN_EXIT_1",
   "guest_gesture_runtime_pass": false,
   "full_inkaway_input_stroke_save_return": "NOT_TESTED_HOLD",
   "prior_three_scenario_regular_open_union": 347,
@@ -36,5 +36,20 @@
   "boot_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "original_guest_fixed_category": "UNKNOWN_PROTECTED_LUA_FAILURE_HOLD",
+  "runner_reporter_mismatch": "reporter refuses output inside original run; runner used exactly that path",
+  "reported_refusal_is_not_evidence_of_unsafe_mutation": true,
+  "recovered_public_report_sha256": "320dd15cacb91f537bfe570838da9fd17db7a0ac96138c1ade84f89de4d3fe8d",
+  "recovered_report_replayed_original_source_pinned_mutation_reviewer": true,
+  "recovered_decoded_mutation_guard_pass": true,
+  "recovered_decoded_mutation_counts": {
+    "write_opens": 31,
+    "mkdirs": 13,
+    "renames": 0
+  },
+  "recovered_guest_qemu_exit_code": 1,
+  "inner_lua_failure_cause": "UNKNOWN_HOLD",
+  "previous_original_guest_logs_preserved": true,
+  "new_diagnostic": "R40.4.3.5.2_FIXED_CHECKPOINT_BOUNDARY_ONLY"
 }

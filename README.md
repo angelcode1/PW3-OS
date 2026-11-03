@@ -132,3 +132,6 @@ For research and educational purposes only.
 
 - [R40.4.3.5 local diagnostic: QEMU exits 1 before gesture-ready marker](research/r40.4.3.5/RELEASE-STATUS.json): 9,155 syscall lines, 4,625 decoded path operations, mutation guard PASS. Exact inner assertion masked by original `pcall`, not yet known.
 - [R40.4.3.5.1 protected-call source-pinned reason classifier](research/r40.4.3.5.1/README.md): 29 host tests PASS, 12-member verified ZIP, *diagnostic-only* QEMU pending. No guest gesture success, stage mutation, device access or pruning authorized.
+
+- [R40.4.3.5.1 uploaded guest logs: reporter path bug confirmed](research/r40.4.3.5.1/RELEASE-STATUS.json): QEMU exit 1, unknown protected Lua error; old reporter PASS on external output path, decoded scratch mutations 31 write-opens / 13 mkdirs / 0 renames. No guest gesture PASS.
+- [R40.4.3.5.2 checkpoint-only pre-dispatch diagnostic](research/r40.4.3.5.2/RELEASE-STATUS.json): eight source-bound print checkpoints, 36 host tests PASS and verified ZIP; isolated QEMU diagnostic PENDING. Public report outside guest run, no stage mutation or safety-hold changes.
