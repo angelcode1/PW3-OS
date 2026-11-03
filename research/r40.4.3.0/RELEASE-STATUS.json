@@ -1,0 +1,35 @@
+{
+  "milestone": "R40.4.3.0",
+  "date": "2026-11-03",
+  "release_file": "pw3-os-r40.4.3.0-inkaway-source-gate.zip",
+  "release_sha256": "c6b2e8d111e418d7ed7853a5a553f6cba829c1dd3812ed00948a8561331ea9b0",
+  "release_zip_entries": 6,
+  "sha256_manifest_members": 5,
+  "zip_crc_verified": true,
+  "host_regression_tests": 38,
+  "host_regression_status": "PASS",
+  "stage_test": "PENDING",
+  "arm_qemu_new_scenario": "NOT_TESTED_HOLD",
+  "source_pin_r403": "7f750452a520807bca6dd6084bf410e226c7bcb8e9f5fb227c4ee8ed72c4900c",
+  "source_pin_r4042_public": "58707ea78858dbab3fc0763adceee20bd83d9fa2e587fdeb3bf3711ba1cc3416",
+  "release_members": {
+    "r4043/inkaway_source_gate.py": "8d99fe4784793d1532d0130603fed8c0191cc478a750250d184dd51febec429d",
+    "r4043/__init__.py": "043d8d63fbf633c7525c818f4354d146999a9317bebcec3109305c942c09aa46",
+    "tests/test_r4043.py": "2951fc791c3415f81dd0a3179011bfe06e82fa4f095025652ed69cc377fa592d",
+    "README-R40.4.3.0.md": "5bb5ddbaaa3f50a062da0c2df4d6d849a09bc265749aa77e84e8263788391c9a",
+    "SCENARIO-MATRIX-R4043.json": "f6429d1e0994c79ad4955e127bbaa15f7efc29b3c48dbe4e5f80e31944ab8c19",
+    "SHA256SUMS-R4043": "c8b1c047e82527e29d2060bbf791d07e0f31629a57905ef8f47f4993f9fc4ec3"
+  },
+  "code_location": "conversation_zip_not_committed_individually",
+  "safety": {
+    "no_stage_mutations": true,
+    "device_access_authorized": false,
+    "firmware_write_authorized": false,
+    "file_removal_authorized": false,
+    "boot_authorized": false,
+    "complete_dependency_closure_proven": false,
+    "old_unknown_hold_entries_retained": 976,
+    "unobserved_stage_regular_files_retained": 1101,
+    "immutable_hold": "NOT_BOOTABLE"
+  }
+}
