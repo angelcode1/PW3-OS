@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.4",
   "date": "2026-11-04",
-  "status": "ORIGINAL_R374_HOST_MANIFEST_BUG_CONFIRMED_REPLACED_BY_R3741_ARM_PENDING",
+  "status": "USER_UPLOADED_ARM_HANDLER_METHOD_DIAGNOSTIC_HOLD",
   "release_zip": "pw3-os-r40.4.3.7.4-live-method-classifier.zip",
   "release_sha256": "d34e80327bfa44e85d52cb313f2d16bc467f73f93f50715dee1e43c1d473cef0",
   "release_bytes": 36956,
@@ -39,5 +39,15 @@
   "original_host_test_reproducibility_issue": "EXTRA_PYTHON_PYC_CACHE_FILES_CAUSE_MANIFEST_LINE_COUNT_MISMATCH",
   "original_guest_arm_executed": false,
   "original_docker_image_inspect_marker": "R404374_EXISTING_OFFLINE_IMAGE_UNAVAILABLE",
-  "replacement_release": "R40.4.3.7.4.1"
+  "replacement_release": "R40.4.3.7.4.1",
+  "public_review_sha256": "56f0ca09afe84a1695e433cbbc2804f58204f0151a1163bc92e151092086efe3",
+  "public_review_verdict": "R40_4_3_7_4_LIVE_HANDLER_DIAGNOSTIC_HOLD",
+  "method_state": "PROTOTYPE_NONFUNCTION",
+  "old_draw_reload_checkpoint_reported": true,
+  "plugin_registration_checkpoint_reported": true,
+  "handler_present_checkpoint_reported": false,
+  "new_native_plugin_event_verified": false,
+  "guest_zero_exit": false,
+  "private_raw_trace_replayed": false,
+  "next_release": "R40.4.3.7.5"
 }

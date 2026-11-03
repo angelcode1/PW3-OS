@@ -156,3 +156,5 @@ For research and educational purposes only.
 - [R40.4.3.7.4 live method lookup diagnostic](research/r40.4.3.7.4/RELEASE-STATUS.json): R373 public review HOLD after plugin registration, before handler-function checkpoint. Source-pinned nonmutating Lua instance/prototype lookup classifier, 20 host tests PASS; ARM/QEMU pending, original strict reviewer unchanged; NOT_BOOTABLE.
 
 - [R40.4.3.7.4.1 host manifest repair](research/r40.4.3.7.4.1/RELEASE-STATUS.json): original R374 Mac test failure independently reproduced from generated Python caches; repaired strictly allowlisted metadata and added read-only Docker daemon/context/image diagnostic. 23 host tests PASS, guest/reviewer byte-identical, ARM image still pending; NOT_BOOTABLE.
+
+- [R40.4.3.7.5 callable HandlerSandbox correction](research/r40.4.3.7.5/RELEASE-STATUS.json): R374 public classifier reports PROTOTYPE_NONFUNCTION, consistent with original KOReader pluginloader wrapping on* methods into callable tables. Single source-bound guest correction checks original wrapper/inner Lua function, all earlier real strict reviewers mandatory; 22 host tests PASS; staged-source ARM/QEMU PENDING, NOT_BOOTABLE.

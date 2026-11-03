@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.4.1",
   "date": "2026-11-04",
-  "status": "HOST_MANIFEST_REPAIRED_DOCKER_IMAGE_PREREQUISITE_UNAVAILABLE_ARM_NOT_RUN",
+  "status": "HOST_FIX_PASS_R3744_1_LOCAL_ARM_DIAGNOSTIC_HOLD",
   "release_zip": "pw3-os-r40.4.3.7.4.1-host-fix.zip",
   "release_sha256": "b6aa5f169be296a4fe469b0649fdb0f3c9741ab410ecfbfc3ea7ecc5d2160119",
   "release_bytes": 39093,
@@ -27,8 +27,8 @@
   "prior_docker_marker": "R404374_EXISTING_OFFLINE_IMAGE_UNAVAILABLE",
   "docker_diagnostic_read_only": true,
   "docker_image_required": "pw3-r394-reopen-trial",
-  "docker_image_state": "UNKNOWN_IF_DAEMON_UNREACHABLE_OR_MISSING_IMAGE",
-  "arm_qemu_execution": "NOT_RUN_REQUIRES_EXISTING_PREBUILT_IMAGE",
+  "docker_image_state": "GUEST_R374_DIAGNOSTIC_EXECUTED_IN_USER_ENVIRONMENT_IMAGE_PRECHECK_SOMEHOW_PASSED",
+  "arm_qemu_execution": "USER_UPLOADED_R374_DIAGNOSTIC_HOLD_NOT_NATIVE_EVENT_PASS",
   "original_R26_2070_preflight_reported": "PASS",
   "original_13_private_staged_Lua_recheck_reported": "PASS",
   "stage_regular_open_union_not_recomputed": 347,
@@ -43,5 +43,6 @@
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "previous_r374_public_review_sha256": "56f0ca09afe84a1695e433cbbc2804f58204f0151a1163bc92e151092086efe3"
 }
