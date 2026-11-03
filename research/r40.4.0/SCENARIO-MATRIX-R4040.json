@@ -1,0 +1,24 @@
+{
+  "schema": "PW3_R40_4_0_SCENARIO_MATRIX_V1",
+  "milestone": "R40.4.0",
+  "status": "STATIC_CANDIDATE_GRAPH_HOST_TESTED_ARM_NOT_RUN",
+  "immutable_hold": "NOT_BOOTABLE",
+  "scenarios": [
+    {"id": "double_pdf_reopen", "existing_evidence": "R40.0.2 previously verified QEMU trace and R39.4.11 original/replay strict reviewers PASS", "new_r40_4_run": "NOT_RUN", "dependencies": "STATIC_CANDIDATES_NOT_LOADER_PROOF"},
+    {"id": "filemanager_only", "existing_evidence": "Previous application lifecycle milestones only", "new_r40_4_run": "NOT_TESTED_HOLD", "dependencies": "NOT_TRACED"},
+    {"id": "ink_away_canvas_save_return", "existing_evidence": "Earlier R22.1 synthetic ARM plugin interactions, not an independent R40 syscall trace", "new_r40_4_run": "NOT_TESTED_HOLD", "dependencies": "NOT_TRACED"},
+    {"id": "epub_or_plain_text_reader", "existing_evidence": "NO_R40_TRACE", "new_r40_4_run": "NOT_TESTED_HOLD", "dependencies": "NOT_TRACED"},
+    {"id": "missing_font_locale_resource_fallback", "existing_evidence": "NO_R40_ISOLATED_FALLBACK_SCENARIO", "new_r40_4_run": "NOT_TESTED_HOLD", "dependencies": "NOT_TRACED"},
+    {"id": "future_optional_puzzles", "existing_evidence": "Roadmap reservation only; no puzzle binary, dictionary or UI adapter built", "new_r40_4_run": "NOT_BUILT_NOT_TESTED_HOLD", "dependencies": "OPTIONAL_FUTURE_NOT_INSTALLED"}
+  ],
+  "safety": {
+    "device_access_authorized": false,
+    "firmware_write_authorized": false,
+    "boot_authorized": false,
+    "file_removal_authorized": false,
+    "complete_dependency_closure_proven": false,
+    "safe_to_prune_inferred": false,
+    "unobserved_stage_regular_files_retained": 1101,
+    "older_unknown_hold_entries_preserved": 976
+  }
+}

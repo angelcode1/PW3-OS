@@ -89,6 +89,8 @@ For research and educational purposes only.
 - [R40.1 actual rootfs crosswalk result and R40.2 source-bound cwd test](research/r40.2/README.md): compares QEMU relative paths only when the original trace and pinned runner support cwd provenance; never classifies an unobserved file as removable.
 
 - [R40.2 user-verified cwd crosswalk](research/r40.2/README.md): 1,255 relative access events, 334 distinct regular files opened through proven relative paths, no file-removal inference.
-- [R40.3 deduplicated stage opens and R26 SHA audit](research/r40.3/README.md): 38 host tests PASS; local Mac results pending. Complete tool in the conversation release archive.
+- [R40.3 deduplicated stage opens and R26 SHA audit](research/r40.3/README.md): user-side local union PASS (347 unique regular opens, 1,101 unobserved kept) and original R26 2,070-entry SHA/symlink/type match PASS (unauthenticated manifest).
 
 - [Future optional lightweight puzzle pack dependency reservation](docs/OPTIONAL-PUZZLE-PACK-DEPENDENCIES.md): Inkwell-inspired native C Sudoku/KenKen/crosswords/Mahjong/word-game candidates, license/data/save/UI dependencies and separate `NOT_TESTED_HOLD`; no package or stage changes.
+
+- [R40.4.0 local ELF/Lua static candidate-graph tool](research/r40.4.0/README-R40.4.0.md): complete committed Python source and 62 passing host tests; R13/R26 stage analysis pending on Mac, ARM/QEMU new scenarios not run. Optional puzzle dependency reservation stays NOT_BUILT_NOT_TESTED_HOLD.
