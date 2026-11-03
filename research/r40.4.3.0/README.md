@@ -17,3 +17,9 @@ The script requires the exact SHA-256 of the **user-verified R40.4.2 public JSON
 Run the ZIP's `README-R40.4.3.0.md` locally. Share **only** `R40.4.3.0-SUMMARY.json`, not `R40.4.3.0-PRIVATE-SOURCE-MAP.json`, original R26 inventory, private QEMU events, or plugin source text. Source-contract result remains provisional until locally run, and no new Ink Away canvas ARM test has been performed.
 
 The 1,101 unobserved stage regular files, original 976 UNKNOWN_HOLD entries, and future puzzles hold remain unchanged. No file-removal inference: `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. Research/educational purposes only.
+
+## User-side staged-source result (2026-11-03)
+
+User ran the 38 regression tests PASS and the stage-bound source scan. Reported `R40_4_3_0_INKAWAY_SOURCE_CONTRACT_OBSERVED_NOT_EXECUTED` with `EXPECTED_NAMES_SEEN_STATICALLY_NOT_RUNTIME_PROVEN`. The user-side scan rechecked all 2,070 R26 items (1,448 regular-file digests, 335 symlink targets, 287 directories) and examined four original Ink Away source files. Main menu and `openCanvas` declarations each seen once; the canvas `startStroke`, `addPoint`, `finishStroke` declarations each seen once. Storage source has 26 function declarations and 11 lexical write-call sites. This is source syntax evidence only; no actual canvas, stroke, saved document, runtime path or view teardown was verified, and no new QEMU trace was generated.
+
+The next host-only step is the [R40.4.3.1 view/storage source-chain gate](../r40.4.3.1/README.md), which checks staged view, document, stroke, input and project modules before preparing a later strict guest test. Its standalone ZIP is independently host-tested, but its Mac source audit remains pending. Existing file-open union 347; 1,101 unobserved regular stage entries and 976 older UNKNOWN_HOLD entries retained. NOT_BOOTABLE.

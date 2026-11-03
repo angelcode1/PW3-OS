@@ -1,0 +1,42 @@
+{
+  "milestone": "R40.4.3.1",
+  "date": "2026-11-03",
+  "release_file": "pw3-os-r40.4.3.1-view-storage-contract.zip",
+  "release_sha256": "0fe6e461bc4f2f0602cdef485544e393bea60dd81068ee09c81bd63feb480286",
+  "release_zip_entries": 6,
+  "release_manifest_entries": 5,
+  "release_integrity": "VERIFIED",
+  "host_tests": 45,
+  "host_tests_status": "PASS",
+  "mac_stage_audit": "PENDING",
+  "source_only": true,
+  "guest_lua_executed": false,
+  "arm_qemu_new_scenario": "NOT_TESTED_HOLD",
+  "original_stage_source_gate_sha256": "8d99fe4784793d1532d0130603fed8c0191cc478a750250d184dd51febec429d",
+  "release_members": {
+    "r40431/view_storage_gate.py": "9913c52e129d8d595207bb015140fddf608bd98303a16b64bc076991b793b698",
+    "tests/test_r40431.py": "4f6084d274c20bf83259905897dac9cbb9edbb8a9d6b500ee618d609768b4198",
+    "README-R40.4.3.1.md": "962872eb3352ac9452e142d41ea21cb393d96f4b19fbabe4b4aad85cccde3d58",
+    "SHA256SUMS-R40431": "b9a0322245ed1886a57670de3af230546e6647ea12b520ca6782eaf6609d6b71",
+    "SCENARIO-MATRIX-R40431.json": "fd34ad0f6448cf2099369590f4a899d7eb773c97ae4167488565f5c14ec13187"
+  },
+  "r26_entries_local_reverification_pending": 2070,
+  "source_roles": [
+    "ink/view.lua",
+    "ink/view/document.lua",
+    "ink/view/stroke.lua",
+    "ink/view/input.lua",
+    "ink/project.lua"
+  ],
+  "risk": "Upstream Ink Away writeAtomic may unlink original destination on rename failure; exact staged code must be checked before any guest save path is permitted",
+  "complete_dependency_closure_proven": false,
+  "stage_mutated": false,
+  "boot_authorized": false,
+  "device_access_authorized": false,
+  "firmware_write_authorized": false,
+  "hardware_write_authorized": false,
+  "file_removal_authorized": false,
+  "safe_to_prune_inferred": false,
+  "future_puzzles": "FUTURE_OPTIONAL_NOT_BUILT_NOT_TESTED_HOLD",
+  "immutable_hold": "NOT_BOOTABLE"
+}

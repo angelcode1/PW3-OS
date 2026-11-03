@@ -106,3 +106,6 @@ For research and educational purposes only.
 - [R40.4.2 user-verified PDF vs FileManager observed-open union](research/r40.4.2/ARM-STATUS.json): 338 shared, 9 PDF-scenario-only, 0 FileManager-only-exclusive, 347 union; 1,101 unobserved files retained. Independent new Ink Away canvas trace pending, no pruning.
 
 - [R40.4.3.0 Ink Away staged-source contract gate](research/r40.4.3.0/README.md): 38 host tests PASS; static source API inspection pending on the user's Mac; genuinely traced canvas/stroke/save/return scenario still NOT_TESTED_HOLD. Full tool and tests in the SHA-pinned standalone conversation ZIP; no rootfs writes or pruning.
+
+- [R40.4.3.0 Mac staged Ink Away static source declarations PASS](research/r40.4.3.0/RELEASE-STATUS.json): four staged Lua files scanned, five named API declarations seen; all 2,070 original R26 entries rechecked; runtime canvas still untested.
+- [R40.4.3.1 prospective Ink Away view/stroke/save source chain](research/r40.4.3.1/README.md): 45 host tests PASS, Mac stage inspection pending. Checks potential destination-remove fallback and must later enforce disposable HOME write confinement under QEMU. No ARM PASS, no stage mutation.
