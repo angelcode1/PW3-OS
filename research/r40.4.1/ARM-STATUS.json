@@ -36,5 +36,10 @@
   "boot_authorized": false,
   "file_removal_authorized": false,
   "pruning_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "historical_preflight_status": "PREFLIGHT_FAIL_DUE_TO_TRUNCATED_SHA256_PIN",
+  "prior_preflight_typo": "PIN_R4002_REVIEW length 63, omitted final f",
+  "historical_preflight_trials": 2,
+  "docker_or_qemu_started_on_prior_attempts": false,
+  "fixed_by": "R40.4.1.1"
 }

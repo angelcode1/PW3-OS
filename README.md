@@ -97,3 +97,5 @@ For research and educational purposes only.
 
 - [R40.4.0 verified user-side static graph](research/r40.4.0/README-R40.4.0.md): 62 Mac host tests PASS, R26 2,070-entry hashes revalidated, 83 ELF objects and 823 Lua files scanned. Static edge candidates are NOT proven runtime dependencies; no pruning.
 - [R40.4.1 independent FileManager-only source trial](research/r40.4.1/README.md): 44 host tests PASS; separate synthetic QEMU FileManager + Ink Away ownership/Close trace ARM PENDING. Full runnable release is a checksum-verified conversation ZIP; the repository has the pinned experimental guest patch and entrypoint.
+
+- [R40.4.1.1 preflight SHA-256 pin correction](research/r40.4.1.1/README.md): fixes 63-character R40 review pin, 47 host tests PASS; original preflight attempts never started QEMU. Corrected runner supplied in versioned ZIP, FileManager-only ARM scenario remains PENDING. NOT_BOOTABLE.

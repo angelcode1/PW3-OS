@@ -45,3 +45,7 @@ sh ./run-r4041-docker.sh \
 Share only `R4041-SUMMARY.json` and `R4041-REVIEW.json`, generated in the new output directory. The private raw trace, app log, guest stdout, path-level event report, R26 inventory and R40 static graph must remain on the Mac. If the run fails, preserve it as FAIL and do not repeat in place: any retry requires fresh output. The reviewer requires source-pinned real FileManager + plugin startup, exactly one genuine UIManager Close, zero denials, strict cleanup, nonzero syscall evidence, independent QEMU exit zero and a shell-only post-exit marker. It must reject any PDF lifecycle/ReaderUI opening.
 
 **Unchanged:** `NO_DEVICE_ACCESS`, `NO_FIRMWARE_WRITES`, `NO_HARDWARE_ACTIONS`, `NO_BOOT`, `NO_PRUNING`, `NOT_BOOTABLE`; R40.0.2 and R39.4.11 original success histories unchanged. Research and educational purposes only.
+
+## Historical source pin defect (R40.4.1 old release)
+
+The user confirmed the R40.4.1 preflight refused twice before Docker execution. Root cause: released `PIN_R4002_REVIEW` was mistakenly **63 hex characters** (missing the final `f`), so it could not equal a genuine SHA-256. This was an erroneous **preflight** fail, not evidence corruption or an ARM trial failure. A separately versioned [R40.4.1.1 correction](../r40.4.1.1/README.md) fixes the sole preflight pin typo and adds 3 host regressions (47 PASS). Both historical failed preflights are retained as evidence. Old R40.4.1 source remains unchanged; no QEMU scenario PASS has been claimed.
