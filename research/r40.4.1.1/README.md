@@ -34,3 +34,9 @@ If preflight still refuses, run the read-only `r4041/preflight.py` functions und
 No R40.4.1.1 offline FileManager-only ARM/QEMU run has been verified. `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. No file exclusion or rootfs edit is authorized. The 347 PDF-observed open and 1,101 unobserved counts remain from the **earlier** R40.0.2 scenario. The 976 historic `UNKNOWN_HOLD` entries are retained, as is the future optional puzzle-pack `NOT_BUILT_NOT_TESTED_HOLD`.
 
 Research and educational purposes only.
+
+## Subsequent user-side ARM/QEMU result (2026-11-03)
+
+**The earlier ARM pending status above is superseded by a later corrected-release run.** The user supplied `R4041-REVIEW.json` (SHA-256 `96f905b145d30dae2c5d8b1aa6e4ba977d9df5010755846c4f275952f484d0dd`) reporting `R40_4_1_FILEMANAGER_ONLY_TRACED_ARM_PASS`, together with `R4041-SUMMARY.json` (SHA-256 `202db107fe82a6193fb924166c3d94b2802fdcb18fa011ab805b6c02b2627fb9`). Counts: **6,139 QEMU syscall lines, 2,407 path operations (802 successful, 1,605 failed), 72 guest stdout lines, no QEMU stderr runtime error signals**. The strict independent reviewer reports FileManager startup/Close, Ink Away ownership and unloading, and no PDF lifecycle in this run. The `guest_filemanager_only_reviewer_pass=false` field in the counts-only summary is **intentionally set by the pre-review collector**, not a failed strict review; the independent final review verdict is the PASS evidence. The assistant checked source behavior and public counter consistency, **not private raw trace replay**.
+
+The source-only prior failed preflight attempts remain historical failures and are not relabeled as ARM PASS. This new run proves only its own synthetic FileManager-only scenario. No additional stage files are classified as safe to remove. R40.4.2 source-only local set-comparison plan: [README](../r40.4.2/README.md). `NOT_BOOTABLE` unchanged.

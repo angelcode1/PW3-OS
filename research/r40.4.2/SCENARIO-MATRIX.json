@@ -1,0 +1,18 @@
+{
+  "milestone": "R40.4.2",
+  "scenarios": {
+    "double_pdf_reopen": "PRIOR_R40_0_2_TRACED_ARM_PASS",
+    "filemanager_only": "NEW_R40_4_1_TRACED_ARM_PASS_REVIEWER",
+    "ink_away_canvas_save_return": "PRIOR_R22_1_UNTRACED_PASS_R404_NEW_TRACE_NOT_TESTED_HOLD",
+    "epub_or_plain_text_reader": "NOT_TESTED_HOLD",
+    "missing_font_locale_resource_fallback": "NOT_TESTED_HOLD",
+    "optional_puzzle_pack": "FUTURE_NOT_BUILT_NOT_TESTED_HOLD"
+  },
+  "pdf_distinct_stage_regular_opened": 347,
+  "filemanager_distinct_stage_regular_opened": null,
+  "two_scenario_union_proven": false,
+  "complete_dependency_closure_proven": false,
+  "file_removal_authorized": false,
+  "boot_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
