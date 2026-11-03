@@ -15,3 +15,12 @@ R40.4.3.2 is now independently reproduced from uploaded private QEMU trace (388 
 The **next artifact to build** is a staged-source-bound UI event/ownership verifier using read-only stage inspection. Its source preflight must PASS before generating or running another QEMU guest. This document does NOT authorize an ARM run or claim new InkAwayView coverage.
 
 **Immutable:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`.
+
+
+## Packaged R40.4.3.3 staged UI event source gate (2026-11-03)
+
+A **read-only staged-source gate** is now implemented in the SHA-256 pinned standalone release `pw3-os-r40.4.3.3-ui-source-gate.zip` (ZIP SHA-256 `5eaf473613d5eb85bc1798eec7d32e71bdbe5c4e4ab3e24d2c0a5ef75001c867`; 13,382 bytes; six ZIP members, five member SHA-256 checks PASS). The Python host regression suite is **62/62 PASS**, including malformed Lua comments/strings, missing methods, wrong prior-review counters, symlinks, special sources, pre-existing outputs and private-data export guards. The complete runnable code, tests and exact Mac commands are in the versioned ZIP's `README-R40.4.3.3.md`; this GitHub directory records provenance and status, not the private stage contents.
+
+The tool reuses the already pinned `R40.4.3.2` preflight, checks original release manifest and source, independently verifies the uploaded historical public review SHA, and rehashes all original 2,070 R26 stage entries on the user's Mac. It then **only reads six more historically staged KOReader UI source modules**: UIManager, Event, InputContainer, WidgetContainer, FileManager and PluginLoader. Exact staged paths/hashes/line positions stay in a private local JSON; only boolean method-name candidates and counts go into a public summary.
+
+**Important:** Host tests PASS, **Mac stage gate still PENDING**, and a genuine new ARM/QEMU InkAwayView/input/save/return test **has not run**. If a local API differs, report `STAGED_UI_SOURCE_CONTRACT_INCOMPLETE_HOLD`; do not infer a replacement or use a mocked widget. Presence of method declarations is not proof of runtime event ownership, UI safety or dependency closure. Original 347 observed-open file union and 1,101 unobserved stage regular files unchanged. Continue preserving all 976 earlier UNKNOWN_HOLD records, optional puzzle hold, `NOT_BOOTABLE`, no pruning/hardware/firmware.

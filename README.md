@@ -116,3 +116,5 @@ For research and educational purposes only.
 - [R40.4.3.2 reported offline ARM Canvas-model + Project atomic-save/reload PASS](research/r40.4.3.2/RELEASE-STATUS.json): preflight and independent reviewer PASS reported from user's terminal; public review/summary JSON pending examination. No InkAwayView, stylus or real GUI return claimed; `NOT_BOOTABLE`.
 
 - [R40.4.3.2 uploaded raw-QEMU replay independently verified](research/r40.4.3.2/RELEASE-STATUS.json): original decoder and strict reviewer reproduce byte-identical public verdict; 388 syscall lines, 198 decoded path operations, 1 confined write-open, 1 rename, 0 unlink. Its 18 staged-file opens add zero to 347 prior observed-open regular files. Real InkAwayView/pen remains HOLD.
+
+- [R40.4.3.3 staged KOReader UI event ownership *source-only* gate](research/r40.4.3.3/RELEASE-STATUS.json): 62 host tests PASS, six UI/KOReader source modules queued for read-only Mac stage verification; versioned full-source ZIP checksum pinned, local stage and ARM/UI results pending. No new QEMU test or pruning.
