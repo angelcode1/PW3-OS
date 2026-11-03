@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.2",
   "date": "2026-11-03",
-  "status": "USER_REPORTED_INDEPENDENT_REVIEW_ARM_PASS_PUBLIC_JSON_PENDING",
+  "status": "UPLOADED_RAW_GUEST_TRACE_INDEPENDENT_REPLAY_PASS",
   "source_release": "pw3-os-r40.4.3.2-model-storage-trial.zip",
   "source_zip_sha256": "2c7970087295b2c89baf19b3343e9dab8755805e5d3e35253980b0bec96d2c23",
   "zip_entries": 11,
@@ -14,7 +14,7 @@
   "preflight": "recheck R40.4.3.1 private/source map, 2,070 R26 stage entries, pinned prior source auditors and original QEMU decoder",
   "runtime_access": "NO_DEVICE_ACCESS",
   "synthetic_home_write_scope": "/tmp/r40432-ko-home only; mutating decoded syscalls checked; QEMU decoder incomplete",
-  "guest_model_and_storage_arm_qemu": "USER_TERMINAL_REPORTED_PASS",
+  "guest_model_and_storage_arm_qemu": "INDEPENDENT_REVIEW_REPRODUCED_PASS",
   "guest_real_inkaway_view_ui_and_pen": "NOT_TESTED_HOLD",
   "guest_project_persisted_to_real_filesystem": false,
   "stage_modified": false,
@@ -34,13 +34,32 @@
   "user_terminal_preflight": "R40432_STAGED_SOURCE_AND_R26_PREFLIGHT_PASS",
   "user_terminal_reviewer": "R40_4_3_2_STAGED_CANVAS_MODEL_STORAGE_ARM_PASS",
   "user_terminal_final": "R40_4_3_2_STAGED_CANVAS_MODEL_STORAGE_ARM_PASS; VIEW_NOT_TESTED; NO_PRUNING; NOT_BOOTABLE",
-  "public_result_artifacts_reviewed": false,
-  "public_result_artifacts_requested": [
-    "R40432-REVIEW.json",
-    "R40432-SUMMARY.json"
-  ],
+  "public_result_artifacts_reviewed": true,
+  "public_result_artifacts_requested": [],
   "full_guest_ui_canvas_stylus_save_return": "NOT_TESTED_HOLD",
-  "observed_open_union_recalculated": false,
-  "runtime_write_isolation_raw_trace_independently_replayed_here": false,
-  "execution_environment": "prior existing offline Docker ARM/QEMU image on user's Mac; earlier no-daemon refusal resolved"
+  "observed_open_union_recalculated": true,
+  "runtime_write_isolation_raw_trace_independently_replayed_here": true,
+  "execution_environment": "prior existing offline Docker ARM/QEMU image on user's Mac; earlier no-daemon refusal resolved",
+  "public_review_sha256": "3116ba01773ecbb160123eed723c733935531db0e5e3149d1dd23337acd995c9",
+  "public_summary_byte_identical_to_review": true,
+  "guest_stdout_exit_code_zero_rechecked": true,
+  "guest_model_storage_lifecycle_markers_rechecked": true,
+  "source_pinned_original_r40_decoder_sha256": "e7debc070b150d5df8b40bd7a58e66b252ccb68cce381642b8f30f462347b2fe",
+  "source_pinned_trace_reviewer_exact_match_to_uploaded_public_json": true,
+  "independently_replayed_guest_syscall_lines": 388,
+  "independently_replayed_decoded_path_operations": 198,
+  "independently_replayed_decoded_mutations": {
+    "write_opens": 1,
+    "renames": 1,
+    "unlinks": 0
+  },
+  "observed_stage_regular_file_opens_in_third_scenario": 18,
+  "third_scenario_staged_regular_opens_already_in_r4042_union": 18,
+  "third_scenario_new_distinct_staged_regular_opens": 0,
+  "three_scenario_observed_open_union": 347,
+  "r4042_private_reference_used_locally_only": true,
+  "confinement_scope": "successful decoded write-open and rename only; decoder incomplete; stage read-only container bind; no blanket universal confinement claim",
+  "raw_guest_trace_published": false,
+  "private_plugin_source_pathlist_published": false,
+  "source_provenance_scope": "stage unchanged as reported by source-pinned user-side preflight; user R26 inventory unauthenticated; no physical device"
 }
