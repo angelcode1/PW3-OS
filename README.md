@@ -2,6 +2,8 @@
 
 **Latest user-verified offline ARM/QEMU application milestone: R39.4.11 PASS** (`R39_4_11_THREE_SOURCE_BOUND_READS_ARM_PASS`). The original independent R25 baseline, original R39.4 strict reviewer (`R39_4_SAME_SESSION_REOPEN_ARM_PASS`) and separate R39.4.11 reviewer PASS on the same user-supplied evidence. Two genuine ReaderUI/PDF sessions in one process opened the identical two-page PDF: two Home→FileManager returns, page-2 MuPDF scroll on reopen, three exact source-bound metadata reads (FileManager, PdfDocument, ReaderUI:init), two original metadata write-opens, zero denied operations, both PDF engines released with DocumentRegistry empty, final FileManager Close and clean UIManager teardown (exit 0). R39.4.7–R39.4.10 historical FAILs remain preserved. **Synthetic only:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. Independent boot, hardware display, global migrations and complete runtime dependency closure remain unverified.
 
+**Runtime dependency observation milestone: R40.0.2 PASS for one offline synthetic PDF scenario.** Original and traced R39.4/R39.4.11 strict reviews both PASS; 8,356 QEMU syscall lines, 2,713 decoded path operations (973 success, 1,740 failure). Incomplete decoding and limited workload mean closure, pruning and independent boot remain unproven. R40.0.1 failed trace reviewer stays historical FAIL; R40.1 offline stage/trace crosswalk has 42 host tests PASS and awaits the user's local stage execution. **NOT_BOOTABLE; NO_PRUNING.**
+
 Goal: a minimal Alpine ARMv7 userspace with official KOReader `kindlepw2` and Ink Away, isolated GNU compatibility runtime, and a standalone PW3 device adapter. Application validation remains **offline ARM/QEMU with synthetic UI**. Genuine FileManager → PluginLoader → Ink Away menu, canvas, stroke/save/return and clean close are covered by the user's R22.1 log. The separate v6 physical interface inventory was read-only; independent boot and physical hardware operation have **not** been demonstrated.
 
 **Safety:** `NO_FIRMWARE_WRITES_HOLD; NO_DEVICE_ACCESS; NO_BOOT_ACTIONS; NOT_BOOTABLE`. Do not change the Kindle's existing firmware, partitions, bootloader, startup, or hardware state.
@@ -80,3 +82,6 @@ For research and educational purposes only.
 - [R40.0.1 macOS canonical path test fix](research/r40.0.1/README.md): repaired R40.0 host regression (`/var` vs `/private/var`); 603 host tests PASS on Linux, Mac rerun and ARM syscall observation pending. No security policy change.
 
 - [R40.0.2 traced stdout/stderr and strict exit-marker correction](research/r40.0.2/README.md): R40.0.1 real guest trace observed 2,713 path operations but strict reviewers FAIL; R40.0.2 host-tested 628 PASS, offline ARM/QEMU retry pending; no pruning or boot rights.
+
+- [R40.0.2 verified offline syscall observation](docs/R40-0-2-OBSERVATION-VERIFIED.md): reconciled user-provided evidence with prior FAIL preserved.
+- [R40.1 local stage/runtime crosswalk](research/r40.1/README.md): 42 host tests PASS, local stage reconciliation pending; no deletion list is generated.

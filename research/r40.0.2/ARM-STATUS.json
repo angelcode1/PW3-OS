@@ -1,6 +1,6 @@
 {
   "milestone": "R40.0.2",
-  "status": "HOST_TESTED_ARM_QEMU_PENDING",
+  "status": "USER_VERIFIED_OFFLINE_ARM_QEMU_FILE_OBSERVATION_PASS",
   "r39_4_11_original_app_milestone": "ARM_PASS",
   "r40_0_1_trace_review": "FAIL_PRESERVED",
   "r40_0_1_observed_syscall_lines": 8333,
@@ -16,11 +16,22 @@
   "release_sha256": "059575b538aa1422e0e895b1848a3d7d537e80ab644bcaf7cdb97214ada7f685",
   "zip_entries": 119,
   "manifest_entries": 118,
-  "mac_arm_tested": false,
+  "mac_arm_tested": true,
   "complete_dependency_closure_proven": false,
   "boot_authorized": false,
   "device_access_authorized": false,
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "review_verdict": "R40_OFFLINE_QEMU_FILE_OBSERVATION_PASS",
+  "original_and_traced_strict_reviews_pass": true,
+  "observed_syscall_lines": 8356,
+  "observed_path_syscalls": 2713,
+  "observed_path_successes": 973,
+  "observed_path_failures": 1740,
+  "verified_evidence_sha256": "9943750834796e62d14eba4949f2ba247242a69e35467bf254978c765e47b003",
+  "summary_sha256": "b8fdcf502fa791816430c528feae57237872932631a369b674f272352c3739e2",
+  "review_sha256": "d23d2bf43d6995c9fee73dd096e081dfc934d3d82269b4ab36b556d394b9302f",
+  "full_runtime_dependency_closure_proven": false,
+  "safe_to_prune_inferred": false
 }
