@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.3",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_ARM_QEMU_PENDING",
+  "status": "UPLOADED_PUBLIC_ARM_REVIEW_HOLD_AFTER_PLUGIN_REGISTRATION",
   "release_zip": "pw3-os-r40.4.3.7.3-handler-provenance.zip",
   "release_sha256": "87118ff69cf2aee75a609126f2d8c3cc0633333e7678b358719e49622bd5c776",
   "release_bytes": 37813,
@@ -35,5 +35,17 @@
   "hardware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "public_review_sha256": "b397ea671f75be2441e4276477ec4bc674193a990ce029b6faa29c98f12c8d17",
+  "public_review_verdict": "R40_4_3_7_3_GUEST_OR_STRICT_REVIEW_HOLD",
+  "checkpoint_boundary": "AFTER_PLUGIN_REGISTRATION_BEFORE_HANDLER_FUNCTION",
+  "last_completed_checkpoint": "R404372_PLUGIN_ACTIVE_REGISTRATION",
+  "first_missing_checkpoint": "R404373_HANDLER_FUNCTION_PRESENT",
+  "handler_function_resolved_reported": false,
+  "original_r36_reload_checkpoint_reported": true,
+  "original_r372_strict_result_reported": "HOLD",
+  "guest_zero_exit": false,
+  "new_plugin_event_verified": false,
+  "raw_qemu_trace_independent_replay_performed": false,
+  "next_step": "R40.4.3.7.4_LIVE_METHOD_LOOKUP_DIAGNOSTIC"
 }

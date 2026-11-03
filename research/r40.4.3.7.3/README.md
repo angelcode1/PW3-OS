@@ -23,3 +23,10 @@ sh "$SRC/RUN-R404373-MAC.sh" trial
 The trial requires original R372/R37/R36/R353/R35 releases and original R26 2,070-item stage preflight, original 13-file private staged source recheck, the existing **prebuilt** offline Docker image, stage bind read-only, network off, dropped capabilities, nonprivileged user, isolated tmpfs HOME and prior decoded mutation guard. It refuses an existing output directory. On guest success plus unchanged strict review PASS it writes identical public `R404373-REVIEW.json` and `R404373-SUMMARY.json`; on failure, share only the public review or categorical terminal refusal. Keep private `trace/` and staged sources local.
 
 **Immutable holds:** no authenticated R26 provenance, no complete dependency closure, QEMU syscall decoder incomplete, historic 347 staged regular-file opens *not recomputed*, 1,101 unobserved stage regular files and 976 old UNKNOWN_HOLD preserved. `NOT_BOOTABLE`; no device/firmware/hardware writes, real menu/physical touch/boot or file pruning authorized.
+
+
+## Uploaded R40.4.3.7.3 public guest result (2026-11-04)
+
+The user's `R404373-REVIEW.json` (SHA-256 `b397ea671f75be2441e4276477ec4bc674193a990ce029b6faa29c98f12c8d17`) reports `R40_4_3_7_3_GUEST_OR_STRICT_REVIEW_HOLD`: QEMU did not exit zero, previous R36 project reload and R372 plugin registration checkpoints were present, and no R373 handler-function checkpoint was reached. Boundary `AFTER_PLUGIN_REGISTRATION_BEFORE_HANDLER_FUNCTION`. The strict reviewers correctly HOLD; the private raw trace was not independently replayed and the static original Ink Away `main.lua` declaration is not evidence that the live plugin instance exposes the handler. No native plugin event/second view PASS. Historical R36 synthetic drawing/save PASS is preserved and not retracted.
+
+The next [R40.4.3.7.4 live method lookup diagnostic](../r40.4.3.7.4/README.md) inserts **only** a read-only, fixed-category class/instance lookup probe before the unchanged R373 failing assertion. It retains the original strict reviewer chain; no new ARM result or source-stage mutation exists yet. `NOT_BOOTABLE` and every device/firmware/pruning hold remain.
