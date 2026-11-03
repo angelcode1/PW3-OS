@@ -90,3 +90,5 @@ For research and educational purposes only.
 
 - [R40.2 user-verified cwd crosswalk](research/r40.2/README.md): 1,255 relative access events, 334 distinct regular files opened through proven relative paths, no file-removal inference.
 - [R40.3 deduplicated stage opens and R26 SHA audit](research/r40.3/README.md): 38 host tests PASS; local Mac results pending. Complete tool in the conversation release archive.
+
+- [Future optional lightweight puzzle pack dependency reservation](docs/OPTIONAL-PUZZLE-PACK-DEPENDENCIES.md): Inkwell-inspired native C Sudoku/KenKen/crosswords/Mahjong/word-game candidates, license/data/save/UI dependencies and separate `NOT_TESTED_HOLD`; no package or stage changes.

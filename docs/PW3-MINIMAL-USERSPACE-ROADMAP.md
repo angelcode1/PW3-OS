@@ -42,3 +42,7 @@ Maintain a content-addressed file catalog for the **host-staged** rootfs: path, 
 - Lab126 modified Linux 3.0.35 kernel source reference including PW3 / `imx60_wario_defconfig`: https://github.com/katadelos/linux-3.0.35-lab126
 
 **Safety status:** `NO_FIRMWARE_WRITES_HOLD; NO_DEVICE_ACCESS; NO_BOOT_ACTIONS; NO_HARDWARE_ACTIONS; NOT_BOOTABLE`. Stock firmware, bootloader, partition images and raw captures stay private and unchanged. This is an architecture/research roadmap, **not** authorization to flash, install, boot or delete.
+
+## Future optional feature compatibility: puzzles
+
+Reserve a separate optional native C puzzle package in the long-term dependency map; see [optional puzzle pack dependency reservation](OPTIONAL-PUZZLE-PACK-DEPENDENCIES.md). Its build-time toolchain and possible runtime assets (dictionary, crossword clue packs, tile layouts, fonts and save storage) must be inventoried and licensed when implemented. This does **not** convert existing unknown/unobserved files into removable candidates, add games to the current R13 image, or justify direct Inkwell EPDC/framebuffer calls in synthetic PW3-OS. Any eventual minimal featureful rootfs must account for the chosen puzzle pack separately from KOReader's essential dependencies.

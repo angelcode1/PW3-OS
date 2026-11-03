@@ -1,0 +1,98 @@
+{
+  "schema": "PW3_OS_OPTIONAL_PUZZLE_DEPENDENCY_RESERVATION_V1",
+  "recorded_date": "2026-11-03",
+  "status": "FUTURE_OPTIONAL_NOT_BUILT",
+  "optional_feature_id": "INKWELL_STYLE_PUZZLES",
+  "origin_reference": {
+    "repository": "pragyaangaur/Inkwell",
+    "commit": "cac76f465518a771486689fd3f41a9fe45a4b614",
+    "integration": "REFERENCE_ONLY_NOT_IMPORTED"
+  },
+  "target": {
+    "platform": "ARMv7 hard-float musl candidate",
+    "packaging": "single optional native executable",
+    "runtime_packages": "NO_NEW_RUNTIME_PACKAGES_AS_DESIGN_GOAL_NOT_VERIFIED",
+    "ui": "EXPLICIT_HOST_ADAPTER_REQUIRED",
+    "hardware_access": "PROHIBITED"
+  },
+  "planned_games": [
+    {
+      "id": "sudoku",
+      "logic_candidate": "Simon Tatham Solo",
+      "priority": 1
+    },
+    {
+      "id": "kenken",
+      "logic_candidate": "Simon Tatham Keen",
+      "priority": 1
+    },
+    {
+      "id": "crosswords",
+      "logic_candidate": "small licensed offline clue packs",
+      "priority": 2
+    },
+    {
+      "id": "mahjong_solitaire",
+      "logic_candidate": "static validated tile layouts",
+      "priority": 3
+    },
+    {
+      "id": "bananagrams_style_solo",
+      "logic_candidate": "shared word engine/dictionary",
+      "priority": 4
+    },
+    {
+      "id": "word_tiles",
+      "logic_candidate": "shared word engine/dictionary",
+      "priority": 5
+    },
+    {
+      "id": "chess",
+      "logic_candidate": "Inkwell existing chess engine reference only",
+      "priority": 0
+    }
+  ],
+  "potential_assets": [
+    "compiled C program and adapter",
+    "existing selected font glyphs",
+    "licensed crossword clues",
+    "Mahjong layouts",
+    "offline dictionary optional",
+    "small saves",
+    "source license notices"
+  ],
+  "candidate_paths_not_staged": [
+    "/usr/local/bin/puzzles",
+    "/mnt/us/puzzles/"
+  ],
+  "budget": {
+    "target_mb_excluding_shared_fonts": "1-3",
+    "measured": false
+  },
+  "licenses": {
+    "in_kwell": "MIT (upstream repo)",
+    "solo_keen": "MIT",
+    "esdb": "custom permissive license with conditional AU and large list notices",
+    "other_assets": "REVIEW_REQUIRED"
+  },
+  "evidence_status": {
+    "build": "NOT_TESTED_HOLD",
+    "arm_qemu": "NOT_TESTED_HOLD",
+    "hardware": "PROHIBITED",
+    "dependencies": "NOT_OBSERVED",
+    "complete_dependency_closure_proven": false
+  },
+  "existing_stage_observed_file_count_unchanged": 347,
+  "existing_stage_unobserved_regular_file_count_unchanged": 1101,
+  "old_unknown_hold_count_unchanged": 976,
+  "stage_modified": false,
+  "feature_installed": false,
+  "safeguards": {
+    "device_access_authorized": false,
+    "firmware_write_authorized": false,
+    "boot_authorized": false,
+    "file_removal_authorized": false,
+    "pruning_authorized": false,
+    "immutable_hold": "NOT_BOOTABLE"
+  }
+}
