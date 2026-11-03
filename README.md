@@ -148,3 +148,5 @@ For research and educational purposes only.
 - [R40.4.3.7 experimental plugin-entry dispatcher](research/r40.4.3.7/RELEASE-STATUS.json): original UIManager InkAwayOpen event → original InkAway plugin handler → second original InkAwayView and FileManager restore; source-bound standalone experiment, 14 host tests PASS, ARM/QEMU PENDING; prior draw/save strict reviewer mandatory, real Tools-menu interaction untested, NOT_BOOTABLE.
 
 - [R40.4.3.7.1 existing-run diagnostic](research/r40.4.3.7.1/RELEASE-STATUS.json): uploaded public R40.4.3.7 reviewer HOLD is generic (not a proven R36 regression); no raw trace shared. 16 host tests PASS for local read-only checkpoint/replay classifier, Mac trace read pending. No new ARM guest, device access, pruning or boot; NOT_BOOTABLE.
+
+- [R40.4.3.7.2 split pre-event assertions](research/r40.4.3.7.2/RELEASE-STATUS.json): R371 existing-run diagnostic localizes QEMU exit 1 after R36 reload and before native plugin route readiness. Source-pinned five-checkpoint diagnostic guest, 18 host tests PASS; actual ARM trial pending. Original strict R37/R36/R353/R35 reviewer chain preserved; NOT_BOOTABLE.

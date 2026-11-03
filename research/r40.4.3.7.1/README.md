@@ -18,3 +18,10 @@ sh "$SRC/RUN-R404371-MAC.sh"
 ```
 
 Share **only** `~/Downloads/R404371-DIAG-PUBLIC.json`. Preserve the existing failed guest run; no source patch or second guest run is authorized by this release. If the existing trace is missing or malformed, the tool reports that explicitly instead of claiming a root cause. Original decoded syscall analysis remains incomplete. Preserve historical 347 staged regular file opens (not recomputed), 1,101 unobserved stage regulars, 976 historical UNKNOWN_HOLD, and `NOT_BOOTABLE`: no device/firmware/hardware writes, boot, file removal or pruning.
+
+
+## Uploaded existing-run diagnostic (2026-11-03)
+
+The user's `R404371-DIAG-PUBLIC.json` identifies `AFTER_R36_RELOAD_BEFORE_R37_ROUTE_READY`. Guest QEMU exit 1; 11 of 18 ordered checkpoints completed, last `R40436_ORIGINAL_PROJECT_RELOADED_ONE_GESTURE_STROKE` and first missing `R40437_NATIVE_PLUGIN_EVENT_ROUTE_READY`. All six old R36 drawing/save checkpoint markers were observed and **zero** R37 plugin-event markers were observed; this alone does not establish a standalone prior R36 reviewer PASS for the new failed trace. Read-only R36 strict reviewer replay returned `PRIOR_R36_SOURCE_OR_STRICT_OR_TRACE_HOLD`, which is consistent with nonzero guest exit, not necessarily an R36 feature regression. The raw trace remains private.
+
+The original R37 guest contains one FileManager restoration assertion and one combined plugin-registration/source/menu assertion between those markers. Their precise failing member remains unknown. [R40.4.3.7.2](../r40.4.3.7.2/README.md) separates only those assertions into fixed-name checkpoints without altering their conditions, dispatch or prior strict reviewer chain. Research and educational only; no new boot/device/firmware/asset deletion permissions; `NOT_BOOTABLE`.

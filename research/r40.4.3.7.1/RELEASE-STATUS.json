@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.1",
   "date": "2026-11-03",
-  "status": "HOST_TESTED_DIAGNOSTIC_ONLY_EXISTING_R37_TRACE_PENDING",
+  "status": "UPLOADED_EXISTING_RUN_DIAGNOSTIC_HOLD_BOUNDARY_IDENTIFIED",
   "release_zip": "pw3-os-r40.4.3.7.1-existing-run-diagnostic.zip",
   "release_sha256": "1ac336abd2b3ddbd6dadc31ae41dca98c2fa95f8188080dc3f3358cca3b5ff6b",
   "release_bytes": 8782,
@@ -29,5 +29,15 @@
   "safe_to_prune_inferred": false,
   "complete_dependency_closure_proven": false,
   "r26_provenance_authenticated": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "public_diagnostic_verdict": "R404371_EXISTING_R40437_RUN_DIAGNOSTIC_HOLD",
+  "guest_exit_code_reported": 1,
+  "checkpoint_boundary": "AFTER_R36_RELOAD_BEFORE_R37_ROUTE_READY",
+  "last_completed_checkpoint": "R40436_ORIGINAL_PROJECT_RELOADED_ONE_GESTURE_STROKE",
+  "first_missing_checkpoint": "R40437_NATIVE_PLUGIN_EVENT_ROUTE_READY",
+  "prior_r36_draw_save_checkpoints_complete": true,
+  "r37_marker_count": 0,
+  "previous_r36_replay_result": "PRIOR_R36_SOURCE_OR_STRICT_OR_TRACE_HOLD",
+  "original_r36_pass_in_new_run_unproven": true,
+  "new_arm_guest_started": false
 }
