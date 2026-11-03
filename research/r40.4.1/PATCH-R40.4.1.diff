@@ -1,0 +1,116 @@
+--- a/r394/loop_guard.lua
++++ b/r4041/loop_guard.lua
+@@ -13,6 +13,8 @@
+     return true
+ end
+ local R25_ENABLED=true
++-- R40.4.1 separately reviewed experiment: genuine FileManager startup + Close only.
++local R4041_FM_ONLY=true
+ local r39_pdf=home..'/library/r39-original-two-pages.pdf'
+ local r39_reader_seen=false
+ local r39_page1_verified=false
+@@ -879,6 +881,25 @@
+                origin.source:find('frontend/ui/uimanager%.lua'),
+                'R39.2 synthetic event must be requested by genuine UIManager')
+         local Event=native_require('ui/event')
++        if R4041_FM_ONLY then
++            assert(stats.filemanager==1 and stats.owner==1 and stats.events==0 and
++                   stats.loop==0 and r39_input_poll_count==1 and stats.denied==0,
++                   'R4041 FileManager-only Close attempted outside bounded startup')
++            local fm=assert(real_fm and real_fm.instance,
++                            'R4041 genuine FileManager not active')
++            assert(fm.file_chooser and fm.file_chooser.path==home..'/library' and
++                   real_ui._window_stack[#real_ui._window_stack].widget==fm and
++                   stats.discovery==1 and stats.plugin_main==1 and stats.plugin_meta==1,
++                   'R4041 genuine plugin/FileManager ownership missing')
++            local reader=package.loaded['apps/reader/readerui']
++            assert(reader==nil or reader.instance==nil,
++                   'R4041 ReaderUI must not own a document')
++            stats.events=1
++            stats.loop=1
++            print('R4041_GENUINE_FILEMANAGER_ACTIVE_AND_INKAWAY_OWNED')
++            print('R4041_CLOSE_SENT_TO_GENUINE_FILEMANAGER_VIA_UIMANAGER')
++            return {Event:new('Close')}
++        end
+         local ReaderUI=native_require('apps/reader/readerui')
+         if stats.events==3 and r394_cycle==2 then
+             assert(r394_second_home_sent and r394_second_home_returned and
+@@ -1054,6 +1075,13 @@
+         return {Event:new('Home')}
+     end
+     function expected_input:teardown()
++        if R4041_FM_ONLY then
++            assert(self==expected_input and stats.events==1 and stats.loop==1 and
++                   r39_input_poll_count==1 and stats.denied==0,
++                   'R4041 device input teardown outside bounded FileManager-only Close')
++            self.teardown_done=true
++            return
++        end
+         assert(self==expected_input and stats.events==4 and r39_page2_verified and
+                r39_home_returned and r394_second_home_returned and
+                r39_input_poll_count>=4 and r39_input_poll_count<=8 and
+@@ -1069,6 +1097,17 @@
+     assert(type(stock_exit)=='function' and
+            debug.getinfo(stock_exit,'S').source:find('frontend/device/generic/device%.lua'))
+     Device.exit=function(self,...)
++        if R4041_FM_ONLY then
++            assert(self==Device and stats.events==1 and stats.loop==1 and stats.device_exit==0 and
++                   real_fm and real_fm.instance==nil and stats.denied==0,
++                   'R4041 genuine FM not closed before stock Generic:exit')
++            local result=stock_exit(self,...)
++            assert(screen.closed and expected_input.teardown_done,
++                   'R4041 stock Generic:exit did not release synthetic devices')
++            stats.device_exit=1
++            print('R4041_GENUINE_GENERIC_EXIT_SYNTHETIC_ONLY')
++            return result
++        end
+         assert(self==Device and stats.events==4 and r39_page2_verified and r39_home_returned and
+                r394_second_home_returned and stats.device_exit==0,
+                'unexpected synthetic device shutdown')
+@@ -1390,6 +1429,21 @@
+ -- At the *last* real reader.lua statement, prevent calling libc exit
+ -- so the harness can verify normal Device:exit and cleanup invariants.
+ os.exit=function(code,close)
++    if R4041_FM_ONLY then
++        assert(close==true and stats.events==1 and stats.loop==1 and stats.device_exit==1 and
++               stats.os_exit==0 and stats.denied==0,
++               'R4041 early or inauthentic reader.lua exit')
++        assert(real_fm and real_fm.instance==nil and real_loader and
++               not real_loader:isPluginLoaded('ink-away') and
++               #real_ui._window_stack==0,
++               'R4041 FileManager/plugin/UIManager not genuinely finalized')
++        local reader=package.loaded['apps/reader/readerui']
++        assert(reader==nil or reader.instance==nil,
++               'R4041 ReaderUI unexpectedly instantiated')
++        stats.os_exit=1
++        print('R4041_GENUINE_FILEMANAGER_CLOSED_AND_PLUGIN_UNLOADED')
++        error('R4041_INTENTIONAL_OS_EXIT_HOLD',2)
++    end
+     assert(close==true and stats.events==4 and stats.loop==1 and r39_page2_verified and
+            r39_home_returned and r394_second_home_returned and stats.device_exit==1
+            and stats.os_exit==0,'reader.lua invoked os.exit before genuine shutdown')
+@@ -1423,6 +1477,24 @@
+     -- Real entrypoint and modules; migration execution stays entirely blocked.
+     print('R23_REAL_READER_LUA_ENTER')
+     local ok,reason=pcall(native_dofile,'reader.lua')
++    if R4041_FM_ONLY then
++        assert(not ok and tostring(reason):find('R4041_INTENTIONAL_OS_EXIT_HOLD',1,true),
++               'R4041 genuine reader.lua did not close successfully')
++        assert(stats.filemanager==1 and stats.owner==1 and stats.discovery==1 and
++               stats.plugin_main==1 and stats.plugin_meta==1 and
++               stats.events==1 and stats.loop==1 and stats.device_exit==1 and
++               stats.os_exit==1 and stats.meminfo_reads>0 and
++               stats.meminfo_closes==stats.meminfo_reads and stats.denied==0 and
++               r3945_sidecar_loads==0 and r3945_sidecar_writes==0 and
++               r394_input_lifecycles==0,
++               'R4041 FileManager-only startup/exit invariants incomplete')
++        assert(real_fm.instance==nil and #real_ui._window_stack==0 and
++               not real_loader:isPluginLoaded('ink-away'),
++               'R4041 FileManager or plugin ownership leaked')
++        print('R4041_REAL_FILEMANAGER_ONLY_ARM_GUEST_BOUNDARY_PASS')
++        print('R4041_PDF_NOT_OPENED; GLOBAL_MIGRATIONS_SKIPPED; NO_DEVICE_ACCESS; NOT_BOOTABLE')
++        return
++    end
+     assert(not ok and tostring(reason):find('R25_INTENTIONAL_OS_EXIT_HOLD',1,true),
+            'reader.lua did not reach verified synthetic application exit: '..tostring(reason))
+     assert(r39_input_inhibit==1 and r39_input_until==1 and r394_input_lifecycles==2,

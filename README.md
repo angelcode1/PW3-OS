@@ -94,3 +94,6 @@ For research and educational purposes only.
 - [Future optional lightweight puzzle pack dependency reservation](docs/OPTIONAL-PUZZLE-PACK-DEPENDENCIES.md): Inkwell-inspired native C Sudoku/KenKen/crosswords/Mahjong/word-game candidates, license/data/save/UI dependencies and separate `NOT_TESTED_HOLD`; no package or stage changes.
 
 - [R40.4.0 local ELF/Lua static candidate-graph tool](research/r40.4.0/README-R40.4.0.md): complete committed Python source and 62 passing host tests; R13/R26 stage analysis pending on Mac, ARM/QEMU new scenarios not run. Optional puzzle dependency reservation stays NOT_BUILT_NOT_TESTED_HOLD.
+
+- [R40.4.0 verified user-side static graph](research/r40.4.0/README-R40.4.0.md): 62 Mac host tests PASS, R26 2,070-entry hashes revalidated, 83 ELF objects and 823 Lua files scanned. Static edge candidates are NOT proven runtime dependencies; no pruning.
+- [R40.4.1 independent FileManager-only source trial](research/r40.4.1/README.md): 44 host tests PASS; separate synthetic QEMU FileManager + Ink Away ownership/Close trace ARM PENDING. Full runnable release is a checksum-verified conversation ZIP; the repository has the pinned experimental guest patch and entrypoint.
