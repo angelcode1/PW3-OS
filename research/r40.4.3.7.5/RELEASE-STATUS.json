@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.5",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_STAGED_HANDLER_SOURCE_AND_ARM_QEMU_PENDING",
+  "status": "UPLOADED_PUBLIC_ARM_QEMU_STRICT_REVIEW_PASS_RAW_TRACE_NOT_INDEPENDENTLY_REPLAYED",
   "release_zip": "pw3-os-r40.4.3.7.5-handler-sandbox-fix.zip",
   "release_sha256": "a350aa9dd854dd3365a0c06678b0b35d7ac3afbdd3d6b7a5a2cca0def8041366",
   "release_bytes": 41370,
@@ -19,7 +19,7 @@
   "staged_pluginloader_eventlistener_widget_contract": "REQUIRED_NOT_YET_EXECUTED_ON_USER_MAC",
   "original_R26_2070_hash_preflight": "REQUIRED",
   "original_13_private_staged_lua_recheck": "REQUIRED",
-  "new_arm_qemu_execution": "PENDING",
+  "new_arm_qemu_execution": "PUBLIC_STRICT_REVIEW_REPORTS_PASS_RAW_TRACE_NOT_REPLAYED",
   "previous_public_diagnostic_method_state": "PROTOTYPE_NONFUNCTION",
   "previous_public_diagnostic_sha256": "56f0ca09afe84a1695e433cbbc2804f58204f0151a1163bc92e151092086efe3",
   "real_menu_widget_exercised": false,
@@ -38,5 +38,16 @@
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "public_review_and_summary_sha256": "4c203e95ba6b94d9391e2a7e63817891750e522ff3f255b24cc340e6706431b9",
+  "public_review_and_summary_identical": true,
+  "public_review_verdict": "R40_4_3_7_5_ORIGINAL_SANDBOX_HANDLER_AND_NATIVE_PLUGIN_EVENT_ARM_PASS",
+  "guest_zero_exit_reported": true,
+  "source_checkpoint_order_complete_reported": true,
+  "original_loader_wrapper_authenticated_reported": true,
+  "underlying_pinned_lua_handler_authenticated_reported": true,
+  "original_native_plugin_event_seen_reported": true,
+  "genuine_second_original_view_open_close_verified_reported": true,
+  "original_draw_save_reloaded_in_same_run_reported": true,
+  "original_r373_r372_r37_r36_r353_r35_strict_pass_reported": true
 }
