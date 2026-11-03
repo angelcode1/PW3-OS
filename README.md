@@ -150,3 +150,5 @@ For research and educational purposes only.
 - [R40.4.3.7.1 existing-run diagnostic](research/r40.4.3.7.1/RELEASE-STATUS.json): uploaded public R40.4.3.7 reviewer HOLD is generic (not a proven R36 regression); no raw trace shared. 16 host tests PASS for local read-only checkpoint/replay classifier, Mac trace read pending. No new ARM guest, device access, pruning or boot; NOT_BOOTABLE.
 
 - [R40.4.3.7.2 split pre-event assertions](research/r40.4.3.7.2/RELEASE-STATUS.json): R371 existing-run diagnostic localizes QEMU exit 1 after R36 reload and before native plugin route readiness. Source-pinned five-checkpoint diagnostic guest, 18 host tests PASS; actual ARM trial pending. Original strict R37/R36/R353/R35 reviewer chain preserved; NOT_BOOTABLE.
+
+- [R40.4.3.7.3 live handler provenance trial](research/r40.4.3.7.3/RELEASE-STATUS.json): R372 guest HOLD after plugin registration, before onInkAwayOpen handler source. New two-check same-source original method gate, unchanged original native event and R372/R37/R36/R353/R35 strict reviewer chain; 24 host tests PASS, ARM QEMU pending. NOT_BOOTABLE, no device/firmware or pruning.

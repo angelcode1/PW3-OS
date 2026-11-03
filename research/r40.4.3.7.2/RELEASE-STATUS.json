@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.2",
   "date": "2026-11-03",
-  "status": "HOST_TESTED_ARM_QEMU_PENDING",
+  "status": "USER_UPLOADED_R372_REVIEW_HOLD_HANDLER_SOURCE_NOT_REACHED",
   "release_zip": "pw3-os-r40.4.3.7.2-boundary-checkpoints.zip",
   "release_sha256": "804915595b6bf2c20980ca42f052df9d081b3a7c8b360db9fc2f8ad5a8fe2cfc",
   "release_bytes": 36859,
@@ -34,5 +34,15 @@
   "hardware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "review_sha256": "9ee80181f1688d36e10faffef4cf4c4a26596f9a4997b4e397144c542e4093ab",
+  "review_verdict": "R40_4_3_7_2_EXPERIMENTAL_GUEST_OR_STRICT_HOLD",
+  "checkpoint_boundary": "AFTER_PLUGIN_REGISTRATION_BEFORE_HANDLER_SOURCE",
+  "last_completed_checkpoint": "R404372_PLUGIN_ACTIVE_REGISTRATION",
+  "first_missing_checkpoint": "R404372_PLUGIN_HANDLER_SOURCE",
+  "previous_r36_reload_checkpoint_reported": true,
+  "original_r37_strict_result": "HOLD",
+  "guest_zero_exit": false,
+  "new_native_plugin_event_verified": false,
+  "private_qemu_trace_independently_replayed": false
 }

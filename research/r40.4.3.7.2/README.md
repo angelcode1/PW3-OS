@@ -22,3 +22,10 @@ sh "$SRC/RUN-R404372-MAC.sh" trial
 The trial uses a **fresh output directory** and the existing prebuilt offline Docker image only, with rootfs bind readonly, network disabled, dropped capabilities, unprivileged user and disposable tmpfs HOME; no physical PW3 access. Share only `R404372-REVIEW.json` and, if generated on strict PASS, `R404372-SUMMARY.json` from `~/Downloads/pw3-os-r40.4.3.7.2-event-boundary-first-run`. If the preflight fails before a review is produced, share only the final fixed terminal marker. Do not share `trace/`, private staged sources or raw paths.
 
 No runtime R372 result exists yet. QEMU syscall decoder incomplete, 347 historic stage opens **not recomputed**, 1,101 unobserved regular staged files and 976 historic UNKNOWN_HOLD retained; provenance and complete dependency closure remain unknown. **NOT_BOOTABLE; no device, firmware, hardware, boot, pruning or file removal authorized.**
+
+
+## User-uploaded R40.4.3.7.2 review (2026-11-03)
+
+The uploaded public `R404372-REVIEW.json` (SHA-256 `9ee80181f1688d36e10faffef4cf4c4a26596f9a4997b4e397144c542e4093ab`) reports the guest reached the original R36 project-reload checkpoint, passed original FileManager restoration and active InkAway plugin registration, but **did not reach** `R404372_PLUGIN_HANDLER_SOURCE`; QEMU did not exit zero and the original R37 reviewer held. Exact boundary: `AFTER_PLUGIN_REGISTRATION_BEFORE_HANDLER_SOURCE`. The private raw trace was not supplied for replay. No R37 plugin event dispatch or second-view PASS, physical touch, real menu click, boot, stage pruning or firmware permission is implied.
+
+The staged original InkAway main Lua file in the previously collected private archive declares both `onInkAwayOpen` and `openCanvas`. Their live instance method/provenance behavior cannot be inferred from declarations alone. The [R40.4.3.7.3](../r40.4.3.7.3/README.md) prospective run checks live handler function presence and exact same-source identity with the previously authenticated `openCanvas` function. Original strict reviewers remain unchanged; this is a candidate, not a verified correction.
