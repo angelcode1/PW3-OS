@@ -1,0 +1,13 @@
+# R40.4.3.5.3 — two zero-extent synthetic gesture positions
+
+Host tests: 40 PASS. Original strict reviewer unchanged. New ARM/QEMU test pending. Research/education only; NOT_BOOTABLE.
+
+The user's R40.4.3.5.2 guest failed after COORDINATES before GESTURE_RANGE with QEMU exit 1. The original synthetic Gesture objects had position tables with x and y only. Upstream KOReader v2026.07.2 GestureRange:match invokes range:contains(gs.pos), and Geom:contains needs geom.w and geom.h. The exact staged geometry implementation is not in the prior 13-file private capture, so the prospective run must statically inspect those original staged sources on the Mac before Docker. Missing or differing method semantics cause a source-gate HOLD.
+
+The new guest differs from the original R40.4.3.5 guest in precisely two literal positions, each adding w=0,h=0. Old guest SHA-256 d9968bf5a4e2226c99a2e3dce32d4db6133f72a6f3ecd991edfb77b094880212; new guest SHA-256 af4714542bb0dac24e02c7c4180f7efbf566bc2df02c738ca30624031af29f11. No staged Ink Away/KOReader source, original event handler, guest assertions, physical touch setting or storage is altered.
+
+The original strict R40.4.3.5 reviewer is called with source SHA-256 c1e285d47d3badf1d2f235631ae887d19993e7824abbbdd210d9735741f0156a. Its full marker ordering, original real UIManager event pipeline, gesture state change/reset, original FileManager closing, QEMU exit=0 and scratch-home decoded syscall guard must all PASS before the new wrapper can report a new ARM milestone. The syscall decoder remains incomplete. A source-only or host-only pass is never an ARM PASS.
+
+Standalone ZIP: pw3-os-r40.4.3.5.3-geometry-point-fix.zip, SHA-256 3f2c7d9d9161eb58963b9d670cac52c0e98b97bc8e470febe5d5547491ef2dd6, 66,068 bytes, 15 members (14 SHA-256 manifest entries). Clean extraction/CRC/member digest verification PASS; 40 host tests PASS; two shell syntax checks PASS. Exact Mac commands and full runnable code are in README-R40.4.3.5.3.md within the conversation ZIP. Private source capture and QEMU traces are NOT committed.
+
+Offline Docker, prebuilt image, original stage read-only, no network, unprivileged user, dropped capabilities and isolated tmpfs HOME only. Original R26 2070-entry preflight and 13-file captured-source cross-check are required again. Full stylus/stroke/save/return still NOT_TESTED_HOLD; prior three-scenario 347 observed stage regular files unchanged; 1101 unobserved regular stages and 976 older UNKNOWN_HOLD retained. No boot/device/hardware/firmware writes or pruning.

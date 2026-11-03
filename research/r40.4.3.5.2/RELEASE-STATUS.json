@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.5.2",
   "date": "2026-11-03",
-  "status": "HOST_TESTED_DIAGNOSTIC_ONLY_QEMU_PENDING",
+  "status": "USER_REPORTED_QEMU_DIAGNOSTIC_EXIT_1_AFTER_COORDINATES_BEFORE_GESTURE_RANGE",
   "release_file": "pw3-os-r40.4.3.5.2-checkpoint-diagnostic.zip",
   "release_sha256": "2fdfee397509088d748b3fd5c49d5d507fc40b62ccd10a0c06b8b46e61ad4edd",
   "archive_bytes": 91562,
@@ -19,8 +19,8 @@
   "original_r40435_preflight_and_reviewer_pins": "ENFORCED",
   "source_capture_entries_to_rehash_on_mac": 13,
   "r26_stage_entries_to_rehash_on_mac": 2070,
-  "source_and_stage_preflight_guest_run": "PENDING",
-  "gesture_qemu_guest_status": "NOT_TESTED_HOLD",
+  "source_and_stage_preflight_guest_run": "USER_REPORTED_PASS_R26_AND_13_STAGED_LUA",
+  "gesture_qemu_guest_status": "DIAGNOSTIC_ONLY_EXIT_1",
   "prior_r404351_guest_failure": "EXIT_1_UNKNOWN_PROTECTED_LUA_FAILURE_HOLD",
   "prior_r404351_reporter_bug": "OUTPUT_INSIDE_RUN_FORBIDDEN_BUT_RUNNER_REQUESTED_IT",
   "prior_raw_guest_decoded_mutations": {
@@ -49,5 +49,21 @@
   "hardware_write_authorized": false,
   "file_removal_authorized": false,
   "optional_puzzle_pack": "FUTURE_OPTIONAL_NOT_BUILT_NOT_TESTED_HOLD",
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "diagnostic_stage": "AFTER_COORDINATES_BEFORE_GESTURE_RANGE",
+  "last_completed_checkpoint": "COORDINATES",
+  "first_missing_checkpoint": "GESTURE_RANGE",
+  "observed_checkpoint_count": 6,
+  "expected_checkpoint_count": 8,
+  "checkpoints_in_expected_order": true,
+  "original_decoded_mutation_guard_pass": true,
+  "original_decoded_mutation_counts": {
+    "write_opens": 31,
+    "mkdirs": 13,
+    "renames": 0
+  },
+  "protected_lua_failure_unknown_signal": true,
+  "guest_stderr_lua_error_signal": true,
+  "guest_qemu_exit_code": 1,
+  "geometry_position_missing_dimensions": "SOURCE_SUPPORTED_HYPOTHESIS_NEEDS_STAGED_GEOMETRY_CHECK"
 }

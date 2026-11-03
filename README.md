@@ -135,3 +135,6 @@ For research and educational purposes only.
 
 - [R40.4.3.5.1 uploaded guest logs: reporter path bug confirmed](research/r40.4.3.5.1/RELEASE-STATUS.json): QEMU exit 1, unknown protected Lua error; old reporter PASS on external output path, decoded scratch mutations 31 write-opens / 13 mkdirs / 0 renames. No guest gesture PASS.
 - [R40.4.3.5.2 checkpoint-only pre-dispatch diagnostic](research/r40.4.3.5.2/RELEASE-STATUS.json): eight source-bound print checkpoints, 36 host tests PASS and verified ZIP; isolated QEMU diagnostic PENDING. Public report outside guest run, no stage mutation or safety-hold changes.
+
+- [R40.4.3.5.2 Mac diagnostic: stopped after COORDINATES, before GESTURE_RANGE](research/r40.4.3.5.2/RELEASE-STATUS.json): QEMU exit 1; six ordered checkpoints; decoded mutation guard PASS. No gesture dispatch PASS.
+- [R40.4.3.5.3 source-bound zero-extent synthetic geometry correction](research/r40.4.3.5.3/RELEASE-STATUS.json): only two guest event positions add w=0,h=0, staged geometry gate and unchanged original strict reviewer. 40 host tests PASS; ARM guest PENDING; NOT_BOOTABLE.
