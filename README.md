@@ -72,7 +72,7 @@ For research and educational purposes only.
 
 - [R39.4.9 actual failed guest and R39.4.10 host-tested PdfDocument trial](research/r39.4.10/README.md).
 
-- [R39.4.10 actual ARM failure and R39.4.11 third source-bound metadata-read trial](research/r39.4.11/README.md): source integrity, strict lifecycle gates and Mac/QEMU commands. ARM R39.4.11 pending; `NOT_BOOTABLE`.
+- [R39.4.10 actual ARM failure and R39.4.11 third source-bound metadata-read trial](research/r39.4.11/README.md): source integrity, strict lifecycle gates and Mac/QEMU commands. ARM R39.4.11 **verified PASS**; `NOT_BOOTABLE`.
 
 - [R39.4.11 user-verified ARM/QEMU evidence](docs/R39-4-11-ARM-VERIFIED.md): original R25 + R39.4 strict and independent source-bound PASS, evidence hashes and limits.
-- [R40 offline dynamic dependency evidence plan](docs/R40-OFFLINE-DEPENDENCY-EVIDENCE-PLAN.md): read-only proposed next gate, no deletion or boot authorization.
+- [R40.0 offline QEMU syscall-file observation source release](research/r40.0/README.md): 602 host tests PASS, ZIP checksums verified, ARM/QEMU **not yet run**; path details private, only summary counts shareable. [R40 requirements and limits](docs/R40-OFFLINE-DEPENDENCY-EVIDENCE-PLAN.md). No deletion or boot authorization.

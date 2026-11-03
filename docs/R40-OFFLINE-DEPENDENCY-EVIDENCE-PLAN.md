@@ -1,6 +1,6 @@
 # R40 — offline dynamic dependency evidence and closure matrix (proposal)
 
-**2026-11-03: PLAN ONLY. No R40 ARM execution, no rootfs reconstruction, no removal authorization. NOT_BOOTABLE.**
+**2026-11-03: R40.0 source-only host implementation released (602 tests PASS), ARM/QEMU NOT RUN, no rootfs reconstruction or removal authorization. NOT_BOOTABLE.**
 
 ## Why the next gate matters
 
@@ -17,3 +17,9 @@
 An R40 pass, if later earned, will mean **observed runtime dependency evidence for the tested scenarios only**. It does not imply exhaustive dependencies, safe deletion, hardware-readiness, migration completeness, or independent Alpine bootability. If a future rootfs is built, create it separately from licensed and SHA-pinned inputs with a manifest; never prune stock Kindle userspace or original staged data in place.
 
 **Immutable:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. Research and educational purposes only.
+
+## R40.0 first implemented gate: QEMU syscall-path observation
+
+The release [R40.0 host-tested observer](../research/r40.0/README.md) packages the original SHA-pinned R39.4.11 release unchanged, re-runs independent R25/R39.4/R39.4.11 strict controls on the user's offline synthetic ARM/QEMU setup, then runs a **separate** replay under `qemu-arm -strace` in networkless, read-only Docker. It parses a private path-level syscall trace into guest-only application markers for the original strict reviewers and an **aggregate, filename-free** `R40-SUMMARY.json`. The fail-closed R40 reviewer re-parses the raw private trace rather than trusting the public summary. It tracks positive and negative file path syscalls; the trace is incomplete, does not attribute all file-backed mappings, cannot see all dynamically resolved resources or kernel requests, and **cannot justify file deletion**. Full R26 catalog reconciliation and additional workloads remain future work.
+
+The shareable source ZIP has SHA-256 `bd26fae3bf9bd89f8d0133e1090a07496ceea334d6d7332c43d90c99de221999`, 115 entries including checksum manifest, all 114 payload hashes PASS; **602/602 host regressions PASS**. The full runnable source is in the verified user-conversation ZIP, not yet uploaded as standalone files in GitHub. **No R40 guest results exist at the time of this commit.**
