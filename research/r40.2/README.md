@@ -1,6 +1,6 @@
 # R40.2 — source-bound working-directory crosswalk (host-only trial)
 
-**2026-11-03: 32/32 host Python regressions PASS; user-side R40.2 Mac execution PENDING. R40.1 observation PASS preserved. NOT_BOOTABLE.**
+**2026-11-03: user-side R40.2 local stage crosswalk PASS (observation only); 32 host tests PASS; `R40_2_SOURCE_BOUND_CWD_CROSSWALK_OBSERVED_NOT_CLOSED`. NOT_BOOTABLE.**
 
 ## Verified R40.1 input
 
@@ -21,3 +21,11 @@ Release: `pw3-os-r40.2-source-bound-cwd-crosswalk.zip`, SHA-256 `9f360078541fa58
 The user should extract `pw3-os-r40.2-source-bound-cwd-crosswalk.zip` into an isolated source subdirectory, validate `SHA256SUMS-R402`, run `python3 -m unittest discover -s tests -q`, then run the command in its `README-R40.2.md` against local R40.0.2 source/output and R40.1 source/private/public evidence. Upload **only** `R40.2-SUMMARY.json`; keep private raw logs, events and path-level records local. The new result is still an **observed-not-closed** claim and not a list of safe-to-prune files.
 
 **Immutable:** `NO_DEVICE_ACCESS; NO_FIRMWARE_WRITES; NO_HARDWARE_ACTIONS; NO_BOOT; NO_PRUNING; NOT_BOOTABLE`. Preserve the original 976 unknown-hold stage entries, all symlinks and all unobserved paths. Research and educational purposes only.
+
+## Actual R40.2 user-side results — 2026-11-03
+
+The user ran the host suite (32 PASS) and original local-only crosswalk. The uploaded public summary SHA-256 is `cdac30dd46676de490d96a71af582135ca63ee0d9bb705ec0f895afcb652dd1b`, and its private crosswalk SHA-256 is `e28a5f0d51b72545d931e4822099bc7db73d14d2fffcb555c941b4b783be3e41`. Those reports agree on event/classification/open counts and all no-removal restrictions. The private report, including original paths, is **not committed**.
+
+The source-bound cwd run recorded one guest PID, zero observed cwd/process mutators, and a non-symlink working-directory chain. It checked **1,255 relative path operations**: 725 successful regular-stage path matches, 27 successful directory operations, and 503 failed missing-path lookups. Among the regular successes, **663 were successful open-like operations spanning 334 distinct staged regular files**. R40.1 had previously observed 17 distinct regular files through direct absolute paths. Those sets have not yet been deduplicated; 334 + 17 is **not** a proven distinct count. R26 outer-stage count agrees (2,070), with 2,067 entries inside rootfs, including 1,446 regular files, 286 directories and 335 symlinks. **R26 hash reconciliation remains false**, and QEMU guest syscall decoding remains incomplete.
+
+The next host-only [R40.3](../r40.3/README.md) examines the private absolute/relative union and optionally checks the original R26 inventory hash-by-hash. It does not permit pruning or booting.

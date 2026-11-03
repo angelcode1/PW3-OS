@@ -87,3 +87,6 @@ For research and educational purposes only.
 - [R40.1 local stage/runtime crosswalk](research/r40.1/README.md): 42 host tests PASS, local stage reconciliation pending; no deletion list is generated.
 
 - [R40.1 actual rootfs crosswalk result and R40.2 source-bound cwd test](research/r40.2/README.md): compares QEMU relative paths only when the original trace and pinned runner support cwd provenance; never classifies an unobserved file as removable.
+
+- [R40.2 user-verified cwd crosswalk](research/r40.2/README.md): 1,255 relative access events, 334 distinct regular files opened through proven relative paths, no file-removal inference.
+- [R40.3 deduplicated stage opens and R26 SHA audit](research/r40.3/README.md): 38 host tests PASS; local Mac results pending. Complete tool in the conversation release archive.
