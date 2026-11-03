@@ -1,7 +1,7 @@
 {
   "milestone": "R40.3",
   "date": "2026-11-03",
-  "verification_scope": "user_side_host_local_only",
+  "verification_scope": "user_side_host_local_content_match_and_runtime_union",
   "verdict": "R40_3_DEDUPLICATED_RUNTIME_STAGE_UNION_OBSERVED_NOT_CLOSED",
   "host_tests": {
     "total": 38,
@@ -14,9 +14,9 @@
   "outer_stage_entries": 2070,
   "outer_stage_regular_files": 1448,
   "outer_stage_regular_files_unobserved": 1101,
-  "r26_inventory_supplied": false,
-  "r26_manifest_status": "NOT_SUPPLIED_HOLD",
-  "r26_static_inventory_hash_reconciled": false,
+  "r26_inventory_supplied": true,
+  "r26_manifest_status": "ALL_RECORDED_ENTRIES_MATCH_UNAUTHENTICATED",
+  "r26_static_inventory_hash_reconciled": true,
   "r26_provenance_authenticated": false,
   "single_synthetic_scenario_only": true,
   "decoder_incomplete": true,
@@ -32,5 +32,11 @@
   "file_removal_authorized": false,
   "immutable_hold": "NOT_BOOTABLE",
   "private_paths_exported": false,
-  "next_gate": "R40.3 optional local --r26-inventory comparison using original R26-INVENTORY.json, if available"
+  "next_gate": "R40.4 additional offline synthetic scenario coverage and static ELF/Lua transitive candidate graph: plan only",
+  "r26_manifest_schema": "entries[]",
+  "r26_directories_type_verified": 287,
+  "r26_regular_files_sha256_verified": 1448,
+  "r26_symlink_targets_verified": 335,
+  "r26_entry_count": 2070,
+  "r26_report_sha256": "bf029bfffc7f64cd4c9d7d010acc7d7d267546ed0ee9c4ee94b379362ab38771"
 }
