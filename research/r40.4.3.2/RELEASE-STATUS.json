@@ -3,7 +3,7 @@
   "date": "2026-11-03",
   "status": "HOST_TESTED_ARM_QEMU_PENDING",
   "source_release": "pw3-os-r40.4.3.2-model-storage-trial.zip",
-  "source_zip_sha256": "044349525ff5854d2f56c453c24efd7470d8074894a22627bc6e40957b2b7b33",
+  "source_zip_sha256": "2c7970087295b2c89baf19b3343e9dab8755805e5d3e35253980b0bec96d2c23",
   "zip_entries": 11,
   "checksum_manifest_members": 10,
   "zip_crc_and_member_sha256_checked": true,
@@ -29,5 +29,6 @@
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
   "complete_dependency_closure_proven": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "release_rebuild_note": "Final test suite uses portable unconditional earlier-auditor substitution rejection; same 59 host tests PASS."
 }
