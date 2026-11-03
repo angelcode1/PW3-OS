@@ -1,0 +1,12 @@
+{
+  "milestone": "R39.4.10",
+  "prior_arm": "R39.4.9 FAIL",
+  "host_tests_passed": 538,
+  "arm_qemu": "PENDING",
+  "release_zip_sha256": "11104a09e3db5cb48c9fa5dc8c5efa379455460252c5066042b6f15675fd12c9",
+  "guard_sha256": "3d0a919c48218ef6e4103e242c952c4b27aec93a4d4f4a8118e62428a27e9eb3",
+  "reviewer_sha256": "bb551fd506a0bee7f160d4fd72b62ffde04697a87409d046edcf191716d37fc6",
+  "no_boot": true,
+  "no_device_access": true,
+  "not_bootable": true
+}
