@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.7",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_STAGED_SOURCE_AND_ARM_QEMU_PENDING",
+  "status": "USER_UPLOADED_ARM_QEMU_HOLD_ORIGINAL_MENU_DOFILE_DENIAL",
   "release_zip": "pw3-os-r40.4.3.7.7-touchmenu-selection.zip",
   "release_sha256": "cdb878586d4337d2af86b91555ea86a71a78143e183b1793227778da1b1004bc",
   "release_bytes": 41629,
@@ -19,7 +19,7 @@
   "prior_r375_public_arm_pass_sha256": "4c203e95ba6b94d9391e2a7e63817891750e522ff3f255b24cc340e6706431b9",
   "original_r26_2070_hash_preflight": "REQUIRED",
   "original_13_private_lua_recheck": "REQUIRED",
-  "new_arm_qemu_execution": "PENDING",
+  "new_arm_qemu_execution": "USER_RUN_FAIL_WITH_EXACT_SOURCE_DENIAL",
   "synthetic_touchmenu_selection_tested": false,
   "physical_tools_menu_tap_tested": false,
   "physical_pw3_verified": false,
@@ -37,5 +37,18 @@
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "uploaded_review_verdict": "R40_4_3_7_7_GUEST_OR_STRICT_MENU_SELECTION_HOLD",
+  "guest_exit_code_reported": 1,
+  "last_completed_checkpoint": "R40437_SECOND_VIEW_CLOSED_FILEMANAGER_RESTORED",
+  "first_missing_checkpoint": "R404377_NATIVE_FILEMANAGER_TOOLS_ENTRY_RESOLVED",
+  "original_menu_first_denial_kind": "DOFILE",
+  "original_menu_first_denial_module": "frontend/apps/filemanager/filemanagermenu.lua",
+  "original_menu_first_denial_line": 504,
+  "original_menu_first_denied_target": "frontend/ui/elements/common_settings_menu_table.lua",
+  "original_r375_strict_reviewer_pass_in_failed_run": false,
+  "prior_r375_lifecycle_markers_reported_present": true,
+  "guest_raw_trace_uploaded_and_inspected": true,
+  "new_touchmenu_selection_verified": false,
+  "next_milestone": "R40.4.3.7.8"
 }
