@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.2",
   "date": "2026-11-03",
-  "status": "HOST_TESTED_ARM_QEMU_PENDING",
+  "status": "USER_REPORTED_INDEPENDENT_REVIEW_ARM_PASS_PUBLIC_JSON_PENDING",
   "source_release": "pw3-os-r40.4.3.2-model-storage-trial.zip",
   "source_zip_sha256": "2c7970087295b2c89baf19b3343e9dab8755805e5d3e35253980b0bec96d2c23",
   "zip_entries": 11,
@@ -14,7 +14,7 @@
   "preflight": "recheck R40.4.3.1 private/source map, 2,070 R26 stage entries, pinned prior source auditors and original QEMU decoder",
   "runtime_access": "NO_DEVICE_ACCESS",
   "synthetic_home_write_scope": "/tmp/r40432-ko-home only; mutating decoded syscalls checked; QEMU decoder incomplete",
-  "guest_model_and_storage_arm_qemu": "PENDING",
+  "guest_model_and_storage_arm_qemu": "USER_TERMINAL_REPORTED_PASS",
   "guest_real_inkaway_view_ui_and_pen": "NOT_TESTED_HOLD",
   "guest_project_persisted_to_real_filesystem": false,
   "stage_modified": false,
@@ -30,5 +30,17 @@
   "safe_to_prune_inferred": false,
   "complete_dependency_closure_proven": false,
   "immutable_hold": "NOT_BOOTABLE",
-  "release_rebuild_note": "Final test suite uses portable unconditional earlier-auditor substitution rejection; same 59 host tests PASS."
+  "release_rebuild_note": "Final test suite uses portable unconditional earlier-auditor substitution rejection; same 59 host tests PASS.",
+  "user_terminal_preflight": "R40432_STAGED_SOURCE_AND_R26_PREFLIGHT_PASS",
+  "user_terminal_reviewer": "R40_4_3_2_STAGED_CANVAS_MODEL_STORAGE_ARM_PASS",
+  "user_terminal_final": "R40_4_3_2_STAGED_CANVAS_MODEL_STORAGE_ARM_PASS; VIEW_NOT_TESTED; NO_PRUNING; NOT_BOOTABLE",
+  "public_result_artifacts_reviewed": false,
+  "public_result_artifacts_requested": [
+    "R40432-REVIEW.json",
+    "R40432-SUMMARY.json"
+  ],
+  "full_guest_ui_canvas_stylus_save_return": "NOT_TESTED_HOLD",
+  "observed_open_union_recalculated": false,
+  "runtime_write_isolation_raw_trace_independently_replayed_here": false,
+  "execution_environment": "prior existing offline Docker ARM/QEMU image on user's Mac; earlier no-daemon refusal resolved"
 }

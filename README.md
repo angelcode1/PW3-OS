@@ -112,3 +112,5 @@ For research and educational purposes only.
 
 - [R40.4.3.1 Mac source-chain audit PASS](research/r40.4.3.1/RELEASE-STATUS.json): 45 host tests, nine staged Ink Away Lua files source-inspected, 2,070 R26 entries rechecked; staged atomic-save fallback can remove destination if rename fails. **Source only, no runtime save proof**.
 - [R40.4.3.2 bounded staged canvas-model/storage ARM trial](research/r40.4.3.2/README.md): 59 host regressions PASS, checksum-verified versioned ZIP. Independent offline QEMU model stroke, atomic save, reload scenario pending; full InkAwayView and pen lifecycle remain `NOT_TESTED_HOLD`.
+
+- [R40.4.3.2 reported offline ARM Canvas-model + Project atomic-save/reload PASS](research/r40.4.3.2/RELEASE-STATUS.json): preflight and independent reviewer PASS reported from user's terminal; public review/summary JSON pending examination. No InkAwayView, stylus or real GUI return claimed; `NOT_BOOTABLE`.
