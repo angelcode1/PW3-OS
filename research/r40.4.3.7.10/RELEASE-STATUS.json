@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.10",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_ARM_QEMU_PENDING_HYPOTHESIS_NOT_PROVEN",
+  "status": "UPLOADED_PUBLIC_ARM_QEMU_HOLD_AFTER_DPI_IMPORT_RETURN",
   "release_zip": "pw3-os-r40.4.3.7.10-synthetic-screen-dpi.zip",
   "release_sha256": "d1f7a5869753bba7ae94fb8cd4ff5d68e9a894fdc55ecc23644c4ce16630f00e",
   "release_bytes": 43003,
@@ -42,5 +42,20 @@
   "hardware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "public_review_sha256": "c4eb5a226775a40c49dcef27ef674e7241871ddfaecad35593a559e285115b2d",
+  "public_review_verdict": "R40_4_3_7_10_SYNTHETIC_SCREEN_DPI_OR_ORIGINAL_MENU_STRICT_HOLD",
+  "reported_guest_zero_exit": false,
+  "dpi_marker": "R4043710_SYNTHETIC_SCREEN_DPI_FIELD_INITIALIZED",
+  "dpi_marker_unique": true,
+  "dpi_marker_order_valid": true,
+  "original_screen_dpi_module_entered": true,
+  "original_screen_dpi_module_returned": true,
+  "original_r378_strict_reviewer_pass": false,
+  "synthetic_touchmenu_selection_exercised": false,
+  "source_hypothesis_result": "SYNTHETIC_SCREEN_DPI_FIELD_REQUIRED_AND_IMPORTED_MODULE_RETURNED_IN_USER_ARM_RUN",
+  "next_failure": "UNKNOWN_FROM_PUBLIC_REVIEW",
+  "next_step": "REUSE_R404379_READ_ONLY_EXISTING_TRACE_DIAGNOSTIC_ON_R4043710_FAILED_RUN",
+  "raw_r3710_guest_stdout_uploaded": false,
+  "raw_r3710_qemu_trace_uploaded": false
 }
