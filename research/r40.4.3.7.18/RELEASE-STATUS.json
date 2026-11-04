@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.18",
-  "state": "USER_R3718_HOLD_TRACEBACK_AFTER_FULL_R3717_PARENT_BEFORE_FIRST_R3718_MARKER",
+  "state": "R3718_HOLD_ORIGINAL_GUEST_PCALL_REASON_MASKED_OUTER_ASSERT_LINE2440_DIAGNOSTIC_D1_READY",
   "parent_milestone": "R40.4.3.7.17",
   "parent_arm_verdict": "R40_4_3_7_17_ORIGINAL_SYNTHETIC_INPUT_POLL_ARM_PASS",
   "target_verdict": "R40_4_3_7_18_ORIGINAL_MENU_SELECTED_GESTURE_SAVE_RELOAD_ARM_PASS",
@@ -85,5 +85,20 @@
   "next_action": "RUN_READONLY_PINNED_LOCAL_TRACEBACK_SITE_CLASSIFIER_AGAINST_EXISTING_TRIAL_WITHOUT_RERUN",
   "original_guest_rebuilt_after_hold": false,
   "offline_qemu_rerun_after_hold": false,
-  "original_strict_reviewers_modified": false
+  "original_strict_reviewers_modified": false,
+  "qemu_exit": 1,
+  "r3717_parent_markers": "7_OF_7_ORDERED_COMPLETE",
+  "r3718_new_markers": "0_OF_8",
+  "last_original_marker": "R404377_TOUCHMENU_SELECTION_OPENED_THIRD_ORIGINAL_VIEW",
+  "traceback_first_guest_frame_line": 2440,
+  "traceback_frame_interpretation": "OUTER_R4041_INTENTIONAL_EXIT_CHECK_PCALL_REASON_MASKED_NOT_ORIGINAL_R3718_FAILURE_LOCATION",
+  "r3718_underlying_guest_reason_class": "UNKNOWN_PENDING_DIAGNOSTIC",
+  "r3718_failure_root_cause_confirmed": false,
+  "diagnostic_success_authorizes_r3718_arm_pass": false,
+  "original_r3718_guest_source_and_reviewers_modified": false,
+  "proposed_diagnostic_archive": "pw3-os-r40.4.3.7.18.d1-pcall-reason-diagnostic.zip",
+  "proposed_diagnostic_sha256": "5b20580ea7d47b0c15142ea2159cf9bfe29291da7967b73e9ca66b005425a653",
+  "diagnostic_host_tests": "30_OF_30_PASS_CLEAN_EXTRACT",
+  "diagnostic_archive_members": 13,
+  "diagnostic_original_arm_rerun_status": "NOT_RUN"
 }
