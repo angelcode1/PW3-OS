@@ -1,0 +1,13 @@
+# R40.4.3.7.20 — independent read-only R3718.1 trace observation
+
+**State: source ZIP packaged, clean-extracted 46/46 host tests PASS; user's Mac run NOT YET executed. Research/educational purposes only. NOT_BOOTABLE.**
+
+The user's R3719 targeted evidence scan checked 477 permitted Downloads directories; all five historical original inputs were `NOT_FOUND_HOLD`: R40.3 R26 hash summary, R40.1 private/public crosswalks and R40.2 private/public CWD crosswalks. The R40.4.0 public summary was also absent. Do **not** reconstruct missing original per-file evidence from historic aggregate counts, weaken original source pins or call the old 347-file union independently verified now.
+
+R3720 reads the *existing* R3718.1 original menu-selected drawing ARM PASS local QEMU trace, with no new QEMU run. It requires original R26 stage SHA reconciliation with unchanged R403 verifier, pins the source ZIP SHA and both byte-identical R3718.1 review/summary SHA, verifies QEMU exit zero and original newDrawing guest markers, then counts only unambiguous `open` and `openat(AT_FDCWD, ...)` successful accesses to directly mapped **regular files** under the authenticated-content (not authenticated-source) original R26 stage. Ambiguous directory FDs, symlink paths, missing/mutated CWD, escapes, and undecoded syscalls remain classified HOLD. Only numeric fixed-category stdout, no filenames, private trace or guest error text exported.
+
+Local-only ZIP: `pw3-os-r40.4.3.7.20-r37181-trace-observation-readonly.zip`; SHA256 `fd27e88d96acebbf5523e4ca587999c8731c42964169422dc1fa323c44e3cbd1` (9,295 bytes, four archive files). Main script `R4043720-SINGLE-SCENARIO-TRACE-READONLY.py`; SHA256 `8af662a831690c4e6d68b195330f4db96d35238221f9f9eb267ab62b76fa71a4`. Clean extraction checksums and ZIP CRC PASS, 46/46 Python host tests PASS, command-line check PASS. User Mac execution pending.
+
+The script implements a deliberately bounded *independent* QEMU open parser, not the original full (incomplete) syscall decoder. It **does not** compare filename sets to the unavailable historic 347-file union, reconstruct runtime transitive ELF/Lua closure, authenticate R26 provenance, prove physical PW3 device input/display, or authorize pruning/deployment. All 1,101 historically unobserved stage regular files and 976 separate older UNKNOWN_HOLD entries remain protected, and the original R3718.1 synthetic ARM PASS remains unchanged.
+
+To run: extract verified ZIP under `~/Downloads/pw3-os-r40.4.3.7.20-single-scenario-trace`, check `SHA256SUMS-R4043720`, run `python3 -B -m unittest discover -s tests -q`, and execute `python3 -B R4043720-SINGLE-SCENARIO-TRACE-READONLY.py`. Only share lines starting `R4043720_AUDIT`. **NOT_BOOTABLE**.
