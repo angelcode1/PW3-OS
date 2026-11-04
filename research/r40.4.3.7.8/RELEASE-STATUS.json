@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.8",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_ARM_QEMU_PENDING",
+  "status": "USER_UPLOADED_ARM_QEMU_HOLD_ORIGINAL_COMMON_SETTINGS_IMPORT_UNRETURNED",
   "release_zip": "pw3-os-r40.4.3.7.8-menu-dofile-bridge.zip",
   "release_sha256": "23496a87c9dee3a3e298291d29141e3e2437d24a0e3c1aaf2127f91ec6b03dd0",
   "release_bytes": 42394,
@@ -38,5 +38,17 @@
   "hardware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "uploaded_review_sha256": "ccbe1a2e7440871f835b417b0cb194dc7baa694ab2f97fb2dc3220ad260b44c9",
+  "uploaded_review_verdict": "R40_4_3_7_8_GUEST_OR_STRICT_MENU_SOURCE_HOLD",
+  "guest_zero_exit_reported": false,
+  "guest_origin_r375_second_view_close_checkpoint_present": true,
+  "first_missing_checkpoint": "R404378_ORIGINAL_COMMON_SETTINGS_MENU_LOADED",
+  "first_unreturned_menu_source_index": 3,
+  "first_unreturned_menu_source_name": "frontend/ui/elements/common_settings_menu_table.lua",
+  "menu_source_import_count_reported": 1,
+  "bridge_checkpoint_unique_reported": false,
+  "touchmenu_widget_selection_verified": false,
+  "trace_failure_cause": "UNKNOWN_FROM_PUBLIC_REVIEW_INTERNAL_GUARD_OR_LUA_EXCEPTION_NOT_DISTINGUISHED",
+  "next_action": "R40.4.3.7.9_READ_ONLY_EXISTING_R378_TRACE_CLASSIFIER"
 }
