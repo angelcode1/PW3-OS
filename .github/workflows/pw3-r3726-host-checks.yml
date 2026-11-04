@@ -1,0 +1,29 @@
+name: PW3 R3726 source-only interpreter-path checks
+
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.26/**'
+      - '.github/workflows/pw3-r3726-host-checks.yml'
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.26/**'
+      - '.github/workflows/pw3-r3726-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-interp-path-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile read-only Python sources
+        run: python3 -m py_compile research/r40.4.3.7.26/R4043726-INTERP-GUEST-RESOLVE-READONLY.py research/r40.4.3.7.26/test_r4043726.py
+      - name: Verify published source SHA256
+        working-directory: research/r40.4.3.7.26
+        run: sha256sum -c SHA256SUMS
+      - name: Run synthetic-only tests (no staged rootfs, QEMU or hardware)
+        run: python3 -m unittest discover -s research/r40.4.3.7.26 -p 'test_*.py' -v
