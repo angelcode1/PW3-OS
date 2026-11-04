@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12.1",
   "date": "2026-11-04",
-  "status": "USER_MAC_R3712_PREFLIGHT_HOLD_AT_R378_VERIFY_OTHER_REFUSAL",
+  "status": "MAC_R3712_PREFLIGHT_FAILS_MISSING_REQUIRED_R3711_PUBLIC_SOURCE_FILE_NO_QEMU",
   "release_zip": "pw3-os-r40.4.3.7.12.1-preflight-doctor.zip",
   "release_sha256": "bff12d068e2233f8f5dce966f6d4c8448b0e95a00bf511399a08a1fa089086b3",
   "release_bytes": 5481,
@@ -51,12 +51,25 @@
   "r3712_guest_started_after_restore": false,
   "original_r3712_error_site_still_unverified": true,
   "next_action": "READ_ONLY_R37121_DOCTOR_RUNTIME_MAP_OF_THREE_ORIGINAL_FIXED_R378_REASONS",
-  "latest_mac_doctor": "R4043712_DOCTOR_HOLD GATE=R378 METHOD=verify REASON=OTHER_REFUSAL; NO_QEMU; NOT_BOOTABLE",
+  "latest_mac_doctor": "GATE=R3712 METHOD=read REASON=REQUIRED_FILE_NOT_FOUND",
   "three_unmapped_original_r378_direct_refusals": [
     "original R377 missing",
     "guest patch not exact",
     "entry modified"
   ],
   "precise_refusal_pending": true,
-  "independent_r377_r378_distributed_public_pin_and_bridge_checks": "PASS_NOT_VERIFICATION_OF_MAC"
+  "independent_r377_r378_distributed_public_pin_and_bridge_checks": "PASS_NOT_VERIFICATION_OF_MAC",
+  "mac_r377_directory_state": "PRESENT",
+  "precise_missing_file": "NOT_DETERMINED_FROM_SAFE_CATEGORY",
+  "expected_r3711_public_release": "~/Downloads/pw3-os-r40.4.3.7.11-touchmenu-show-boundary",
+  "expected_r3711_direct_sources": [
+    "r4043711/loop_guard.lua",
+    "r4043711/review.py",
+    "r4043711/verify.py",
+    "r4043711/01_gesture_dispatch.lua",
+    "r4043711/probe_in_container.sh"
+  ],
+  "verified_r3711_zip_sha256": "e5ff56759e8db12b69752ff5f913abe0b48a9e5b224ac03d7f546de947782afb",
+  "recommended_next_action": "READ_ONLY_CHECK_R3711_DIRECTORY_AND_5_FILES; IF_DIRECTORY_ABSENT_AUTHENTICATE_ZIP_AND_EXTRACT_ONLY_TO_NEW_DIRECTORY; RERUN_FULL_SOURCE_CHECK",
+  "no_qemu_started": true
 }
