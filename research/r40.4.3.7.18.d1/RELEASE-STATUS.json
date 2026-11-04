@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.18.D1",
-  "state": "SOURCE_PINNED_DIAGNOSTIC_PACKAGE_BUILT_HOST_TESTED_MAC_ARM_RUN_PENDING",
+  "state": "USER_MAC_DIAGNOSTIC_EXECUTED_REPRODUCED_CANVAS_STATE_ASSERTION_PREMARKER_HOLD",
   "parent_milestone": "R40.4.3.7.18",
   "parent_observed_verdict": "R40_4_3_7_18_ORIGINAL_MENU_SELECTED_DRAW_OR_INHERITED_REVIEW_HOLD",
   "archive_filename": "pw3-os-r40.4.3.7.18.d1-pcall-reason-diagnostic.zip",
@@ -37,5 +37,13 @@
   "qemu_decoder_incomplete": true,
   "stage_regular_unobserved_retained": 1101,
   "historical_unknown_hold_retained": 976,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_qemu_exit": "1",
+  "user_mac_original_pcall_reason_captured": true,
+  "user_mac_guest_reason_class": "CANVAS_STATE_ASSERTION",
+  "user_mac_guest_reason_phase": "PREMARKER_CANVAS_STATE",
+  "user_mac_parent_final_marker_present": true,
+  "user_mac_r3718_first_marker_present": false,
+  "user_uploaded_review_sha256": "c07b8ebf5865bcdbbe56ae7837ca1fd23e84d6fee50933b043e2ab88eb00758c",
+  "physical_pw3_verified": false
 }
