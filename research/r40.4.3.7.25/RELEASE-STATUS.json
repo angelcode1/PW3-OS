@@ -1,0 +1,32 @@
+{
+  "milestone": "R40.4.3.7.25",
+  "state": "USER_MAC_ROOTFS_SCAN_CONFIRMED_SCOPE_CORRECTION_IDENTIFIED_OUTER_RECHECK_PENDING",
+  "user_report": "research/r40.4.3.7.25/USER-MAC-AUDIT-RESULT.json",
+  "expected_scope": "enclosing_stage_r13_fixed",
+  "previous_user_scope": "stage_r13_fixed/rootfs",
+  "expected_outer_inventory": {
+    "regular_files": 1448,
+    "directories": 287,
+    "symlinks": 335,
+    "total": 2070
+  },
+  "user_rootfs_inventory": {
+    "regular_files": 1446,
+    "directories": 286,
+    "symlinks": 335,
+    "total": 2067
+  },
+  "observed_delta": {
+    "regular_files": 2,
+    "directories": 1,
+    "symlinks": 0
+  },
+  "outer_recheck_executed": false,
+  "source_provenance_authenticated": false,
+  "original_r26_pin_reverified_here": false,
+  "interpreter_runtime_resolved": false,
+  "dependency_closure_proven": false,
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

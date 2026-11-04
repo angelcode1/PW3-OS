@@ -1,0 +1,37 @@
+{
+  "milestone": "R40.4.3.7.25",
+  "report_type": "USER_SUPPLIED_MAC_OUTPUT",
+  "stage_scope": "rootfs_only",
+  "relative_stage": "pw3-os-r13-alpine-dual-libc-fix/stage-r13-fixed/rootfs",
+  "result": "INVENTORY_COUNT_GAP_HOLD",
+  "independent_scanners_agree": true,
+  "prior_outer_stage_regular_file_baseline": 1448,
+  "rootfs_only_scan_counts": {
+    "regular_files": 1446,
+    "directories": 286,
+    "symlinks": 335,
+    "other_nodes": 0
+  },
+  "symlink_literal_summary": {
+    "absolute_symlink_literals": 0,
+    "relative_symlink_literals": 335,
+    "symlinks_with_parent_components": 251
+  },
+  "reason_for_apparent_gap": "BASELINE_SCOPE_MISMATCH",
+  "source": "research/r40.4.3.7.21.1/README.md",
+  "reconciliation_status": "OUTER_STAGE_RECHECK_PENDING",
+  "expected_outer_stage_counts": {
+    "regular_files": 1448,
+    "directories": 287,
+    "symlinks": 335,
+    "other_nodes": 0,
+    "total": 2070
+  },
+  "pin_check_in_this_standalone_scan": false,
+  "interp_runtime_resolved": false,
+  "dependency_closure_proven": false,
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "notes": "The original R26 outer-stage inventory counted 1448 regular files, 287 directories, 335 symlinks. Current R3725 output counted only rootfs: 1446,286,335. The expected difference is 2 regular files and the rootfs directory itself, not yet independently confirmed by a new outer-stage run. No path names or device outputs collected."
+}
