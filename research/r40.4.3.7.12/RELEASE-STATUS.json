@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12",
   "date": "2026-11-04",
-  "status": "USER_MAC_R35_ORIGINAL_INPUTS_RESTORED_R3712_SOURCE_AND_ARM64_IMAGE_PASS_R35_FULL_PREFLIGHT_PENDING",
+  "status": "R3712_SOURCE_GATES_PASS_R35_REFUSED_AT_ORIGINAL_R26_INVENTORY_RECONCILIATION_BEFORE_QEMU",
   "release_zip": "pw3-os-r40.4.3.7.12-touchmenu-index-site.zip",
   "release_sha256": "7eb007f17a52d8706b43b17ff2dab552177042541415ad8418e3b4ba70c8c1b3",
   "release_bytes": 43664,
@@ -64,7 +64,7 @@
   "user_arm_qemu_execution_after_recovery": "NOT_STARTED",
   "original_touchmenu_index_error_site": "STILL_UNVERIFIED_PENDING_R3712_OFFLINE_GUEST",
   "next_step": "UNCHANGED_LOCAL_R3712_OFFLINE_TRIAL_USING_NEW_OUTPUT_PATH",
-  "last_user_trial_refusal": "R40435_PREFLIGHT_REFUSED_STAGE_SOURCE_PATH_MISSING_OR_ALIASED",
+  "last_user_trial_refusal": "R40435_PREFLIGHT_REFUSED_R26_STAGE_HASH_RECONCILIATION_FAILED",
   "user_mac_reported_r3712_stage_check": "PASS",
   "user_mac_reported_r3712_host_tests": 44,
   "guest_r3712_executed": false,
@@ -164,5 +164,22 @@
   "user_mac_r3712_stage_check": "R4043712_ORIGINAL_SOURCE_AND_PREVIOUS_STRICT_GATES_PASS",
   "user_mac_offline_image_status": "R404374_REQUIRED_OFFLINE_IMAGE_PRESENT",
   "original_r35_2070_inventory_post_recovery": "PENDING_TRIAL",
-  "original_r3712_arm_run_post_recovery": "NOT_YET_REPORTED"
+  "original_r3712_arm_run_post_recovery": "NOT_YET_REPORTED",
+  "user_mac_r3712_test_count_passed": 44,
+  "r35_original_parent_source_dirs_after_restoration": "FOUND",
+  "r35_original_2070_inventory_verification": "REFUSED",
+  "original_r403_inventory_expected": {
+    "total": 2070,
+    "regular_sha256": 1448,
+    "symlink_targets": 335,
+    "directories": 287,
+    "manifest_status": "ALL_RECORDED_ENTRIES_MATCH_UNAUTHENTICATED"
+  },
+  "r26_mismatch_category": "UNKNOWN_AWAITING_READONLY_DIAGNOSTIC",
+  "r26_diagnostic_filename": "R40435-R26-RECONCILIATION-READONLY.py",
+  "r26_diagnostic_sha256": "e3590b9cef4ae20ff41dfb7d93d4d3c42fe9294ed73a11014f8e868e7998bf41",
+  "r26_diagnostic_host_tests": "15_PASS",
+  "r26_diagnostic_user_mac_result": "PENDING",
+  "arm_qemu_started_after_recovery": false,
+  "stage_or_inventory_modified_by_diagnostic": false
 }
