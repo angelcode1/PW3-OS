@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12",
   "date": "2026-11-04",
-  "status": "R35_R26_RECONCILIATION_HOLD_ONE_NONINVENTORY_MACOS_DS_STORE_OUTER_STAGE_SIBLING_ALL_2070_ORIGINALS_MATCH",
+  "status": "R3712_ORIGINAL_R35_PREFLIGHT_PASS_ARM_TRIAL_HOLD_TOUCHMENU_LINE_518_SYNTHETIC_INPUT_GROUP_ABSENT",
   "release_zip": "pw3-os-r40.4.3.7.12-touchmenu-index-site.zip",
   "release_sha256": "7eb007f17a52d8706b43b17ff2dab552177042541415ad8418e3b4ba70c8c1b3",
   "release_bytes": 43664,
@@ -219,5 +219,17 @@
   "original_r3712_arm_qemu_execution_after_metadata_preservation": "NOT_STARTED",
   "no_original_r26_inventory_changes": true,
   "no_original_2070_staged_entry_changes": true,
-  "original_R35_gate_modified": false
+  "original_R35_gate_modified": false,
+  "latest_r3712_guest_marker_order_valid": true,
+  "latest_r3712_synthetic_input_group_state": "ABSENT",
+  "latest_r3712_original_touchmenu_error_site": "TOUCHMENU_LINE_518",
+  "latest_r3712_original_menu_show_returned": false,
+  "latest_r3712_guest_zero_exit": false,
+  "latest_r3712_parent_reviewer_pass": false,
+  "latest_r3712_source_preflight": "PASS",
+  "latest_r3712_r35_stage_and_r26_preflight": "PASS_13_LUA_FILES",
+  "r3713_new_guest_release": "pw3-os-r40.4.3.7.13-synthetic-input-key-group.zip",
+  "r3713_new_guest_zip_sha256": "2245975142d240367133f5872423ebfc35696594f8174a9fce0321c9057f10c4",
+  "r3713_local_host_tests": "34_PASS",
+  "r3713_guest_execution": "NOT_YET_RUN"
 }
