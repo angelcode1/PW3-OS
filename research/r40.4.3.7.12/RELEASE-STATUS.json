@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12",
   "date": "2026-11-04",
-  "status": "USER_REPORTED_SOURCE_PREFLIGHT_HOLD_BEFORE_QEMU",
+  "status": "REPEATED_USER_MAC_R3712_SOURCE_PREFLIGHT_HOLD_NO_QEMU",
   "release_zip": "pw3-os-r40.4.3.7.12-touchmenu-index-site.zip",
   "release_sha256": "7eb007f17a52d8706b43b17ff2dab552177042541415ad8418e3b4ba70c8c1b3",
   "release_bytes": 43664,
@@ -40,5 +40,19 @@
   "user_reported_terminal_marker": "R4043712_EXACT_ORIGINAL_MENU_ERROR_SITE_OR_PRIOR_SOURCE_HOLD; NO_QEMU; NOT_BOOTABLE",
   "new_arm_qemu_execution": "NOT_STARTED_SOURCE_PREFLIGHT_REFUSED",
   "root_cause": "UNRESOLVED_FROM_GENERIC_PREFLIGHT_REFUSAL",
-  "next_milestone": "R40.4.3.7.12.1"
+  "next_milestone": "R40.4.3.7.12.1",
+  "user_latest_terminal_marker": "R4043712_EXACT_ORIGINAL_MENU_ERROR_SITE_OR_PRIOR_SOURCE_HOLD; NO_QEMU; NOT_BOOTABLE",
+  "root_cause_after_last_report": "UNKNOWN_BETWEEN_REMAINING_INHERITED_PUBLIC_RELEASE_AND_STAGE_GATES",
+  "latest_diagnostic_release": "R40.4.3.7.12.2",
+  "latest_diagnostic_script": "R4043712-ALL-PREREQUISITES-READONLY.py",
+  "diagnostic_sha256": "b8cc5981845745fd5913480539dc7e18ead43b70a29d44c71e33cde36efe0fdc",
+  "diagnostic_bytes": 26319,
+  "diagnostic_pinned_release_dirs": 13,
+  "diagnostic_pinned_release_files": 160,
+  "diagnostic_pinned_menu_git_blobs": 18,
+  "diagnostic_collector_file_hashes": 2,
+  "diagnostic_fixture_verification": "PASS_CLEAN_RECONSTRUCTED_PUBLIC_RELEASES_MISSING_FILE_ALTERED_FILE_MULTIPLE_MISSING_DIR_UNLISTED_FILE_SYMLINK",
+  "original_r3712_source_verifier_modified": false,
+  "original_arm_guest_modified": false,
+  "qemu_guest_started": false
 }
