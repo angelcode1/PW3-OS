@@ -1,0 +1,3 @@
+# R40.4.3.7.19 — read-only dependency evidence gap audit
+
+R3718.1 offline synthetic ARM PASS already verified. This new local-only evidence audit revalidates original R26 stage integrity, preexisting R40.4.0 static graph by counts + private digest, and existing R3718.1 review/trace presence. 37 local host tests and clean ZIP check PASS. **User-side R3719 audit has not run.** It does **not** recompute the R3718.1 staged open-file set, authenticate R26 origin, close native/Lua dependencies or prove PW3 ABI. Historical 1,101 unobserved staged regular files, 976 older UNKNOWN_HOLD, incomplete decoder remain protected. No device access, firmware, boot, pruning or rootfs modifications. Research/educational use only. **NOT_BOOTABLE.**

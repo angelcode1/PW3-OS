@@ -1,0 +1,37 @@
+{
+  "milestone": "R40.4.3.7.19",
+  "state": "READONLY_HOST_TESTED_USER_MAC_UNRUN",
+  "parent": "R40.4.3.7.18.1",
+  "parent_arm_verdict": "R40_4_3_7_18_1_ORIGINAL_NEW_DRAWING_GESTURE_SAVE_RELOAD_ARM_PASS",
+  "zip": "pw3-os-r40.4.3.7.19-evidence-gap-audit.zip",
+  "zip_sha256": "228bffd3c23a77fd7303e5d96ca0e501421f7a6f5e9c2d7c4863d5fb49eca184",
+  "script_sha256": "ce5dbe021eddd2f07a59f18ef2b42dae03fc48ce8f8ff5a2b865d530d7589ae7",
+  "host_tests": "37_OF_37_PASS",
+  "clean_extract": true,
+  "sha_manifest_pass": true,
+  "zip_integrity": true,
+  "audit_scope": "PINNED_ORIGINAL_R403_FULL_R26_STAGE_HASH_RECHECK_R4040_STATIC_BASELINE_PRIVATE_GRAPH_SHA_R37181_EVIDENCE_AND_TRACE_EXISTENCE_ONLY",
+  "stage_historical_counts": {
+    "entries": 2070,
+    "regular": 1448,
+    "symlinks": 335,
+    "directories": 287
+  },
+  "prior_static_baseline": {
+    "elf_objects": 83,
+    "dt_needed_name_edges": 209,
+    "lua_files": 823,
+    "lua_literal_edges": 6272
+  },
+  "prior_runtime_regular_union": 347,
+  "stage_regular_unobserved_hold": 1101,
+  "older_unknown_hold": 976,
+  "r37181_new_staged_open_union_recomputed": false,
+  "provenance_authenticated": false,
+  "complete_dependency_closure_proven": false,
+  "physical_pw3_verified": false,
+  "boot_authorized": false,
+  "firmware_write_authorized": false,
+  "file_removal_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
