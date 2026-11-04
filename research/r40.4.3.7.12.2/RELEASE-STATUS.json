@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12.2",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_READ_ONLY_ALL_PREREQUISITES_AUDIT_USER_MAC_PENDING",
+  "status": "USER_AUDIT_MISSING_10_PUBLIC_RELEASE_DIRECTORIES_2_COLLECTOR_FILES_AND_STAGE_ROOT",
   "release_script": "R4043712-ALL-PREREQUISITES-READONLY.py",
   "release_sha256": "b8cc5981845745fd5913480539dc7e18ead43b70a29d44c71e33cde36efe0fdc",
   "release_bytes": 26319,
@@ -33,5 +33,34 @@
   "r26_provenance_authenticated": false,
   "complete_dependency_closure_proven": false,
   "qemu_decoder_incomplete": true,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_summary": "RELEASE_DIRS_VALID=3/13 FILES_CHECKED=38 PROBLEMS=13",
+  "present_release_dirs": [
+    "R3712",
+    "R3711",
+    "R377"
+  ],
+  "absent_release_dirs": [
+    "R3710",
+    "R378",
+    "R375",
+    "R3741",
+    "R373",
+    "R372",
+    "R37",
+    "R36",
+    "R353",
+    "R35"
+  ],
+  "absent_other_at_required_paths": [
+    "PRIVATE_376_ZIP",
+    "PUBLIC_376_AUDIT",
+    "STAGE_ROOT"
+  ],
+  "restoration_bundle": "pw3-os-r40.4.3.7.12.3-public-prerequisites.zip",
+  "bundle_sha256": "a922f43a9a3b6cae8244143d6fb66e341fde0b0d9640e31a9dce34cb39d597db",
+  "bundle_bytes": 432369,
+  "bundle_original_public_release_zips": 10,
+  "original_stage_or_private_data_in_bundle": false,
+  "original_arm_guest_started": false
 }

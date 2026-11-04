@@ -184,3 +184,5 @@ For research and educational purposes only.
 - R3710 local-pin diagnostic identified absent/symlinked R378 directory: restore SHA256-authenticated original R378 ZIP only at expected absent path, without overwrite, then rerun read-only pin check; no QEMU. [Research status](research/r40.4.3.7.12.1/RELEASE-STATUS.json), NOT_BOOTABLE.
 
 - R3710 local pin contract PASS after restoring original R378 release directory: prerequisite integrity restored, but full R3712 stage-check and subsequent ARM/QEMU still pending. [R3712.1 status](research/r40.4.3.7.12.1/RELEASE-STATUS.json), NOT_BOOTABLE.
+
+- [R40.4.3.7.12.3 public release restore](research/r40.4.3.7.12.3/RELEASE-STATUS.json): R3712 audit reports 10 missing public release dirs, two missing R376 collector files and missing original rootfs at required path. One host-tested no-clobber public bundle restores only missing public releases; stage/private data untouched. NO_QEMU; NOT_BOOTABLE.

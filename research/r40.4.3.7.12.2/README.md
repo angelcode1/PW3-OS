@@ -11,3 +11,9 @@ SHA-256 `b8cc5981845745fd5913480539dc7e18ead43b70a29d44c71e33cde36efe0fdc`, 26,3
 Mac: save the standalone script in Downloads, then `python3 -B "$HOME/Downloads/R4043712-ALL-PREREQUISITES-READONLY.py"`. Share only its fixed `R4043712_CLOSURE_HOLD` and `R4043712_CLOSURE_SUMMARY` lines (or PASS line). Do not automatically repair/overwrite release directories or bypass full source verification.
 
 Historical staged observed open union 347 not recomputed; 1,101 unobserved stage regular files and 976 historical UNKNOWN_HOLD retained. Provenance and complete dependency closure unproven; QEMU decoder incomplete. No device/firmware/hardware writes, boot, file removal, or pruning: **NOT_BOOTABLE**.
+
+## User's all-prerequisite audit and bounded public-only restore bundle (2026-11-04)
+
+The user's R3712 read-only audit found 10 missing public-release directories, two missing original R376 collector outputs and the R13 original stage rootfs missing at its expected path; three release dirs valid, 38 members checked, 13 problems. Earlier R3710/R378 source-only pin PASS does not establish current presence. The audit uses HOME/Downloads regardless of shell CWD.
+
+R40.4.3.7.12.3 provides only the original checksum-validated public release ZIPs, with an optional no-clobber script. SHA-256 a922f43a9a3b6cae8244143d6fb66e341fde0b0d9640e31a9dce34cb39d597db. It never supplies or recreates the original staged rootfs or private R376 collector files. Host end-to-end verification of all ten public releases and fail-closed no-overwrite cases PASS. The original ARM trial remains blocked until the original offline stage, private collector artifacts and full strict stage-check are available. NOT_BOOTABLE.
