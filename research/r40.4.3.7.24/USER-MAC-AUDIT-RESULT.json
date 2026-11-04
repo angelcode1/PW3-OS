@@ -1,0 +1,28 @@
+{
+  "milestone": "R40.4.3.7.24",
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_OUTPUT",
+  "stage_root_label": "pw3-os-r13-alpine-dual-libc-fix/stage-r13-fixed/rootfs",
+  "result": "SOURCE_ONLY_PADDING_CLASSIFICATION",
+  "counts": {
+    "PADDING_ONLY_CANDIDATE": 10,
+    "STRICT_LITERAL_PASS": 9,
+    "elf_objects": 83,
+    "interp_segments": 19,
+    "regular_files_scanned": 1446
+  },
+  "expected_counts": {
+    "PADDING_ONLY_CANDIDATE": 10,
+    "STRICT_LITERAL_PASS": 9,
+    "elf_objects": 83,
+    "interp_segments": 19
+  },
+  "known_prior_regular_file_baseline": 1448,
+  "regular_file_count_reconciliation": "OPEN_HOLD_1446_VERSUS_1448",
+  "source_pins_reverified_by_standalone_tool": false,
+  "interpreter_runtime_resolved": false,
+  "dependency_closure_proven": false,
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "notes": "Transcribed from user-reported Mac run; not independently rerun. Parent source-pinned audit remains separate; standalone tool does not pin parent SHA or verify historical stage inventory. No local regression-test output was provided."
+}

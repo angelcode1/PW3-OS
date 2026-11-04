@@ -1,0 +1,23 @@
+{
+  "milestone": "R40.4.3.7.24",
+  "state": "USER_MAC_AUDIT_REPORTED_COUNTS_MATCH_INVENTORY_GAP_HOLD",
+  "purpose": "STANDALONE_PT_INTERP_STRICT_VS_TRAILING_NUL_CLASSIFIER",
+  "user_report_reference": "research/r40.4.3.7.24/USER-MAC-AUDIT-RESULT.json",
+  "expected_elf_objects": 83,
+  "expected_interpreter_segments": 19,
+  "expected_strict_literal_pass": 9,
+  "expected_padding_only_candidate": 10,
+  "actual_elf_objects": 83,
+  "actual_interpreter_segments": 19,
+  "actual_strict_literal_pass": 9,
+  "actual_padding_only_candidate": 10,
+  "standalone_regular_files_scanned": 1446,
+  "prior_regular_file_baseline": 1448,
+  "inventory_coverage_reconciled": false,
+  "parent_source_pins_verified_by_standalone_tool": false,
+  "local_synthetic_test_result": "NOT_SUPPLIED",
+  "runtime_interpreter_resolved": false,
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
