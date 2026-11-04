@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12",
   "date": "2026-11-04",
-  "status": "REPEATED_USER_MAC_R3712_SOURCE_PREFLIGHT_HOLD_NO_QEMU",
+  "status": "USER_MAC_FULL_R3712_SOURCE_AND_PREVIOUS_STRICT_GATES_PASS_ARM_TRIAL_PENDING",
   "release_zip": "pw3-os-r40.4.3.7.12-touchmenu-index-site.zip",
   "release_sha256": "7eb007f17a52d8706b43b17ff2dab552177042541415ad8418e3b4ba70c8c1b3",
   "release_bytes": 43664,
@@ -54,5 +54,14 @@
   "diagnostic_fixture_verification": "PASS_CLEAN_RECONSTRUCTED_PUBLIC_RELEASES_MISSING_FILE_ALTERED_FILE_MULTIPLE_MISSING_DIR_UNLISTED_FILE_SYMLINK",
   "original_r3712_source_verifier_modified": false,
   "original_arm_guest_modified": false,
-  "qemu_guest_started": false
+  "qemu_guest_started": false,
+  "user_corrected_source_audit": "R4043712_CLOSURE_SUMMARY RELEASE_DIRS_VALID=13/13 FILES_CHECKED=160 PROBLEMS=0",
+  "user_corrected_source_audit_verdict": "R4043712_CLOSURE_RELEASE_AND_MENU_PINS_PASS",
+  "user_stage_check_verdict": "R4043712_ORIGINAL_SOURCE_AND_PREVIOUS_STRICT_GATES_PASS; NOT_BOOTABLE",
+  "source_stage_integrity_after_recovery": "PASS_UNCHANGED_R3712_ORIGINAL_SOURCE_AND_PREVIOUS_STRICT_GATES",
+  "original_r26_preflight_on_next_trial": "REQUIRED_NOT_YET_RECHECKED_IN_THIS_ATTEMPT",
+  "offline_docker_image_latest_check": "REQUIRED_BEFORE_TRIAL",
+  "user_arm_qemu_execution_after_recovery": "NOT_STARTED",
+  "original_touchmenu_index_error_site": "STILL_UNVERIFIED_PENDING_R3712_OFFLINE_GUEST",
+  "next_step": "CHECK_EXISTING_OFFLINE_DOCKER_THEN_R3712_TRIAL_TO_FRESH_OUTPUT_AND_UPLOAD_PUBLIC_REVIEW"
 }
