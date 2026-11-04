@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12.2",
   "date": "2026-11-04",
-  "status": "USER_AUDIT_MISSING_10_PUBLIC_RELEASE_DIRECTORIES_2_COLLECTOR_FILES_AND_STAGE_ROOT",
+  "status": "AUDITOR_STAGE_MENU_PATH_DEFECT_CONFIRMED_ONE_LINE_CORRECTION_HOST_TESTED",
   "release_script": "R4043712-ALL-PREREQUISITES-READONLY.py",
   "release_sha256": "b8cc5981845745fd5913480539dc7e18ead43b70a29d44c71e33cde36efe0fdc",
   "release_bytes": 26319,
@@ -62,5 +62,22 @@
   "bundle_bytes": 432369,
   "bundle_original_public_release_zips": 10,
   "original_stage_or_private_data_in_bundle": false,
-  "original_arm_guest_started": false
+  "original_arm_guest_started": false,
+  "original_auditor_sha256": "b8cc5981845745fd5913480539dc7e18ead43b70a29d44c71e33cde36efe0fdc",
+  "original_auditor_stage_menu_path": "rootfs/frontend/ui/elements/*",
+  "original_r378_verifier_real_stage_menu_path": "rootfs/opt/koreader-compat/app/frontend/ui/elements/*",
+  "erroneous_stage_menu_18_missing_result": "INVALID_AS_EVIDENCE_OF_MISSING_MENU_SOURCE_DUE_TO_AUDITOR_PATH_BUG",
+  "corrected_auditor_file": "R4043712-ALL-PREREQUISITES-CORRECTED-READONLY.py",
+  "corrected_auditor_sha256": "32b61ab2317cc7e396fa33ce8ef9bc3f5b53e69b95179feb35362ebebfa12356",
+  "corrected_auditor_bytes": 26345,
+  "corrected_auditor_source_delta": "ONE_STAGE_MENU_PATH_EXPRESSION_ONLY",
+  "corrected_auditor_host_tests": "5_OF_5_PASS_CORRECT_LAYOUT_HASH_MISMATCH_WRONG_LAYOUT_SYMLINK_MISSING",
+  "corrected_user_mac_real_stage_result": "PENDING",
+  "public_release_directories_user_mac_verified": 13,
+  "public_release_file_hashes_user_mac_verified": 160,
+  "private_376_zip_sha256_user_mac_verified": true,
+  "public_376_audit_sha256_user_mac_verified": true,
+  "original_r3712_source_verifier_unchanged": true,
+  "original_stage_modified": false,
+  "new_qemu_trial_started": false
 }
