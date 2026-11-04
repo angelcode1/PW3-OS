@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.10",
   "date": "2026-11-04",
-  "status": "UPLOADED_PUBLIC_ARM_QEMU_HOLD_AFTER_DPI_IMPORT_RETURN",
+  "status": "USER_UPLOADED_R3710_EXISTING_RUN_DIAG_ALL_14_IMPORTS_RETURNED_TOUCHMENU_SHOW_UNVERIFIED",
   "release_zip": "pw3-os-r40.4.3.7.10-synthetic-screen-dpi.zip",
   "release_sha256": "d1f7a5869753bba7ae94fb8cd4ff5d68e9a894fdc55ecc23644c4ce16630f00e",
   "release_bytes": 43003,
@@ -57,5 +57,19 @@
   "next_failure": "UNKNOWN_FROM_PUBLIC_REVIEW",
   "next_step": "REUSE_R404379_READ_ONLY_EXISTING_TRACE_DIAGNOSTIC_ON_R4043710_FAILED_RUN",
   "raw_r3710_guest_stdout_uploaded": false,
-  "raw_r3710_qemu_trace_uploaded": false
+  "raw_r3710_qemu_trace_uploaded": false,
+  "existing_run_diagnostic_sha256": "8c0e9185e4075f895d87955053b33182cd5924e90d35649b08d9b7b67fc3cf84",
+  "existing_run_diagnostic_verdict": "R404379_EXISTING_R378_TRACE_CLASSIFIED_NO_NEW_GUEST",
+  "diagnostic_family": "GUEST_NONZERO_NO_IMPORT_DENIAL_OBSERVED",
+  "all_menu_imports_entered_count": 14,
+  "all_menu_imports_returned_count": 14,
+  "menu_import_markers_well_formed": true,
+  "original_tools_menu_entry_resolved": true,
+  "last_completed_checkpoint": "R404377_NATIVE_FILEMANAGER_TOOLS_ENTRY_RESOLVED",
+  "first_missing_checkpoint": "R404377_ORIGINAL_TOUCHMENU_WIDGET_SHOWN",
+  "logged_guard_denial": false,
+  "qemu_guest_exit_code": 1,
+  "original_touchmenu_widget_shown_verified": false,
+  "user_raw_r3710_guest_trace_uploaded": false,
+  "next_release": "R40.4.3.7.11"
 }
