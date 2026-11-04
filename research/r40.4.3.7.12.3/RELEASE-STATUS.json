@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12.3",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_PUBLIC_ONLY_NO_CLOBBER_RESTORE_USER_APPLY_PENDING",
+  "status": "USER_MAC_PUBLIC_RELEASE_RESTORE_COMPLETED_STAGE_AND_COLLECTORS_UNTOUCHED",
   "archive": "pw3-os-r40.4.3.7.12.3-public-prerequisites.zip",
   "archive_sha256": "a922f43a9a3b6cae8244143d6fb66e341fde0b0d9640e31a9dce34cb39d597db",
   "archive_bytes": 432369,
@@ -32,5 +32,19 @@
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_restore_terminal": "R40437123_PUBLIC_RESTORE_COMPLETE CREATED=10 ORIGINAL_STAGE_AND_COLLECTORS_UNTOUCHED; NO_QEMU; NOT_BOOTABLE",
+  "user_mac_public_release_restore_count": 10,
+  "user_mac_all_created_public_releases_postverified": true,
+  "earlier_user_public_release_valid_count": 3,
+  "user_mac_postrestore_independent_full_audit": "NOT_YET_RUN",
+  "user_mac_original_stage_search": "NO_MATCH_UNDER_DOWNLOADS_MAXDEPTH_8_FOR_STAGE_R13_FIXED_ROOTFS",
+  "user_mac_original_stage_present_elsewhere": "UNKNOWN",
+  "private_376_original_collector_zip_mac_state": "NOT_YET_RECHECKED_AFTER_PUBLIC_RESTORE",
+  "public_376_original_collector_audit_mac_state": "NOT_YET_RECHECKED_AFTER_PUBLIC_RESTORE",
+  "user_mac_original_stage_or_collectors_touched_by_restore": false,
+  "original_private_collector_zip_expected_sha256": "44889dbfd47a18854beaeec2c739bb11afca1033c10c125ec2f576573d568e83",
+  "original_public_collector_audit_expected_sha256": "4d325783a1ca37e53ad1afd3bf8dc00a6bd1ba831729491cd24410297f14ece8",
+  "next_step": "VERIFY_COLLECTOR_ORIGINALS_AND_READ_ONLY_DISCOVER_STAGE_ORIGINAL_OFFLINE_BACKUP; DO_NOT_GUESS_STAGE",
+  "original_r3712_arm_guest_started": false
 }
