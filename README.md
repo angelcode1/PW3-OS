@@ -178,3 +178,5 @@ For research and educational purposes only.
 - [R40.4.3.7.12 read-only original TouchMenu INDEX_ERROR site diagnostic](research/r40.4.3.7.12/RELEASE-STATUS.json): R3711 public ARM review reports onShowMenu INDEX_ERROR before TouchMenu returned; exact source line unknown. Read-only input-group shape and allowlisted original module/line classifier, original strict R3711 chain retained; 44 host tests PASS, ARM pending, NOT_BOOTABLE.
 
 - [R40.4.3.7.12.1 read-only preflight gate classifier](research/r40.4.3.7.12.1/RELEASE-STATUS.json): R3712 user Mac source-preflight HOLD before QEMU, original gate not yet localized; 9 host tests PASS for safe fixed-category original-verifier diagnostic. Stage/guest/strict reviewers unchanged; NOT_BOOTABLE.
+
+- R3712.1 user Mac inherited R3710 verifier OTHER_REFUSAL: doctor host tests PASS but `GATE=R3710 METHOD=verify REASON=OTHER_REFUSAL`, no QEMU. Shipped R378/R3710 original public release pins independently matched in local reproduction; next action is read-only per-file Mac source-pin classification, not bypass or retrial. [Status](research/r40.4.3.7.12.1/RELEASE-STATUS.json), NOT_BOOTABLE.

@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12.1",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_READ_ONLY_PREFLIGHT_CLASSIFIER_MAC_DIAG_PENDING",
+  "status": "USER_MAC_R3712_1_DOCTOR_HOLD_INHERITED_R3710_VERIFY_OTHER_REFUSAL",
   "release_zip": "pw3-os-r40.4.3.7.12.1-preflight-doctor.zip",
   "release_sha256": "bff12d068e2233f8f5dce966f6d4c8448b0e95a00bf511399a08a1fa089086b3",
   "release_bytes": 5481,
@@ -29,5 +29,16 @@
   "r26_provenance_authenticated": false,
   "complete_dependency_closure_proven": false,
   "qemu_decoder_incomplete": true,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_host_doctor_tests": "PASS",
+  "mac_source_manifest_checks_reported": "README_RUN_DOCTOR_PY_TESTS_OK",
+  "doctor_recorded_gate": "R3710",
+  "doctor_recorded_method": "verify",
+  "doctor_recorded_reason": "OTHER_REFUSAL",
+  "new_arm_qemu_execution": "NOT_RUN",
+  "root_cause": "NOT_YET_CLASSIFIED_FIXED_R3710_VERIFY_REFUSAL",
+  "next_step": "READ_ONLY_R3710_ORIGINAL_RELEASE_DIRECTORY_AND_PER_FILE_PIN_DIAG",
+  "prior_dist_release_pin_fixture_verified": true,
+  "prior_dist_r3710_exact_guest_reconstruction_pass": true,
+  "original_stage_mutated": false
 }
