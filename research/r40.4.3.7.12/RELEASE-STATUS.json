@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12",
   "date": "2026-11-04",
-  "status": "USER_MAC_R35_PREFLIGHT_HOLD_SEVEN_EARLIER_SOURCE_DIRS_AND_EIGHT_EVIDENCE_FILES_MISSING_AT_CANONICAL_PATHS",
+  "status": "USER_MAC_ALL_SEVEN_R35_SOURCE_DIRS_AND_EIGHT_EVIDENCE_LABELS_FOUND_IN_LOCAL_TRASH_AND_DOWNLOADS; RESTORE_NOT_YET_RUN",
   "release_zip": "pw3-os-r40.4.3.7.12-touchmenu-index-site.zip",
   "release_sha256": "7eb007f17a52d8706b43b17ff2dab552177042541415ad8418e3b4ba70c8c1b3",
   "release_bytes": 43664,
@@ -139,5 +139,23 @@
   },
   "private_original_source_released_to_public_github": false,
   "prereq_recovery_completed": false,
-  "r26_inventory_authenticated_in_new_trial": false
+  "r26_inventory_authenticated_in_new_trial": false,
+  "user_mac_finder": "R40435_LOCATE_SUMMARY DIRECTORY_LABELS_FOUND=7/7 EVIDENCE_LABELS_FOUND=8/8 ARCHIVE_CANDIDATES=14; READ_ONLY; NO_QEMU; NOT_BOOTABLE",
+  "original_r35_source_directory_candidates_under_local_trash": 7,
+  "original_r35_evidence_candidates_under_local_trash": 8,
+  "R40435_PRIVATE_original_also_in_Downloads": true,
+  "identified_source_and_evidence_authenticity": "NOT_YET_FULLY_VERIFIED_BY_ORIGINAL_R35_PREFLIGHT",
+  "last_recovery_tool": "R40435-RESTORE-ORIGINAL-INPUTS-NOCLOBBER.py",
+  "recovery_tool_sha256": "67992c56f87820a26cdbec3a81f202a8907897606211357f11f68e0acee23d2a",
+  "recovery_tool_bytes": 9207,
+  "recovery_tool_host_tests": "10_OF_10_PASS",
+  "recovery_tool_default": "READ_ONLY_PLAN",
+  "recovery_tool_apply": "EXPLICIT_FLAG_COPY_ONLY_ABSENT_NO_CLOBBER_NO_DELETE",
+  "recovery_source_original_Trash_preserved": true,
+  "recovery_source_and_target_symlink_refusal": true,
+  "original_r35_pinned_private_capture_checked_on_plan": true,
+  "copy_operation_performed_on_user_mac": false,
+  "no_private_evidence_uploaded_to_public_github": true,
+  "r35_original_verify_after_restore": "PENDING",
+  "r3712_arm_trial": "NOT_STARTED"
 }
