@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.15",
-  "state": "SOURCE_BOUNDED_PACKAGE_BUILT_HOST_TESTED_USER_MAC_ARM_RUN_PENDING",
+  "state": "USER_MAC_ORIGINAL_UIMANAGER_KEYPRESS_DELIVERY_ARM_PASS",
   "parent_milestone": "R40.4.3.7.14",
   "parent_arm_verdict": "R40_4_3_7_14_ORIGINAL_KEYPRESS_WIDGET_DISPATCH_ARM_PASS",
   "intended_new_verdict": "R40_4_3_7_15_ORIGINAL_UIMANAGER_KEYPRESS_DELIVERY_ARM_PASS",
@@ -39,5 +39,17 @@
   "stage_regular_open_union_not_recomputed": 347,
   "stage_regular_unobserved_retained": 1101,
   "historical_unknown_hold_retained": 976,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "reported_arm_verdict": "R40_4_3_7_15_ORIGINAL_UIMANAGER_KEYPRESS_DELIVERY_ARM_PASS",
+  "user_uploaded_review_and_summary_byte_identical": true,
+  "user_uploaded_review_sha256": "1f475fab584c0b31db5811bd2d2bb16fb063a7d90fb8831ccc2590b0bc90e99c",
+  "guest_zero_exit": true,
+  "original_r3714_strict_reviewer_pass": true,
+  "original_ui_manager_event_boundary_authenticated": true,
+  "original_ui_manager_keypress_roundtrip_verified": true,
+  "synthetic_unmapped_ui_key_rejected": true,
+  "synthetic_uimanager_next_page_key_delivered": true,
+  "synthetic_uimanager_prev_page_key_delivered": true,
+  "original_touchmenu_selection_exercised": true,
+  "uimanager_keypress_delivery_exercised": true
 }
