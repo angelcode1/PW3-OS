@@ -1,0 +1,29 @@
+name: PW3 R3727 absent interpreter candidate host checks
+
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.27/**'
+      - '.github/workflows/pw3-r3727-host-checks.yml'
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.27/**'
+      - '.github/workflows/pw3-r3727-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-absent-interp-alternatives:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile host-only source
+        run: python3 -m py_compile research/r40.4.3.7.27/R4043727-INTERP-ABSENT-ALTERNATIVES-READONLY.py
+      - name: Verify source and test checksums
+        working-directory: research/r40.4.3.7.27
+        run: sha256sum -c SHA256SUMS
+      - name: Synthetic tests only (no stage, QEMU or device)
+        run: python3 -m unittest discover -s research/r40.4.3.7.27 -p 'test_*.py' -v
