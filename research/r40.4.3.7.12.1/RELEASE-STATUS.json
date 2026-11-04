@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12.1",
   "date": "2026-11-04",
-  "status": "USER_MAC_R3712_1_DOCTOR_HOLD_INHERITED_R3710_VERIFY_OTHER_REFUSAL",
+  "status": "USER_MAC_DIAGNOSTIC_R378_EXPECTED_DIRECTORY_ABSENT_OR_SYMLINKED_NO_QEMU",
   "release_zip": "pw3-os-r40.4.3.7.12.1-preflight-doctor.zip",
   "release_sha256": "bff12d068e2233f8f5dce966f6d4c8448b0e95a00bf511399a08a1fa089086b3",
   "release_bytes": 5481,
@@ -15,7 +15,7 @@
   "read_only": true,
   "original_r3712_verifier_unchanged": true,
   "private_paths_or_exception_text_exported": false,
-  "guest_arm_qemu_execution": "NOT_RUN",
+  "guest_arm_qemu_execution": "NOT_STARTED",
   "stage_mutated": false,
   "hardware_write_authorized": false,
   "firmware_write_authorized": false,
@@ -40,5 +40,10 @@
   "next_step": "READ_ONLY_R3710_ORIGINAL_RELEASE_DIRECTORY_AND_PER_FILE_PIN_DIAG",
   "prior_dist_release_pin_fixture_verified": true,
   "prior_dist_r3710_exact_guest_reconstruction_pass": true,
-  "original_stage_mutated": false
+  "original_stage_mutated": false,
+  "mac_local_pin_result": "ORIGINAL_R378_DIRECTORY_ABSENT_OR_SYMLINK",
+  "expected_prior_release_directory": "~/Downloads/pw3-os-r40.4.3.7.8-menu-dofile-bridge",
+  "prior_r378_zip_sha256_verified": "23496a87c9dee3a3e298291d29141e3e2437d24a0e3c1aaf2127f91ec6b03dd0",
+  "fix": "RESTORE_SHA256_VERIFIED_PUBLIC_R378_RELEASE_ZIP_AT_EXACT_EXPECTED_NONEXISTING_DIRECTORY_NO_OVERWRITE",
+  "followup": "REPEAT_READ_ONLY_R4043710_LOCAL_PIN_DIAG_BEFORE_ANY_GUEST"
 }
