@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12",
   "date": "2026-11-04",
-  "status": "USER_MAC_FULL_R3712_SOURCE_AND_PREVIOUS_STRICT_GATES_PASS_ARM_TRIAL_PENDING",
+  "status": "USER_MAC_R3712_SOURCE_GATES_PASS_44_HOST_TESTS_PASS_R35_BASE_PREFLIGHT_DIRECTORY_HOLD_NO_QEMU",
   "release_zip": "pw3-os-r40.4.3.7.12-touchmenu-index-site.zip",
   "release_sha256": "7eb007f17a52d8706b43b17ff2dab552177042541415ad8418e3b4ba70c8c1b3",
   "release_bytes": 43664,
@@ -63,5 +63,35 @@
   "offline_docker_image_latest_check": "REQUIRED_BEFORE_TRIAL",
   "user_arm_qemu_execution_after_recovery": "NOT_STARTED",
   "original_touchmenu_index_error_site": "STILL_UNVERIFIED_PENDING_R3712_OFFLINE_GUEST",
-  "next_step": "CHECK_EXISTING_OFFLINE_DOCKER_THEN_R3712_TRIAL_TO_FRESH_OUTPUT_AND_UPLOAD_PUBLIC_REVIEW"
+  "next_step": "CHECK_EXISTING_OFFLINE_DOCKER_THEN_R3712_TRIAL_TO_FRESH_OUTPUT_AND_UPLOAD_PUBLIC_REVIEW",
+  "last_user_trial_refusal": "R40435_PREFLIGHT_REFUSED_STAGE_SOURCE_PATH_MISSING_OR_ALIASED",
+  "user_mac_reported_r3712_stage_check": "PASS",
+  "user_mac_reported_r3712_host_tests": 44,
+  "guest_r3712_executed": false,
+  "refusal_original_location": "original_R35_r40435_preflight_py_verify_pre_directory_guard",
+  "refusal_checks_directory_labels": [
+    "STAGE",
+    "R403",
+    "R40431",
+    "R4002",
+    "R40432",
+    "R40433",
+    "R40411",
+    "R40434",
+    "ORIGINAL35_RELEASE"
+  ],
+  "directory_refusal_exact_missing_source": "NOT_YET_IDENTIFIED",
+  "earlier_evidence_files_to_inspect": [
+    "R26_INVENTORY",
+    "R40431_PRIVATE",
+    "R40431_SUMMARY",
+    "R40432_REVIEW",
+    "R40433_PRIVATE",
+    "R40433_SUMMARY",
+    "R40434_REVIEW",
+    "R40435_PRIVATE_CAPTURE"
+  ],
+  "user_mac_r26_2070_inventory_in_trial": "NOT_STARTED_REFUSAL_BEFORE_INVENTORY",
+  "next_action": "READ_ONLY_AUDIT_R35_PRE_REVIEW_DIRS_AND_EVIDENCE_EXACT_LOCAL_PATHS_IN_ONE_PASS",
+  "original_source_integrity_pins_relaxed": false
 }
