@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_READ_ONLY_INDEX_ERROR_SITE_ARM_QEMU_PENDING",
+  "status": "USER_REPORTED_SOURCE_PREFLIGHT_HOLD_BEFORE_QEMU",
   "release_zip": "pw3-os-r40.4.3.7.12-touchmenu-index-site.zip",
   "release_sha256": "7eb007f17a52d8706b43b17ff2dab552177042541415ad8418e3b4ba70c8c1b3",
   "release_bytes": 43664,
@@ -36,5 +36,9 @@
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_reported_terminal_marker": "R4043712_EXACT_ORIGINAL_MENU_ERROR_SITE_OR_PRIOR_SOURCE_HOLD; NO_QEMU; NOT_BOOTABLE",
+  "new_arm_qemu_execution": "NOT_STARTED_SOURCE_PREFLIGHT_REFUSED",
+  "root_cause": "UNRESOLVED_FROM_GENERIC_PREFLIGHT_REFUSAL",
+  "next_milestone": "R40.4.3.7.12.1"
 }

@@ -176,3 +176,5 @@ For research and educational purposes only.
 - [R40.4.3.7.11 original TouchMenu show-boundary diagnostic](research/r40.4.3.7.11/RELEASE-STATUS.json): uploaded R3710 existing-run trace shows all 14 menu imports returned and original Tools entry resolved, but the TouchMenu shown checkpoint missing with nonzero guest exit. One source-pinned original `onShowMenu` exception/return and widget identity classifier; 43 host tests PASS; ARM pending, NOT_BOOTABLE.
 
 - [R40.4.3.7.12 read-only original TouchMenu INDEX_ERROR site diagnostic](research/r40.4.3.7.12/RELEASE-STATUS.json): R3711 public ARM review reports onShowMenu INDEX_ERROR before TouchMenu returned; exact source line unknown. Read-only input-group shape and allowlisted original module/line classifier, original strict R3711 chain retained; 44 host tests PASS, ARM pending, NOT_BOOTABLE.
+
+- [R40.4.3.7.12.1 read-only preflight gate classifier](research/r40.4.3.7.12.1/RELEASE-STATUS.json): R3712 user Mac source-preflight HOLD before QEMU, original gate not yet localized; 9 host tests PASS for safe fixed-category original-verifier diagnostic. Stage/guest/strict reviewers unchanged; NOT_BOOTABLE.

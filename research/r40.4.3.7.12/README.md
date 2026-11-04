@@ -26,3 +26,10 @@ sh "$SRC/RUN-R4043712-MAC.sh" trial
 Default run directory `~/Downloads/pw3-os-r40.4.3.7.12-touchmenu-index-first-run`; if it exists, supply a new output path as the second argument to `trial`, never delete or overwrite existing runs. Share only `R4043712-REVIEW.json`, optionally `R4043712-SUMMARY.json` if full strict PASS. Retain private QEMU raw trace, original source-stage inventory and original 9-file menu archive off GitHub. Offline Docker image `pw3-r394-reopen-trial` is required, with network disabled, original stage/release read-only, dropped privileges, non-root UID, disposable tmpfs HOME.
 
 No recomputed observed regular stage-file union (historical **347** only); retain **1,101** unobserved regular staged files, **976** historical UNKNOWN_HOLD records. Decoder incomplete, complete dependency closure and authenticated R26 provenance unproven. No boot, hardware/firmware writes, physical device access, file deletion or pruning. **NOT_BOOTABLE**.
+
+
+## R3712 reported source-preflight HOLD, before QEMU (2026-11-04)
+
+User Mac reported the generic source-preflight refusal marker. The original verifier catches all exceptions with a single message, so the first failing gate is unknown. No QEMU was run. The original R3712 guest/reviewers and earlier R375 historical pass remain unchanged. Independent local verification of the R3712 package's own manifest, original R3711 pins and exact guest insertion passed against the distributed releases, but this does not establish whether the Mac's inherited checks passed.
+
+R40.4.3.7.12.1 is a standalone read-only doctor that runs the unchanged R3712 original verifier and emits only predefined failing gate/method/error category, never raw error text, private source paths or trace. It does not run Docker/QEMU or modify the stage. No bypass of a source integrity failure. NOT_BOOTABLE.
