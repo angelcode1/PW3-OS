@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.18.1",
-  "status": "CORRECTIVE_ORIGINAL_NEW_DRAWING_LIFECYCLE_SOURCE_PINNED_HOST_VERIFIED_ARM_NOT_RUN",
+  "status": "USER_MAC_ORIGINAL_MENU_SELECTED_NEW_DRAWING_GESTURE_SAVE_RELOAD_SYNTHETIC_ARM_PASS",
   "parent_milestone": "R40.4.3.7.18",
   "original_parent_verdict": "R40_4_3_7_18_ORIGINAL_MENU_SELECTED_DRAW_OR_INHERITED_REVIEW_HOLD",
   "d1_observed_failure": "CANVAS_STATE_ASSERTION_PREMARKER_CANVAS_STATE_QEMU_EXIT_1",
@@ -46,5 +46,26 @@
   "stage_regular_open_union_not_recomputed": 347,
   "stage_regular_unobserved_retained": 1101,
   "historical_unknown_hold_retained": 976,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_uploaded_reports": [
+    "R40437181-REVIEW.json",
+    "R40437181-SUMMARY.json"
+  ],
+  "user_uploaded_reports_byte_identical": true,
+  "user_uploaded_reports_sha256": "b7001885018f6ba8a67e70178e3e1f5d75f683c9b4c8a598a90b8fffcae642b8",
+  "user_arm_verdict": "R40_4_3_7_18_1_ORIGINAL_NEW_DRAWING_GESTURE_SAVE_RELOAD_ARM_PASS",
+  "user_arm_guest_zero_exit": true,
+  "original_previous_drawing_reopened_confirmed": true,
+  "original_new_drawing_fresh_canvas_ready": true,
+  "original_new_drawing_marker_order_valid": true,
+  "original_menu_selected_gesture_save_reload_exercised": true,
+  "original_r3718_semantic_reviewer_pass": true,
+  "original_r3717_strict_reviewer_pass": true,
+  "observed_correction": "ORIGINAL_NEW_DRAWING_LIFECYCLE_ALLOWED_PARENT_GESTURE_SAVE_RELOAD_ASSERTIONS_TO_PASS",
+  "current_runtime_scope": "OFFLINE_SYNTHETIC_ARM_QEMU_GUEST_ONLY",
+  "actual_device_wait_event_exercised": false,
+  "physical_menu_tap_exercised": false,
+  "physical_stylus_or_touch_exercised": false,
+  "next_research_priority": "READ_ONLY_DEPENDENCY_AND_PROVENANCE_GAP_AUDIT_THEN_DEVICE_SPECIFIC_NONDESTRUCTIVE_COMPATIBILITY_PLAN",
+  "source_stage_modified": false
 }
