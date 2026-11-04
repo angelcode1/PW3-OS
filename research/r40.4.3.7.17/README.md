@@ -1,0 +1,13 @@
+# R40.4.3.7.17 — synthetic input polling through original UIManager:handleInput
+
+Research and educational purposes only. **NOT_BOOTABLE** is immutable.
+
+The user-provided R3716 review and summary were byte-identical (SHA-256 `a491da900d7f946f2dfa24655e10ea76ff9e88280d391da3a17eb1a2eddb9237`) and report `R40_4_3_7_16_ORIGINAL_INPUT_EVENT_DEFAULT_DISPATCH_ARM_PASS`, zero ARM guest exit, inherited strict reviewer PASS, original UIManager handleInputEvent and original TouchMenu selection executed. The report expressly states that the device input event pump and device waitEvent were **not** exercised.
+
+The new R3717 ZIP `pw3-os-r40.4.3.7.17-synthetic-input-poll.zip` (SHA-256 `12d2f9182cc193273fcaef91cc1b555b9b1056f62b6778601fd53d0f22fdbc50`, 47,131 bytes, 13 members) was constructed entirely by adding one bounded synthetic input-poll insertion to the unchanged SHA-pinned R3716 guest. 67/67 host tests PASS, parent exact-byte SHA source check PASS, ZIP CRC and SHA256SUMS PASS, shell syntax PASS. **No ARM/QEMU R3717 result exists yet.**
+
+The insertion calls original `UIManager:handleInput` three times from a synthetic guest checkpoint with an existing synthetic `Device.input` singleton. It temporarily substitutes only that fixture's `waitEvent` method to return a single original `Event:new('KeyPress', key)` each time (negative, forward, backward). It checks caller provenance and original UIManager source, menu lifecycle, page state/roundtrip and waits exactly once per call, and unconditionally restores the synthetic fixture method before asserting success/failure. It does **not** replace or modify production KOReader UIManager, original TouchMenu or staged Lua files. Nested use of original handleInput may expose extra original event-loop assumptions, so any failure must remain HOLD; do not assume eventual ARM PASS.
+
+All prior original R3716/R3715/R3714/R3713/R3712 and R35 source/preflight/reviewer gates remain mandatory, including complete R26 2070-entry integrity validation. The existing offline Docker image, no-network, read-only rootfs mount, non-root and cap-drop conditions are carried through. User Mac must run `RUN-R4043717-MAC.sh test`, `stage-check`, Docker doctor, then `trial` against a fresh output directory. Upload only sanitized `R4043717-REVIEW.json` and `R4043717-SUMMARY.json` on PASS.
+
+Limits: synthetic waitEvent replacement is **not** actual production polling from evdev or physical hardware. No real PW3, device input, touch, stylus, boot, firmware write, file removal or safe pruning proved. R26 provenance unauthenticated, historic 347 opens not recomputed, 1,101 unobserved staged regular files and 976 UNKNOWN_HOLD retained, decoder incomplete, complete dependency closure unproven. `NOT_BOOTABLE`.

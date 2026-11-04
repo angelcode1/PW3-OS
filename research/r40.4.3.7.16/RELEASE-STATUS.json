@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.16",
-  "status": "SOURCE_BOUNDED_PACKAGE_BUILT_AND_HOST_TESTED_USER_ARM_TRIAL_NOT_RUN",
+  "status": "USER_MAC_ORIGINAL_INPUT_EVENT_DEFAULT_DISPATCH_ARM_PASS",
   "parent_milestone": "R40.4.3.7.15",
   "parent_arm_verdict": "R40_4_3_7_15_ORIGINAL_UIMANAGER_KEYPRESS_DELIVERY_ARM_PASS",
   "proposed_verdict": "R40_4_3_7_16_ORIGINAL_INPUT_EVENT_DEFAULT_DISPATCH_ARM_PASS",
@@ -43,5 +43,14 @@
   "stage_regular_open_union_not_recomputed": 347,
   "stage_regular_unobserved_retained": 1101,
   "historical_unknown_hold_retained": 976,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_uploaded_review_and_summary_byte_identical": true,
+  "user_uploaded_review_sha256": "a491da900d7f946f2dfa24655e10ea76ff9e88280d391da3a17eb1a2eddb9237",
+  "user_arm_guest_zero_exit": true,
+  "user_arm_verdict": "R40_4_3_7_16_ORIGINAL_INPUT_EVENT_DEFAULT_DISPATCH_ARM_PASS",
+  "original_r3715_strict_reviewer_pass": true,
+  "original_input_event_handler_authenticated": true,
+  "original_input_event_roundtrip_verified": true,
+  "uimanager_handle_input_event_exercised": true,
+  "original_touchmenu_selection_exercised": true
 }
