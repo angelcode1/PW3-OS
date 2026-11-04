@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.17",
-  "status": "SOURCE_BOUND_SYNTHETIC_WAIT_EVENT_POLL_PACKAGE_HOST_TESTS_PASS_ARM_UNRUN",
+  "status": "USER_MAC_R3717_SYNTHETIC_UIMANAGER_INPUT_POLL_ARM_PASS",
   "parent_milestone": "R40.4.3.7.16",
   "parent_user_verified_verdict": "R40_4_3_7_16_ORIGINAL_INPUT_EVENT_DEFAULT_DISPATCH_ARM_PASS",
   "proposed_verdict": "R40_4_3_7_17_ORIGINAL_SYNTHETIC_INPUT_POLL_ARM_PASS",
@@ -43,5 +43,19 @@
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
   "complete_dependency_closure_proven": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_verdict": "R40_4_3_7_17_ORIGINAL_SYNTHETIC_INPUT_POLL_ARM_PASS",
+  "user_uploaded_review_and_summary_sha256": "9ca8d7c87ad1f39a04690e8b2afc919f7f6212bfb4a9176c7374da9c71a6b5da",
+  "uploaded_reports_byte_identical": true,
+  "user_guest_zero_exit": true,
+  "original_r3716_strict_reviewer_pass": true,
+  "original_input_poll_boundary_authenticated": true,
+  "synthetic_input_poll_marker_order_valid": true,
+  "synthetic_unmapped_polled_key_rejected": true,
+  "synthetic_polled_next_page_delivered": true,
+  "synthetic_polled_prev_page_delivered": true,
+  "original_synthetic_poll_roundtrip_verified": true,
+  "original_touchmenu_selection_exercised": true,
+  "uimanager_handle_input_synthetic_poll_exercised": true,
+  "device_wait_event_exercised": false
 }
