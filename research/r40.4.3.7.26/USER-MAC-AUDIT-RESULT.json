@@ -1,0 +1,37 @@
+{
+  "milestone": "R40.4.3.7.26",
+  "record_type": "USER_SUPPLIED_MAC_JSON",
+  "result": "STATIC_INTERP_GUEST_PATH_CLASSIFICATION_ONLY",
+  "counts": {
+    "elf_objects": 83,
+    "interp_segments": 19,
+    "padding_only_literal": 10,
+    "rootfs_regular_files": 1446,
+    "strict_literal": 9
+  },
+  "expected": {
+    "elf_objects": 83,
+    "interp_segments": 19,
+    "padding_only_literal": 10,
+    "rootfs_regular_files": 1446,
+    "strict_literal": 9
+  },
+  "path_resolution_counts": {
+    "GUEST_ABSENT_HOLD": 12,
+    "GUEST_REGULAR_ELF_ABI_HEADER_CANDIDATE": 7
+  },
+  "guest_symlink_hop_summary": {
+    "zero_symlink_hops_or_unresolved": 19
+  },
+  "source_parse_holds": {},
+  "path_strings_exported": false,
+  "historical_inventory_hashes_reverified": false,
+  "source_sha_pins_reverified": false,
+  "runtime_loader_resolved": false,
+  "runtime_loader_selected": false,
+  "transitive_dependency_closure_proven": false,
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "note": "Transcribed from user-provided Mac output. No independently obtained stage, full private file paths, source pins or runtime loader results. Seven matching header candidates are not runtime proof."
+}

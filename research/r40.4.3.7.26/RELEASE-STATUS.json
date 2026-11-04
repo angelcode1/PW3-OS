@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.26",
-  "state": "HOST_SYNTHETIC_21_OF_21_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_STAGE_AUDIT_REPORTED_7_GUEST_ELF_CANDIDATES_12_ABSENT_PATH_HOLDS",
   "purpose": "INDEPENDENT_PT_INTERP_GUEST_PATH_SYMLINK_AND_ELF_HEADER_ABI_CANDIDATES",
   "source_sha256": "7068af571b0c57677793eb5722938b3a4f14abfd5ce33c6b4e4ce41040e117b3",
   "tests_sha256": "5c9c53f6e029e2d2ecb891d9f1ab12e80954e6af8ad5b802cb31568c6a84d0ae",
@@ -9,7 +9,7 @@
   "source_checksum_manifest": "PASS",
   "zip_sha256": "d14bdf5b04fb2e57f60b1527b708a45930865fc7983d37579806f854ec9765e6",
   "zip_members": 4,
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_STATIC_CLASSIFICATION_COMPLETED",
   "expected_rootfs_regular": 1446,
   "expected_elf_objects": 83,
   "expected_interp_segments": 19,
@@ -24,5 +24,14 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_report_reference": "research/r40.4.3.7.26/USER-MAC-AUDIT-RESULT.json",
+  "user_path_resolution_counts": {
+    "GUEST_ABSENT_HOLD": 12,
+    "GUEST_REGULAR_ELF_ABI_HEADER_CANDIDATE": 7
+  },
+  "user_guest_symlink_hop_summary": {
+    "zero_symlink_hops_or_unresolved": 19
+  },
+  "user_source_parse_holds": {}
 }

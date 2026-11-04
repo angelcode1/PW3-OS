@@ -34,3 +34,9 @@ python3 R4043726-INTERP-GUEST-RESOLVE-READONLY.py \
 The output is a single JSON line. The proper completed audit result is `STATIC_INTERP_GUEST_PATH_CLASSIFICATION_ONLY`, which may include separate path-resolution holds. This is a source-only **candidate classification** under **NOT_BOOTABLE** regardless of the counts.
 
 If this prints `HOLD_*` with exit code 2, retain the hold. Do not alter original stage files, modify symlinks, remove apparently unused libraries, execute a loader, boot, flash, or access the physical Kindle to force the result.
+
+## Mac run result
+
+The user ran the original R3726 source-only guest-path audit against the existing local rootfs. All expected source inventory categories matched exactly: 1,446 rootfs regular files, 83 ELF objects, 19 PT_INTERP segments (9 strict literals, 10 padding-only), with no parser holds. **7** guest interpreter paths reached regular ELF-header-compatible candidates, while **12** returned `GUEST_ABSENT_HOLD`. No path or symlink string was exported; all 19 were reported with zero resolved symlink hops or unresolved. See `USER-MAC-AUDIT-RESULT.json`.
+
+The 12 absent-path holds remain genuine *modeled guest namespace* gaps, not a corruption diagnosis or authorization to add, copy, rename, delete or prune stage files. A later audit may classify same-basename alternatives **without inferring loader resolution**. Source hashes were not reauthenticated by this standalone user run. **NOT_BOOTABLE**.
