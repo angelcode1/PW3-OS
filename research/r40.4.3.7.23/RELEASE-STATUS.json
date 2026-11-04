@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.23",
-  "state": "HOST_TESTED_USER_MAC_UNRUN",
+  "state": "USER_MAC_AUDIT_REPORTED_PASS_READONLY",
   "purpose": "PT_INTERP_STRICT_LITERAL_MORPHOLOGY_COUNTS_ONLY",
   "package_name": "pw3-os-r40.4.3.7.23-interp-literal-morphology-readonly.zip",
   "package_sha256": "0d50f9e95689ccd990a96986a86a72c2c01a16b97c03a4178185d9898ee4eed6",
@@ -9,7 +9,7 @@
   "clean_extracted_tests": "38_OF_38_PASS",
   "clean_extract_sha_manifest": "PASS",
   "archive_integrity": "PASS",
-  "user_side_stage_audit": "NOT_EXECUTED",
+  "user_side_stage_audit": "USER_REPORTED_PASS",
   "expected_interpreter_segments": 19,
   "expected_strict_literal_pass": 9,
   "expected_strict_literal_parse_hold": 10,
@@ -23,5 +23,13 @@
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_report_reference": "research/r40.4.3.7.23/USER-MAC-AUDIT-RESULT.json",
+  "user_audit_count_match": true,
+  "user_observed_strict_literal_pass": 1,
+  "user_unobserved_strict_literal_pass": 8,
+  "user_observed_literal_parse_hold": 5,
+  "user_unobserved_literal_parse_hold": 5,
+  "user_padding_hold_count": 10,
+  "user_result": "STRICT_LITERAL_MORPHOLOGY_ONLY_NO_BOOT_NO_PRUNE"
 }

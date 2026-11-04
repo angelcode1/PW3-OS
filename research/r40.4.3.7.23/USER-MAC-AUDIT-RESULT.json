@@ -1,0 +1,54 @@
+{
+  "milestone": "R40.4.3.7.23",
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_OUTPUT",
+  "result": "STRICT_LITERAL_MORPHOLOGY_ONLY_NO_BOOT_NO_PRUNE",
+  "guardrails": "READONLY; NOT_BOOTABLE",
+  "baseline": {
+    "R37221_CORRECTED_SOURCE": "SHA_PIN_MATCH",
+    "R37211_PARENT_SOURCE": "SHA_PIN_MATCH",
+    "R3720_SOURCE": "SHA_PIN_MATCH",
+    "R26_2070_CONTENT": "PASS",
+    "R37181_ORIGINAL_ARM": "EXACT_PUBLIC_PASS",
+    "R3720_492_AND_OUTER_MEMBERSHIP": "PASS",
+    "R37221_83_209_19_492_BASELINE": "EXACT_REPLAY"
+  },
+  "interpreter": {
+    "segments": 19,
+    "strict_literal_pass": 9,
+    "literal_parse_hold": 10,
+    "observed_strict_literal_pass": 1,
+    "unobserved_strict_literal_pass": 8,
+    "observed_literal_parse_hold": 5,
+    "unobserved_literal_parse_hold": 5,
+    "morphology_holds": {
+      "elf_header": 0,
+      "elf_class": 0,
+      "elf_program_header_bounds": 0,
+      "interp_size_bounds": 0,
+      "interp_multiple_segments": 0,
+      "interp_no_final_nul": 0,
+      "interp_embedded_nul": 0,
+      "interp_trailing_nul_padding": 10,
+      "interp_empty": 0,
+      "interp_nonascii": 0,
+      "interp_nonabsolute": 0,
+      "interp_double_slash": 0,
+      "interp_backslash": 0,
+      "interp_parent_segment": 0,
+      "interp_dot_segment": 0,
+      "interp_empty_component": 0,
+      "interp_control": 0,
+      "interp_unclassified_strict_rejection": 0
+    }
+  },
+  "gates": {
+    "interp_runtime_resolved": false,
+    "R26_source_provenance_authenticated": false,
+    "transitive_dependency_closure_proven": false,
+    "physical_pw3_input_display_tested": false,
+    "prune_authorized": false,
+    "boot_authorized": false,
+    "firmware_write_authorized": false
+  },
+  "note": "Recorded from user-pasted Mac stdout. It has not been independently rerun against their local stage. Counts and source-pin fields reproduce the user's report; do not upgrade any runtime or boot gates."
+}
