@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12.1",
   "date": "2026-11-04",
-  "status": "USER_MAC_DIAGNOSTIC_R378_EXPECTED_DIRECTORY_ABSENT_OR_SYMLINKED_NO_QEMU",
+  "status": "USER_MAC_RESTORED_R378_DIR_R3710_SOURCE_ONLY_PIN_PASS_R3712_FULL_PREFLIGHT_PENDING",
   "release_zip": "pw3-os-r40.4.3.7.12.1-preflight-doctor.zip",
   "release_sha256": "bff12d068e2233f8f5dce966f6d4c8448b0e95a00bf511399a08a1fa089086b3",
   "release_bytes": 5481,
@@ -45,5 +45,10 @@
   "expected_prior_release_directory": "~/Downloads/pw3-os-r40.4.3.7.8-menu-dofile-bridge",
   "prior_r378_zip_sha256_verified": "23496a87c9dee3a3e298291d29141e3e2437d24a0e3c1aaf2127f91ec6b03dd0",
   "fix": "RESTORE_SHA256_VERIFIED_PUBLIC_R378_RELEASE_ZIP_AT_EXACT_EXPECTED_NONEXISTING_DIRECTORY_NO_OVERWRITE",
-  "followup": "REPEAT_READ_ONLY_R4043710_LOCAL_PIN_DIAG_BEFORE_ANY_GUEST"
+  "followup": "REPEAT_READ_ONLY_R4043710_LOCAL_PIN_DIAG_BEFORE_ANY_GUEST",
+  "latest_mac_local_pin_result": "R4043710_LOCAL_PIN_DIAG=SOURCE_ONLY_PIN_CONTRACT_PASS; NO_QEMU; NOT_BOOTABLE",
+  "full_r3712_stage_check_after_restore": "PENDING",
+  "r3712_guest_started_after_restore": false,
+  "original_r3712_error_site_still_unverified": true,
+  "next_action": "RERUN_UNCHANGED_R3712_STAGE_CHECK_THEN_EXISTING_OFFLINE_DOCKER_DOCTOR_THEN_NEW_OUTPUT_TRIAL_IF_BOTH_PASS"
 }

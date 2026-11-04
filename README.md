@@ -182,3 +182,5 @@ For research and educational purposes only.
 - R3712.1 user Mac inherited R3710 verifier OTHER_REFUSAL: doctor host tests PASS but `GATE=R3710 METHOD=verify REASON=OTHER_REFUSAL`, no QEMU. Shipped R378/R3710 original public release pins independently matched in local reproduction; next action is read-only per-file Mac source-pin classification, not bypass or retrial. [Status](research/r40.4.3.7.12.1/RELEASE-STATUS.json), NOT_BOOTABLE.
 
 - R3710 local-pin diagnostic identified absent/symlinked R378 directory: restore SHA256-authenticated original R378 ZIP only at expected absent path, without overwrite, then rerun read-only pin check; no QEMU. [Research status](research/r40.4.3.7.12.1/RELEASE-STATUS.json), NOT_BOOTABLE.
+
+- R3710 local pin contract PASS after restoring original R378 release directory: prerequisite integrity restored, but full R3712 stage-check and subsequent ARM/QEMU still pending. [R3712.1 status](research/r40.4.3.7.12.1/RELEASE-STATUS.json), NOT_BOOTABLE.
