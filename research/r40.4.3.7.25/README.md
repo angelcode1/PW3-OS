@@ -32,3 +32,9 @@ python3 "$HOME/Downloads/pw3-r3725/R4043725-INVENTORY-COUNT-READONLY.py" \\
 ```
 
 Expected if scope is the entire explanation: `STANDALONE_INVENTORY_COUNTS_MATCH`, 1,448 regular files, 287 directories and 335 symlinks. This is **not** a new R26 signed inventory/hash recheck, source authentication, runtime loader resolution, dependency closure, or permission to boot/prune; `NOT_BOOTABLE` remains unchanged.
+
+## Corrected enclosing-stage Mac check — count discrepancy closed
+
+The user ran the same standalone R3725 utility against the **outer** `stage-r13-fixed` directory and reported `STANDALONE_INVENTORY_COUNTS_MATCH`. Two independent scanners agreed on **1,448 regular files, 287 directories, 335 symlinks, zero other nodes**, exactly **2,070** inventory entries; `prior_baseline_delta=0`. The symlink literal summary remained 335 relative symlinks (251 with parent components), zero absolute. This confirms that the earlier two-file difference came from counting `rootfs` alone rather than the enclosing R26 stage. See `USER-MAC-OUTER-STAGE-RESULT.json`.
+
+The earlier pending recheck above is now **completed**. This closes the **count/scope discrepancy only**: the standalone check does not reverify the original full R26 inventory **hashes, paths, authenticity, or historical membership**. ELF loader resolution, transitive dependency closure, physical PW3 verification, boot and pruning are separate holds. **NOT_BOOTABLE**.

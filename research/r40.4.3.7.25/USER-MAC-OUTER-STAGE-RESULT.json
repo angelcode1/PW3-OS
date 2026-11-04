@@ -1,0 +1,29 @@
+{
+  "milestone": "R40.4.3.7.25",
+  "record_type": "USER_SUPPLIED_MAC_OUTER_STAGE_TERMINAL_OUTPUT",
+  "stage_scope": "enclosing_stage_r13_fixed",
+  "result": "STANDALONE_INVENTORY_COUNTS_MATCH",
+  "expected_prior_regular_files": 1448,
+  "current_regular_files": 1448,
+  "independent_scanners_agree": true,
+  "prior_baseline_delta": 0,
+  "lstat_inode_type_counts": {
+    "directories": 287,
+    "other_nodes": 0,
+    "regular_files": 1448,
+    "symlinks": 335
+  },
+  "symlink_literal_summary": {
+    "absolute_symlink_literals": 0,
+    "relative_symlink_literals": 335,
+    "symlinks_with_parent_components": 251
+  },
+  "historic_inventory_membership_compared": false,
+  "source_provenance_authenticated": false,
+  "interp_runtime_resolved": false,
+  "dependency_closure_proven": false,
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "note": "Recorded verbatim in substance from user-supplied terminal JSON. Stage files and SHA pins not independently reverified by this standalone counting tool."
+}

@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.25",
-  "state": "USER_MAC_ROOTFS_SCAN_CONFIRMED_SCOPE_CORRECTION_IDENTIFIED_OUTER_RECHECK_PENDING",
+  "state": "USER_MAC_OUTER_STAGE_COUNTS_MATCH_SCOPE_DISCREPANCY_RESOLVED",
   "user_report": "research/r40.4.3.7.25/USER-MAC-AUDIT-RESULT.json",
   "expected_scope": "enclosing_stage_r13_fixed",
   "previous_user_scope": "stage_r13_fixed/rootfs",
@@ -21,12 +21,29 @@
     "directories": 1,
     "symlinks": 0
   },
-  "outer_recheck_executed": false,
+  "outer_recheck_executed": true,
   "source_provenance_authenticated": false,
   "original_r26_pin_reverified_here": false,
   "interpreter_runtime_resolved": false,
   "dependency_closure_proven": false,
   "boot_authorized": false,
   "prune_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "outer_recheck_result": "STANDALONE_INVENTORY_COUNTS_MATCH",
+  "user_outer_stage_inventory": {
+    "regular_files": 1448,
+    "directories": 287,
+    "symlinks": 335,
+    "other_nodes": 0,
+    "total": 2070
+  },
+  "user_outer_stage_delta": 0,
+  "independent_scanners_agree": true,
+  "symlink_literal_summary": {
+    "absolute_symlink_literals": 0,
+    "relative_symlink_literals": 335,
+    "symlinks_with_parent_components": 251
+  },
+  "inventory_count_scope_discrepancy_resolved": true,
+  "user_outer_report": "research/r40.4.3.7.25/USER-MAC-OUTER-STAGE-RESULT.json"
 }
