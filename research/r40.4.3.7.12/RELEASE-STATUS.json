@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12",
   "date": "2026-11-04",
-  "status": "USER_MAC_R3712_SOURCE_GATES_PASS_44_HOST_TESTS_PASS_R35_BASE_PREFLIGHT_DIRECTORY_HOLD_NO_QEMU",
+  "status": "USER_MAC_R35_PREFLIGHT_HOLD_SEVEN_EARLIER_SOURCE_DIRS_AND_EIGHT_EVIDENCE_FILES_MISSING_AT_CANONICAL_PATHS",
   "release_zip": "pw3-os-r40.4.3.7.12-touchmenu-index-site.zip",
   "release_sha256": "7eb007f17a52d8706b43b17ff2dab552177042541415ad8418e3b4ba70c8c1b3",
   "release_bytes": 43664,
@@ -93,5 +93,51 @@
   ],
   "user_mac_r26_2070_inventory_in_trial": "NOT_STARTED_REFUSAL_BEFORE_INVENTORY",
   "next_action": "READ_ONLY_AUDIT_R35_PRE_REVIEW_DIRS_AND_EVIDENCE_EXACT_LOCAL_PATHS_IN_ONE_PASS",
-  "original_source_integrity_pins_relaxed": false
+  "original_source_integrity_pins_relaxed": false,
+  "user_mac_r35_preflight_summary": "R40435_INPUT_SUMMARY DIRS=2/9 EVIDENCE=0/8; NO_QEMU; NOT_BOOTABLE",
+  "missing_original_r35_source_directory_labels": [
+    "R403",
+    "R40431",
+    "R4002",
+    "R40432",
+    "R40433",
+    "R40411",
+    "R40434"
+  ],
+  "missing_original_r35_evidence_labels": [
+    "R26_INVENTORY",
+    "R40431_PRIVATE",
+    "R40431_SUMMARY",
+    "R40432_REVIEW",
+    "R40433_PRIVATE",
+    "R40433_SUMMARY",
+    "R40434_REVIEW",
+    "R40435_PRIVATE"
+  ],
+  "passing_original_r35_directory_labels": [
+    "STAGE",
+    "R40435"
+  ],
+  "original_r35_guest_still_not_started": true,
+  "read_only_local_backup_finder_file": "R40435-LOCATE-ORIGINAL-INPUTS-READONLY.py",
+  "read_only_local_backup_finder_sha256": "abd8a8cd4181e75986d5fc693f83a46d9295b702cd1e4077d28228e6c654d35c",
+  "read_only_local_backup_finder_host_fixture": "PASS",
+  "independently_available_original_public_archives": {
+    "R40432": {
+      "name": "pw3-os-r40.4.3.2-model-storage-trial.zip",
+      "sha256": "2c7970087295b2c89baf19b3343e9dab8755805e5d3e35253980b0bec96d2c23"
+    },
+    "R40434": {
+      "name": "pw3-os-r40.4.3.4-inkaway-view-only.zip",
+      "sha256": "a8c3d218704fdca53fdff86fff1eab62ffd3416dc1bce5117adf94206932033c"
+    }
+  },
+  "independently_available_original_private_source_capture": {
+    "name": "R40435-STAGED-UI-SOURCES-PRIVATE.zip",
+    "sha256": "68caa882ab99c9fd83458b59a97efba011aa798ef1f9e76c540a93ed2ec5e29d",
+    "pinned_by_original_r35_preflight": true
+  },
+  "private_original_source_released_to_public_github": false,
+  "prereq_recovery_completed": false,
+  "r26_inventory_authenticated_in_new_trial": false
 }
