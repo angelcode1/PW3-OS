@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12",
   "date": "2026-11-04",
-  "status": "R3712_SOURCE_GATES_PASS_R35_REFUSED_AT_ORIGINAL_R26_INVENTORY_RECONCILIATION_BEFORE_QEMU",
+  "status": "R35_R26_INVENTORY_PATH_SET_HOLD_STAGE_2071_EXPECTED_2070_NO_QEMU",
   "release_zip": "pw3-os-r40.4.3.7.12-touchmenu-index-site.zip",
   "release_sha256": "7eb007f17a52d8706b43b17ff2dab552177042541415ad8418e3b4ba70c8c1b3",
   "release_bytes": 43664,
@@ -181,5 +181,22 @@
   "r26_diagnostic_host_tests": "15_PASS",
   "r26_diagnostic_user_mac_result": "PENDING",
   "arm_qemu_started_after_recovery": false,
-  "stage_or_inventory_modified_by_diagnostic": false
+  "stage_or_inventory_modified_by_diagnostic": false,
+  "latest_r26_stage_entry_count": 2071,
+  "latest_r26_expected_inventory_entries": 2070,
+  "latest_r26_diagnostic_result": "R40435_R26_AGGREGATE_HOLD",
+  "latest_r26_verified_count_files": 0,
+  "latest_r26_verified_count_symlinks": 0,
+  "latest_r26_verified_count_directories": 0,
+  "verified_counts_zero_interpretation": "PINNED_R403_RETURNS_EARLY_IF_STAGE_AND_INVENTORY_PATH_SETS_DIFFER; ZERO_COUNTS_DO_NOT_PROVE_HASH_CORRUPTION",
+  "original_inventory_path_set_comparison": "PENDING_READONLY",
+  "original_stage_extra_entry_identity": "UNKNOWN",
+  "original_stage_metadata_extra_hypothesis": "UNCONFIRMED",
+  "optional_diagnostic_original_r403_shared_only_hash_check": "NOT_RUN",
+  "new_readonly_pathset_diagnostic": "R40435-R26-PATH-SET-FORENSICS-READONLY.py",
+  "new_readonly_pathset_diagnostic_sha256": "cbc4787063d4f5747d0491dae8f40770be60ced5db4422799a3d45f42cec4e04",
+  "new_readonly_pathset_diagnostic_host_tests": 14,
+  "original_gate_relaxed": false,
+  "original_stage_or_inventory_modified": false,
+  "qemu_guest_execution_post_recovery": false
 }
