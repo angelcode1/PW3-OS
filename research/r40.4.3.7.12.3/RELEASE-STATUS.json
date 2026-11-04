@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12.3",
   "date": "2026-11-04",
-  "status": "USER_MAC_PUBLIC_RELEASE_RESTORE_COMPLETED_STAGE_AND_COLLECTORS_UNTOUCHED",
+  "status": "ALL_13_PUBLIC_RELEASES_AND_TWO_COLLECTOR_HASHES_PASS_ORIGINAL_R13_STAGE_CANDIDATE_LOCATED_UNVERIFIED",
   "archive": "pw3-os-r40.4.3.7.12.3-public-prerequisites.zip",
   "archive_sha256": "a922f43a9a3b6cae8244143d6fb66e341fde0b0d9640e31a9dce34cb39d597db",
   "archive_bytes": 432369,
@@ -46,5 +46,18 @@
   "original_private_collector_zip_expected_sha256": "44889dbfd47a18854beaeec2c739bb11afca1033c10c125ec2f576573d568e83",
   "original_public_collector_audit_expected_sha256": "4d325783a1ca37e53ad1afd3bf8dc00a6bd1ba831729491cd24410297f14ece8",
   "next_step": "VERIFY_COLLECTOR_ORIGINALS_AND_READ_ONLY_DISCOVER_STAGE_ORIGINAL_OFFLINE_BACKUP; DO_NOT_GUESS_STAGE",
-  "original_r3712_arm_guest_started": false
+  "original_r3712_arm_guest_started": false,
+  "user_mac_release_only_summary": "R4043712_CLOSURE_SUMMARY RELEASE_DIRS_VALID=13/13 FILES_CHECKED=160 PROBLEMS=0; NO_QEMU; NOT_BOOTABLE",
+  "public_release_directories_verified": 13,
+  "public_release_file_hashes_verified": 160,
+  "user_mac_private_376_collector_sha256": "PASS",
+  "user_mac_public_376_collector_sha256": "PASS",
+  "user_mac_r13_stage_candidate": "EXISTING_DIRECTORY_LOCATED_WITHIN_LOCAL_TRASH_NOT_YET_AUTHENTICATED",
+  "user_mac_r13_stage_candidate_menu_blob_validation": "NOT_YET_RUN",
+  "original_stage_recovery_operation": "NONE",
+  "original_stage_copy_performed": false,
+  "original_stage_r26_2070_inventory_verified_after_recovery": false,
+  "full_r3712_stage_verification": "PENDING",
+  "arm_guest_executed_after_restore": false,
+  "next_action": "READ_ONLY_VERIFY_ORIGINAL_R13_TRASH_STAGE_18_SOURCE_PINS; PRESERVE_SOURCE; COPY_ONLY_TO_ABSENT_TARGET_AFTER_CHECK; RUN_FULL_ORIGINAL_R3712_SOURCE_PREFLIGHT"
 }

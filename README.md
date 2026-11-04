@@ -188,3 +188,5 @@ For research and educational purposes only.
 - [R40.4.3.7.12.3 public release restore](research/r40.4.3.7.12.3/RELEASE-STATUS.json): R3712 audit reports 10 missing public release dirs, two missing R376 collector files and missing original rootfs at required path. One host-tested no-clobber public bundle restores only missing public releases; stage/private data untouched. NO_QEMU; NOT_BOOTABLE.
 
 - R3712.3 user Mac reports ten original public releases restored and verified (public-only no-overwrite tool); the original rootfs was not found under Downloads at depth 8 and collector files were untouched. Verify R376 private/public collector hashes separately and locate the authentic offline R13 staged rootfs before any guest run. [Status](research/r40.4.3.7.12.3/RELEASE-STATUS.json), NOT_BOOTABLE.
+
+- R3712 original R13 stage candidate located in local Trash: 13/13 public predecessor releases (160 hashes) and both R376 collector SHA-256 files now verified on Mac. Stage's 18 menu source pins, R26 full inventory and strict source gates remain unverified; preserve Trash original, no QEMU. [Research status](research/r40.4.3.7.12.3/RELEASE-STATUS.json), NOT_BOOTABLE.
