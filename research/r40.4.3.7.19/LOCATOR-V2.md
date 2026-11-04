@@ -1,0 +1,7 @@
+# R40.4.3.7.19 — targeted locator V2 after broad-scan budget HOLD
+
+The original R3719 read-only stage audit returned full R26 content PASS (`2070`, `ALL_RECORDED_ENTRIES_MATCH_UNAUTHENTICATED`), but default `R40.4.0-SUMMARY.json` absent/unsafe. An initial recursive locator verified the exact original R3719 audit SHA then refused `SCAN=TOO_MANY_LOCAL_FILES`: it counted all unrelated files in Downloads against a fixed 100,000-entry limit. This is a scan budget failure, not a dependency-content mismatch or an R3718.1 regression.
+
+Replacement `pw3-os-r40.4.3.7.19-locator-v2-readonly.zip`, SHA-256 `dabb1cad39a339d5954e144888a7135ad2dbe95c3ab2dfd11d4b8bbeda795bae`, main script `R4043719-LOCATE-INPUTS-V2-READONLY.py`, SHA-256 `b2fdd3f79dfd88500165d06ab8984a545d9e925b52fe3d3b54fe1cd7497ad37a`. Verified 31/31 host tests, clean extraction SHA256SUMS, CLI help and ZIP CRC. This v2 searches by three fixed evidence basenames only, counts directories instead of all files, prunes large rootfs/source trees, limits traversal to 20,000 directories and 9 levels, and refuses unsafe symlinks, mismatches or multiple valid candidates. When all candidates are unique and valid, it can invoke the exact original R3719 audit unchanged, preserving R26 and source SHA/semantic checks. Does not run QEMU or print private paths. **User-side v2 has not run yet**.
+
+No stage changes, deletion, pruning, full dependency closure, source provenance authentication, physical PW3, boot or firmware writes. Research/educational use; **NOT_BOOTABLE**.

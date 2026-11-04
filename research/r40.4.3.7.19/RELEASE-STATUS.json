@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.19",
-  "state": "READONLY_HOST_TESTED_USER_MAC_UNRUN",
+  "state": "USER_R3719_ORIGINAL_R26_CONTENT_PASS_BROAD_LOCATOR_SCAN_BUDGET_HOLD_V2_TARGETED_LOCATOR_HOST_TESTED",
   "parent": "R40.4.3.7.18.1",
   "parent_arm_verdict": "R40_4_3_7_18_1_ORIGINAL_NEW_DRAWING_GESTURE_SAVE_RELOAD_ARM_PASS",
   "zip": "pw3-os-r40.4.3.7.19-evidence-gap-audit.zip",
@@ -33,5 +33,23 @@
   "boot_authorized": false,
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_reported_r26_integrity": "PASS_2070_ENTRIES",
+  "user_reported_r26_content_status": "ALL_RECORDED_ENTRIES_MATCH_UNAUTHENTICATED",
+  "user_reported_r26_source_provenance": "NOT_AUTHENTICATED_HOLD",
+  "initial_audit_hold_reason": "EXPECTED_JSON_ABSENT_OR_UNSAFE",
+  "initial_locator_hold_reason": "SCAN_TOO_MANY_LOCAL_FILES",
+  "locator_v2_archive": "pw3-os-r40.4.3.7.19-locator-v2-readonly.zip",
+  "locator_v2_archive_sha256": "dabb1cad39a339d5954e144888a7135ad2dbe95c3ab2dfd11d4b8bbeda795bae",
+  "locator_v2_source_sha256": "b2fdd3f79dfd88500165d06ab8984a545d9e925b52fe3d3b54fe1cd7497ad37a",
+  "locator_v2_host_tests": "31_OF_31_PASS",
+  "locator_v2_clean_extract_manifest": true,
+  "locator_v2_zip_crc": true,
+  "locator_v2_source_pinned_original_audit_sha256": "ce5dbe021eddd2f07a59f18ef2b42dae03fc48ce8f8ff5a2b865d530d7589ae7",
+  "locator_v2_search_scope": "BOUNDED_20000_DIRECTORIES_9_LEVELS_TARGET_BASENAMES_ONLY_PRUNES_ROOTFS_AND_GIT_AND_NODE_MODULES_NO_SYMLINK",
+  "locator_v2_user_mac_execution": "NOT_RUN",
+  "r4040_static_graph_reconciled_by_r3719": false,
+  "r37181_original_arm_verdict_unchanged": "R40_4_3_7_18_1_ORIGINAL_NEW_DRAWING_GESTURE_SAVE_RELOAD_ARM_PASS",
+  "r37181_new_stage_open_set_recomputed": false,
+  "safe_to_prune_inferred": false
 }
