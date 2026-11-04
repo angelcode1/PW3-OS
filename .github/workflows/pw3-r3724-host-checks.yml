@@ -1,0 +1,26 @@
+name: PW3 R3724 PT_INTERP host-only checks
+
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.24/**'
+      - '.github/workflows/pw3-r3724-host-checks.yml'
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.24/**'
+      - '.github/workflows/pw3-r3724-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-interp-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python source compile check
+        run: python3 -m py_compile research/r40.4.3.7.24/R4043724-INTERP-PADDING-READONLY.py
+      - name: Synthetic PT_INTERP tests only (no stage or device)
+        run: python3 -m unittest discover -s research/r40.4.3.7.24 -p 'test_*.py' -v
