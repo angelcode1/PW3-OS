@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.11",
   "date": "2026-11-04",
-  "status": "HOST_TESTED_ORIGINAL_TOUCHMENU_SHOW_BOUNDARY_ARM_QEMU_PENDING",
+  "status": "USER_UPLOADED_ARM_QEMU_HOLD_ORIGINAL_ONSHOWMENU_INDEX_ERROR",
   "release_zip": "pw3-os-r40.4.3.7.11-touchmenu-show-boundary.zip",
   "release_sha256": "e5ff56759e8db12b69752ff5f913abe0b48a9e5b224ac03d7f546de947782afb",
   "release_bytes": 43606,
@@ -41,5 +41,18 @@
   "firmware_write_authorized": false,
   "file_removal_authorized": false,
   "safe_to_prune_inferred": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "uploaded_public_review_sha256": "a54e125c6f1e1dec0527e3859d98cd31bd6fbf212c89b134b1df7d3e3a6c6ef1",
+  "uploaded_public_review_verdict": "R40_4_3_7_11_ORIGINAL_TOUCHMENU_SHOW_OR_STRICT_REVIEW_HOLD",
+  "guest_zero_exit_reported": false,
+  "touchmenu_show_attempted": true,
+  "touchmenu_show_returned": false,
+  "touchmenu_show_failure_category": "INDEX_ERROR",
+  "diagnostic_marker_order_valid": true,
+  "touchmenu_state_category": null,
+  "synthetic_touchmenu_selection_exercised": false,
+  "original_r3710_strict_reviewer_pass": false,
+  "original_guest_failure_source_line": "NOT_REPORTED",
+  "next_milestone": "R40.4.3.7.12",
+  "next_action": "READ_ONLY_INPUT_GROUP_AND_ORIGINAL_MODULE_LINE_DIAGNOSTIC"
 }
