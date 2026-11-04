@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12.1",
   "date": "2026-11-04",
-  "status": "USER_MAC_RESTORED_R378_DIR_R3710_SOURCE_ONLY_PIN_PASS_R3712_FULL_PREFLIGHT_PENDING",
+  "status": "USER_MAC_R3712_PREFLIGHT_HOLD_AT_R378_VERIFY_OTHER_REFUSAL",
   "release_zip": "pw3-os-r40.4.3.7.12.1-preflight-doctor.zip",
   "release_sha256": "bff12d068e2233f8f5dce966f6d4c8448b0e95a00bf511399a08a1fa089086b3",
   "release_bytes": 5481,
@@ -50,5 +50,13 @@
   "full_r3712_stage_check_after_restore": "PENDING",
   "r3712_guest_started_after_restore": false,
   "original_r3712_error_site_still_unverified": true,
-  "next_action": "RERUN_UNCHANGED_R3712_STAGE_CHECK_THEN_EXISTING_OFFLINE_DOCKER_DOCTOR_THEN_NEW_OUTPUT_TRIAL_IF_BOTH_PASS"
+  "next_action": "READ_ONLY_R37121_DOCTOR_RUNTIME_MAP_OF_THREE_ORIGINAL_FIXED_R378_REASONS",
+  "latest_mac_doctor": "R4043712_DOCTOR_HOLD GATE=R378 METHOD=verify REASON=OTHER_REFUSAL; NO_QEMU; NOT_BOOTABLE",
+  "three_unmapped_original_r378_direct_refusals": [
+    "original R377 missing",
+    "guest patch not exact",
+    "entry modified"
+  ],
+  "precise_refusal_pending": true,
+  "independent_r377_r378_distributed_public_pin_and_bridge_checks": "PASS_NOT_VERIFICATION_OF_MAC"
 }
