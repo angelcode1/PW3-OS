@@ -1,0 +1,26 @@
+name: PW3 R3725 inventory-only host checks
+
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.25/**'
+      - '.github/workflows/pw3-r3725-host-checks.yml'
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.25/**'
+      - '.github/workflows/pw3-r3725-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-inventory-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax check
+        run: python3 -m py_compile research/r40.4.3.7.25/R4043725-INVENTORY-COUNT-READONLY.py
+      - name: Nine synthetic tests only; no stage or hardware
+        run: python3 -m unittest discover -s research/r40.4.3.7.25 -p 'test_*.py' -v
