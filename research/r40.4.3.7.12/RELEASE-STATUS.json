@@ -1,7 +1,7 @@
 {
   "milestone": "R40.4.3.7.12",
   "date": "2026-11-04",
-  "status": "USER_MAC_ALL_SEVEN_R35_SOURCE_DIRS_AND_EIGHT_EVIDENCE_LABELS_FOUND_IN_LOCAL_TRASH_AND_DOWNLOADS; RESTORE_NOT_YET_RUN",
+  "status": "USER_MAC_R35_ORIGINAL_INPUTS_RESTORED_R3712_SOURCE_AND_ARM64_IMAGE_PASS_R35_FULL_PREFLIGHT_PENDING",
   "release_zip": "pw3-os-r40.4.3.7.12-touchmenu-index-site.zip",
   "release_sha256": "7eb007f17a52d8706b43b17ff2dab552177042541415ad8418e3b4ba70c8c1b3",
   "release_bytes": 43664,
@@ -63,7 +63,7 @@
   "offline_docker_image_latest_check": "REQUIRED_BEFORE_TRIAL",
   "user_arm_qemu_execution_after_recovery": "NOT_STARTED",
   "original_touchmenu_index_error_site": "STILL_UNVERIFIED_PENDING_R3712_OFFLINE_GUEST",
-  "next_step": "CHECK_EXISTING_OFFLINE_DOCKER_THEN_R3712_TRIAL_TO_FRESH_OUTPUT_AND_UPLOAD_PUBLIC_REVIEW",
+  "next_step": "UNCHANGED_LOCAL_R3712_OFFLINE_TRIAL_USING_NEW_OUTPUT_PATH",
   "last_user_trial_refusal": "R40435_PREFLIGHT_REFUSED_STAGE_SOURCE_PATH_MISSING_OR_ALIASED",
   "user_mac_reported_r3712_stage_check": "PASS",
   "user_mac_reported_r3712_host_tests": 44,
@@ -157,5 +157,12 @@
   "copy_operation_performed_on_user_mac": false,
   "no_private_evidence_uploaded_to_public_github": true,
   "r35_original_verify_after_restore": "PENDING",
-  "r3712_arm_trial": "NOT_STARTED"
+  "r3712_arm_trial": "NOT_STARTED",
+  "user_mac_r35_recovery": "R40435_RESTORE_COMPLETE COPIED=14 ORIGINAL_TRASH_UNTOUCHED",
+  "user_mac_repeat_plan": "R40435_RESTORE_PLAN_SUMMARY COPY=0 IDENTICAL=15 HOLD=0",
+  "user_mac_repeat_apply": "R40435_RESTORE_COMPLETE COPIED=0 ORIGINAL_TRASH_UNTOUCHED",
+  "user_mac_r3712_stage_check": "R4043712_ORIGINAL_SOURCE_AND_PREVIOUS_STRICT_GATES_PASS",
+  "user_mac_offline_image_status": "R404374_REQUIRED_OFFLINE_IMAGE_PRESENT",
+  "original_r35_2070_inventory_post_recovery": "PENDING_TRIAL",
+  "original_r3712_arm_run_post_recovery": "NOT_YET_REPORTED"
 }
