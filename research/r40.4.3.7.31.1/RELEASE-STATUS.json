@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.31.1",
-  "state": "HOST_SYNTHETIC_19_OF_19_PASS_USER_MAC_UNRUN",
+  "state": "USER_MAC_STATIC_ARM_ATTRIBUTES_CLASSIFICATION_COMPLETED_VFP_ARGS_UNDECLARED",
   "purpose": "CORRECT_ARM_ATTRIBUTES_TAG_FILE_SUBSUBSECTION_LENGTH_ACCOUNTING",
   "source_sha256": "1ab0dde8a96fad86608b114e5d20902171d7fd4dedb649bff7026e4c1a372dc4",
   "original_r3731_sha256": "991c0278bfcbba74d12f4d916f07a988dcfba7956ed8b3ace1a4e8931bfaaad6",
@@ -11,7 +11,7 @@
   "zip_integrity": "PASS",
   "checksum_manifest": "PASS",
   "original_mac_hold_preserved": true,
-  "mac_stage_audit": "NOT_EXECUTED",
+  "mac_stage_audit": "USER_REPORTED_STATIC_CLASSIFICATION_COMPLETED",
   "source_code_publication": "CONVERSATION_ZIP_NOT_IN_GITHUB",
   "historical_source_provenance_authenticated": false,
   "arm_attributes_compatibility_proven": false,
@@ -21,5 +21,19 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_report_reference": "research/r40.4.3.7.31.1/USER-MAC-AUDIT-RESULT.json",
+  "user_source_elf_count": 12,
+  "user_source_ARM_attribute_categories": {
+    "ARM_ATTRIBUTES_PRESENT": 12,
+    "VFP_ARGS_UNDECLARED": 12
+  },
+  "user_alternative_ARM_attributes": {
+    "abi_hardfp_use_tag_present": true,
+    "abi_vfp_args": "UNDECLARED",
+    "cpu_arch_tag_present": true,
+    "file_attributes_parsed": true,
+    "fp_arch_tag_present": true,
+    "status": "ARM_ATTRIBUTES_PRESENT"
+  }
 }

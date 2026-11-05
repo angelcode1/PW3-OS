@@ -27,3 +27,7 @@ python3 R4043731-1-ARM-ATTRIBUTES-CORRECTED-READONLY.py \
 ```
 
 **NOT_BOOTABLE.** Original source authentication, guest interpreter path resolution, runtime loader, dependency closure, physical PW3, firmware, boot and pruning remain held. No stage writes, ELF execution, QEMU or physical device access.
+
+## User Mac corrected run
+
+The user ran R3731.1 against the existing Mac rootfs and reported `ARM_ATTRIBUTES_CORRECTED_STATIC_CLASSIFIED_ONLY`. All 12 requesting ELF files have parseable `.ARM.attributes`, but none declares Tag_ABI_VFP_args: `VFP_ARGS_UNDECLARED=12`. The alternative ELF also has `.ARM.attributes`, with CPU arch and FP arch tags present, the ABI HardFP-use tag present, and **Tag_ABI_VFP_args undeclared**. The corrected parser's original R3731 source pin and all inherited parent SHA-pins were verified. This **does not** prove ARM CPU/float ABI compatibility, Linux 3.0.35 runtime support or successful interpreter selection; the guest path remains absent. The prior uncorrected R3731 HOLD remains recorded. See `USER-MAC-AUDIT-RESULT.json`. `NOT_BOOTABLE`.

@@ -1,0 +1,33 @@
+{
+  "milestone": "R40.4.3.7.31.1",
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_JSON",
+  "result": "ARM_ATTRIBUTES_CORRECTED_STATIC_CLASSIFIED_ONLY",
+  "all_parent_pins_verified": true,
+  "original_r3731_source_sha_pinned": true,
+  "r3730_sha_pinned_and_replayed": true,
+  "source_elf_count": 12,
+  "source_arm_attribute_categories": {
+    "ARM_ATTRIBUTES_PRESENT": 12,
+    "VFP_ARGS_UNDECLARED": 12
+  },
+  "alternative_arm_attributes": {
+    "abi_hardfp_use_tag_present": true,
+    "abi_vfp_args": "UNDECLARED",
+    "cpu_arch_tag_present": true,
+    "file_attributes_parsed": true,
+    "fp_arch_tag_present": true,
+    "status": "ARM_ATTRIBUTES_PRESENT"
+  },
+  "arm_cpu_kernel_compatibility_proven": false,
+  "boot_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "loader_runtime_verified": false,
+  "original_r26_source_provenance_authenticated": false,
+  "path_strings_exported": false,
+  "prune_authorized": false,
+  "stage_modified": false,
+  "transitive_dependency_closure_proven": false,
+  "caveat": "The lack of Tag_ABI_VFP_args values is not proof of ABI equality or runtime compatibility. User terminal report only; no actual stage accessed by this agent."
+}
