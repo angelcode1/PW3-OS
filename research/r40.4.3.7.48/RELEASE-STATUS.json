@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.48",
-  "state": "HOST_SYNTHETIC_400_OF_400_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_18_WEAK_PLT_WORDS_AT_DOT_PLT_PLUS_ZERO",
   "purpose": "READONLY_STATIC_PLT_EXACT_RELATIVE_OFFSETS_AND_WITHIN_REQUESTER_ANCHOR_REUSE",
   "parent_r3747_source_sha256": "63ee9e45af99fb8147c47ececa83a272221e586211a3666e871004967202873d",
   "new_source_sha256": "d2628027b1984a78f5ff9c2a1fbc7b0355d380ee00f833c25512b4cba10ee992",
@@ -13,7 +13,7 @@
   "clean_extract_synthetic_tests": "400_OF_400_PASS",
   "zip_integrity": "PASS",
   "checksum_manifest": "PASS",
-  "mac_stage_audit": "NOT_EXECUTED",
+  "mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_actions_run": "NOT_VERIFIED",
   "source_code_publication": "CONVERSATION_ZIP_ONLY_GITHUB_METADATA",
   "original_r3745_hold_preserved": true,
@@ -30,5 +30,9 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.48/USER-MAC-AUDIT-RESULT.json",
+  "user_sites_at_dot_plt_plus_0": 18,
+  "user_requesters_with_one_anchor": 9,
+  "user_sites_at_reused_anchor_within_object": 12
 }

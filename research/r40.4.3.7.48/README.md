@@ -25,3 +25,7 @@ python3 -B R4043748-PLT-ANCHOR-REUSE-READONLY.py \
 Send result JSON, particularly `candidate_dot_plt_relative_offset_categories_by_group`, `requester_numeric_anchor_alias_categories`, and `targeted_weak_plt_sites`.
 
 No runtime weak-symbol semantics, lazy binding, loader namespace, ARM TLS, kernel ABI, original R26 source provenance, historical hashes, guest interpreter path, image recovery or boot authorization proven. No guest alias, firmware writes, ELF execution, pruning, or staged file modifications. **NOT_BOOTABLE.**
+
+## User Mac static result
+
+User-reported R3748 audit returned `WEAK_PLT_EXACT_SECTION_ANCHORS_AND_REUSE_STATIC_ONLY`: **all 18** weak `R_ARM_JUMP_SLOT` original slot words numerically identify offset **0** of their requester's file-backed `.plt` section. Nine requester objects have one numeric anchor each; three requesters have multiple target weak groups and sites. **12** sites reuse an anchor within an object and six are single-site/unique within their object. Twelve sites use anchors also referenced by another target group. The original pinned R3747 stage baseline and historical R3745 HOLD were preserved. Exact `.plt+0` equality is **not** proof of valid ARM instructions, PLT entry pointer, dynamic loader lazy binding, symbol resolution, or successful boot. No staged writes or mapping were performed. See `USER-MAC-AUDIT-RESULT.json`. **NOT_BOOTABLE**.

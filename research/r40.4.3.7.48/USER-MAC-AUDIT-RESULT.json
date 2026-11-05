@@ -1,0 +1,47 @@
+{
+  "boot_authorized": false,
+  "candidate_dot_plt_relative_offset_categories_by_group": {
+    "LOCAL_ZERO_NAME_IN_SIX": {
+      "DOT_PLT_PLUS_0": 9
+    },
+    "LOCAL_ZERO_NAME_NOT_IN_SIX": {
+      "DOT_PLT_PLUS_0": 7
+    },
+    "UNVERSIONED_WEAK_NAME_NOT_IN_SIX": {
+      "DOT_PLT_PLUS_0": 2
+    }
+  },
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.48",
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3745_hold_preserved": true,
+  "parent_r3747_sha_pinned_and_replayed": true,
+  "private_words_paths_symbols_or_addresses_exported": false,
+  "provider_elf_count": 6,
+  "prune_authorized": false,
+  "relative_offsets_are_not_verified_code_pointers": true,
+  "requester_numeric_anchor_alias_categories": {
+    "DISTINCT_ANCHORS_SHARED_ACROSS_GROUPS": 3,
+    "OBJECT_WITH_MULTIPLE_TARGET_GROUPS": 3,
+    "OBJECT_WITH_MULTIPLE_TARGET_SITES": 3,
+    "OBJECT_WITH_ONE_ANCHOR": 9,
+    "OBJECT_WITH_ONE_TARGET_GROUP": 6,
+    "OBJECT_WITH_ONE_TARGET_SITE": 6,
+    "SITES_AT_ANCHOR_SHARED_ACROSS_GROUPS": 12,
+    "SITES_AT_REUSED_ANCHOR_WITHIN_OBJECT": 12,
+    "SITES_AT_UNIQUE_ANCHOR_WITHIN_OBJECT": 6
+  },
+  "requester_objects_with_targeted_weak_plt_sites": 9,
+  "result": "WEAK_PLT_EXACT_SECTION_ANCHORS_AND_REUSE_STATIC_ONLY",
+  "runtime_plt_stub_or_lazy_binding_verified": false,
+  "source_elf_count": 12,
+  "stage_modified": false,
+  "targeted_weak_plt_sites": 18,
+  "tls_runtime_compatibility_verified": false,
+  "weak_symbol_runtime_resolution_verified": false,
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_JSON"
+}
