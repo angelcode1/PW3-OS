@@ -56,3 +56,7 @@ Do not modify them to force a result. Send output JSON, especially
 
 **NOT_BOOTABLE.** No guest mapping applied; no runtime loader or symbol
 resolution verified. No firmware, pruning or boot authorization.
+
+## User Mac stage result — recorded
+
+The user reported `OVERLAP_AWARE_ADDITIONAL_WEAK_EXPORT_NAME_REVIEW_ONLY` with four files overlapping the 12 missing-PT_INTERP requesters and six initial direct-provider candidates (14 unique excluded). All **69** additional ARM ELF dynamic files were parsed successfully from 1,432 other regular staged files. None exported a matching name for the **35** weak undefined references previously unmatched among the six providers: 33 local VERSYM-index-zero references and two unversioned weak entries, covering **five distinct symbol name literals** in memory. `NO_NAME_CANDIDATE_IN_PARSED_ADDITIONAL_FILES`: 35; no additional regular-file matches. The output preserves original R3743 `SOURCE_PROVIDER_OVERLAP_HOLD` without modifying source. This static name inventory does **not** prove the missing names are absent from an actual runtime namespace or that the dynamic linker accepts unresolved weak relocations. No rootfs write or alias; source provenance, kernel ABI, TLS, symbol semantics, historical hashes, boot and pruning remain held. See `USER-MAC-AUDIT-RESULT.json`. **NOT_BOOTABLE**.

@@ -1,0 +1,58 @@
+{
+  "additional_name_candidate_categories": {
+    "NO_NAME_CANDIDATE_IN_PARSED_ADDITIONAL_FILES": 35
+  },
+  "additional_name_candidate_categories_by_target_group": {
+    "LOCAL_INDEX_ZERO": {
+      "NO_NAME_CANDIDATE_IN_PARSED_ADDITIONAL_FILES": 33
+    },
+    "UNVERSIONED_WEAK": {
+      "NO_NAME_CANDIDATE_IN_PARSED_ADDITIONAL_FILES": 2
+    }
+  },
+  "additional_regular_elf_export_file_matches_across_target_entries": 0,
+  "additional_scan_counters": {
+    "additional_arm_elf_files_seen": 69,
+    "additional_arm_elf_with_dynamic": 69,
+    "additional_dynamic_elf_parsed": 69,
+    "excluded_unique_source_or_provider_regular_files": 14,
+    "other_regular_stage_files_seen": 1432,
+    "source_provider_overlap_regular_files": 4
+  },
+  "all_additional_dynamic_elfs_parsed": true,
+  "boot_authorized": false,
+  "complete_dynamic_loader_namespace_verified": false,
+  "distinct_target_weak_symbol_names_in_memory": 5,
+  "excluded_unique_source_or_provider_regular_files": 14,
+  "extra_export_name_matching_is_not_loader_namespace_or_symbol_resolution": true,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "initial_provider_elf_count": 6,
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.43.1",
+  "no_match_in_parsed_files_does_not_prove_absent_runtime_symbol": true,
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3743_sha_pinned_and_original_overlap_hold_preserved": true,
+  "overlap_is_not_runtime_symbol_resolution": true,
+  "parent_r3742_source_sha_pinned_and_replayed": true,
+  "paths_symbols_versions_exported": false,
+  "prior_source_pins_inherited": true,
+  "prune_authorized": false,
+  "result": "OVERLAP_AWARE_ADDITIONAL_WEAK_EXPORT_NAME_REVIEW_ONLY",
+  "runtime_tls_compatibility_verified": false,
+  "source_elf_count": 12,
+  "source_provider_overlap_regular_files": 4,
+  "stage_modified": false,
+  "symbol_version_resolution_verified": false,
+  "target_weak_entries_without_six_provider_name_candidate": 35,
+  "target_weak_entry_categories": {
+    "LOCAL_INDEX_ZERO": 33,
+    "UNVERSIONED_WEAK": 2
+  },
+  "transitive_dependency_closure_proven": false,
+  "weak_runtime_semantics_verified": false,
+  "record_type": "USER_SUPPLIED_MAC_JSON",
+  "qualification": "All 69 extra dynamic ARM ELF files parsed, but no additional name candidates among them for five distinct weak names; not a complete dynamic runtime namespace proof."
+}

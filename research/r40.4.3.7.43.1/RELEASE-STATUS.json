@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.43.1",
-  "state": "HOST_SYNTHETIC_181_OF_181_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_ADDITIONAL_WEAK_EXPORT_SCAN_69_OF_69_PARSED_NO_CANDIDATE",
   "purpose": "SHA_PINNED_OVERLAP_AWARE_WEAK_EXPORT_SURVEY_NO_ROOTFS_MUTATION",
   "original_r3743_source_sha256": "be4ec4c3557073ece8016fdf395a6142687a32876cd680cd0ff71559e13cc34a",
   "original_mac_hold": "SOURCE_PROVIDER_OVERLAP_HOLD",
@@ -11,7 +11,7 @@
   "original_r3743_and_inherited_regression_tests": 163,
   "synthetic_test_total": 181,
   "checksum_integrity": "PASS",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_actions_status": "NOT_VERIFIED",
   "interpreter_guest_path_resolved": false,
   "mapping_applied": false,
@@ -27,5 +27,11 @@
   "firmware_write_authorized": false,
   "immutable_hold": "NOT_BOOTABLE",
   "zip_integrity": "PASS",
-  "clean_extract_regression_tests": "181_OF_181_PASS"
+  "clean_extract_regression_tests": "181_OF_181_PASS",
+  "user_mac_report_reference": "research/r40.4.3.7.43.1/USER-MAC-AUDIT-RESULT.json",
+  "user_source_provider_overlap": 4,
+  "user_extra_arm_dyn_elfs_parsed": 69,
+  "user_target_weak_references": 35,
+  "user_distinct_target_names": 5,
+  "user_additional_export_name_matches": 0
 }
