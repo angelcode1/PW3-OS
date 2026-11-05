@@ -1,0 +1,67 @@
+{
+  "boot_authorized": false,
+  "candidate": {
+    "arm_relocation_type_counts": {
+      "21": 4,
+      "22": 6,
+      "23": 17
+    },
+    "category": "RELOCATION_TYPES_AND_DYNSYM_INDICES_STATIC_CANDIDATE",
+    "dt_needed_count": 0,
+    "dynsym_index_count_is_bound_not_symbol_resolution": true,
+    "symbol_index_and_dynsym_counts": {
+      "dynsym_defined_or_special": 9,
+      "dynsym_entries_filebacked": 9,
+      "dynsym_nonweak": 4,
+      "dynsym_weak": 5,
+      "plt_entries": 6,
+      "relocation_entries_total": 27,
+      "symbol_index_nonzero": 10,
+      "symbol_index_zero": 17,
+      "unique_nonzero_symbol_indices": 9
+    }
+  },
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "kernel_runtime_loader_verified": false,
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.37",
+  "original_r26_source_provenance_authenticated": false,
+  "parent_r3735_and_earlier_source_sha_pins_inherited": true,
+  "parent_r3736_source_sha_pinned_and_replayed": true,
+  "paths_or_symbol_names_exported": false,
+  "prune_authorized": false,
+  "relocations_applied": false,
+  "requesting_arm_relocation_type_counts": {
+    "2": 14,
+    "17": 5,
+    "18": 1,
+    "19": 32,
+    "21": 218,
+    "22": 575,
+    "23": 2654
+  },
+  "requesting_elf_categories": {
+    "RELOCATION_TYPES_AND_DYNSYM_INDICES_STATIC_CANDIDATE": 12
+  },
+  "requesting_elf_count": 12,
+  "requesting_symbol_index_and_dynsym_counts": {
+    "dynsym_defined_or_special": 145,
+    "dynsym_entries_filebacked": 777,
+    "dynsym_nonweak": 700,
+    "dynsym_undefined": 632,
+    "dynsym_weak": 77,
+    "plt_entries": 575,
+    "relocation_entries_total": 3499,
+    "symbol_index_nonzero": 821,
+    "symbol_index_zero": 2678,
+    "unique_nonzero_symbol_indices": 777
+  },
+  "result": "ARM_RELOCATION_TYPES_AND_SYMBOL_INDICES_STATIC_CLASSIFIED_ONLY",
+  "stage_modified": false,
+  "symbols_resolved": false,
+  "transitive_dependency_closure_proven": false,
+  "record_type": "USER_REPORTED_MAC_TERMINAL_JSON",
+  "caveat": "Static ARM relocation and symbol-index classification only. The aggregate unique-index total is a sum of per-object counts, not a globally deduplicated symbol namespace; symbols are not resolved."
+}

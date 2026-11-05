@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.37",
-  "state": "HOST_SYNTHETIC_15_OF_15_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_ARM_RELOCATION_TYPES_AND_DYNSYM_INDICES_STATIC_CLASSIFIED",
   "purpose": "READONLY_ARM_RELOCATION_NUMERIC_TYPES_AND_BOUNDED_DYNSYM_INDEX_CLASSIFICATION",
   "parent_r3736_source_sha256": "48189e67421d5aaebfa3dfdc1bfd64cd8b383c347d09a0fc58fa8bbdb38fb447",
   "source_sha256": "27ac20c24670424623ecc8f6bd52e80b6b5835935a403d62548c734b11104c77",
@@ -11,7 +11,7 @@
   "manifest_sha256_verified": true,
   "zip_integrity_verified": true,
   "clean_extract_synthetic_tests": "15_OF_15_PASS",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "source_code_publication": "CONVERSATION_ZIP_NOT_PUBLIC_GITHUB_SOURCE",
   "candidate_arm_relocation_types": "UNKNOWN_UNTIL_USER_RUN",
   "candidate_dynsym_index_status": "UNKNOWN_UNTIL_USER_RUN",
@@ -28,5 +28,21 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.37/USER-MAC-AUDIT-RESULT.json",
+  "user_candidate_relocation_types": {
+    "21": 4,
+    "22": 6,
+    "23": 17
+  },
+  "user_requesting_relocation_types": {
+    "2": 14,
+    "17": 5,
+    "18": 1,
+    "19": 32,
+    "21": 218,
+    "22": 575,
+    "23": 2654
+  },
+  "user_requesting_undefined_dynsym_references": 632
 }
