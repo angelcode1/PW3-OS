@@ -1,0 +1,88 @@
+{
+  "additional_dynamic_elfs_previous_audit_parsed": 69,
+  "boot_authorized": false,
+  "complete_transitive_dependency_closure_proven": false,
+  "dynamic_loader_name_resolution_verified": false,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.44",
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3743_overlap_hold_preserved": true,
+  "parent_r3743_1_source_sha_pinned_and_replayed": true,
+  "provider_elf_count": 6,
+  "prune_authorized": false,
+  "relocation_or_zero_substitution_applied": false,
+  "requester_gnu_relro_objects": 12,
+  "requester_now_policy_objects": 0,
+  "requester_relocation_sites_reverified": 3499,
+  "result": "WEAK_RELOCATION_SLOT_STORAGE_STATIC_ONLY",
+  "rootfs_stage_modified": false,
+  "runtime_weak_symbol_semantics_verified": false,
+  "source_elf_count": 12,
+  "tls_runtime_compatibility_verified": false,
+  "weak_reference_names_are_not_runtime_symbols_resolved": true,
+  "weak_reference_symbol_group_counts": {
+    "LOCAL_ZERO_NAME_IN_SIX": 9,
+    "LOCAL_ZERO_NAME_NOT_IN_SIX": 33,
+    "UNVERSIONED_WEAK_NAME_NOT_IN_SIX": 2
+  },
+  "weak_relocation_site_total": 62,
+  "weak_relocation_slot_categories_by_group": {
+    "LOCAL_ZERO_NAME_IN_SIX": {
+      "RELRO": {
+        "RELRO_OUTSIDE": 18
+      },
+      "SLOT": {
+        "WRITABLE_INITIAL_WORD_NONZERO": 9,
+        "WRITABLE_INITIAL_WORD_ZERO": 9
+      },
+      "TABLE": {
+        "PLT": 9,
+        "REL": 9
+      },
+      "TYPE": {
+        "21": 9,
+        "22": 9
+      }
+    },
+    "LOCAL_ZERO_NAME_NOT_IN_SIX": {
+      "RELRO": {
+        "RELRO_OUTSIDE": 40
+      },
+      "SLOT": {
+        "WRITABLE_INITIAL_WORD_NONZERO": 7,
+        "WRITABLE_INITIAL_WORD_ZERO": 33
+      },
+      "TABLE": {
+        "PLT": 7,
+        "REL": 33
+      },
+      "TYPE": {
+        "21": 33,
+        "22": 7
+      }
+    },
+    "UNVERSIONED_WEAK_NAME_NOT_IN_SIX": {
+      "RELRO": {
+        "RELRO_OUTSIDE": 4
+      },
+      "SLOT": {
+        "WRITABLE_INITIAL_WORD_NONZERO": 2,
+        "WRITABLE_INITIAL_WORD_ZERO": 2
+      },
+      "TABLE": {
+        "PLT": 2,
+        "REL": 2
+      },
+      "TYPE": {
+        "21": 2,
+        "22": 2
+      }
+    }
+  },
+  "record_type": "USER_SUPPLIED_MAC_JSON",
+  "qualification": "44 REL sites zero initially; 18 PLT sites nonzero and in writable PT_LOAD outside PT_GNU_RELRO. This is static storage metadata, not acceptance of unresolved weak symbols."
+}

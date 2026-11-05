@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.44",
-  "state": "HOST_218_SYNTHETIC_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_62_WEAK_RELOCATION_SLOTS_STATIC_CLASSIFIED",
   "purpose": "READONLY_WEAK_UNDEFINED_ARM_RELOCATION_SLOT_GEOMETRY_AND_NOW_RELRO_METADATA",
   "parent_r3743_1_source_sha256": "001aa31f058296b8792141b0032aa5b1d5d3a58346b9ab55b7b252cbdaca0a55",
   "original_r3743_overlap_hold_preserved": true,
@@ -15,7 +15,7 @@
   "zip_integrity": "PASS",
   "checksum_manifest": "PASS",
   "clean_extract_synthetic_tests": "218_OF_218_PASS",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_publication": "RELEASE_METADATA_AND_PINNED_CHECKSUMS_ONLY_CODE_IN_CONVERSATION_ZIP",
   "github_actions_run": "NOT_VERIFIED",
   "original_stage_modified": false,
@@ -32,5 +32,16 @@
   "firmware_write_authorized": false,
   "boot_authorized": false,
   "prune_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.44/USER-MAC-AUDIT-RESULT.json",
+  "user_weak_symbol_groups": {
+    "LOCAL_ZERO_NAME_IN_SIX": 9,
+    "LOCAL_ZERO_NAME_NOT_IN_SIX": 33,
+    "UNVERSIONED_WEAK_NAME_NOT_IN_SIX": 2
+  },
+  "user_weak_relocation_sites": 62,
+  "user_writable_zero_word_rel_sites": 44,
+  "user_writable_nonzero_plt_sites": 18,
+  "user_relro_objects": 12,
+  "user_now_policy_objects": 0
 }
