@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.52",
-  "state": "HOST_SYNTHETIC_618_OF_618_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_NO_FULL_PLT_DYNAMIC_RELOCATIONS_OR_CONSTANT_LOW12_RELATIONSHIPS",
   "purpose": "READONLY_PLT_LOW12_ARITHMETIC_DIVERSITY_AND_ENTIRE_PLT_DYNAMIC_RELOCATION_TARGETS",
   "parent_r3751_source_sha256": "715384dd671927da24f51808f63a15c5e8aadb0c984050331beea508ccc0af79",
   "new_source_sha256": "442559ec2637ba53be7c750582a74babf2845de6ccf3bf8f58d3ef6180fd1a4d",
@@ -13,7 +13,7 @@
   "clean_extract_synthetic_tests": "618_OF_618_PASS",
   "zip_integrity": "PASS",
   "checksum_manifest": "PASS",
-  "mac_stage_audit": "NOT_EXECUTED",
+  "mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_actions_status": "NOT_VERIFIED",
   "github_source_publication": "METADATA_ONLY_RUNNABLE_SOURCE_IN_CONVERSATION_ZIP",
   "original_r3745_hold_preserved": true,
@@ -29,5 +29,10 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.52/USER-MAC-AUDIT-RESULT.json",
+  "user_full_plt_dynamic_relocation_sites": 0,
+  "user_constant_low12_relation_position_counts": {},
+  "user_dt_textrel_requester_objects": 0,
+  "user_df_textrel_requester_objects": 0
 }
