@@ -1,0 +1,8 @@
+R3753 read-only release SHA256 pins; host verified
+442559ec2637ba53be7c750582a74babf2845de6ccf3bf8f58d3ef6180fd1a4d  R4043752-PLT-LOW12-CORRELATION-AND-FULL-RELOC-READONLY.py
+7068af571b0c57677793eb5722938b3a4f14abfd5ce33c6b4e4ce41040e117b3  R4043726-INTERP-GUEST-RESOLVE-READONLY.py
+abd04b8af7f66fa0a5fe46ab889c04811eb1c34c984e91857183f87c838ecaaa  R4043727-INTERP-ABSENT-ALTERNATIVES-READONLY.py
+08bf159b9ce22e76dc51d5337f615990c40db317a1ef271ebe39f83bda732537  R4043753-INTERPRETER-CANDIDATE-ABI-READONLY.py
+413d6ec8b550e52bae525f113f37860068ee6017b94854e0c4b3002ca6acc3c1  test_r4043753.py
+f77ff3a02b694a2cfd9bba7f0ee6ab83d22fd0ec17980e1c695b64d2b81e5c45  pw3-r3753-interpreter-candidate-abi-readonly.zip
+Complete 50-entry SHA256SUMS is in the ZIP. Full runnable sources and tests are bundled in the conversation ZIP, not standalone GitHub files. No GitHub Actions PASS claimed.
