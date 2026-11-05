@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.47",
-  "state": "HOST_SYNTHETIC_360_OF_360_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_ALL_18_PLT_CANDIDATES_FIRST16_A32_FIELD_PATTERNS",
   "purpose": "SHA_PINNED_STATIC_A32_PLT_THREE_WORD_ENCODING_FIELD_SURVEY",
   "parent_r3746_sha256": "9b852e291c482a50c8c07585941ec10c1abc59e48c8ae94d0fb018bc03e14f87",
   "new_source_sha256": "63ee9e45af99fb8147c47ececa83a272221e586211a3666e871004967202873d",
@@ -13,7 +13,7 @@
   "clean_extract_synthetic_tests": "360_OF_360_PASS",
   "zip_integrity": "PASS",
   "checksum_manifest": "PASS",
-  "mac_stage_audit": "NOT_EXECUTED",
+  "mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_actions_run": "NOT_VERIFIED",
   "source_code_publication": "CONVERSATION_ZIP_NOT_GITHUB",
   "instruction_decoding_verified": false,
@@ -28,5 +28,9 @@
   "firmware_write_authorized": false,
   "boot_authorized": false,
   "prune_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.47/USER-MAC-AUDIT-RESULT.json",
+  "user_weak_plt_sites": 18,
+  "user_plt_candidates_first16": 18,
+  "user_plt_three_words_available": 18
 }
