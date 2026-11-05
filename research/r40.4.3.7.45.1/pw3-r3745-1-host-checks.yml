@@ -1,0 +1,36 @@
+name: PW3 R3745.1 static parser failure host tests
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.45.1/**'
+      - '.github/workflows/pw3-r3745-1-host-checks.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-readonly-synthetic:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: research/r40.4.3.7.45.1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify SHA-256 source manifest
+        run: sha256sum -c SHA256SUMS
+      - name: Compile Python without generating bytecode files
+        run: |
+          python3 - <<'PY'
+          import pathlib
+          for f in sorted(pathlib.Path('.').glob('R40437*.py')):
+              compile(f.read_bytes(), str(f), 'exec')
+          PY
+      - name: Run all synthetic regression tests
+        run: python3 -B -m unittest discover -s . -p 'test_r40437*.py' -v
+      - name: Confirm source never authorizes boot
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('RELEASE-STATUS.json'))
+          assert not x['boot_authorized'] and not x['firmware_write_authorized']
+          assert x['immutable_hold']=='NOT_BOOTABLE'
+          PY
