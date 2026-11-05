@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.51",
-  "state": "HOST_SYNTHETIC_556_OF_556_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_4_IDENTICAL_WORDS_12_VARIED_ZERO_FIRST64_DYNAMIC_TARGETS",
   "purpose": "READONLY_STATIC_PLT_FIRST64_WORD_BIT_PARTITIONS_AND_DYNAMIC_RELOCATION_TARGET_COVERAGE",
   "parent_r3750_source_sha256": "3d7b3639802341773b6db699375ba32215219a40f0f9b8138073304b57eeff6e",
   "new_source_sha256": "715384dd671927da24f51808f63a15c5e8aadb0c984050331beea508ccc0af79",
@@ -13,7 +13,7 @@
   "clean_extract_synthetic_tests": "556_OF_556_PASS",
   "checksum_manifest": "PASS",
   "zip_integrity": "PASS",
-  "mac_stage_audit": "NOT_EXECUTED",
+  "mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_actions_status": "NOT_VERIFIED",
   "github_code_publication": "CONVERSATION_ZIP_ONLY_GITHUB_METADATA",
   "original_r3745_hold_preserved": true,
@@ -30,5 +30,14 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.51/USER-MAC-AUDIT-RESULT.json",
+  "user_earliest_varying_word_index": 4,
+  "user_varying_word_positions": 12,
+  "user_first64_dynamic_relocation_target_sites": 0,
+  "user_variation_classes": {
+    "WHOLE_WORD_IDENTICAL": 4,
+    "VARIATION_CONFINED_TO_LOW12_BITS": 9,
+    "VARIATION_IN_UPPER20_BITS": 3
+  }
 }
