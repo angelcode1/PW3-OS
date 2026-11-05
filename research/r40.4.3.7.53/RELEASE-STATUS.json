@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.53",
-  "state": "HOST_SYNTHETIC_661_OF_661_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_ALTERNATE_LOADER_ET_DYN_EABI5_SOFT_FLAGS_MATCH",
   "purpose": "PINNED_ALTERNATE_GUEST_INTERPRETER_ELF_AND_ARM_EABI_METADATA_READONLY",
   "parent_r3752_source_sha256": "442559ec2637ba53be7c750582a74babf2845de6ccf3bf8f58d3ef6180fd1a4d",
   "source_sha256": "08bf159b9ce22e76dc51d5337f615990c40db317a1ef271ebe39f83bda732537",
@@ -13,7 +13,7 @@
   "clean_extract_tests": "661_OF_661_PASS",
   "checksum_manifest": "PASS",
   "zip_integrity": "PASS",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_source_publication": "METADATA_ONLY_RUNNABLE_SOURCE_IN_CONVERSATION_ZIP",
   "github_actions_status": "NOT_VERIFIED",
   "original_r3745_hold_preserved": true,
@@ -29,5 +29,12 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.53/USER-MAC-AUDIT-RESULT.json",
+  "candidate_type": "ET_DYN",
+  "candidate_eabi": "ARM_EABI_VERSION_5",
+  "candidate_float_flags": "SOFT_FLOAT_EFLAGS",
+  "user_requesters_eflags_same": 12,
+  "candidate_direct_needed_entries": 0,
+  "candidate_entry_in_one_exec_load": true
 }
