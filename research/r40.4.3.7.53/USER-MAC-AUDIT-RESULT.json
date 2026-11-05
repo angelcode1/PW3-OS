@@ -1,0 +1,63 @@
+{
+  "boot_authorized": false,
+  "candidate_arm_eabi_version_category": "ARM_EABI_VERSION_5",
+  "candidate_arm_float_flags_category": "SOFT_FLOAT_EFLAGS",
+  "candidate_dynamic_metadata": {
+    "dt_flags_present": false,
+    "dt_gnu_hash_present": true,
+    "dt_needed_entries": 0,
+    "dt_rpath_present": false,
+    "dt_runpath_present": false,
+    "dt_soname_present": true,
+    "dt_sysv_hash_present": true,
+    "dt_textrel_present": false,
+    "dt_verdef_present": true,
+    "dt_verneed_present": false,
+    "dt_versym_present": true
+  },
+  "candidate_entry_location_category": "ENTRY_IN_ONE_EXEC_LOAD",
+  "candidate_loader_function_verified": false,
+  "candidate_program_header_counts": {
+    "exec_load_segments": 1,
+    "executable_gnu_stack_segments": 0,
+    "load_segments": 2,
+    "pt_gnu_relro_segments": 1,
+    "pt_gnu_stack_segments": 1,
+    "pt_interp_segments": 0,
+    "pt_tls_segments": 0,
+    "writable_executable_load_segments": 0,
+    "writable_load_segments": 1
+  },
+  "candidate_self_containment_or_runtime_dependency_closure_verified": false,
+  "candidate_type_category": "ET_DYN",
+  "distinct_missing_guest_interp_paths": 1,
+  "e_flags_headers_are_not_runtime_abi_compatibility": true,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "interpreter_r3726_r3727_sha_pinned_and_replayed": true,
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.53",
+  "missing_guest_interp_requester_count": 12,
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3745_hold_preserved": true,
+  "parent_r3752_sha_pinned_and_replayed": true,
+  "private_paths_names_elf_flag_values_exported": false,
+  "prune_authorized": false,
+  "requester_arm_eabi_version_categories": {
+    "ARM_EABI_VERSION_5": 12
+  },
+  "requester_arm_float_flags_categories": {
+    "SOFT_FLOAT_EFLAGS": 12
+  },
+  "requester_candidate_eflags_relation_counts": {
+    "EFLAGS_SAME": 12,
+    "SAME_VERSION": 12
+  },
+  "result": "ALTERNATE_GUEST_INTERPRETER_ELF_ABI_METADATA_STATIC_ONLY",
+  "source_stage_modified": false,
+  "tls_runtime_compatibility_verified": false,
+  "unique_same_basename_candidate_elfs": 1,
+  "weak_symbol_runtime_resolution_verified": false
+}
