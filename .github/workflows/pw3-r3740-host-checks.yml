@@ -1,0 +1,25 @@
+name: PW3 R3740 host-only dynsym candidate checks
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.40/**'
+      - '.github/workflows/pw3-r3740-host-checks.yml'
+  workflow_dispatch:
+jobs:
+  host-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify SHA-pinned audit sources and files
+        working-directory: research/r40.4.3.7.40
+        run: sha256sum --check SHA256SUMS
+      - name: Python syntax without staged rootfs
+        working-directory: research/r40.4.3.7.40
+        run: python3 -B -m py_compile R4043740-SYMBOL-NAME-VERSION-READONLY.py
+      - name: New synthetic parser and symbol-candidate tests
+        working-directory: research/r40.4.3.7.40
+        run: python3 -B -m unittest discover -s . -p 'test_r4043740.py' -v
+      - name: Pinned prior synthetic graph tests
+        working-directory: research/r40.4.3.7.40
+        run: python3 -B -m unittest discover -s . -p 'test_r4043739.py' -v
