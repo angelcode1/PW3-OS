@@ -1,0 +1,29 @@
+name: PW3 R3729 source-only ELF dynamic header checks
+
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.29/**'
+      - '.github/workflows/pw3-r3729-host-checks.yml'
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.29/**'
+      - '.github/workflows/pw3-r3729-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-elf-dynamic-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Python syntax
+        run: python3 -m py_compile research/r40.4.3.7.29/R4043729-INTERP-ELF-DYNAMIC-READONLY.py research/r40.4.3.7.29/test_r4043729.py
+      - name: Check pinned source manifest
+        working-directory: research/r40.4.3.7.29
+        run: sha256sum -c SHA256SUMS
+      - name: Run synthetic read-only tests, no PW3 device or stage
+        run: python3 -m unittest discover -s research/r40.4.3.7.29 -p 'test_r4043729.py' -v
