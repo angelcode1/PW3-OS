@@ -1,0 +1,65 @@
+{
+  "boot_authorized": false,
+  "dynamic_loader_namespace_verified": false,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "instruction_decoding_or_runtime_loader_verified": false,
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.46",
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3745_hold_preserved": true,
+  "pinned_parent_r3745_2_verified_and_replayed": true,
+  "private_names_paths_addresses_or_words_exported": false,
+  "provider_elf_count": 6,
+  "prune_authorized": false,
+  "requester_objects_with_targeted_weak_plt_sites": 9,
+  "result": "WEAK_PLT_INITIAL_WORD_EXEC_SECTION_GEOMETRY_STATIC_ONLY",
+  "source_elf_count": 12,
+  "source_stage_modified": false,
+  "targeted_weak_plt_sites": 18,
+  "tls_runtime_compatibility_verified": false,
+  "unrelocated_word_is_not_proven_pointer_or_plt_stub": true,
+  "weak_plt_candidate_section_categories_by_group": {
+    "LOCAL_ZERO_NAME_IN_SIX": {
+      "ALIGNMENT": {
+        "CANDIDATE_ADDR_ARM_WORD_ALIGNED": 9
+      },
+      "CODE_BACKING": {
+        "TARGET_FILE_WORD_NONZERO": 9
+      },
+      "SECTION": {
+        "EXEC_SECTION_DOT_PLT": 9
+      }
+    },
+    "LOCAL_ZERO_NAME_NOT_IN_SIX": {
+      "ALIGNMENT": {
+        "CANDIDATE_ADDR_ARM_WORD_ALIGNED": 7
+      },
+      "CODE_BACKING": {
+        "TARGET_FILE_WORD_NONZERO": 7
+      },
+      "SECTION": {
+        "EXEC_SECTION_DOT_PLT": 7
+      }
+    },
+    "UNVERSIONED_WEAK_NAME_NOT_IN_SIX": {
+      "ALIGNMENT": {
+        "CANDIDATE_ADDR_ARM_WORD_ALIGNED": 2
+      },
+      "CODE_BACKING": {
+        "TARGET_FILE_WORD_NONZERO": 2
+      },
+      "SECTION": {
+        "EXEC_SECTION_DOT_PLT": 2
+      }
+    }
+  },
+  "weak_symbol_resolution_verified": false,
+  "within_requester_candidate_reuse_categories": {
+    "GROUP_OBJECT_PAIRS_WITH_ONE_UNIQUE_TARGET": 12,
+    "SITES_REUSING_NUMERIC_TARGET_WITHIN_GROUP_OBJECT": 9,
+    "SITES_WITH_UNIQUE_NUMERIC_TARGET_WITHIN_GROUP_OBJECT": 9
+  }
+}
