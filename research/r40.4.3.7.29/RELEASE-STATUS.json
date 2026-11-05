@@ -5,7 +5,7 @@
   "source_sha256": "7ba1cb8d595ab7d50f717eff379b849732d55e507021a15cb7930a1cbc7e80ba",
   "test_sha256": "267ccab628ed6dfee8b4d07def9adc064473abc17e97ea9f25c358403624cb87",
   "readme_sha256": "048ea3abb34551be3788a4baf060c10681f33699f9f482208b2a063efefbb19f",
-  "zip_sha256": "cde141a5e239e0e80fac36ee4d3bf094f723d40831e5fc91851ca55829afc93e",
+  "zip_sha256": "fb12a572381596da72ba285d3d59b123786ed5317a813bb9c666bf551b08a013",
   "zip_members": 7,
   "parent_r3726_sha256": "7068af571b0c57677793eb5722938b3a4f14abfd5ce33c6b4e4ce41040e117b3",
   "parent_r3727_sha256": "abd04b8af7f66fa0a5fe46ab889c04811eb1c34c984e91857183f87c838ecaaa",
@@ -22,5 +22,6 @@
   "boot_authorized": false,
   "firmware_write_authorized": false,
   "prune_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "zip_verified_clean_extract": true
 }
