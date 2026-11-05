@@ -1,0 +1,6 @@
+R3755 SHA256 pins — host-verified 2026-11-06
+7db26e7e5d42fbfeacdb0fea01922b3184e583ae041bb61ed00bcbb8a597bf5f  R4043754-INTERPRETER-SELF-RELOC-READONLY.py
+eb1c7ef30f1a9d9a532a009589bbf5877ec19ec57f9e3200055f3ea989d934eb  R4043755-INTERPRETER-RELCOUNT-AND-SYMBOL-GEOMETRY-READONLY.py
+9b4860495ddb21e0e9a8bb403a64b0b5daf8e763822ddbe3c52d94eacc5ab5e0  test_r4043755.py
+3fdf1c3085be5851c420fe13c31c635069063da90e35796652462c9ce62aa3de  pw3-r3755-interpreter-relcount-symbol-geometry-readonly.zip
+Full 54-file SHA256SUMS inside the conversation ZIP (55 archive members), manifest and ZIP integrity verified after clean extraction. 750/750 synthetic tests pass. Original R13 stage not tested in R3755. GitHub Actions not verified.
