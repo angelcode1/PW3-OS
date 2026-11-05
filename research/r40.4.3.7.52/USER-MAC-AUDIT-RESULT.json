@@ -1,0 +1,98 @@
+{
+  "address_correlation_is_arithmetic_only_not_a32_decoding": true,
+  "arithmetic_low12_diversity_by_word_position": {
+    "WORD10": {
+      "distinct_word_low12_fields": 9,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 9
+    },
+    "WORD11": {
+      "distinct_word_low12_fields": 2,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 2
+    },
+    "WORD12": {
+      "distinct_word_low12_fields": 7,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 7
+    },
+    "WORD13": {
+      "distinct_word_low12_fields": 9,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 9
+    },
+    "WORD14": {
+      "distinct_word_low12_fields": 3,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 3
+    },
+    "WORD15": {
+      "distinct_word_low12_fields": 7,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 7
+    },
+    "WORD4": {
+      "distinct_word_low12_fields": 9,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 9
+    },
+    "WORD5": {
+      "distinct_word_low12_fields": 2,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 2
+    },
+    "WORD6": {
+      "distinct_word_low12_fields": 7,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 7
+    },
+    "WORD7": {
+      "distinct_word_low12_fields": 9,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 9
+    },
+    "WORD8": {
+      "distinct_word_low12_fields": 2,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 2
+    },
+    "WORD9": {
+      "distinct_word_low12_fields": 7,
+      "distinct_word_minus_plt_low12": 9,
+      "distinct_word_minus_pltgot_low12": 7
+    }
+  },
+  "arithmetic_relationships_do_not_decode_arm_instructions_or_runtime_offsets": true,
+  "boot_authorized": false,
+  "constant_low12_relationship_position_counts": {},
+  "dynamic_loader_or_plt_resolver_verified": false,
+  "entire_dot_plt_cross_boundary_relocation_targets": 0,
+  "entire_dot_plt_dynamic_relocation_arm_types": {},
+  "entire_dot_plt_dynamic_relocation_tables": {},
+  "entire_dot_plt_dynamic_relocation_target_sites": 0,
+  "entire_dot_plt_dynamic_relocation_unique_word_positions_across_objects": 0,
+  "entire_dot_plt_misaligned_relocation_targets": 0,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.52",
+  "no_dynamic_target_does_not_prove_no_link_time_adjustments": true,
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3745_hold_preserved": true,
+  "parent_r3751_sha_pinned_and_replayed": true,
+  "private_words_paths_symbols_or_addresses_exported": false,
+  "provider_elf_count": 6,
+  "prune_authorized": false,
+  "requester_df_textrel_flag_objects": 0,
+  "requester_dt_textrel_objects": 0,
+  "requesters_with_plt_anchor": 9,
+  "result": "WEAK_PLT_LOW12_ADDRESS_CORRELATION_AND_ENTIRE_SECTION_RELOCATION_STATIC_ONLY",
+  "source_elf_count": 12,
+  "source_stage_modified": false,
+  "targeted_weak_plt_sites": 18,
+  "tls_runtime_compatibility_verified": false,
+  "weak_symbol_runtime_resolution_verified": false,
+  "record_type": "USER_SUPPLIED_MAC_STAGE_JSON"
+}
