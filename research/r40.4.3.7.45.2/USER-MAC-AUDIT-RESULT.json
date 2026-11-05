@@ -39,5 +39,17 @@
   "guest_interpreter_path_resolved": false,
   "mapping_applied": false,
   "unrelocated_word_as_pointer_not_proven": true,
-  "lazy_binding_runtime_verified": false
+  "lazy_binding_runtime_verified": false,
+  "corrected_r3743_module_chain_readonly": true,
+  "historical_inventory_hashes_reverified": false,
+  "loader_namespace_or_symbol_interposition_verified": false,
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3745_sha_pinned_and_original_hold_preserved": true,
+  "parent_r3744_sha_pin_and_stage_baseline_replayed": true,
+  "paths_symbols_or_words_exported": false,
+  "provider_elf_count": 6,
+  "runtime_tls_compatibility_verified": false,
+  "source_elf_count": 12,
+  "transitive_dependency_closure_proven": false,
+  "weak_symbol_runtime_semantics_verified": false
 }
