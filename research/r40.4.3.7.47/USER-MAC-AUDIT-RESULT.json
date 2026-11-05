@@ -1,0 +1,76 @@
+{
+  "boot_authorized": false,
+  "candidate_plt_prefix_categories_by_group": {
+    "LOCAL_ZERO_NAME_IN_SIX": {
+      "A32_PREFIX_WORD0": {
+        "A32_SINGLE_LOAD_STORE_FIELD_PATTERN": 9
+      },
+      "A32_PREFIX_WORD1": {
+        "A32_SINGLE_LOAD_STORE_FIELD_PATTERN": 9
+      },
+      "A32_PREFIX_WORD2": {
+        "A32_DATA_PROCESSING_OR_MISC_FIELD_PATTERN": 9
+      },
+      "POSITION": {
+        "FIRST_16_BYTES_OF_DOT_PLT": 9
+      },
+      "WINDOW": {
+        "THREE_A32_WORDS_AVAILABLE": 9
+      }
+    },
+    "LOCAL_ZERO_NAME_NOT_IN_SIX": {
+      "A32_PREFIX_WORD0": {
+        "A32_SINGLE_LOAD_STORE_FIELD_PATTERN": 7
+      },
+      "A32_PREFIX_WORD1": {
+        "A32_SINGLE_LOAD_STORE_FIELD_PATTERN": 7
+      },
+      "A32_PREFIX_WORD2": {
+        "A32_DATA_PROCESSING_OR_MISC_FIELD_PATTERN": 7
+      },
+      "POSITION": {
+        "FIRST_16_BYTES_OF_DOT_PLT": 7
+      },
+      "WINDOW": {
+        "THREE_A32_WORDS_AVAILABLE": 7
+      }
+    },
+    "UNVERSIONED_WEAK_NAME_NOT_IN_SIX": {
+      "A32_PREFIX_WORD0": {
+        "A32_SINGLE_LOAD_STORE_FIELD_PATTERN": 2
+      },
+      "A32_PREFIX_WORD1": {
+        "A32_SINGLE_LOAD_STORE_FIELD_PATTERN": 2
+      },
+      "A32_PREFIX_WORD2": {
+        "A32_DATA_PROCESSING_OR_MISC_FIELD_PATTERN": 2
+      },
+      "POSITION": {
+        "FIRST_16_BYTES_OF_DOT_PLT": 2
+      },
+      "WINDOW": {
+        "THREE_A32_WORDS_AVAILABLE": 2
+      }
+    }
+  },
+  "coarse_a32_encoding_fields_not_instruction_decoding": true,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.47",
+  "original_r26_source_provenance_authenticated": false,
+  "original_slot_word_as_address_unproven": true,
+  "parent_r3746_sha_pinned_and_stage_replayed": true,
+  "private_words_paths_symbols_or_addresses_exported": false,
+  "provider_elf_count": 6,
+  "prune_authorized": false,
+  "result": "WEAK_PLT_STATIC_A32_PREFIX_WINDOWS_ONLY",
+  "runtime_loader_or_lazy_binding_verified": false,
+  "source_elf_count": 12,
+  "stage_modified": false,
+  "targeted_weak_plt_sites": 18,
+  "tls_runtime_compatibility_verified": false,
+  "weak_symbol_runtime_resolution_verified": false
+}
