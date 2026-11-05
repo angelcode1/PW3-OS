@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.54",
-  "state": "HOST_703_SYNTHETIC_PASS_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_27_ALTERNATE_LOADER_RELOCATIONS_STATIC_CLASSIFIED",
   "purpose": "SHA_PINNED_READONLY_ALTERNATE_INTERPRETER_DYNAMIC_RELOCATIONS_AND_REFERENCED_DYNSYM",
   "parent_r3753_source_sha256": "08bf159b9ce22e76dc51d5337f615990c40db317a1ef271ebe39f83bda732537",
   "new_source_sha256": "7db26e7e5d42fbfeacdb0fea01922b3184e583ae041bb61ed00bcbb8a597bf5f",
@@ -13,7 +13,7 @@
   "clean_extract_synthetic_tests": "703_OF_703_PASS",
   "zip_integrity": "PASS",
   "checksum_manifest": "PASS",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_actions_status": "NOT_VERIFIED",
   "github_publication": "RELEASE_METADATA_ONLY_RUNNABLE_CODE_IN_CONVERSATION_ZIP",
   "original_r3745_hold_preserved": true,
@@ -28,5 +28,16 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.54/USER-MAC-AUDIT-RESULT.json",
+  "user_relocation_arm_types": {
+    "21": 4,
+    "22": 6,
+    "23": 17
+  },
+  "user_referenced_dynsym_entries": 9,
+  "user_unique_relocation_targets": 27,
+  "user_writable_relro_targets": 10,
+  "user_writable_nonrelro_targets": 17,
+  "user_dt_relcount_tag_present": true
 }
