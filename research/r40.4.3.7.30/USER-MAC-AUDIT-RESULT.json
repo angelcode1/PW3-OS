@@ -1,0 +1,33 @@
+{
+  "boot_authorized": false,
+  "candidate_soname_and_flags": {
+    "elf_entrypoint_nonzero": true,
+    "gnu_stack_exec": "NONEXECUTABLE",
+    "load_segments_executable_count": 1,
+    "load_segments_writable_count": 1,
+    "soname_basename_match": "MATCH"
+  },
+  "historical_inventory_membership_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "kernel_abi_and_ARM_attributes_verified": false,
+  "milestone": "R40.4.3.7.30",
+  "missing_guest_path_resolved": false,
+  "original_r26_source_provenance_authenticated": false,
+  "parent_r3726_r3727_r3728_pinned_and_replayed": true,
+  "parent_r3729_sha_pinned": true,
+  "paths_or_dynamic_strings_exported": false,
+  "prune_authorized": false,
+  "requesting_elf_count": 12,
+  "result": "INTERP_ABI_AND_SONAME_STATIC_CLASSIFICATION_ONLY",
+  "runtime_loader_resolved": false,
+  "source_arm_eabi_float_flag_categories": {
+    "EABI_MATCH": 12,
+    "FLOAT_FLAGS_MATCH": 12,
+    "SOURCE_ET_DYN": 10,
+    "SOURCE_ET_EXEC": 2
+  },
+  "stage_modified": false,
+  "transitive_dependency_closure_proven": false,
+  "record_type": "USER_REPORTED_MAC_TERMINAL_JSON",
+  "notes": "Source archive 10 synthetic tests locally pass; Mac result provided by user only. No path added to rootfs. EABI/float matches are header-level e_flags, not .ARM.attributes or kernel ABI verification."
+}
