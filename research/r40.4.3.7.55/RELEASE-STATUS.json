@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.55",
-  "state": "HOST_SYNTHETIC_750_OF_750_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_17_RELCOUNT_PREFIX_AND_9_DEFINED_SELF_SYMBOLS_VERIFIED_STATIC",
   "purpose": "READONLY_ALTERNATE_INTERPRETER_DT_RELCOUNT_RELATIVE_ADDENDS_AND_DEFINED_SYMBOL_VALUE_GEOMETRY",
   "parent_r3754_source_sha256": "7db26e7e5d42fbfeacdb0fea01922b3184e583ae041bb61ed00bcbb8a597bf5f",
   "source_sha256": "eb1c7ef30f1a9d9a532a009589bbf5877ec19ec57f9e3200055f3ea989d934eb",
@@ -13,7 +13,7 @@
   "clean_extract_synthetic_tests": "750_OF_750_PASS",
   "zip_integrity": "PASS",
   "checksum_manifest": "PASS",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_actions_status": "NOT_VERIFIED",
   "github_source_publication": "METADATA_ONLY_RUNNABLE_SOURCE_IN_CONVERSATION_ZIP",
   "original_r3745_hold_preserved": true,
@@ -29,5 +29,12 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.55/USER-MAC-AUDIT-RESULT.json",
+  "user_dt_relcount_prefix_valid": true,
+  "user_relative_sites_in_prefix": 17,
+  "user_relative_sites_after_prefix": 0,
+  "user_symbol_sites": 10,
+  "user_distinct_self_defined_symbols": 9,
+  "user_ordinary_section_defined_symbols": 9
 }
