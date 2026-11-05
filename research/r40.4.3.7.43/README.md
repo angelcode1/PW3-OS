@@ -26,3 +26,7 @@ python3 -B R4043743-STAGED-ELF-WEAK-EXPORT-SURVEY-READONLY.py \
 ```
 
 Send the JSON `additional_name_candidate_categories`, `additional_name_candidate_categories_by_target_group`, `additional_scan_counters`, or `hold_category`. Original interpreter mapping, runtime proof, R26 provenance, historical hashes and all hardware/boot/prune gates remain held. OpenSSH/SFTP/rsync remain deferred final-image requirements. **NOT_BOOTABLE.**
+
+## User Mac original HOLD (preserved)
+
+The user ran R3743 on the unchanged staged rootfs and received `HOLD` / `SOURCE_PROVIDER_OVERLAP_HOLD`. The script raises this when at least one regular staged ELF is simultaneously a missing-interpreter requester and a direct DT_NEEDED candidate. That group membership overlap does not itself establish malformed ELF or runtime incompatibility. The original R3743 source and SHA remain unchanged; a separate R3743.1 regression tests overlap-aware exclusion of the union, rather than modifying the pinned audit. The user's original HOLD remains historical evidence. No runtime, boot, firmware or pruning authorization. **NOT_BOOTABLE**.

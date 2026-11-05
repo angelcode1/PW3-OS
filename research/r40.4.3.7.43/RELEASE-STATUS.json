@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.43",
-  "state": "LOCAL_HOST_163_SYNTHETIC_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_HOLD_SOURCE_PROVIDER_OVERLAP_PRESERVED",
   "purpose": "READONLY_WEAK_UNDEFINED_EXPORT_NAME_CANDIDATES_IN_ADDITIONAL_STAGED_ARM_ELFS",
   "parent_r3742_source_sha256": "4d118c490746d974e9f197db3260a3cb54f2b24b26ecebf82b4a3580b86715ed",
   "standalone_source_sha256": "be4ec4c3557073ece8016fdf395a6142687a32876cd680cd0ff71559e13cc34a",
@@ -27,5 +27,9 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_stage_audit": "USER_REPORTED_HOLD",
+  "user_mac_hold_category": "SOURCE_PROVIDER_OVERLAP_HOLD",
+  "user_mac_report_reference": "research/r40.4.3.7.43/USER-MAC-AUDIT-RESULT.json",
+  "actual_source_provider_overlap_count": "UNKNOWN_UNTIL_CORRECTED_AUDIT"
 }

@@ -1,0 +1,9 @@
+{
+  "milestone": "R40.4.3.7.43",
+  "result": "HOLD",
+  "hold_category": "SOURCE_PROVIDER_OVERLAP_HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_JSON"
+}
