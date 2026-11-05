@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.29",
-  "state": "HOST_SYNTHETIC_11_OF_11_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_ALTERNATIVE_ELF32_ARM_EABI5_SOFT_FLOAT_DYNAMIC_METADATA_CLASSIFIED",
   "purpose": "PINNED_R3728_R3727_R3726_READONLY_ALTERNATIVE_ELF_DYNAMIC_AND_ARM_HEADER_METADATA",
   "source_sha256": "7ba1cb8d595ab7d50f717eff379b849732d55e507021a15cb7930a1cbc7e80ba",
   "test_sha256": "267ccab628ed6dfee8b4d07def9adc064473abc17e97ea9f25c358403624cb87",
@@ -14,7 +14,7 @@
   "compile_check": "PASS",
   "source_checksum_manifest": "PASS",
   "zip_integrity": "PASS",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_STATIC_CLASSIFICATION_COMPLETED",
   "missing_guest_path_resolved": false,
   "dynamic_dependency_closure_proven": false,
   "original_source_provenance_authenticated": false,
@@ -23,5 +23,20 @@
   "firmware_write_authorized": false,
   "prune_authorized": false,
   "immutable_hold": "NOT_BOOTABLE",
-  "zip_verified_clean_extract": true
+  "zip_verified_clean_extract": true,
+  "user_mac_report_reference": "research/r40.4.3.7.29/USER-MAC-AUDIT-RESULT.json",
+  "user_mac_interpreter_alternative_metadata": {
+    "arch": "ELF32_ARM",
+    "eabi": "EABI_VERSION_5",
+    "float_flags": "SOFT_FLOAT_FLAG",
+    "elf_type": "ET_DYN",
+    "pt_load_count": 2,
+    "pt_dynamic_count": 1,
+    "pt_gnu_relro_count": 1,
+    "pt_gnu_stack_count": 1,
+    "dt_needed_count": 0,
+    "dt_soname_present": true,
+    "dt_strtab_load_mapping_candidate": true,
+    "dynamic_null_terminated": true
+  }
 }

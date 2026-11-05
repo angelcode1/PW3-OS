@@ -1,0 +1,41 @@
+{
+  "absent_interp_segment_count": 12,
+  "alternative_metadata": {
+    "dt_flags_1_present": false,
+    "dt_needed_count": 0,
+    "dt_rpath_present": false,
+    "dt_runpath_present": false,
+    "dt_soname_present": true,
+    "dt_strsz_present": true,
+    "dt_strtab_load_mapping_candidate": true,
+    "dt_strtab_present": true,
+    "dt_textrel_present": false,
+    "dynamic_null_terminated": true,
+    "elf_type": "ET_DYN",
+    "header": {
+      "arch": "ELF32_ARM",
+      "eabi": "EABI_VERSION_5",
+      "float_flags": "SOFT_FLOAT_FLAG"
+    },
+    "pt_dynamic_count": 1,
+    "pt_gnu_relro_count": 1,
+    "pt_gnu_stack_count": 1,
+    "pt_load_count": 2
+  },
+  "boot_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "milestone": "R40.4.3.7.29",
+  "missing_guest_path_resolved": false,
+  "original_r26_source_provenance_authenticated": false,
+  "parent_r3726_r3727_r3728_sha_pins_verified": true,
+  "parent_r3728_replayed": true,
+  "private_guest_paths_or_dynamic_strings_exported": false,
+  "prune_authorized": false,
+  "result": "SINGLE_ALTERNATE_ELF_DYNAMIC_METADATA_CLASSIFIED_ONLY",
+  "runtime_loader_resolved": false,
+  "stage_modified": false,
+  "transitive_dependency_closure_proven": false,
+  "unique_alternative_elf_count": 1,
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_JSON",
+  "notes": "User-reported static classification only. DT_NEEDED=0 is not proven full runtime dependency independence; not proof kernel can select absent interpreter pathname."
+}
