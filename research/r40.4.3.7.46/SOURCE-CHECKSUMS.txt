@@ -1,0 +1,8 @@
+R40.4.3.7.46 — SHA-256 checksums (release metadata)
+9b852e291c482a50c8c07585941ec10c1abc59e48c8ae94d0fb018bc03e14f87  R4043746-PLT-EXEC-SECTION-PREFLIGHT-READONLY.py
+33900a1d65ce38926f703fec872f472938e860133662a886c88bdb731df5c50c  test_r4043746.py
+82ea5da0c3031b3310564b483936c74a5a661405730722558c30ac2b6f8413f1  R4043745-2-PINNED-PLT-CALLCHAIN-FIX-READONLY.py
+788e771bbc06b907fbcc0208b2a36aff52f3a2086aa9d744853b0db4f9e565f2  pw3-r3746-plt-section-geometry-readonly.zip
+Zip integrity PASS. 36 SHA256SUMS entries verified. 334/334 clean-extraction synthetic tests PASS.
+R3746 source and tests are in the conversation ZIP; they are not standalone code in GitHub.
+No GitHub Actions result verified. NOT_BOOTABLE.
