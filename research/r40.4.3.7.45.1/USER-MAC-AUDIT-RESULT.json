@@ -1,0 +1,31 @@
+{
+  "boot_authorized": false,
+  "exception_class": "AttributeError",
+  "exception_message_or_traceback_exported": false,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "last_pinned_frame": {
+    "function": "audit",
+    "line": 192,
+    "source": "R3745"
+  },
+  "milestone": "R40.4.3.7.45.1",
+  "original_r3745_hold_category_preserved": "UNEXPECTED_STATIC_PARSER_HOLD",
+  "original_source_unchanged_and_sha_pinned": true,
+  "pinned_call_frames": [
+    {
+      "function": "audit",
+      "line": 192,
+      "source": "R3745"
+    }
+  ],
+  "pinned_parent_hold_category": "NONE_OR_UNRECOGNIZED",
+  "prune_authorized": false,
+  "result": "ORIGINAL_R3745_FAILURE_SITE_CLASSIFIED_ONLY",
+  "runtime_loader_verified": false,
+  "stage_modified": false,
+  "stage_paths_or_symbol_names_exported": false,
+  "record_type": "USER_SUPPLIED_MAC_JSON",
+  "review": "The exact R3745 audit() line calls load_pinned_parent on the R3743.1 module, which only has load_original; correct chain is p43.load_original(folder).load_pinned_parent(folder)."
+}

@@ -36,3 +36,7 @@ Expected local synthetic regressions: **276 tests**, including **23 new** tests 
 ## Safety holds
 
 The staged interpreter guest path is absent and the proposed alias has not been applied. Actual ARM ELF runtime symbol interposition, weak binding, TLS, Linux 3.0.35 compatibility, R26 provenance, historic inventory hashes and dependency closure are unverified. No stage/rootfs writes, no symlink creation, relocation or weak zero substitution, ELF/QEMU execution, physical PW3 access, firmware write, boot or pruning. OpenSSH/SFTP/rsync remain deferred to a separately validated final image. **`NOT_BOOTABLE`.**
+
+## User Mac diagnostic — confirmed parser bug
+
+R3745.1 returned `ORIGINAL_R3745_FAILURE_SITE_CLASSIFIED_ONLY`, `AttributeError`, originating at `audit` line 192 in original R3745. That line erroneously invokes `p43.load_pinned_parent(folder)` where `p43` is the R3743.1 module; the latter exports `load_original`, not `load_pinned_parent`. The correct module chain goes via `p43.load_original(folder).load_pinned_parent(folder)`. This is an implementation defect, **not** evidence of a rejected ARM ELF layout or symbol failure. Original R3745 source and its historical `UNEXPECTED_STATIC_PARSER_HOLD` are unchanged. R3745.2 is a separately pinned corrective diagnostic with regression tests. See `USER-MAC-AUDIT-RESULT.json`. Stage remains unmodified; **NOT_BOOTABLE**.

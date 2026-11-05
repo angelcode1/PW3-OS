@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.45.1",
-  "state": "HOST_276_SYNTHETIC_PASS_MAC_FAILURE_SITE_UNRUN",
+  "state": "USER_MAC_ATTRIBUTE_ERROR_R3745_AUDIT_LINE_192",
   "purpose": "SANITIZED_PINNED_R3745_PARSER_EXCEPTION_SITE_TRIAGE",
   "original_r3745_sha256": "c3b95955df80e896196887fe922acd253d26948728939f1ea8349782feb73794",
   "original_user_hold": "UNEXPECTED_STATIC_PARSER_HOLD",
@@ -9,7 +9,7 @@
   "synthetic_tests_total": 276,
   "checksum_manifest": "PASS",
   "archive_integrity": "PASS",
-  "user_mac_stage_triage": "NOT_EXECUTED",
+  "user_mac_stage_triage": "USER_REPORTED_COMPLETED",
   "original_source_modified": false,
   "exception_message_or_traceback_exported": false,
   "original_stage_modified": false,
@@ -21,5 +21,7 @@
   "firmware_write_authorized": false,
   "boot_authorized": false,
   "prune_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.45.1/USER-MAC-AUDIT-RESULT.json",
+  "original_r3745_fault": "R3745_AUDIT_LINE_192_ATTRIBUTE_ERROR_WRONG_PARENT_MODULE"
 }
