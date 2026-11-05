@@ -1,0 +1,57 @@
+{
+  "actual_library_search_and_symbol_interposition_verified": false,
+  "actual_weak_symbol_runtime_semantics_verified": false,
+  "boot_authorized": false,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "local_index_weak_relocation_context_categories": {
+    "LOCAL_NAME_ONE_PROVIDER": 9,
+    "LOCAL_NAME_ZERO_PROVIDER": 33,
+    "SYMBOL_SITE_COUNT_1": 26,
+    "SYMBOL_SITE_COUNT_2PLUS": 16,
+    "TABLE_PLT": 16,
+    "TABLE_REL": 42
+  },
+  "local_index_weak_relocation_sites": 58,
+  "local_index_weak_relocation_type_counts": {
+    "21": 42,
+    "22": 16
+  },
+  "local_index_weak_symbol_entries": 42,
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.42",
+  "no_candidate_does_not_prove_runtime_missing_symbol": true,
+  "no_staged_provider_name_entries": 2,
+  "no_staged_provider_name_relocation_sites": 4,
+  "no_staged_provider_name_relocation_type_counts": {
+    "21": 2,
+    "22": 2
+  },
+  "no_staged_provider_name_symbol_categories": {
+    "GNU_VERSION_INDEX_1": 2,
+    "STB_2": 2,
+    "TYPE_0": 2
+  },
+  "original_r3741_hold_preserved": true,
+  "parent_r3741_1_source_sha_pinned_and_replayed": true,
+  "paths_symbols_versions_exported": false,
+  "prior_source_pins_inherited": true,
+  "provider_elf_count": 6,
+  "prune_authorized": false,
+  "requester_total_relocation_sites_reverified": 3499,
+  "result": "UNDEFINED_WEAK_LOCAL_VERSION_RELOCATION_CONTEXT_STATIC_ONLY",
+  "source_elf_count": 12,
+  "source_objects_with_local_index_weak_entries": 10,
+  "source_objects_with_no_provider_name_entries": 2,
+  "source_provenance_authenticated": false,
+  "stage_modified": false,
+  "symbol_resolution_proven": false,
+  "tls_runtime_compatibility_verified": false,
+  "transitive_dependency_closure_proven": false,
+  "undefined_entry_count_reverified": 632,
+  "weak_local_version_zero_remains_review": true,
+  "record_type": "USER_SUPPLIED_MAC_JSON",
+  "qualification": "All 44 targeted entries are weak, but weak alone does not prove runtime acceptability or safe unresolved relocation."
+}

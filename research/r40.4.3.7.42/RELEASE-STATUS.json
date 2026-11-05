@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.42",
-  "state": "HOST_131_SYNTHETIC_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_WEAK_LOCAL_ZERO_RELOCATION_CONTEXT_CLASSIFIED",
   "purpose": "READONLY_PINNED_GNU_WEAK_LOCAL_INDEX_AND_NO_PROVIDER_RELOCATION_CONTEXT",
   "parent_r3741_1_source_sha256": "596b21871833423a2050828457b7a52c823b87605d0c9839542a3ec582f970d0",
   "original_r3741_hold_preserved": true,
@@ -15,7 +15,7 @@
   "host_total_synthetic_tests": 131,
   "source_sha256": "4d118c490746d974e9f197db3260a3cb54f2b24b26ecebf82b4a3580b86715ed",
   "tests_sha256": "c9a60f8660f616d8f044a97936cacf4d599fba651908c040415d629c8f8b1605",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "actual_weak_symbol_runtime_semantics_verified": false,
   "actual_loader_symbol_resolution_verified": false,
   "interpreter_guest_path_resolved": false,
@@ -28,5 +28,13 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.42/USER-MAC-AUDIT-RESULT.json",
+  "user_local_weak_count": 42,
+  "user_local_weak_relocation_sites": 58,
+  "user_local_weak_name_candidate_counts": {
+    "ONE_OF_SIX_PROVIDERS": 9,
+    "ZERO_OF_SIX_PROVIDERS": 33
+  },
+  "user_other_no_name_provider_weak_entries": 2
 }

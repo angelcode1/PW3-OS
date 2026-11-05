@@ -67,3 +67,7 @@ through; send the hold category only.
 OpenSSH server, SFTP server and rsync remain deferred to a future validated,
 independent image. No guest alias applied, no file writes, QEMU, ARM ELF
 execution, Kindle access, firmware, boot or pruning. **NOT_BOOTABLE.**
+
+## User Mac stage result
+
+R3742 reported `UNDEFINED_WEAK_LOCAL_VERSION_RELOCATION_CONTEXT_STATIC_ONLY` on the original unchanged R13 stage. It reverified 3,499 relocation sites and 632 referenced undefined entries. **42** weak `VERSYM=0` undefined entries appear in **ten** source objects, with **58** relocation sites: 42 `R_ARM_GLOB_DAT` (type 21), 16 `R_ARM_JUMP_SLOT` (type 22). Of these 42 entries, **nine** have one name candidate among six staged direct providers, **33** have none. Twenty-six weak entries appear at one relocation site each and sixteen at two or more. Separately, the **two** `VERSYM=1`, weak, type-zero symbols with no candidate among six providers occur at **four** sites: two type 21 and two type 22. No namespace, provider visibility/selection, weak runtime behavior, kernel ABI, TLS or symbol resolution was validated. The historical R3741 HOLD remains preserved; no guest mapping or staged-file writes. See `USER-MAC-AUDIT-RESULT.json`. **NOT_BOOTABLE**.
