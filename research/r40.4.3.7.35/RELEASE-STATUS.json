@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.35",
-  "state": "HOST_SYNTHETIC_18_OF_18_PASS_USER_MAC_UNRUN",
+  "state": "USER_MAC_ELF_PT_LOAD_STATIC_CONSTRAINTS_CLASSIFIED",
   "purpose": "PT_LOAD_ENTRYPOINT_ALIGN_AND_PT_DYNAMIC_STATIC_EVIDENCE",
   "source_sha256": "59c5154cdc63d44e0cc0ef51bff820715be6b2d5a9fe8a40b2cd50216ae83d4d",
   "test_sha256": "9b6143ea6c99f89fdabc40583882f20f09dd54317752acadb2882ee29e795315",
@@ -12,7 +12,7 @@
   "checksum_manifest": "PASS",
   "source_code_publication": "CONVERSATION_ZIP_NOT_GITHUB",
   "github_ci_run": "NOT_VERIFIED",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "mapping_approved": false,
   "mapping_applied": false,
   "stage_modified": false,
@@ -25,5 +25,11 @@
   "prune_authorized": false,
   "device_access_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.35/USER-MAC-AUDIT-RESULT.json",
+  "user_candidate_static_category": "STATIC_LOAD_SEGMENT_CONSTRAINTS_CANDIDATE",
+  "user_requesting_ELF_count": 12,
+  "user_requesting_ELF_static_categories": {
+    "STATIC_LOAD_SEGMENT_CONSTRAINTS_CANDIDATE": 12
+  }
 }

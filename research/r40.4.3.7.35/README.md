@@ -35,3 +35,18 @@ python3 -B R4043735-PT-LOAD-PREFLIGHT-READONLY.py \
 The parent R3734 directory must already contain its exact R3734 and R3733/R3727/R3726 sources; the R3735 ZIP does not repackage them. A `HOLD` means retain the refusal and report its category; never alter the original rootfs, SHA pins, or source files to force a PASS.
 
 The future independent-image OpenSSH, SFTP and rsync package requirements remain deferred until full validation. `NOT_BOOTABLE`.
+
+## User Mac R3735 result
+
+The user reported `ELF_PT_LOAD_STATIC_CONSTRAINTS_CLASSIFIED_ONLY`. The unique
+ET_DYN alternative loader has two PT_LOAD segments (one executable and one
+writable), a nonzero entry point within an executable PT_LOAD, congruent load
+alignments, zero writable+executable PT_LOAD segments, and a PT_DYNAMIC segment
+file-backed by PT_LOAD. All twelve requesting ELF files also fall under
+`STATIC_LOAD_SEGMENT_CONSTRAINTS_CANDIDATE`.
+The sha-pinned R3734 lineage and original guest-layout classifications were
+replayed. This is **not** a Linux kernel-loader trial or full ABI proof.
+The interpreter guest path remains absent; no proposed mapping was applied.
+No staged files were changed. All historical provenance, dependency, boot
+and pruning holds remain. See `USER-MAC-AUDIT-RESULT.json`.
+**NOT_BOOTABLE**.
