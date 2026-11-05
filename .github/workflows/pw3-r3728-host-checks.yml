@@ -1,0 +1,29 @@
+name: PW3 R3728 interpreter-path topology host checks
+
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.28/**'
+      - '.github/workflows/pw3-r3728-host-checks.yml'
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.28/**'
+      - '.github/workflows/pw3-r3728-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-interp-path-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check source checksums
+        working-directory: research/r40.4.3.7.28
+        run: sha256sum -c SHA256SUMS
+      - name: Compile Python sources
+        run: python3 -m py_compile research/r40.4.3.7.28/R4043728-INTERP-PATH-TOPOLOGY-READONLY.py
+      - name: Run synthetic host-only tests
+        run: python3 -m unittest discover -s research/r40.4.3.7.28 -p 'test_*.py' -v
