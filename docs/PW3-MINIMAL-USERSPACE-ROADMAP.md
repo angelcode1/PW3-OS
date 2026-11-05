@@ -46,3 +46,7 @@ Maintain a content-addressed file catalog for the **host-staged** rootfs: path, 
 ## Future optional feature compatibility: puzzles
 
 Reserve a separate optional native C puzzle package in the long-term dependency map; see [optional puzzle pack dependency reservation](OPTIONAL-PUZZLE-PACK-DEPENDENCIES.md). Its build-time toolchain and possible runtime assets (dictionary, crossword clue packs, tile layouts, fonts and save storage) must be inventoried and licensed when implemented. This does **not** convert existing unknown/unobserved files into removable candidates, add games to the current R13 image, or justify direct Inkwell EPDC/framebuffer calls in synthetic PW3-OS. Any eventual minimal featureful rootfs must account for the chosen puzzle pack separately from KOReader's essential dependencies.
+
+## Reserved final-image remote transfer packages
+
+The eventual independently validated Alpine ARMv7 image must include **OpenSSH SSH server**, **`openssh-sftp-server` for modern default-SFTP `scp` without `-O`**, and **`rsync` for incremental Mac-to-PW3 ebook transfers**, with source/package pins and old-kernel compatibility checks. See [remote transport package acceptance plan](PW3-REMOTE-TRANSFER-PLAN.md) and `research/package-requirements/remote-transfers.json`. **This is a future image requirement only**; no package has been added to the current stage, no service is enabled, and `NOT_BOOTABLE` is unchanged.

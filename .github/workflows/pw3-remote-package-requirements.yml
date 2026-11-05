@@ -1,0 +1,29 @@
+name: PW3 future remote-transfer package requirement checks
+
+on:
+  push:
+    paths:
+      - 'docs/PW3-REMOTE-TRANSFER-PLAN.md'
+      - 'docs/PW3-MINIMAL-USERSPACE-ROADMAP.md'
+      - 'research/package-requirements/remote-transfers.json'
+      - 'tests/test_remote_package_requirements.py'
+      - '.github/workflows/pw3-remote-package-requirements.yml'
+  pull_request:
+    paths:
+      - 'docs/PW3-REMOTE-TRANSFER-PLAN.md'
+      - 'research/package-requirements/remote-transfers.json'
+      - 'tests/test_remote_package_requirements.py'
+      - '.github/workflows/pw3-remote-package-requirements.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  no-device-plan-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate future package contract only
+        run: python3 -m unittest discover -s tests -p 'test_remote_package_requirements.py' -v

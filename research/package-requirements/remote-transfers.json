@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "project": "PW3-OS",
+  "feature": "post-validation-remote-ebook-transfers",
+  "status": "DEFERRED_UNTIL_FULL_VALIDATION",
+  "target_os": "Alpine",
+  "target_arch": "armv7",
+  "target_kernel": "Linux 3.0.35-lab126",
+  "requested_packages": [
+    "openssh",
+    "openssh-server",
+    "openssh-sftp-server",
+    "rsync"
+  ],
+  "init_service_package_conditional": "openssh-server-common-openrc",
+  "desired_capabilities": [
+    "ssh_server",
+    "sftp_server",
+    "scp_default_sftp_without_dash_O",
+    "rsync_over_ssh_incremental_ebook_transfers"
+  ],
+  "installation_phase": "FUTURE_INDEPENDENT_IMAGE_ONLY",
+  "current_stage_modifications_authorized": false,
+  "package_versions_selected": false,
+  "package_license_and_source_provenance_verified": false,
+  "package_hashes_and_transitive_deps_pinned": false,
+  "kernel_userspace_abi_verified": false,
+  "offline_arm_guest_integration_verified": false,
+  "ssh_key_based_login_verified": false,
+  "sftp_upload_download_verified": false,
+  "modern_scp_without_legacy_mode_verified": false,
+  "rsync_incremental_ebook_transfer_verified": false,
+  "physical_pw3_wifi_and_power_verified": false,
+  "independent_boot_and_recovery_verified": false,
+  "image_integrated": false,
+  "service_enabled": false,
+  "boot_authorized": false,
+  "device_access_authorized": false,
+  "firmware_write_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "reference": "docs/PW3-REMOTE-TRANSFER-PLAN.md"
+}
