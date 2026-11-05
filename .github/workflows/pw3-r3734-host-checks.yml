@@ -1,0 +1,29 @@
+name: PW3 R3734 source-only future guest alias simulation
+
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.34/**'
+      - '.github/workflows/pw3-r3734-host-checks.yml'
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.34/**'
+      - '.github/workflows/pw3-r3734-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-only-synthetic-no-stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read-only source compile
+        run: python3 -m py_compile research/r40.4.3.7.34/R4043734-FUTURE-MAPPING-SIMULATION-READONLY.py research/r40.4.3.7.34/test_r4043734.py
+      - name: SHA256 manifest verify
+        working-directory: research/r40.4.3.7.34
+        run: sha256sum -c SHA256SUMS
+      - name: Synthetic-only regression tests (no staged image or device)
+        run: python3 -B -m unittest discover -s research/r40.4.3.7.34 -p 'test_r4043734.py' -v

@@ -1,0 +1,22 @@
+{
+  "milestone": "R40.4.3.7.34",
+  "state": "HOST_SYNTHETIC_16_OF_16_PASS_USER_MAC_UNRUN",
+  "purpose": "IN_MEMORY_FUTURE_IMAGE_RELATIVE_GUEST_ALIAS_SIMULATION",
+  "parent_r3733_source_sha256": "c16d029944344943fef2274582b93c00fad115bc4a4564e5f4298cc614c0d3bc",
+  "parent_r3727_source_sha256": "abd04b8af7f66fa0a5fe46ab889c04811eb1c34c984e91857183f87c838ecaaa",
+  "parent_r3726_source_sha256": "7068af571b0c57677793eb5722938b3a4f14abfd5ce33c6b4e4ce41040e117b3",
+  "synthetic_host_tests": "16_OF_16_PASS",
+  "real_mac_stage_audit": "NOT_EXECUTED",
+  "original_stage_write_authorized": false,
+  "future_independent_image_mapping_approved": false,
+  "guest_interpreter_path_resolved": false,
+  "runtime_loader_resolved": false,
+  "arm_kernel_abi_compatibility_proven": false,
+  "transitive_dependency_closure_proven": false,
+  "original_r26_source_provenance_authenticated": false,
+  "historical_inventory_membership_reverified": false,
+  "boot_authorized": false,
+  "firmware_write_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
