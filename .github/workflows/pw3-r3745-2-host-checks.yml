@@ -1,0 +1,23 @@
+name: PW3 R3745.2 static audit host tests
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.45.2/**'
+      - '.github/workflows/pw3-r3745-2-host-checks.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  host-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read-only checksum and syntax checks
+        working-directory: research/r40.4.3.7.45.2
+        run: |
+          sha256sum -c SHA256SUMS
+          python3 -m py_compile R4043745-2-PINNED-PLT-CALLCHAIN-FIX-READONLY.py test_r4043745_2.py
+      - name: Synthetic-only tests
+        working-directory: research/r40.4.3.7.45.2
+        run: python3 -B -m unittest discover -s . -p 'test_r40437*.py' -v
