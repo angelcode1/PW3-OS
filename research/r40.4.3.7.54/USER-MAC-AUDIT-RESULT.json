@@ -1,0 +1,51 @@
+{
+  "boot_authorized": false,
+  "candidate_dynamic_policy_tag_categories": {
+    "DT_RELCOUNT": 1
+  },
+  "candidate_static_type": "ET_DYN",
+  "duplicate_table_record_occurrences": 0,
+  "dynamic_relocation_arm_type_counts": {
+    "21": 4,
+    "22": 6,
+    "23": 17
+  },
+  "dynamic_relocation_symbol_index_categories": {
+    "SYMBOL_INDEX_NONZERO": 10,
+    "SYMBOL_INDEX_ZERO": 17
+  },
+  "dynamic_relocation_table_occurrences": {
+    "PLT": 6,
+    "REL": 21
+  },
+  "dynamic_relocation_target_storage_categories": {
+    "WRITABLE_FILEBACKED_NONRELRO": 17,
+    "WRITABLE_FILEBACKED_RELRO": 10
+  },
+  "dynamic_relocation_unique_target_offsets_in_memory": 27,
+  "firmware_write_authorized": false,
+  "full_dependency_closure_proven": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.54",
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3745_hold_preserved": true,
+  "parent_r3753_sha_pinned_and_replayed": true,
+  "private_words_symbols_paths_or_addresses_exported": false,
+  "prune_authorized": false,
+  "referenced_dynsym_bound_category": "SYSV_HASH_NCHAIN_BOUNDED",
+  "referenced_dynsym_classification": {
+    "DEFINED_OR_SPECIAL_GLOBAL_FUNC": 1,
+    "DEFINED_OR_SPECIAL_GLOBAL_OBJECT": 3,
+    "DEFINED_OR_SPECIAL_WEAK_FUNC": 5
+  },
+  "referenced_nonzero_dynsym_entry_count": 9,
+  "result": "ALTERNATE_INTERPRETER_STATIC_SELF_RELOCATION_AND_DYNSYM_REVIEW_ONLY",
+  "runtime_loader_function_verified": false,
+  "runtime_self_relocation_verified": false,
+  "runtime_tls_compatibility_verified": false,
+  "stage_modified": false,
+  "weak_symbol_runtime_resolution_verified": false
+}
