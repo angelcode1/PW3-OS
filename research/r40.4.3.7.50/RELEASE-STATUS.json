@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.50",
-  "state": "HOST_SYNTHETIC_502_OF_502_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_FIRST16_IDENTICAL_FIRST32_48_64_ALL_DISTINCT",
   "purpose": "READONLY_DOT_PLT_ZERO_FIRST64_COHORT_AND_A32_SUFFIX_FIELD_CLASSIFICATION",
   "parent_r3749_source_sha256": "d92242d77558c8eb075e18c0fe2d3d6670a930e82414ad238b311f499e86308b",
   "new_source_sha256": "3d7b3639802341773b6db699375ba32215219a40f0f9b8138073304b57eeff6e",
@@ -13,7 +13,7 @@
   "clean_extract_synthetic_tests": "502_OF_502_PASS",
   "zip_integrity": "PASS",
   "checksum_manifest": "PASS",
-  "mac_stage_audit": "NOT_EXECUTED",
+  "mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_actions_run": "NOT_VERIFIED",
   "github_source_publication": "METADATA_ONLY_FULL_CODE_IN_CONVERSATION_ZIP",
   "original_r3745_hold_preserved": true,
@@ -30,5 +30,18 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.50/USER-MAC-AUDIT-RESULT.json",
+  "user_distinct_prefixes": {
+    "FIRST_16": 1,
+    "FIRST_32": 9,
+    "FIRST_48": 9,
+    "FIRST_64": 9
+  },
+  "user_distinct_chunks": {
+    "CHUNK_0_15": 1,
+    "CHUNK_16_31": 9,
+    "CHUNK_32_47": 9,
+    "CHUNK_48_63": 9
+  }
 }
