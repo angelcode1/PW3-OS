@@ -1,0 +1,84 @@
+{
+  "a32_encoding_field_categories_by_position": {
+    "WORD0_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD0_DESTINATION": {
+      "DEST_OTHER_FIELD": 9
+    },
+    "WORD0_ENCODING": {
+      "SINGLE_LOAD_STORE_FIELD": 9
+    },
+    "WORD0_SUBFIELD": {
+      "LOAD_BIT_CLEAR": 9
+    },
+    "WORD1_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD1_DESTINATION": {
+      "DEST_OTHER_FIELD": 9
+    },
+    "WORD1_ENCODING": {
+      "SINGLE_LOAD_STORE_FIELD": 9
+    },
+    "WORD1_SUBFIELD": {
+      "LOAD_BIT_SET": 9
+    },
+    "WORD2_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD2_DESTINATION": {
+      "DEST_OTHER_FIELD": 9
+    },
+    "WORD2_ENCODING": {
+      "DATA_PROCESSING_OR_MISC_FIELD": 9
+    },
+    "WORD2_SUBFIELD": {
+      "ADD_OPCODE_FIELD": 9
+    },
+    "WORD3_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD3_DESTINATION": {
+      "DEST_PC_FIELD": 9
+    },
+    "WORD3_ENCODING": {
+      "SINGLE_LOAD_STORE_FIELD": 9
+    },
+    "WORD3_SUBFIELD": {
+      "LOAD_BIT_SET": 9
+    }
+  },
+  "a32_encoding_fields_are_not_instruction_decoding": true,
+  "boot_authorized": false,
+  "code_pointer_or_plt_resolver_proven": false,
+  "distinct_12_byte_prefix_windows_in_memory": 1,
+  "distinct_16_byte_prefix_windows_in_memory": 1,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.49",
+  "objects_with_identical_12_byte_window_as_another": 9,
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3745_hold_preserved": true,
+  "parent_r3748_source_sha_pinned_and_replayed": true,
+  "plt_section_size_categories": {
+    "PLT_64_PLUS_BYTES": 9
+  },
+  "private_words_paths_symbols_or_addresses_exported": false,
+  "provider_elf_count": 6,
+  "prune_authorized": false,
+  "requester_objects_with_targeted_weak_plt_sites": 9,
+  "requester_prefix_window_counts": {
+    "FOUR_A32_WORD_FIELDS_AVAILABLE": 9
+  },
+  "result": "WEAK_PLT_ZERO_ANCHOR_A32_PREFIX_COHORT_STATIC_ONLY",
+  "runtime_lazy_binding_verified": false,
+  "source_elf_count": 12,
+  "stage_modified": false,
+  "targeted_weak_plt_sites": 18,
+  "tls_runtime_compatibility_verified": false,
+  "weak_symbol_runtime_resolution_verified": false
+}
