@@ -1,0 +1,29 @@
+name: PW3 R3742 weak relocation review - host only
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.42/**'
+      - '.github/workflows/pw3-r3742-host-checks.yml'
+  workflow_dispatch:
+jobs:
+  synthetic-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify SHA-pinned source and checksums
+        working-directory: research/r40.4.3.7.42
+        run: sha256sum -c SHA256SUMS
+      - name: Check new Python source syntax
+        working-directory: research/r40.4.3.7.42
+        run: python3 -B -m py_compile R4043742-UNRESOLVED-WEAK-RELOCATION-READONLY.py
+      - name: Run 131 synthetic tests, never real rootfs
+        working-directory: research/r40.4.3.7.42
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python3 -B -m unittest discover -s . -p 'test_r4043742.py' -v
+          python3 -B -m unittest discover -s . -p 'test_r4043741_1.py' -v
+          python3 -B -m unittest discover -s . -p 'test_r4043741.py' -v
+          python3 -B -m unittest discover -s . -p 'test_r4043740.py' -v
+          python3 -B -m unittest discover -s . -p 'test_r4043739.py' -v
+          python3 -B -m unittest discover -s . -p 'test_r4043738.py' -v

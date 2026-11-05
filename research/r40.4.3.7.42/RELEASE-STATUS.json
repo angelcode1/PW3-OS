@@ -1,0 +1,32 @@
+{
+  "milestone": "R40.4.3.7.42",
+  "state": "HOST_131_SYNTHETIC_PASS_USER_MAC_STAGE_UNRUN",
+  "purpose": "READONLY_PINNED_GNU_WEAK_LOCAL_INDEX_AND_NO_PROVIDER_RELOCATION_CONTEXT",
+  "parent_r3741_1_source_sha256": "596b21871833423a2050828457b7a52c823b87605d0c9839542a3ec582f970d0",
+  "original_r3741_hold_preserved": true,
+  "host_synthetic_test_suites": {
+    "r3742": 23,
+    "r3741_1": 24,
+    "r3741": 27,
+    "r3740": 23,
+    "r3739": 18,
+    "r3738": 16
+  },
+  "host_total_synthetic_tests": 131,
+  "source_sha256": "4d118c490746d974e9f197db3260a3cb54f2b24b26ecebf82b4a3580b86715ed",
+  "tests_sha256": "c9a60f8660f616d8f044a97936cacf4d599fba651908c040415d629c8f8b1605",
+  "user_mac_stage_audit": "NOT_EXECUTED",
+  "actual_weak_symbol_runtime_semantics_verified": false,
+  "actual_loader_symbol_resolution_verified": false,
+  "interpreter_guest_path_resolved": false,
+  "future_mapping_applied": false,
+  "kernel_abi_verified": false,
+  "original_r26_source_provenance_authenticated": false,
+  "historical_inventory_hashes_reverified": false,
+  "full_dependency_closure_proven": false,
+  "original_stage_modified": false,
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "firmware_write_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
