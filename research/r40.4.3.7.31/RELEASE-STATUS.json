@@ -1,13 +1,13 @@
 {
   "milestone": "R40.4.3.7.31",
-  "state": "HOST_SYNTHETIC_12_OF_12_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_REPORTED_ARM_ATTRIBUTE_SUBSECTION_BOUNDS_HOLD_PARSER_DEFECT_IDENTIFIED",
   "purpose": "READONLY_ARM_EABI_ATTRIBUTES_COMPARISON_TO_ALTERNATE_INTERPRETER",
   "source_sha256": "991c0278bfcbba74d12f4d916f07a988dcfba7956ed8b3ace1a4e8931bfaaad6",
   "test_sha256": "cf4b6d55c18a8239e288d9ad95a9e870e5c232c611d134d3c0c101e91e5ea01f",
   "parent_r3730_source_sha256": "980fbe08f23e136a21287f562f9732b8297bfd226f2ec8adb68ef639c66f2741",
   "standalone_zip_sha256": "a4cf906eba5e9e67b37911938628e7524140fd4f9f917eb0fc25d3dd0b9e5031",
   "host_synthetic_tests": "12_OF_12_PASS",
-  "mac_stage_audit": "NOT_EXECUTED",
+  "mac_stage_audit": "USER_REPORTED_HOLD",
   "source_code_publication": "RELEASE_ZIP_IN_CHAT_NOT_PUBLIC_GITHUB_SOURCE",
   "target_input": "existing_stage-r13-fixed/rootfs",
   "parent_chain_sha_pins_required": true,
@@ -21,5 +21,9 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.31/USER-MAC-HOLD-RESULT.json",
+  "parser_error": "SUBSECTION_LENGTH_EXCLUDED_TAG_BYTE",
+  "parser_defect_verified_against_arm_addenda32": true,
+  "corrected_successor": "research/r40.4.3.7.31.1/RELEASE-STATUS.json"
 }

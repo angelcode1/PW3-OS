@@ -1,0 +1,13 @@
+{
+  "milestone": "R40.4.3.7.31",
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_JSON",
+  "result": "HOLD",
+  "hold_category": "ARM_ATTRIBUTE_SUBSECTION_BOUNDS_HOLD",
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "diagnosis": "The original .ARM.attributes Tag_File sub-subsection byte-size calculation begins after the tag; Arm ABI includes the tag bytes. Synthetic R3731 fixtures reproduced the same defect. Corrected in successor, not interpreted as stage corruption.",
+  "source_standard": "https://github.com/ARM-software/abi-aa/blob/main/addenda32/addenda32.rst",
+  "arm_attributes_verified": false,
+  "stage_mutated": false
+}

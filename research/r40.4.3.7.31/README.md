@@ -22,3 +22,7 @@ python3 R4043731-ARM-ATTRIBUTES-READONLY.py \
 ```
 
 No library install, symlink creation, firmware write, physical Kindle access, boot, package installation or pruning. Preserve `NOT_BOOTABLE` and the existing SHA-pinned baseline.
+
+## User Mac hold and corrected successor
+
+User R3731 stage audit reported `HOLD: ARM_ATTRIBUTE_SUBSECTION_BOUNDS_HOLD`. Inspection against Arm Addenda32 §3.2.4 showed the R3731 Tag_File length parser counted the byte-size from after the tag, even though the byte-size includes the tag. Original synthetic fixtures repeated the same off-by-one. This **original HOLD is preserved**; no stage corruption or ABI compatibility has been demonstrated. The corrected read-only successor is [R3731.1](../r40.4.3.7.31.1/README.md), 19 synthetic tests PASS; its Mac run is pending. **NOT_BOOTABLE**.
