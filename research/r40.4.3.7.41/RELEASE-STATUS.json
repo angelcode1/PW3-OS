@@ -1,0 +1,23 @@
+{
+  "milestone": "R40.4.3.7.41",
+  "state": "HOST_SYNTHETIC_27_AND_PARENTS_23_18_PASS_USER_MAC_STAGE_UNRUN",
+  "purpose": "PINNED_GNU_ELF32_VERSION_REQUIRED_SYMBOL_PROVIDER_CANDIDATES_STATIC_ONLY",
+  "host_r3741_synthetic_tests": "27_OF_27_PASS",
+  "host_r3740_pinned_tests": "23_OF_23_PASS",
+  "host_r3739_pinned_tests": "18_OF_18_PASS",
+  "user_mac_stage_audit": "NOT_EXECUTED",
+  "source_publication": "ZIP_AND_GITHUB_FILES_PLANNED",
+  "github_actions_passed": false,
+  "runtime_symbol_resolution_verified": false,
+  "dynamic_search_path_or_interposition_verified": false,
+  "tls_runtime_compatibility_verified": false,
+  "interpreter_guest_path_resolved": false,
+  "future_guest_alias_applied": false,
+  "source_provenance_authenticated": false,
+  "historical_inventory_hashes_reverified": false,
+  "original_stage_modified": false,
+  "boot_authorized": false,
+  "firmware_write_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
