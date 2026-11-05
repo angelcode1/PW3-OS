@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.46",
-  "state": "HOST_SYNTHETIC_334_OF_334_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_WEAK_PLT_EXEC_SECTION_GEOMETRY_CLASSIFIED",
   "purpose": "READONLY_WEAK_PLT_INITIAL_WORD_EXECUTABLE_SECTION_GEOMETRY",
   "parent_r3745_2_source_sha256": "82ea5da0c3031b3310564b483936c74a5a661405730722558c30ac2b6f8413f1",
   "new_source_sha256": "9b852e291c482a50c8c07585941ec10c1abc59e48c8ae94d0fb018bc03e14f87",
@@ -13,7 +13,7 @@
   "clean_extract_tests": "334_OF_334_PASS",
   "synthetic_new_tests": 36,
   "synthetic_inherited_tests": 298,
-  "mac_stage_audit": "NOT_EXECUTED",
+  "mac_stage_audit": "USER_REPORTED_COMPLETED",
   "source_code_publication": "CONVERSATION_ZIP_NOT_GITHUB",
   "github_actions_run": "NOT_VERIFIED",
   "original_r3745_hold_preserved": true,
@@ -30,5 +30,11 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.46/USER-MAC-AUDIT-RESULT.json",
+  "user_targeted_weak_plt_sites": 18,
+  "user_requesters_with_weak_plt_sites": 9,
+  "user_all_target_words_in_dot_plt": true,
+  "user_sites_reusing_candidate_value_within_group": 9,
+  "user_sites_with_unique_candidate_within_group": 9
 }
