@@ -1,0 +1,28 @@
+name: PW3 R3741 read-only GNU version evidence
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.41/**'
+      - '.github/workflows/pw3-r3741-host-checks.yml'
+  workflow_dispatch:
+jobs:
+  static-host-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: research/r40.4.3.7.41
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check pinned files and Python syntax
+        run: |
+          sha256sum -c SHA256SUMS
+          python3 -m py_compile R4043741-GNU-SYMBOL-VERSION-CANDIDATES-READONLY.py
+      - name: R3741 synthetic ELF version metadata tests
+        run: python3 -B -m unittest discover -s . -p 'test_r4043741.py' -v
+      - name: R3740 pinned parent regression
+        run: python3 -B -m unittest discover -s . -p 'test_r4043740.py' -v
+      - name: R3739 pinned graph regression
+        run: python3 -B -m unittest discover -s . -p 'test_r4043739.py' -v
