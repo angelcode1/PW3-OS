@@ -1,0 +1,22 @@
+name: PW3 R3743.1 overlap-aware host research checks
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.43.1/**'
+      - '.github/workflows/pw3-r3743-1-host-checks.yml'
+  workflow_dispatch:
+jobs:
+  readonly-synthetic:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check SHA-256 and Python syntax
+        working-directory: research/r40.4.3.7.43.1
+        run: |
+          sha256sum -c SHA256SUMS
+          python3 -m py_compile R4043743-1-OVERLAP-AWARE-EXPORT-SURVEY-READONLY.py test_r4043743_1.py
+      - name: Test synthetic stage only (never actual R13 stage)
+        working-directory: research/r40.4.3.7.43.1
+        run: python3 -B -m unittest discover -s . -p 'test_r40437*.py' -v
