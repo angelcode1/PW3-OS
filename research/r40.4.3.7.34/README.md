@@ -26,3 +26,7 @@ python3 -B R4043734-FUTURE-MAPPING-SIMULATION-READONLY.py \
 The included R3726, R3727 and R3733 scripts are exact pinned source copies; do not replace or weaken them to force a PASS. If the output says `HOLD`, keep the hold and send only the category. The expected synthetic tests are **16 OK**. The real user's stage output is unknown until run.
 
 The final-image OpenSSH, SFTP and rsync acceptance requirements are maintained separately in `docs/PW3-REMOTE-TRANSFER-PLAN.md` and remain deferred. No firmware, rootfs writes, image installation, physical device, boot or pruning. **NOT_BOOTABLE.**
+
+## Mac result — in-memory mapping only
+
+The user reported `FUTURE_IMAGE_GUEST_ALIAS_SIMULATION_ONLY`. The unchanged stage still contains one missing guest interpreter pathname referenced by **12** ELF objects, with a single header-compatible alternative ELF elsewhere. The in-memory **relative-symlink proposal** has **one parent ascent and six total relative components**, and its purely lexical simulation reaches that alternative without an intervening parent symlink. **No mapping was applied; no files were written; no future-image mapping was approved.** R3726/R3727/R3733 parent source pins and counts replayed. Source authenticity, historical file hashes, ABI/kernel/runtime loader, transitive dependency and boot readiness remain unverified. The user output is preserved in `USER-MAC-AUDIT-RESULT.json`. **NOT_BOOTABLE**.
