@@ -1,0 +1,40 @@
+{
+  "boot_authorized": false,
+  "candidate_relocation_metadata": {
+    "category": "RELOCATION_TABLES_BOUNDED_STATIC_CANDIDATE",
+    "distinct_relocation_type_count": 3,
+    "dt_needed_count": 0,
+    "plt_entries": 6,
+    "rel_entries": 21,
+    "rela_entries": 0,
+    "relocation_targets_outside_load": 0
+  },
+  "full_abi_or_dependency_closure_proven": false,
+  "future_image_mapping_applied": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "kernel_runtime_loader_verified": false,
+  "milestone": "R40.4.3.7.36",
+  "original_r26_source_provenance_authenticated": false,
+  "parent_r3734_and_prior_sha_pins_inherited": true,
+  "parent_r3735_sha_pinned_and_replayed": true,
+  "paths_and_symbols_exported": false,
+  "prune_authorized": false,
+  "relocations_applied": false,
+  "requesting_elf_count": 12,
+  "requesting_elf_relocation_categories": {
+    "RELOCATION_TABLES_BOUNDED_STATIC_CANDIDATE": 12
+  },
+  "requesting_elf_relocation_totals": {
+    "dt_needed_count": 19,
+    "plt_entries": 575,
+    "rel_entries": 2924,
+    "rela_entries": 0,
+    "relocation_targets_outside_load": 0
+  },
+  "result": "DYNAMIC_RELOCATION_TABLES_STATIC_CLASSIFIED_ONLY",
+  "stage_modified": false,
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_JSON",
+  "note": "Static table containment and counts only; no relocation application, symbol lookup, source provenance or runtime kernel loader verification."
+}

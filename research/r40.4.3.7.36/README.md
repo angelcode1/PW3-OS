@@ -22,3 +22,7 @@ python3 -B R4043736-DYNAMIC-RELOCATION-READONLY.py \
 ```
 
 This classification never applies relocations, resolves the actual PT_INTERP guest pathname, installs a loader or a guest mapping, runs an ELF/ARM QEMU, changes the original stage or authorizes firmware, boot or pruning actions. All runtime dependencies and kernel ABI compatibility remain unverified. The OpenSSH/SFTP/rsync package requirement for the later validated independent image remains unchanged. **NOT_BOOTABLE**.
+
+## User Mac stage result
+
+R3736 returned `DYNAMIC_RELOCATION_TABLES_STATIC_CLASSIFIED_ONLY`. The alternative loader has **21 REL and six PLT relocation entries**, zero RELA, three distinct relocation types, zero `DT_NEEDED`, and zero relocation target addresses outside PT_LOAD ranges. The **12 requesting ELFs** total **2,924 REL, 575 PLT, zero RELA and 19 literal DT_NEEDED entries**, with no relocation targets outside PT_LOAD. All 12 source files were classified `RELOCATION_TABLES_BOUNDED_STATIC_CANDIDATE`; SHA-pinned R3735 and earlier source chains replayed. These counts are user-reported; no relocation application, actual symbol resolution or source authenticity has been verified. The guest interpreter path is **still absent** and no future alias has been applied. Original rootfs unchanged. See `USER-MAC-AUDIT-RESULT.json`. **NOT_BOOTABLE**.
