@@ -55,3 +55,7 @@ python3 -B R4043739-NEEDED-TRANSITIVE-SONAME-READONLY.py \
 Send JSON `provider_soname_categories`, `provider_needed_basename_candidate_categories`,
 `transitive_graph_regular_files_seen` and `provider_graph_cycles`.
 If output is HOLD, preserve that hold. **NOT_BOOTABLE.**
+
+## User Mac result
+
+The user reported `STATIC_SONAME_AND_TRANSITIVE_BASENAME_GRAPH_CLASSIFIED_ONLY` with **12** requesting ELF objects, **19** direct DT_NEEDED edges and **six distinct library names**. All six direct, unique provider candidate files have SONAME matching their requested name; six provider ELF files were scanned, with **seven additional DT_NEEDED edges** and one regular header-compatible basename candidate for each. Graph cycles: **zero**. SHA-pinned R3738 and older source checks replayed. No private names or paths were exported. This is not proof of Linux loader search paths, real symbol version resolution, TLS or transitive runtime dependency closure. The exact interpreter pathname remains absent, and the staged rootfs remains untouched. The reported JSON is preserved in `USER-MAC-AUDIT-RESULT.json`. **NOT_BOOTABLE**.

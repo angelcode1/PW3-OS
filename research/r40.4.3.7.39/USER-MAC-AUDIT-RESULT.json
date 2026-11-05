@@ -1,0 +1,39 @@
+{
+  "actual_dynamic_library_search_paths_verified": false,
+  "arm_tls_runtime_compatibility_verified": false,
+  "boot_authorized": false,
+  "dependency_graph_is_only_static_basename_evidence": true,
+  "direct_needed_edges": 19,
+  "distinct_direct_needed_literals": 6,
+  "dynamic_symbol_version_resolution_verified": false,
+  "earlier_source_sha_pins_inherited": true,
+  "firmware_write_authorized": false,
+  "full_dependency_closure_proven": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "interpreter_guest_path_resolved": false,
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.39",
+  "original_r26_source_provenance_authenticated": false,
+  "parent_r3738_sha256_pinned_and_replayed": true,
+  "private_paths_names_symbols_exported": false,
+  "provider_graph_cycles": {
+    "cyclic_strong_components": 0,
+    "largest_cyclic_component_size": 0,
+    "nodes_in_cycles": 0
+  },
+  "provider_needed_basename_candidate_categories": {
+    "ONE_REGULAR_HEADER_CANDIDATE": 7
+  },
+  "provider_needed_edges_scanned": 7,
+  "provider_soname_categories": {
+    "SONAME_EQUALS_REFERENCED_NEEDED_NAME": 6
+  },
+  "prune_authorized": false,
+  "result": "STATIC_SONAME_AND_TRANSITIVE_BASENAME_GRAPH_CLASSIFIED_ONLY",
+  "source_elf_count": 12,
+  "stage_modified": false,
+  "transitive_graph_regular_files_seen": 6,
+  "unique_initial_provider_regular_files": 6,
+  "record_type": "USER_SUPPLIED_MAC_JSON"
+}
