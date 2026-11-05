@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.45",
-  "state": "HOST_253_SYNTHETIC_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_HOLD_UNEXPECTED_STATIC_PARSER_HOLD",
   "purpose": "PINNED_STATIC_WEAK_PLT_ORIGINAL_WORD_GEOMETRY_AND_DT_PLTGOT_CATEGORIES",
   "parent_r3744_source_sha256": "2fed6996817186156200f126cd69ffb9a326062721d2730b03636097daceae9d",
   "source_sha256": "c3b95955df80e896196887fe922acd253d26948728939f1ea8349782feb73794",
@@ -14,7 +14,7 @@
   "clean_extract_regression": "253_OF_253_PASS",
   "source_code_publication": "CONVERSATION_ZIP_ONLY_NOT_GITHUB_SOURCE",
   "github_actions_run": "NOT_VERIFIED",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_HOLD",
   "actual_weak_symbol_runtime_semantics_verified": false,
   "lazy_binding_runtime_verified": false,
   "guest_interpreter_path_resolved": false,
@@ -27,5 +27,8 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_hold_category": "UNEXPECTED_STATIC_PARSER_HOLD",
+  "user_mac_report_reference": "research/r40.4.3.7.45/USER-MAC-AUDIT-RESULT.json",
+  "runtime_loader_verified": false
 }

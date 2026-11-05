@@ -1,0 +1,10 @@
+{
+  "milestone": "R40.4.3.7.45",
+  "result": "HOLD",
+  "hold_category": "UNEXPECTED_STATIC_PARSER_HOLD",
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "record_type": "USER_SUPPLIED_MAC_JSON",
+  "note": "Generic original R3745 exception handler obscured underlying parser exception. The original result is preserved without changing source SHA; no runtime or stage authorization follows."
+}

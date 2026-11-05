@@ -24,3 +24,7 @@ python3 -B R4043745-WEAK-PLT-INITIAL-TARGET-READONLY.py \
 ```
 
 Send `targeted_weak_plt_sites`, `weak_plt_initial_target_categories_by_group`, `requester_dt_pltgot_categories`, or the `hold_category` if refused. Do not modify any source pin or stage file to force a pass. Original R26 provenance, historical inventory hashes, ARM TLS, Linux kernel ABI and recovery remain held. OpenSSH, SFTP and rsync remain requirements for a separately validated future image. **NOT_BOOTABLE.**
+
+## User Mac R3745 HOLD (preserved)
+
+User reported `HOLD` / `UNEXPECTED_STATIC_PARSER_HOLD` on unchanged R13 rootfs. The original R3745 script has a final broad exception handler which hides the underlying Python exception class and code location, making this HOLD diagnostically insufficient. Preserve original script and source SHA; never treat this as a successful PLT classification or malformed runtime ELF. A separate R3745.1 diagnostic will reproduce the static audit and emit **only allowlisted exception type and source-function/line category** (no exception string, user path, symbol name or traceback), so the actual cause can be addressed. No staged file writes, mapping, runtime loading, firmware, boot or pruning. `NOT_BOOTABLE`.
