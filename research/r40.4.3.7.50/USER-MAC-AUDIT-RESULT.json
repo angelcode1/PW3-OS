@@ -1,0 +1,153 @@
+{
+  "boot_authorized": false,
+  "cohort_distinct_16_byte_chunk_counts": {
+    "CHUNK_0_15": 1,
+    "CHUNK_16_31": 9,
+    "CHUNK_32_47": 9,
+    "CHUNK_48_63": 9
+  },
+  "cohort_distinct_prefix_window_counts": {
+    "FIRST_16": 1,
+    "FIRST_32": 9,
+    "FIRST_48": 9,
+    "FIRST_64": 9
+  },
+  "encoding_fields_are_not_instruction_decoding": true,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "historical_r3745_hold_preserved": true,
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.50",
+  "objects_sharing_first_64_bytes_with_another": 0,
+  "original_r26_source_provenance_authenticated": false,
+  "parent_r3749_sha_pinned_and_replayed": true,
+  "plt_minimum_filebacked_section_categories": {
+    "AT_LEAST_64_FILE_BACKED_PLT_BYTES": 9
+  },
+  "plt_word_as_code_pointer_verified": false,
+  "private_words_paths_symbols_or_addresses_exported": false,
+  "provider_elf_count": 6,
+  "prune_authorized": false,
+  "requester_objects_with_64_filebacked_dot_plt_prefix": 9,
+  "result": "WEAK_PLT_FIRST64_STATIC_COHORT_ENCODING_FIELDS_ONLY",
+  "runtime_plt_resolver_or_lazy_binding_verified": false,
+  "source_elf_count": 12,
+  "source_stage_modified": false,
+  "suffix_a32_encoding_field_categories_by_position": {
+    "WORD10_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD10_ENCODING": {
+      "SINGLE_LOAD_STORE_ENCODING_FIELD": 9
+    },
+    "WORD10_SUBFIELD": {
+      "LOAD_BIT_SET": 9
+    },
+    "WORD11_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD11_ENCODING": {
+      "DATA_PROCESSING_OR_MISC_FIELD": 9
+    },
+    "WORD11_SUBFIELD": {
+      "ADD_OPCODE_FIELD": 9
+    },
+    "WORD12_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD12_ENCODING": {
+      "DATA_PROCESSING_OR_MISC_FIELD": 9
+    },
+    "WORD12_SUBFIELD": {
+      "ADD_OPCODE_FIELD": 9
+    },
+    "WORD13_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD13_ENCODING": {
+      "SINGLE_LOAD_STORE_ENCODING_FIELD": 9
+    },
+    "WORD13_SUBFIELD": {
+      "LOAD_BIT_SET": 9
+    },
+    "WORD14_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD14_ENCODING": {
+      "DATA_PROCESSING_OR_MISC_FIELD": 8,
+      "MEDIA_OR_OTHER_FIELD": 1
+    },
+    "WORD14_SUBFIELD": {
+      "ADD_OPCODE_FIELD": 8,
+      "LOAD_BIT_SET": 1
+    },
+    "WORD15_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD15_ENCODING": {
+      "DATA_PROCESSING_OR_MISC_FIELD": 9
+    },
+    "WORD15_SUBFIELD": {
+      "ADD_OPCODE_FIELD": 9
+    },
+    "WORD4_CONDITION": {
+      "OTHER_CONDITION_FIELD": 9
+    },
+    "WORD4_ENCODING": {
+      "DATA_PROCESSING_OR_MISC_FIELD": 9
+    },
+    "WORD4_SUBFIELD": {
+      "OTHER_DATA_OPCODE_FIELD": 9
+    },
+    "WORD5_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD5_ENCODING": {
+      "DATA_PROCESSING_OR_MISC_FIELD": 9
+    },
+    "WORD5_SUBFIELD": {
+      "ADD_OPCODE_FIELD": 9
+    },
+    "WORD6_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD6_ENCODING": {
+      "DATA_PROCESSING_OR_MISC_FIELD": 9
+    },
+    "WORD6_SUBFIELD": {
+      "ADD_OPCODE_FIELD": 9
+    },
+    "WORD7_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD7_ENCODING": {
+      "SINGLE_LOAD_STORE_ENCODING_FIELD": 9
+    },
+    "WORD7_SUBFIELD": {
+      "LOAD_BIT_SET": 9
+    },
+    "WORD8_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD8_ENCODING": {
+      "DATA_PROCESSING_OR_MISC_FIELD": 9
+    },
+    "WORD8_SUBFIELD": {
+      "ADD_OPCODE_FIELD": 9
+    },
+    "WORD9_CONDITION": {
+      "CONDITION_ALWAYS_FIELD": 9
+    },
+    "WORD9_ENCODING": {
+      "DATA_PROCESSING_OR_MISC_FIELD": 9
+    },
+    "WORD9_SUBFIELD": {
+      "ADD_OPCODE_FIELD": 9
+    }
+  },
+  "targeted_weak_plt_sites": 18,
+  "tls_runtime_compatibility_verified": false,
+  "weak_symbol_runtime_resolution_verified": false
+}
