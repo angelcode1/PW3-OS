@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.38",
-  "state": "HOST_SYNTHETIC_16_OF_16_PASS_USER_MAC_UNRUN",
+  "state": "USER_MAC_19_NEEDED_EDGES_SIX_DISTINCT_NAMES_EACH_ONE_HEADER_CANDIDATE",
   "purpose": "READONLY_R3737_PINNED_DT_NEEDED_BASENAME_CANDIDATE_INVENTORY",
   "source_sha256": "66f5f3d1fd62c7ad3515c57a1e72b32e2f41be4e9ab74b67d1144f07f1ab2ee3",
   "test_sha256": "2fa3a98aa689fbb3cd3d3f887d83afeb7a525ab6abf00e45d01f836063a4991e",
@@ -12,7 +12,7 @@
   "sha256_manifest": "PASS",
   "source_code_publication": "CONVERSATION_ZIP_NOT_GITHUB",
   "github_actions_run": "NOT_VERIFIED",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "expected_dt_needed_entries": 19,
   "expected_requesting_elf_count": 12,
   "dynamic_library_names_exported": false,
@@ -27,5 +27,11 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.38/USER-MAC-AUDIT-RESULT.json",
+  "user_dt_needed_entries": 19,
+  "user_distinct_needed_names": 6,
+  "user_same_basename_candidate_categories": {
+    "ONE_REGULAR_ABI_HEADER_BASENAME_CANDIDATE": 19
+  }
 }

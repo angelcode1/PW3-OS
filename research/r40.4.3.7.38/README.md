@@ -30,3 +30,7 @@ python3 -B R4043738-NEEDED-LIBRARY-CANDIDATES-READONLY.py \
 Send the resulting JSON including `dt_needed_same_basename_candidate_categories`, `distinct_dt_needed_name_literals` and `per_source_dt_needed_entry_count_histogram`. A HOLD result must not be bypassed by weakening source pins or modifying the stage.
 
 No original stage writes, no alias creation, firmware write, physical Kindle access, boot, pruning, ELF/QEMU execution, or image install. Original R26 source provenance, historical hashes, kernel runtime loader, exact interpreter path, full ABI, transitive dependencies and future image recovery remain held. OpenSSH/SFTP/rsync remain a deferred final-image requirement. **NOT_BOOTABLE**.
+
+## User Mac result
+
+The user reported `REQUESTER_NEEDED_BASENAME_STATIC_CANDIDATES_ONLY`: 12 source ELF files have 19 DT_NEEDED references spanning **six distinct literal library names**. Each reference had **one regular staged same-basename ELF-header-compatible candidate**; no matching symlink candidate. The 12 requesting files contain 7 with one DT_NEEDED, 4 with two, and 1 with four. R3737 and earlier SHA-pinned static checks replayed. Inherited ARM TLS relocation counts remain 5/1/32. Same basename alone does **not** prove runtime loader search path, SONAME equivalence, transitive dependencies or symbol version resolution. Guest PT_INTERP path remains absent and no mapping was applied; original rootfs unchanged. See `USER-MAC-AUDIT-RESULT.json`. **NOT_BOOTABLE**.
