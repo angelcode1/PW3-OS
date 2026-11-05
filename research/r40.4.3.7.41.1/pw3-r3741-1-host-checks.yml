@@ -1,0 +1,32 @@
+name: PW3 R3741.1 local version review host-only checks
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.41.1/**'
+      - '.github/workflows/pw3-r3741-1-host-checks.yml'
+  workflow_dispatch:
+jobs:
+  static-host-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: research/r40.4.3.7.41.1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify source pins and checksum manifest
+        run: sha256sum -c SHA256SUMS
+      - name: Verify Python syntax
+        run: |
+          python3 -m py_compile R4043741-1-LOCAL-VERSION-REVIEW-READONLY.py
+          python3 -m py_compile test_r4043741_1.py
+      - name: New synthetic triage tests
+        run: python3 -B -m unittest discover -s . -p 'test_r4043741_1.py' -v
+      - name: Original historical HOLD regression
+        run: python3 -B -m unittest discover -s . -p 'test_r4043741.py' -v
+      - name: R3740 SHA-pinned tests
+        run: python3 -B -m unittest discover -s . -p 'test_r4043740.py' -v
+      - name: R3739 SHA-pinned tests
+        run: python3 -B -m unittest discover -s . -p 'test_r4043739.py' -v
