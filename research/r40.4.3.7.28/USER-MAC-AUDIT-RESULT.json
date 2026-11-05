@@ -1,0 +1,34 @@
+{
+  "absent_interp_segments": 12,
+  "boot_authorized": false,
+  "candidate_elf_structure": {
+    "elf_type": "ET_DYN",
+    "has_loadable_segment": true,
+    "pt_interp_segments": 0,
+    "pt_load_segments": 2
+  },
+  "candidate_is_not_at_requested_guest_path": true,
+  "distinct_absent_guest_path_literals": 1,
+  "guest_path_or_symlink_strings_exported": false,
+  "historical_inventory_membership_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "interpreter_guest_path_resolved": false,
+  "milestone": "R40.4.3.7.28",
+  "missing_parent_directory_categories": {
+    "PARENT_DIRECTORY_PRESENT": 1
+  },
+  "missing_parent_guest_symlink_hops": 0,
+  "original_r26_source_provenance_authenticated": false,
+  "prune_authorized": false,
+  "r3726_source_pin_verified": true,
+  "r3727_counts_and_categories_replayed": true,
+  "r3727_source_pin_verified": true,
+  "result": "INTERP_SINGLE_PATH_TOPOLOGY_CLASSIFIED_ONLY",
+  "runtime_loader_resolved": false,
+  "same_basename_other_candidate_entries_across_sources": 0,
+  "stage_modified": false,
+  "transitive_dependency_closure_proven": false,
+  "unique_compatible_alternative_regular_files": 1,
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_JSON",
+  "caveat": "Transcribed user output; no local rootfs paths or binaries were independently received in this conversation. No runtime loader resolution or hardware authorization."
+}
