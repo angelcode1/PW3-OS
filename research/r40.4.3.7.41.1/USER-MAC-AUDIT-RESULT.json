@@ -1,0 +1,53 @@
+{
+  "actual_loader_search_and_interposition_verified": false,
+  "boot_authorized": false,
+  "distinct_required_version_names_in_memory": 4,
+  "distinct_undefined_names_reverified": 369,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "local_index_runtime_semantics_verified": false,
+  "local_version_index_review": {
+    "binding_categories": {
+      "STB_WEAK": 42
+    },
+    "empty_symbol_name_entries": 0,
+    "hidden_bit_set": 0,
+    "remains_unresolved": true,
+    "symbol_type_numeric_categories": {
+      "0": 42
+    },
+    "unresolved_referenced_undefined_entries": 42
+  },
+  "local_version_index_zero_is_never_counted_as_resolved": true,
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.41.1",
+  "original_r3741_sha_pinned_and_original_hold_preserved": true,
+  "original_source_provenance_authenticated": false,
+  "paths_symbols_or_versions_exported": false,
+  "provider_elf_count": 6,
+  "prune_authorized": false,
+  "r3740_and_prior_sha_pins_replayed": true,
+  "referenced_undefined_entries_reclassified": 632,
+  "result": "GNU_VERSION_LOCAL_INDEX_REVIEW_STATIC_ONLY",
+  "source_elf_count": 12,
+  "source_symbol_version_requirement_categories": {
+    "EXPLICIT_GNU_VERSION_REQUIREMENT": 588,
+    "LOCAL_VERSION_INDEX_REQUIRES_REVIEW": 42,
+    "UNVERSIONED_OR_GLOBAL_REFERENCE": 2
+  },
+  "stage_modified": false,
+  "tls_runtime_compatibility_verified": false,
+  "transitive_dependency_closure_proven": false,
+  "version_aware_symbol_resolution_verified": false,
+  "version_filtered_static_candidate_categories": {
+    "MULTIPLE_GNU_VERSION_NAME_MATCHING_CANDIDATES": 80,
+    "NO_STAGED_PROVIDER_NAME_CANDIDATE": 2,
+    "ONE_GNU_VERSION_NAME_MATCHING_CANDIDATE": 508,
+    "UNDEFINED_LOCAL_VERSION_INDEX_REVIEW": 42
+  },
+  "version_name_equality_is_not_runtime_resolution": true,
+  "record_type": "USER_REPORTED_MAC_TERMINAL_JSON",
+  "caveat": "Index-0 weak STT_NOTYPE records not resolved by this static classifier. No verified loader semantics or symbol resolution."
+}

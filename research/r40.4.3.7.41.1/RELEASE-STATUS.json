@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.41.1",
-  "state": "HOST_NEW_24_AND_PINNED_PARENT_27_23_18_PASS_USER_MAC_UNRUN",
+  "state": "USER_MAC_LOCAL_GNU_VERSION_ZERO_42_WEAK_UNDEFINED_REVIEW",
   "purpose": "READONLY_GNU_UNDEFINED_LOCAL_VERSION_INDEX_ZERO_REVIEW_WITH_VERSION_NAME_CANDIDATE_COUNTS",
   "original_r3741_source_sha256": "d598134eb1709be0a8b0729834ee6bfe837663f2aabb4341b73aaa46b6e86e69",
   "historical_original_r3741_hold": "UNDEFINED_LOCAL_VERSION_HOLD",
@@ -11,7 +11,7 @@
   "total_synthetic_tests": 92,
   "source_code_publication": "PENDING_GITHUB_COMMIT",
   "github_actions_run": "NOT_VERIFIED",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_STATIC_CLASSIFICATION_COMPLETED",
   "local_version_index_semantics_verified": false,
   "version_aware_symbol_resolution_verified": false,
   "runtime_loader_verified": false,
@@ -23,5 +23,16 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.41.1/USER-MAC-AUDIT-RESULT.json",
+  "user_local_version_review_count": 42,
+  "user_local_version_binding": {
+    "STB_WEAK": 42
+  },
+  "user_gnu_version_candidate_categories": {
+    "MULTIPLE_GNU_VERSION_NAME_MATCHING_CANDIDATES": 80,
+    "NO_STAGED_PROVIDER_NAME_CANDIDATE": 2,
+    "ONE_GNU_VERSION_NAME_MATCHING_CANDIDATE": 508,
+    "UNDEFINED_LOCAL_VERSION_INDEX_REVIEW": 42
+  }
 }

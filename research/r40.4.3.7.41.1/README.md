@@ -73,3 +73,7 @@ Python scripts to force a classification. NOT_BOOTABLE.**
 - GNU ELF version-index semantics: https://gnu.googlesource.com/binutils-gdb/+/1730ec6b1848f0f32154277f788fb29f88d8475b/include/elf/common.h
 - LLVM LLD ELF version parsing: https://fuchsia.googlesource.com/third_party/llvm-project/+/c61ea75c026b80da141fcfec024faf896fd5c05a/lld/ELF/InputFiles.cpp
 - Original R3741 historical HOLD: `../r40.4.3.7.41/USER-MAC-AUDIT-RESULT.json`
+
+## User Mac corrected audit result
+
+R3741.1 returned `GNU_VERSION_LOCAL_INDEX_REVIEW_STATIC_ONLY` on the unchanged Mac stage: 632 relocation-referenced undefined dynsym entries across 12 requesting ELFs, representing 369 distinct names. There are **588 explicit version requirements**, **42 VERSYM-index-zero local-version references**, and **two global/unversioned references**. All 42 index-zero entries are `STB_WEAK`, numeric symbol type 0 (`STT_NOTYPE`), nonempty named, with no hidden bit. They remain **unresolved review**, never a version match. For the remaining entries, static candidates are 508 one GNU version-name match, 80 multiple name matches, 2 no staged provider name match. The tool saw four distinct version requirement names. GNU version-name equality is not runtime resolution; ELF search order, weak and TLS relocation semantics, original R26 provenance, historical hashes, interpreter pathname, image boot and pruning remain unverified. The original R3741 HOLD remains unchanged. See `USER-MAC-AUDIT-RESULT.json`. **NOT_BOOTABLE**.
