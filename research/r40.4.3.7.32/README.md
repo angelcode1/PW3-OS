@@ -33,3 +33,7 @@ If output reports `HOLD`, send the `hold_category`; never change files or pins t
 ## Related package request
 
 OpenSSH SSH server, SFTP server and rsync are [reserved for the final validated Alpine image](../../docs/PW3-REMOTE-TRANSFER-PLAN.md). None are installed by this diagnostic.
+
+## User Mac numeric ARM attributes result
+
+The user reported `ARM_NUMERIC_ATTRIBUTES_RELATION_CLASSIFIED_ONLY` on the local stage. Each of the 12 requesting ELFs declares the same numeric `CPU_ARCH=10`, `CPU_ARCH_PROFILE=65`, `FP_ARCH=3`, `THUMB_ISA_USE=2`, `ABI_ALIGN_NEEDED=1`, `ABI_ENUM_SIZE=2` and `ABI_PCS_WCHAR_T=4` values as the one alternative. Nine of twelve declare `ABI_ALIGN_PRESERVED=1` and three leave it undeclared; ten declare `ABI_HARDFP_USE=3` and two leave it undeclared. All twelve requesters and the alternate leave `ABI_VFP_ARGS` undeclared. **Undeclared is not equivalence**, and these numeric declarations do not establish Linux 3.0.35 kernel support, loader execution, real guest-path resolution, independent boot or safe pruning. See `USER-MAC-AUDIT-RESULT.json`. The missing guest interpreter path remains absent. `NOT_BOOTABLE`.

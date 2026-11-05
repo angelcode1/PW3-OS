@@ -1,0 +1,102 @@
+{
+  "alternative_elf_count": 1,
+  "alternative_numeric_tags": {
+    "ABI_ALIGN_NEEDED": "VALUE_1",
+    "ABI_ALIGN_PRESERVED": "VALUE_1",
+    "ABI_ENUM_SIZE": "VALUE_2",
+    "ABI_HARDFP_USE": "VALUE_3",
+    "ABI_PCS_WCHAR_T": "VALUE_4",
+    "ABI_VFP_ARGS": "UNDECLARED",
+    "CPU_ARCH": "VALUE_10",
+    "CPU_ARCH_PROFILE": "VALUE_65",
+    "FP_ARCH": "VALUE_3",
+    "THUMB_ISA_USE": "VALUE_2"
+  },
+  "arm_kernel_abi_compatibility_proven": false,
+  "boot_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "milestone": "R40.4.3.7.32",
+  "numeric_tag_equality_implies_runtime_compatibility": false,
+  "original_r26_source_provenance_authenticated": false,
+  "private_paths_or_strings_exported": false,
+  "prune_authorized": false,
+  "r3731_1_and_older_pinned_chain_replayed": true,
+  "r3731_1_corrected_parent_sha_pinned": true,
+  "result": "ARM_NUMERIC_ATTRIBUTES_RELATION_CLASSIFIED_ONLY",
+  "runtime_loader_resolved": false,
+  "source_elf_count": 12,
+  "source_numeric_tag_categories": {
+    "ABI_ALIGN_NEEDED": {
+      "VALUE_1": 12
+    },
+    "ABI_ALIGN_PRESERVED": {
+      "UNDECLARED": 3,
+      "VALUE_1": 9
+    },
+    "ABI_ENUM_SIZE": {
+      "VALUE_2": 12
+    },
+    "ABI_HARDFP_USE": {
+      "UNDECLARED": 2,
+      "VALUE_3": 10
+    },
+    "ABI_PCS_WCHAR_T": {
+      "VALUE_4": 12
+    },
+    "ABI_VFP_ARGS": {
+      "UNDECLARED": 12
+    },
+    "CPU_ARCH": {
+      "VALUE_10": 12
+    },
+    "CPU_ARCH_PROFILE": {
+      "VALUE_65": 12
+    },
+    "FP_ARCH": {
+      "VALUE_3": 12
+    },
+    "THUMB_ISA_USE": {
+      "VALUE_2": 12
+    }
+  },
+  "source_vs_alternative_numeric_relation_counts": {
+    "ABI_ALIGN_NEEDED": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "ABI_ALIGN_PRESERVED": {
+      "NUMERIC_VALUE_EQUAL": 9,
+      "ONE_OR_BOTH_UNDECLARED": 3
+    },
+    "ABI_ENUM_SIZE": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "ABI_HARDFP_USE": {
+      "NUMERIC_VALUE_EQUAL": 10,
+      "ONE_OR_BOTH_UNDECLARED": 2
+    },
+    "ABI_PCS_WCHAR_T": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "ABI_VFP_ARGS": {
+      "ONE_OR_BOTH_UNDECLARED": 12
+    },
+    "CPU_ARCH": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "CPU_ARCH_PROFILE": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "FP_ARCH": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "THUMB_ISA_USE": {
+      "NUMERIC_VALUE_EQUAL": 12
+    }
+  },
+  "stage_modified": false,
+  "transitive_dependency_closure_proven": false,
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_JSON",
+  "note": "Numeric value equality is declaration equality only. Undeclared values remain unverified; original R26 source and runtime loader resolution unresolved."
+}

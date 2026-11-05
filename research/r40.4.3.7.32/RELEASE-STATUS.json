@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.32",
-  "state": "HOST_SYNTHETIC_13_OF_13_PASS_USER_MAC_UNRUN",
+  "state": "USER_MAC_NUMERIC_ARM_ATTRIBUTES_CLASSIFIED_WITH_UNDECLARED_TAGS",
   "purpose": "READONLY_PINNED_ARM_NUMERIC_ATTRIBUTE_SOURCE_VS_ALTERNATIVE_COMPARISON",
   "corrected_parent_source_sha256": "1ab0dde8a96fad86608b114e5d20902171d7fd4dedb649bff7026e4c1a372dc4",
   "source_sha256": "08950842226faec0dcdc03a7766732ee6f6b236519ea926d9e55395c24e5ac96",
@@ -8,7 +8,7 @@
   "synthetic_tests": "13_OF_13_PASS",
   "original_r3731_source_sha256": "991c0278bfcbba74d12f4d916f07a988dcfba7956ed8b3ace1a4e8931bfaaad6",
   "parent_sha_verified_local": true,
-  "actual_stage_audit": "NOT_EXECUTED",
+  "actual_stage_audit": "USER_REPORTED_STATIC_CLASSIFICATION_COMPLETED",
   "runtime_loader_resolved": false,
   "missing_guest_interpreter_path_resolved": false,
   "arm_cpu_kernel_compatibility_proven": false,
@@ -18,5 +18,40 @@
   "boot_authorized": false,
   "firmware_write_authorized": false,
   "prune_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.32/USER-MAC-AUDIT-RESULT.json",
+  "user_mac_numeric_tag_relation_counts": {
+    "ABI_ALIGN_NEEDED": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "ABI_ALIGN_PRESERVED": {
+      "NUMERIC_VALUE_EQUAL": 9,
+      "ONE_OR_BOTH_UNDECLARED": 3
+    },
+    "ABI_ENUM_SIZE": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "ABI_HARDFP_USE": {
+      "NUMERIC_VALUE_EQUAL": 10,
+      "ONE_OR_BOTH_UNDECLARED": 2
+    },
+    "ABI_PCS_WCHAR_T": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "ABI_VFP_ARGS": {
+      "ONE_OR_BOTH_UNDECLARED": 12
+    },
+    "CPU_ARCH": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "CPU_ARCH_PROFILE": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "FP_ARCH": {
+      "NUMERIC_VALUE_EQUAL": 12
+    },
+    "THUMB_ISA_USE": {
+      "NUMERIC_VALUE_EQUAL": 12
+    }
+  }
 }
