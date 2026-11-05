@@ -1,0 +1,30 @@
+name: PW3 R3732 read-only ARM attribute host tests
+
+on:
+  push:
+    paths:
+      - 'research/r40.4.3.7.32/**'
+      - '.github/workflows/pw3-r3732-host-checks.yml'
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.32/**'
+      - '.github/workflows/pw3-r3732-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-arm-attribute-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python compile check
+        working-directory: research/r40.4.3.7.32
+        run: python3 -m py_compile R4043732-ARM-NUMERIC-ATTRIBUTES-READONLY.py test_r4043732.py
+      - name: Verify published source SHA256
+        working-directory: research/r40.4.3.7.32
+        run: sha256sum -c SHA256SUMS
+      - name: Synthetic fixtures only; no stage, QEMU, device or network
+        run: python3 -m unittest discover -s research/r40.4.3.7.32 -p 'test_r4043732.py' -v

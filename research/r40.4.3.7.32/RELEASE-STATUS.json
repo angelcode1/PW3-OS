@@ -1,0 +1,22 @@
+{
+  "milestone": "R40.4.3.7.32",
+  "state": "HOST_SYNTHETIC_13_OF_13_PASS_USER_MAC_UNRUN",
+  "purpose": "READONLY_PINNED_ARM_NUMERIC_ATTRIBUTE_SOURCE_VS_ALTERNATIVE_COMPARISON",
+  "corrected_parent_source_sha256": "1ab0dde8a96fad86608b114e5d20902171d7fd4dedb649bff7026e4c1a372dc4",
+  "source_sha256": "08950842226faec0dcdc03a7766732ee6f6b236519ea926d9e55395c24e5ac96",
+  "synthetic_tests_sha256": "67dc372b632e10c4df89512684a3ba71e6b3644bbd3358e05ffe730530ba2d8b",
+  "synthetic_tests": "13_OF_13_PASS",
+  "original_r3731_source_sha256": "991c0278bfcbba74d12f4d916f07a988dcfba7956ed8b3ace1a4e8931bfaaad6",
+  "parent_sha_verified_local": true,
+  "actual_stage_audit": "NOT_EXECUTED",
+  "runtime_loader_resolved": false,
+  "missing_guest_interpreter_path_resolved": false,
+  "arm_cpu_kernel_compatibility_proven": false,
+  "full_transitive_dependency_closure_proven": false,
+  "original_r26_source_provenance_authenticated": false,
+  "stage_modified": false,
+  "boot_authorized": false,
+  "firmware_write_authorized": false,
+  "prune_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
