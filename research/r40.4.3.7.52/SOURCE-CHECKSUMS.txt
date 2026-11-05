@@ -1,0 +1,6 @@
+SHA256 (host-verified)
+715384dd671927da24f51808f63a15c5e8aadb0c984050331beea508ccc0af79  R4043751-PLT-WORD-VARIATION-RELOCATION-COVERAGE-READONLY.py
+442559ec2637ba53be7c750582a74babf2845de6ccf3bf8f58d3ef6180fd1a4d  R4043752-PLT-LOW12-CORRELATION-AND-FULL-RELOC-READONLY.py
+7abd92f3ec5196b128fabe35124fb15a3aaf7fb8e77ea93ac4fcedb3f3feac01  test_r4043752.py
+645ecdf6c251d7e632ea19e8fafded52210bf46da824e0ef4b957fba6ea6c377  pw3-r3752-plt-low12-and-entire-reloc-readonly.zip
+Full 48-entry SHA256SUMS is inside the downloadable ZIP. No GitHub Actions PASS is claimed.
