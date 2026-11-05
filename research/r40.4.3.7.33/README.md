@@ -32,3 +32,15 @@ python3 R4043733-INTERP-LAYOUT-READONLY.py \
 Optionally rerun the same command with `--show-local-guest-paths` to see the requested interpreter guest path and alternate candidate guest path **only locally**. The local path strings can guide a **future independently constructed image** design, not any edits to the original R13 staged rootfs. If `HOLD` appears, retain the hold.
 
 **Limitations:** does not reauthenticate original R26 source provenance, 2,070 historic inventory hashes, real kernel loader selection, CPU hardware features, floating-point calling convention, transitive dependencies, startup, independent image/recovery, or physical PW3. The separate future OpenSSH, SFTP and rsync requirements are unchanged. **NOT_BOOTABLE.**
+
+## Mac stage result, reported by user
+
+R3733 returned INTERP_SINGLE_MISSING_PATH_LAYOUT_REVIEW_ONLY.
+Twelve interpreter references point to one absent guest pathname.
+The missing filename is under a one-component guest parent directory;
+the one header-compatible same-basename candidate lies under a four-component
+guest parent directory, with zero shared parent components.
+R3726 and R3727 SHA pins and the parent baseline replay passed.
+No private guest path strings were exported. No file move, link or boot was
+performed. This is a future independent-image mapping question only.
+NOT_BOOTABLE.
