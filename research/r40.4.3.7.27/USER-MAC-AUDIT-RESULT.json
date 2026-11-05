@@ -1,0 +1,31 @@
+{
+  "absent_interp_segments": 12,
+  "boot_authorized": false,
+  "distinct_absent_basename_literals": 1,
+  "distinct_absent_guest_path_literals": 1,
+  "historical_inventory_membership_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "milestone": "R40.4.3.7.27",
+  "missing_guest_paths_resolved": false,
+  "original_r26_source_provenance_authenticated": false,
+  "parent_r3726_baseline_replayed": true,
+  "parent_r3726_path_counts_replayed": true,
+  "parent_r3726_sha256_verified": true,
+  "private_path_or_symlink_strings_exported": false,
+  "prune_authorized": false,
+  "result": "ABSENT_INTERP_SAME_BASENAME_ALTERNATIVES_CLASSIFIED_ONLY",
+  "rootfs_regular_files": 1446,
+  "rootfs_symlink_entries_seen": 335,
+  "runtime_loader_resolved": false,
+  "same_basename_alternative_categories": {
+    "ONE_REGULAR_SAME_BASENAME_ABI_HEADER_CANDIDATE": 12
+  },
+  "same_basename_candidate_entry_counts": {
+    "absent_segments_with_any_same_basename_entries": 12,
+    "same_basename_regular_abi_header_candidate_entries": 12,
+    "same_basename_symlink_abi_header_candidate_entries": 0
+  },
+  "transitive_dependency_closure_proven": false,
+  "record_type": "USER_SUPPLIED_MAC_TERMINAL_JSON",
+  "notes": "This result is transcribed from user-provided output; no private stage files were accessed or directly rehashed in this session. The candidate is at a different guest pathname; it is not kernel-selected or runtime-proven."
+}

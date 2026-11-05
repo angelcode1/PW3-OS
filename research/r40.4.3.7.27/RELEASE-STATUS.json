@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.27",
-  "state": "HOST_TESTED_15_OF_15_PASS_USER_MAC_UNRUN",
+  "state": "USER_MAC_12_REFERENCES_ONE_DISTINCT_PATH_ONE_COMPATIBLE_BASENAME_ALTERNATIVE",
   "purpose": "SOURCE_PINNED_R3726_REPLAY_ABSENT_INTERP_SAME_BASENAME_ALTERNATIVE_CLASSIFICATION",
   "original_parent_milestone": "R40.4.3.7.26",
   "parent_source_sha256": "7068af571b0c57677793eb5722938b3a4f14abfd5ce33c6b4e4ce41040e117b3",
@@ -12,7 +12,7 @@
   "python_compile": "PASS",
   "manifest_check": "PASS",
   "zip_integrity": "PASS",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_STATIC_CLASSIFICATION_COMPLETED",
   "expected_parent_rootfs_regular_files": 1446,
   "expected_elf_objects": 83,
   "expected_interp_segments": 19,
@@ -26,5 +26,12 @@
   "boot_authorized": false,
   "firmware_write_authorized": false,
   "prune_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_result_reference": "research/r40.4.3.7.27/USER-MAC-AUDIT-RESULT.json",
+  "user_mac_absent_segments": 12,
+  "user_mac_distinct_missing_paths": 1,
+  "user_mac_distinct_missing_basenames": 1,
+  "user_mac_alternative_categories": {
+    "ONE_REGULAR_SAME_BASENAME_ABI_HEADER_CANDIDATE": 12
+  }
 }
