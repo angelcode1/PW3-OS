@@ -1,0 +1,137 @@
+{
+  "a32_decoding_or_code_pointer_verified": false,
+  "boot_authorized": false,
+  "earliest_varying_word_index": 4,
+  "firmware_write_authorized": false,
+  "first64_cross_boundary_relocation_target_sites": 0,
+  "first64_dynamic_relocation_arm_types": {},
+  "first64_dynamic_relocation_tables": {},
+  "first64_dynamic_relocation_target_sites": 0,
+  "first64_dynamic_relocation_target_word_positions_across_objects": 0,
+  "first64_misaligned_relocation_target_sites": 0,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "historical_r3745_hold_preserved": true,
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.51",
+  "no_dynamic_target_does_not_exclude_link_time_or_other_adjustments": true,
+  "original_r26_source_provenance_authenticated": false,
+  "parent_r3750_sha_pinned_and_replayed": true,
+  "private_words_paths_symbols_or_addresses_exported": false,
+  "provider_elf_count": 6,
+  "prune_authorized": false,
+  "requesters_with_plt_anchor": 9,
+  "result": "WEAK_PLT_SUFFIX_WORD_VARIATION_AND_RELOCATION_TARGETS_STATIC_ONLY",
+  "runtime_loader_lazy_binding_verified": false,
+  "source_elf_count": 12,
+  "source_stage_modified": false,
+  "targeted_weak_plt_sites": 18,
+  "tls_runtime_compatibility_verified": false,
+  "upper20_and_lower12_are_bit_partitions_not_decoded_immediates": true,
+  "varying_word_positions": 12,
+  "weak_symbol_runtime_resolution_verified": false,
+  "word_variation_categories_by_position": {
+    "WORD0": {
+      "distinct_lower12_fields": 1,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 1,
+      "variation_category": "WHOLE_WORD_IDENTICAL"
+    },
+    "WORD1": {
+      "distinct_lower12_fields": 1,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 1,
+      "variation_category": "WHOLE_WORD_IDENTICAL"
+    },
+    "WORD10": {
+      "distinct_lower12_fields": 9,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 9,
+      "variation_category": "VARIATION_CONFINED_TO_LOW12_BITS"
+    },
+    "WORD11": {
+      "distinct_lower12_fields": 2,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 2,
+      "variation_category": "VARIATION_CONFINED_TO_LOW12_BITS"
+    },
+    "WORD12": {
+      "distinct_lower12_fields": 7,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 7,
+      "variation_category": "VARIATION_CONFINED_TO_LOW12_BITS"
+    },
+    "WORD13": {
+      "distinct_lower12_fields": 9,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 9,
+      "variation_category": "VARIATION_CONFINED_TO_LOW12_BITS"
+    },
+    "WORD14": {
+      "distinct_lower12_fields": 3,
+      "distinct_upper20_fields": 2,
+      "distinct_whole_words": 3,
+      "variation_category": "VARIATION_IN_UPPER20_BITS"
+    },
+    "WORD15": {
+      "distinct_lower12_fields": 7,
+      "distinct_upper20_fields": 2,
+      "distinct_whole_words": 7,
+      "variation_category": "VARIATION_IN_UPPER20_BITS"
+    },
+    "WORD2": {
+      "distinct_lower12_fields": 1,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 1,
+      "variation_category": "WHOLE_WORD_IDENTICAL"
+    },
+    "WORD3": {
+      "distinct_lower12_fields": 1,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 1,
+      "variation_category": "WHOLE_WORD_IDENTICAL"
+    },
+    "WORD4": {
+      "distinct_lower12_fields": 9,
+      "distinct_upper20_fields": 7,
+      "distinct_whole_words": 9,
+      "variation_category": "VARIATION_IN_UPPER20_BITS"
+    },
+    "WORD5": {
+      "distinct_lower12_fields": 2,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 2,
+      "variation_category": "VARIATION_CONFINED_TO_LOW12_BITS"
+    },
+    "WORD6": {
+      "distinct_lower12_fields": 7,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 7,
+      "variation_category": "VARIATION_CONFINED_TO_LOW12_BITS"
+    },
+    "WORD7": {
+      "distinct_lower12_fields": 9,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 9,
+      "variation_category": "VARIATION_CONFINED_TO_LOW12_BITS"
+    },
+    "WORD8": {
+      "distinct_lower12_fields": 2,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 2,
+      "variation_category": "VARIATION_CONFINED_TO_LOW12_BITS"
+    },
+    "WORD9": {
+      "distinct_lower12_fields": 7,
+      "distinct_upper20_fields": 1,
+      "distinct_whole_words": 7,
+      "variation_category": "VARIATION_CONFINED_TO_LOW12_BITS"
+    }
+  },
+  "word_variation_summary_categories": {
+    "VARIATION_CONFINED_TO_LOW12_BITS": 9,
+    "VARIATION_IN_UPPER20_BITS": 3,
+    "WHOLE_WORD_IDENTICAL": 4
+  }
+}
