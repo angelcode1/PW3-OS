@@ -1,0 +1,43 @@
+{
+  "milestone": "R40.4.3.7.45.2",
+  "result": "WEAK_PLT_INITIAL_WORD_GEOMETRY_PINNED_PARENT_CHAIN_CORRECTED_STATIC_ONLY",
+  "targeted_weak_plt_sites": 18,
+  "requester_dt_pltgot_categories": {
+    "DT_PLTGOT_IN_WRITABLE_LOAD": 12
+  },
+  "weak_plt_initial_target_categories_by_group": {
+    "LOCAL_ZERO_NAME_IN_SIX": {
+      "LOW_BIT": {
+        "LOW_BIT_CLEAR": 9
+      },
+      "WORD": {
+        "ORIGINAL_WORD_IN_OWN_EXEC_PT_LOAD": 9
+      }
+    },
+    "LOCAL_ZERO_NAME_NOT_IN_SIX": {
+      "LOW_BIT": {
+        "LOW_BIT_CLEAR": 7
+      },
+      "WORD": {
+        "ORIGINAL_WORD_IN_OWN_EXEC_PT_LOAD": 7
+      }
+    },
+    "UNVERSIONED_WEAK_NAME_NOT_IN_SIX": {
+      "LOW_BIT": {
+        "LOW_BIT_CLEAR": 2
+      },
+      "WORD": {
+        "ORIGINAL_WORD_IN_OWN_EXEC_PT_LOAD": 2
+      }
+    }
+  },
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "firmware_write_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "original_stage_modified": false,
+  "guest_interpreter_path_resolved": false,
+  "mapping_applied": false,
+  "unrelocated_word_as_pointer_not_proven": true,
+  "lazy_binding_runtime_verified": false
+}
