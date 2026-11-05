@@ -1,0 +1,7 @@
+R3751 host-verified SHA-256 pins (full 46-file manifest is in the conversation ZIP)
+3d7b3639802341773b6db699375ba32215219a40f0f9b8138073304b57eeff6e  R4043750-PLT-EXTENDED-PREFIX-COHORT-READONLY.py
+715384dd671927da24f51808f63a15c5e8aadb0c984050331beea508ccc0af79  R4043751-PLT-WORD-VARIATION-RELOCATION-COVERAGE-READONLY.py
+c0129412f11d993cfa57124c324048977ef5b5dc94b2a4fb9d7ba3d1f8937260  test_r4043751.py
+e31cc738f292a179e514ae6ee137b9a195e9f63cfedf3293fa5fe56a4ddf8eba  ZIP_BUNDLED_README.md
+329deea48d8ce048adabe9270d5ad13bdc9d519ddc2b95b288d6248c0fc7c7d2  pw3-r3751-plt-word-variation-readonly.zip
+Host check: SHA256SUMS 46/46 PASS; 556/556 synthetic tests PASS after fresh extraction; 47 ZIP members. Real Mac R3751 stage audit NOT YET EXECUTED. No CI pass claimed.
