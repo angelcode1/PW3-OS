@@ -1,0 +1,6 @@
+R3748 SHA-256 release pins (host-verified)
+d2628027b1984a78f5ff9c2a1fbc7b0355d380ee00f833c25512b4cba10ee992  R4043748-PLT-ANCHOR-REUSE-READONLY.py
+c4b2e72ceec56e78092c6de080e13220aa249a94c252b1adbce11c9f8e0317b3  test_r4043748.py
+63ee9e45af99fb8147c47ececa83a272221e586211a3666e871004967202873d  R4043747-ARM-PLT-WORD-PREFIX-READONLY.py
+54a58eaf1e41b1c4fb5c00e44ca7366f0b478da9dcffedede102fb7f76febc29  pw3-r3748-plt-anchor-reuse-readonly.zip
+NOTE: full 40-item SHA256SUMS is in the conversation ZIP, not reproduced in this summary.
