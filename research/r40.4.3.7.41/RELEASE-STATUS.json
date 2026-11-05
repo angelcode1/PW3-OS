@@ -1,11 +1,11 @@
 {
   "milestone": "R40.4.3.7.41",
-  "state": "HOST_SYNTHETIC_27_AND_PARENTS_23_18_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_HOLD_UNDEFINED_LOCAL_VERSION_INDEX_ZERO",
   "purpose": "PINNED_GNU_ELF32_VERSION_REQUIRED_SYMBOL_PROVIDER_CANDIDATES_STATIC_ONLY",
   "host_r3741_synthetic_tests": "27_OF_27_PASS",
   "host_r3740_pinned_tests": "23_OF_23_PASS",
   "host_r3739_pinned_tests": "18_OF_18_PASS",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_HOLD",
   "source_publication": "ZIP_AND_GITHUB_FILES_PLANNED",
   "github_actions_passed": false,
   "runtime_symbol_resolution_verified": false,
@@ -19,5 +19,8 @@
   "boot_authorized": false,
   "firmware_write_authorized": false,
   "prune_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_hold_category": "UNDEFINED_LOCAL_VERSION_HOLD",
+  "user_mac_report_reference": "research/r40.4.3.7.41/USER-MAC-AUDIT-RESULT.json",
+  "version_aware_symbol_resolution_verified": false
 }

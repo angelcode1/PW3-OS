@@ -34,3 +34,7 @@ python3 -B R4043741-GNU-SYMBOL-VERSION-CANDIDATES-READONLY.py \
 Share the result's `version_filtered_static_candidate_categories`, `source_symbol_version_requirement_categories`, `distinct_required_version_names_in_memory` or the `hold_category`. If `HOLD`, **do not** alter source pins or the original rootfs to force success. An `HOLD` may reflect unsupported but valid ELF structures; no stage mutation is permitted.
 
 **NOT_BOOTABLE** regardless of results.
+
+## User Mac original R3741 HOLD (preserved)
+
+The user ran the exact R3741 script on the unchanged Mac R13 stage and received `HOLD` with `UNDEFINED_LOCAL_VERSION_HOLD`. The original classifier rejects a relocation-referenced undefined dynamic-symbol record whose `.gnu.version` / `VERSYM` index is zero (`VER_NDX_LOCAL`). This is a deliberately strict classification rule; the output does **not** prove corrupt ELF data, executable-loader failure or any usable version match. Preserve this result as historical evidence. Follow-up R3741.1 must report these records as a separate unresolved local-version review category while leaving the original source and its SHA unchanged. Original stage, aliases, runtime and boot remain untouched. **NOT_BOOTABLE**.

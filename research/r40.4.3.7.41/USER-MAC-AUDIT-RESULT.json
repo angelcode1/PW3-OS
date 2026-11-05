@@ -1,0 +1,10 @@
+{
+  "boot_authorized": false,
+  "hold_category": "UNDEFINED_LOCAL_VERSION_HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "milestone": "R40.4.3.7.41",
+  "prune_authorized": false,
+  "result": "HOLD",
+  "record_type": "USER_SUPPLIED_MAC_OUTPUT",
+  "interpretation": "The original R3741 parser encountered VERSYM index 0 on a referenced undefined dynamic symbol. Index zero is VER_NDX_LOCAL, requiring review; no source compatibility or runtime success concluded."
+}
