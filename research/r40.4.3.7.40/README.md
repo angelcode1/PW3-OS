@@ -38,3 +38,7 @@ python3 -B R4043740-SYMBOL-NAME-VERSION-READONLY.py \
 The first suite should show **23 tests OK**, the pinned R3739 suite **18 tests OK**. These are synthetic host checks, **not** tests against the user Mac's rootfs. Send the new JSON fields `undefined_symbol_candidate_categories`, `distinct_referenced_undefined_symbol_names`, and `source_and_provider_dynamic_metadata_tag_counts`; if output is `HOLD`, send its `hold_category` and do not alter source pins, guest paths, or staged files to force success.
 
 **`NOT_BOOTABLE`.**
+
+## User Mac static candidate results
+
+The user reported `STAGED_SYMBOL_NAME_CANDIDATES_AND_VERSION_TAGS_STATIC_ONLY`: **632** referenced undefined dynamic symbol entries representing **369 distinct name literals** across **12** requesting objects, matched by name against **six** staged regular-file provider candidates. Outcomes: **517** with one staged provider definition name candidate, **80** with multiple candidates and **35** with no candidate among these six providers. All twelve requesters have symbol-versioning metadata. Dynamic version tags: providers DT_VERDEF=6, DT_VERNEED=5, DT_VERSYM=6; sources DT_VERDEF=10, DT_VERNEED=12, DT_VERSYM=12, DT_RPATH=2. The version table contents were **not** parsed by R3740. Name-only matching cannot establish GNU version compatibility, search-path selection, symbol interposition, TLS, missing interpreter path resolution or runtime loader behavior. No staged modification, boot, firmware or pruning. See `USER-MAC-AUDIT-RESULT.json`. **NOT_BOOTABLE**.

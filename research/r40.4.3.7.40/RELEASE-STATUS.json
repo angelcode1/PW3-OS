@@ -1,13 +1,13 @@
 {
   "milestone": "R40.4.3.7.40",
-  "state": "LOCAL_SYNTHETIC_23_AND_PINNED_PARENT_18_PASS_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_STATIC_SYMBOL_NAME_CANDIDATE_INVENTORY_COMPLETED",
   "purpose": "READONLY_STAGE_DYNSYM_PROVIDER_NAME_CANDIDATES_AND_VERSION_METADATA_TAG_PRESENCE",
   "source_sha256": "075869999337fb6601e2d4f49a0bf28786a9879337fbba54c54b77ea58785d91",
   "test_sha256": "3d97af85aaae3007140a318c8f0fbcd9026f021d205c3e3e5a520f94e961033d",
   "parent_r3739_sha256": "63f40e5932260ec0d2a2cdc2681ea5436153fa35ba8c2718881e5349b76f429b",
   "host_r3740_unit_tests": "23_OF_23_PASS",
   "host_r3739_pinned_tests": "18_OF_18_PASS",
-  "local_mac_stage_audit": "NOT_EXECUTED",
+  "local_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "source_code_publication": "PLANNED_FULL_SOURCE_AND_CI_GITHUB_COMMIT",
   "statistical_source_name_resolution_verified": false,
   "actual_dynamic_linker_lookup_verified": false,
@@ -21,5 +21,14 @@
   "prune_authorized": false,
   "firmware_write_authorized": false,
   "immutable_hold": "NOT_BOOTABLE",
-  "source_tree_expected_16_zip_members": 16
+  "source_tree_expected_16_zip_members": 16,
+  "user_mac_report_reference": "research/r40.4.3.7.40/USER-MAC-AUDIT-RESULT.json",
+  "user_referenced_undefined_entries": 632,
+  "user_distinct_undefined_names": 369,
+  "user_candidate_categories": {
+    "NO_STAGED_PROVIDER_NAME_CANDIDATE": 35,
+    "ONE_STAGED_PROVIDER_NAME_CANDIDATE": 517,
+    "MULTIPLE_STAGED_PROVIDER_NAME_CANDIDATES": 80
+  },
+  "user_requester_version_metadata_count": 12
 }

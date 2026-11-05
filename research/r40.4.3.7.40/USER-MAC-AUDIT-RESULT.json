@@ -1,0 +1,41 @@
+{
+  "boot_authorized": false,
+  "distinct_referenced_undefined_symbol_names": 369,
+  "dynamic_loader_search_and_symbol_interposition_verified": false,
+  "full_dependency_closure_proven": false,
+  "guest_interpreter_path_resolved": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.40",
+  "names_paths_strings_exported": false,
+  "original_r26_source_provenance_authenticated": false,
+  "parent_r3738_and_older_source_sha_pins_inherited": true,
+  "parent_r3739_source_sha_pinned_and_replayed": true,
+  "provider_elf_count": 6,
+  "provider_export_name_comparison_is_not_symbol_resolution": true,
+  "prune_authorized": false,
+  "referenced_defined_or_special_dynsym_entries": 145,
+  "referenced_undefined_dynsym_entries": 632,
+  "requesting_objects_with_symbol_versioning_metadata": 12,
+  "result": "STAGED_SYMBOL_NAME_CANDIDATES_AND_VERSION_TAGS_STATIC_ONLY",
+  "source_and_provider_dynamic_metadata_tag_counts": {
+    "provider_DT_VERDEF": 6,
+    "provider_DT_VERNEED": 5,
+    "provider_DT_VERSYM": 6,
+    "source_DT_RPATH": 2,
+    "source_DT_VERDEF": 10,
+    "source_DT_VERNEED": 12,
+    "source_DT_VERSYM": 12
+  },
+  "source_elf_count": 12,
+  "stage_modified": false,
+  "tls_relocation_semantics_verified": false,
+  "undefined_symbol_candidate_categories": {
+    "MULTIPLE_STAGED_PROVIDER_NAME_CANDIDATES": 80,
+    "NO_STAGED_PROVIDER_NAME_CANDIDATE": 35,
+    "ONE_STAGED_PROVIDER_NAME_CANDIDATE": 517
+  },
+  "version_aware_symbol_resolution_verified": false,
+  "record_type": "USER_SUPPLIED_MAC_JSON",
+  "qualifier": "Name candidates are not runtime matches or guaranteed version matches; no symbol strings were exported."
+}
