@@ -1,0 +1,97 @@
+{
+  "boot_authorized": false,
+  "candidate_relative_relocation_sites": 17,
+  "candidate_relocation_sites": 27,
+  "candidate_symbol_relocation_sites": 10,
+  "dt_relcount_is_prefix_metadata_not_executed_relocation": true,
+  "dt_relcount_prefix_categories": {
+    "DT_RELCOUNT_PREFIX_VALID": 1,
+    "RELATIVE_RECORDS_AFTER_PREFIX": 0,
+    "RELCOUNT_PREFIX_ENTRIES": 17
+  },
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "historical_r3745_hold_preserved": true,
+  "immutable_hold": "NOT_BOOTABLE",
+  "loader_self_relocation_or_weak_binding_verified": false,
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.55",
+  "original_addend_is_not_a_verified_runtime_address": true,
+  "parent_r3754_sha_pinned_and_stage_replayed": true,
+  "private_addresses_symbols_paths_or_words_exported": false,
+  "prune_authorized": false,
+  "referenced_nonzero_symbol_occurrences": 10,
+  "referenced_symbol_binding_by_relocation_type": {
+    "21": {
+      "GLOBAL_OBJECT": 3,
+      "WEAK_FUNC": 1
+    },
+    "22": {
+      "GLOBAL_FUNC": 1,
+      "WEAK_FUNC": 5
+    }
+  },
+  "referenced_symbol_section_by_relocation_type": {
+    "21": {
+      "SHN_ORDINARY_SECTION": 4
+    },
+    "22": {
+      "SHN_ORDINARY_SECTION": 6
+    }
+  },
+  "referenced_symbol_value_geometry_by_relocation_type": {
+    "21": {
+      "VALUE_IN_OWN_EXEC_LOAD": 1,
+      "VALUE_IN_OWN_WRITABLE_LOAD": 3
+    },
+    "22": {
+      "VALUE_IN_OWN_EXEC_LOAD": 6
+    }
+  },
+  "referenced_symbol_visibility_by_relocation_type": {
+    "21": {
+      "DEFAULT": 4
+    },
+    "22": {
+      "DEFAULT": 6
+    }
+  },
+  "referenced_unique_dynsym_section_and_value_categories": {
+    "binding_GLOBAL": 4,
+    "binding_WEAK": 5,
+    "section_SHN_ORDINARY_SECTION": 9,
+    "size_NONZERO": 9,
+    "type_FUNC": 6,
+    "type_OBJECT": 3,
+    "value_geometry_VALUE_IN_OWN_EXEC_LOAD": 6,
+    "value_geometry_VALUE_IN_OWN_WRITABLE_LOAD": 3,
+    "value_low_bit_CLEAR": 6,
+    "value_low_bit_NOT_FUNC": 3,
+    "visibility_DEFAULT": 9
+  },
+  "referenced_unique_nonzero_symbols": 9,
+  "relative_original_addend_geometry_categories": {
+    "ORIGINAL_ADDEND_VALUE_IN_OWN_EXEC_LOAD": 16,
+    "ORIGINAL_ADDEND_VALUE_IN_OWN_WRITABLE_LOAD": 1
+  },
+  "relative_original_addend_low_bit_categories": {
+    "LOW_BIT_CLEAR": 17
+  },
+  "relocation_target_storage_by_arm_type": {
+    "21": {
+      "WRITABLE_FILEBACKED_NONRELRO": 4
+    },
+    "22": {
+      "WRITABLE_FILEBACKED_NONRELRO": 6
+    },
+    "23": {
+      "WRITABLE_FILEBACKED_NONRELRO": 7,
+      "WRITABLE_FILEBACKED_RELRO": 10
+    }
+  },
+  "result": "ALTERNATE_INTERPRETER_RELCOUNT_AND_SELF_SYMBOL_GEOMETRY_STATIC_ONLY",
+  "runtime_tls_compatibility_verified": false,
+  "source_r26_provenance_authenticated": false,
+  "source_stage_modified": false
+}
