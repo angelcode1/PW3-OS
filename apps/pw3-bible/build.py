@@ -354,6 +354,94 @@ def add_plans(pages, plans, chapters):
         pages.page(("local-month", month), f"Bible in 365 days • {calendar.month_name[month]}", month_rows)
 
 
+class DevotionalText(StudyText):
+    """Extract display text without executing the volume's HTML or scripts."""
+
+    def __init__(self):
+        super().__init__()
+        self.skipped = None
+
+    def handle_starttag(self, tag, attrs):
+        if self.skipped:
+            return
+        if tag in {"head", "script", "style"}:
+            self.skipped = tag
+        elif tag in {"h1", "h2", "h3", "h4", "section", "blockquote"}:
+            super().handle_starttag("div", attrs)
+        elif tag != "span":
+            super().handle_starttag(tag, attrs)
+
+    def handle_endtag(self, tag):
+        if self.skipped:
+            if self.skipped == tag:
+                self.skipped = None
+            return
+        if tag in {"h1", "h2", "h3", "h4", "section", "blockquote"}:
+            tag = "div"
+        super().handle_endtag(tag)
+
+    def handle_data(self, data):
+        if not self.skipped:
+            super().handle_data(data)
+
+
+def add_jesus_calling(pages, sample_dir, chapters):
+    root = (sample_dir / "1306/data/Devos").resolve()
+    path = (sample_dir / "1306.sqlite").resolve()
+    with sqlite3.connect(path.as_uri() + "?mode=ro", uri=True) as db:
+        db.execute("PRAGMA trusted_schema=OFF")
+        rows = db.execute("""
+            SELECT menu.title, menu.caption, dest.id, dest.book, dest.chapter,
+                   dest.verse, dest.endVerse, dest.fileName
+            FROM ResourceItems AS menu
+            LEFT JOIN ResourceItems AS dest ON CAST(dest.id AS TEXT) = trim(menu.link)
+        """).fetchall()
+
+    days, targets = {}, set()
+    for title, caption, target, book, chapter, verse, end, filename in rows:
+        match = next((m for label in (title, caption)
+                      if (m := re.fullmatch(r"Day\s+(\d+)", (label or "").strip(), re.I))), None)
+        if not match:
+            continue
+        day = int(match[1])
+        if day in days or target is None or target in targets:
+            raise ValueError(f"Jesus Calling Day {day}: missing or duplicate target")
+        targets.add(target)
+        if not filename or not filename.startswith("Devos/"):
+            raise ValueError(f"Jesus Calling Day {day}: missing devotional filename")
+        asset = (root / filename.removeprefix("Devos/")).resolve()
+        if root not in asset.parents or not asset.is_file():
+            raise ValueError(f"Jesus Calling Day {day}: invalid or missing devotional file")
+        parser = DevotionalText()
+        parser.feed(asset.read_text(encoding="utf-8-sig"))
+        parser.close()
+        body = parser.paragraphs()
+        if not body or verse not in chapters.get((book, chapter), {}):
+            raise ValueError(f"Jesus Calling Day {day}: empty reading or unavailable verse anchor")
+        ref = f"{book}/{chapter}/{verse}"
+        if isinstance(end, int) and end > verse:
+            ref += f"-{end}"
+        days[day] = [reference_link(ref, chapters), *map(paragraph, body)]
+
+    if set(days) != set(range(1, 262)):
+        raise ValueError(f"Expected Jesus Calling Days 1–261; found {len(days)} numbered days")
+    pages.page("jesus-calling", "Jesus Calling Devotional Bible", [
+        link(f"Days {first}–{min(first + 29, 261)}", ("jc-group", first))
+        for first in range(1, 262, 30)
+    ])
+    for first in range(1, 262, 30):
+        pages.page(("jc-group", first), f"Jesus Calling • Days {first}–{min(first + 29, 261)}", [
+            link(f"Day {day}", ("jc-day", day)) for day in range(first, min(first + 30, 262))
+        ])
+    for day, body in sorted(days.items()):
+        pages.page(("jc-day", day), f"Jesus Calling • Day {day}", [
+            *body,
+            *([link("Previous day", ("jc-day", day - 1))] if day > 1 else []),
+            *([link("Next day", ("jc-day", day + 1))] if day < 261 else [])
+        ])
+    print(f"Jesus Calling: {len(days)} numbered readings and Scripture links")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--apk", type=Path, required=True)
@@ -361,6 +449,8 @@ def main():
     ap.add_argument("--kjv", type=Path, required=True)
     ap.add_argument("--asv", type=Path, required=True)
     ap.add_argument("--output", type=Path, required=True)
+    ap.add_argument("--jesus-calling-dir", type=Path,
+                    help="Local folder containing 1306.sqlite and 1306/data/Devos")
     args = ap.parse_args()
     translations = {key: load_translation(getattr(args, key.lower())) for key in TRANSLATIONS}
     daily, plans, topics, questions, refs = read_assets(args.apk)
@@ -381,12 +471,16 @@ def main():
         link("Daily Verse", "today", 1), link("Daily TouchPoint", "today", 2),
         link("Daily Devotional", "today", 3), link("TouchPoint • Vision", ("topic", vision)),
         link("Reading Plans", "plans"), link("TouchPoints • All topics", "topics"),
-        link("Browse the 2026 daily archive", "months")
+        link("Browse the 2026 daily archive", "months"),
+        *([link("Jesus Calling • Numbered readings", "jesus-calling")]
+          if args.jesus_calling_dir else [])
     ])
     add_bibles(pages, translations)
     add_topics(pages, topics, questions, refs, web)
     unresolved = add_daily(pages, daily, topics, questions, web)
     add_plans(pages, plans, web)
+    if args.jesus_calling_dir:
+        add_jesus_calling(pages, args.jesus_calling_dir, web)
     for key, data in translations.items():
         print(f"{key}: {len(data)} chapters, {sum(map(len, data.values()))} verses")
     print(f"365 daily verses, 365 devotional excerpts, 365 verified daily TouchPoints; {len(topics)} topics, {len(questions)} study entries")

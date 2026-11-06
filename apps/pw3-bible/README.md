@@ -70,3 +70,17 @@ zig cc -target arm-linux.3.0.35-musleabi -mcpu=cortex_a9 -O2 -static \
 - Bible sources are [WEB](https://ebible.org/details.php?id=engwebp), [KJV](https://www.ebible.org/find/details.php?id=eng-kjv), and [ASV](https://www.ebible.org/find/details.php?id=eng-asv).
 - The e-ink and touch layer is based on [Inkwell](https://github.com/pragyaangaur/Inkwell/tree/d1fc9d9ef911777fb5db14541fd5b841fd7c1f03), with a bundled-font path and an explicit 16-byte Linux 3.0 evdev record. The font is Inter. Third-party notices are included.
 - Host verification covered archive parsing, daily calendar routing, Bible navigation and verse jumps, Vision, and reading-plan ranges. The ARM executable was inspected for its architecture, soft-float ABI, and static linking. Actual Kindle framebuffer, touch and launcher behavior remain to be verified on the device.
+
+## Import locally downloaded Jesus Calling readings
+
+Build the archive with the same APK and Bible archives as above, adding
+`--jesus-calling-dir "$HOME/Downloads/lifebible-samples"` to the `build.py` command.
+That folder must contain `1306.sqlite` and `1306/data/Devos/`. The importer
+requires all 261 numbered readings, follows the explicit database links, and
+extracts display text from the local HTML. It adds the numbered readings and
+Scripture anchors to the archive. Keep the downloaded files and generated archive
+local.
+
+In the Mac preview, open **Jesus Calling • Numbered readings**. Compare Days 1
+and 261 with Life Bible offline, open Day 1's Genesis 1:1 link, and press `b` to
+return to the reading.
