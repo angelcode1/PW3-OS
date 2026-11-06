@@ -1,0 +1,6 @@
+/bible*.pw3
+/pw3-bible-arm
+/reader-host
+/__pycache__/
+/*.apk
+/*.zip
