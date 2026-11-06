@@ -17,7 +17,7 @@ The Amazon-listed PW3 source bundle `Kindle_src_5.16.2.1.1_4097470002.tar.gz` wa
 
 The repo's R3762 reference contains exactly one line `CONFIG_COMPAT_BRK=y`. Replacing that exact line with `# CONFIG_COMPAT_BRK is not set` produces 59,593 bytes and **exactly** Git blob SHA-1 `b4ed2a1f317de6c11f75582327d847b30eae2547` — the reported Amazon fingerprint. The constructed complete config SHA-256 is `71eca1037a4428e11fb8a03c66e3ef78d5f0d24d5338035588c7963ed28b1833`.
 
-This extremely tight match strongly supports a single-setting delta; **it does not prove actual Amazon file byte equality** without a SHA-256 of that *observed* archive member (or direct comparison). Hash collision limitations also apply. No arbitrary source edits were made to the R3762 pin.
+This reconstruction alone was initially insufficient to establish the actual Amazon file's byte equality. **A later, separate user-run direct comparison now reports full byte-for-byte equality**, and its observed SHA-256 agrees with the reconstructed SHA-256 (see below). GitHub Actions does not download or inspect the Amazon archive. No arbitrary source edits were made to the R3762 pin.
 
 The `R4043764-COMPAT-BRK-FINGERPRINT-PROOF.py` script performs that reconstruction deterministically from the pinned R3762 file and prints read-only JSON. CI exercises the proof on Linux/macOS and Python 3.9/3.12 without downloading or opening any Amazon archive. A green workflow is a host proof only, **not** an authenticated public archive comparison.
 
@@ -36,11 +36,26 @@ python3 -B -m unittest discover -s research/r40.4.3.7.64 -p 'test_r4043764_finge
 
 No path in the stage, private device data, or firmware is modified.
 
-## Final direct byte comparison — still requested
+## Final direct byte comparison — user-reported PASS (mismatch HOLD remains)
 
-The user has an existing R3764 diagnostic ZIP with the user-run offline scanner. For an **independent, actual byte equality check**, run the separate exact-delta verifier on the same existing local Amazon archive. It compares the complete Amazon defconfig bytes with the reconstructed config and reports the observed Amazon config SHA-256, without extracting the archive or modifying it. Its exit code remains **2** and `NOT_BOOTABLE` remains enforced even if equality is confirmed.
+On 2026-11-06, the user executed `R4043764-COMPAT-BRK-EXACT-DELTA-VERIFY.py` against the **existing locally downloaded** Amazon source archive. The user reported both supplemental script checksum checks as `OK`, and supplied this read-only result:
 
-The original R3764 auditor ZIP (SHA-256 `fa80b24ca8ba5fee2ca0ecc63055c4df621875f39f8da5d2726f0380602af2c6`) and follow-up verifier ZIP (`a98d405d33efc905c587feb92bdedd779493ab83bd1b0f2ca09209806b0d0985`) were validated in the assistant's isolated environment with 17 original plus 6 new regression tests (23/23 total). Their original checked manifests are unchanged; they have **not** been uploaded to this repository.
+| Gate | Local result |
+| --- | --- |
+| `observed_full_config_bytes_equal_single_line_reconstruction` | **true** |
+| `observed_amazon_config_sha256` | `71eca1037a4428e11fb8a03c66e3ef78d5f0d24d5338035588c7963ed28b1833` |
+| `reconstructed_config_sha256` | `71eca1037a4428e11fb8a03c66e3ef78d5f0d24d5338035588c7963ed28b1833` |
+| `observed_amazon_config_blob_sha1` | `b4ed2a1f317de6c11f75582327d847b30eae2547` |
+| `observed_amazon_config_size_bytes` | 59,593 |
+| `observed_archive_report_sha256_match` | **true** |
+| `evidence_check` | `EXACT_ONE_LINE_CONFIG_DELTA_CONFIRMED_STATIC_ONLY` |
+| Exit code | **2**, intentional `PUBLIC_REFERENCE_BLOB_DIFFERS_HOLD` |
+
+The local verification reports literal equality between the observed Amazon member and a one-line reconstruction of R3762's pin (`CONFIG_COMPAT_BRK=y` to `# CONFIG_COMPAT_BRK is not set`). This **closes the static defconfig difference question** at the level of the user's supplied local measurements. No Amazon archive or extracted member is committed to the repository. GitHub CI checks the internal consistency of the report and independently reconstructs its advertised SHA-256 **without opening the actual archive**.
+
+The result is preserved verbatim in `USER-MAC-EXACT-ARCHIVE-EQUALITY.json`. The earlier `USER-MAC-AUDIT-AND-RECONSTRUCTION.json` remains a historical record of the *prior* uncertainty; it must not be overwritten or reinterpreted as contradicting the later finding. The original R3764 auditor ZIP (SHA-256 `fa80b24ca8ba5fee2ca0ecc63055c4df621875f39f8da5d2726f0380602af2c6`) and follow-up verifier ZIP (`a98d405d33efc905c587feb92bdedd779493ab83bd1b0f2ca09209806b0d0985`) were validated separately with 23/23 synthetic tests but are not committed.
+
+**Important distinction:** The reported direct comparison does not independently cryptographically authenticate the Amazon archive's origin, authenticate the unrelated R13 image, determine the running PW3 kernel, or establish ARM ELF loader, TLS/ABI, recovery or boot compatibility. The two reference source files still differ, so **the HOLD and exit code 2 are correct**.
 
 ## Unresolved evidence gates
 
