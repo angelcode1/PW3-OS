@@ -1,0 +1,16 @@
+{
+  "boot_authorized": false,
+  "config_not_specific_to_running_device": true,
+  "firmware_write_authorized": false,
+  "github_actions_run": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "new_source_sha256": "4a1f87c851072695f621522a56158b39e7ae3d9ff42a545073437cdafb8ae22f",
+  "no_existing_release_overwritten": true,
+  "original_source_sha256": "ece09d6b9c59e03d3fae8c8567fcb5255494b9a9fbd1e627c22e2f0500ca0690",
+  "original_source_unchanged": true,
+  "original_tests_sha256": "0ad8acfb236028239d426963a7a54c88ac0b84681935ae67ab6d4271af16b636",
+  "pinned_reference_git_blob_sha1": "bbc2f92713d05dfd6ea52973fc7d958e49fa6464",
+  "real_public_reference_audit": "PUBLIC_WARIO_KERNEL_CONFIG_REFERENCE_STATIC_ONLY",
+  "result": "LOCAL_CANDIDATE_VERIFIED",
+  "synthetic_tests_passed": 36
+}

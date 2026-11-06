@@ -1,0 +1,103 @@
+name: R3762 corrected public-reference host checks
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.62/corrected/**'
+      - '.github/workflows/pw3-r3762-corrected-host-checks.yml'
+  push:
+    branches:
+      - fix/r3762-kconfig-mixedcase
+    paths:
+      - 'research/r40.4.3.7.62/corrected/**'
+      - '.github/workflows/pw3-r3762-corrected-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-reference:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ['3.9', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Verify uploaded candidate checksums and two-token fix
+        shell: bash
+        working-directory: research/r40.4.3.7.62/corrected
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          root = Path.cwd()
+          for line in (root / 'SHA256SUMS').read_text().splitlines():
+              expected, filename = line.split('  ', 1)
+              actual = hashlib.sha256((root / filename).read_bytes()).hexdigest()
+              assert actual == expected, f"checksum mismatch: {filename}"
+          src = (root / 'R4043762-PUBLIC-WARIO-KERNEL-REFERENCE-READONLY.py').read_bytes()
+          before = b'CONFIG_[A-Z0-9_]+'
+          after = b'CONFIG_[A-Za-z0-9_]+'
+          assert src.count(after) == 2, "expected exactly two regex fixes"
+          original = src.replace(after, before)
+          assert hashlib.sha256(original).hexdigest() == 'ece09d6b9c59e03d3fae8c8567fcb5255494b9a9fbd1e627c22e2f0500ca0690'
+          data = (root / 'imx60_wario_defconfig').read_bytes()
+          assert len(data) == 59582
+          blob = hashlib.sha1(b'blob ' + str(len(data)).encode('ascii') + b'\x00' + data).hexdigest()
+          assert blob == 'bbc2f92713d05dfd6ea52973fc7d958e49fa6464'
+          print('CHECKSUMS_AND_SOURCE_PINS_PASS')
+          PY
+
+      - name: Run 36 synthetic tests with symlink-free temp fixtures
+        shell: bash
+        working-directory: research/r40.4.3.7.62/corrected
+        run: |
+          export TMPDIR="$(pwd -P)/.r3762-ci-tmp"
+          export TMP="$TMPDIR" TEMP="$TMPDIR"
+          mkdir -p "$TMPDIR"
+          python -B - <<'PY'
+          import sys, unittest
+          suite = unittest.defaultTestLoader.discover('.', pattern='test_r4043762*.py')
+          assert suite.countTestCases() == 36, "expected exactly 36 host tests"
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          sys.exit(0 if result.wasSuccessful() else 1)
+          PY
+
+      - name: Audit pinned reference, preserve immutable holds
+        shell: bash
+        working-directory: research/r40.4.3.7.62/corrected
+        run: |
+          python -B - <<'PY'
+          import json, subprocess, sys
+          from pathlib import Path
+          source = 'R4043762-PUBLIC-WARIO-KERNEL-REFERENCE-READONLY.py'
+          config = str((Path.cwd() / 'imx60_wario_defconfig').resolve())
+          proc = subprocess.run(
+              [sys.executable, '-B', source, '--reference-defconfig', config],
+              capture_output=True, text=True, check=False)
+          assert proc.returncode == 0, (proc.returncode, proc.stdout, proc.stderr)
+          obj = json.loads(proc.stdout)
+          assert obj['result'] == 'PUBLIC_WARIO_KERNEL_CONFIG_REFERENCE_STATIC_ONLY'
+          assert obj['tracked_reference_feature_disagreements'] == 0
+          assert obj['tracked_public_feature_keys'] == 23
+          assert obj['source_git_blob_sha1_verified'] is True
+          assert obj['immutable_hold'] == 'NOT_BOOTABLE'
+          for flag in (
+              'boot_authorized', 'device_access_authorized',
+              'guest_execution_authorized', 'firmware_write_authorized',
+              'prune_authorized', 'mapping_applied',
+              'actual_pw3_running_kernel_config_verified',
+              'kernel_abi_runtime_compatibility_verified',
+              'kernel_tls_runtime_compatibility_verified',
+          ):
+              assert obj[flag] is False, flag
+          print('STATIC_REFERENCE_AUDIT_PASS_NOT_BOOTABLE')
+          PY
