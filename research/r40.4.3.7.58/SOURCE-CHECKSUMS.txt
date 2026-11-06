@@ -1,0 +1,6 @@
+R3758 host-verified read-only historical R26 inventory release (SHA-256)
+073461a9bbcbd55a4a9dd3d8f2af27580cd10d0f392e919d4f021d9eca936330  R4043757-INTERPRETER-ARM-BUILD-ATTRIBUTES-READONLY.py
+ff23eb681b28cba575efeb38de44172776db582d89583f88fd1e0757041f822c  R4043758-R26-INVENTORY-REVERIFICATION-READONLY.py
+6edabbdd5aa8521c9f05ee5c2a93d6c64ecdc9cfd5183a2af3f78deb3e2507f8  test_r4043758.py
+c8b052cf368cb1ad92a7740eb0ea8be702bb3fdff6edee2e61894639ceb3a584  pw3-r3758-r26-inventory-reverification-readonly.zip
+The ZIP contains 62 members, including its 61-file SHA256SUMS. Synthetic test suite 901/901 PASS from clean extraction. The original user's private R26-INVENTORY.json is NOT included or publicly uploaded. The original stage and Mac R3758 audit are UNRUN. Full runnable code is in conversation ZIP; no R3758 GitHub Actions PASS claimed.
