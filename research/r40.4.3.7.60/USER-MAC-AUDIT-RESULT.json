@@ -1,0 +1,9 @@
+{
+  "boot_authorized": false,
+  "firmware_write_authorized": false,
+  "hold_category": "R26_SOURCE_ARCHIVE_MISSING_OR_SYMLINK_HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "milestone": "R40.4.3.7.60",
+  "prune_authorized": false,
+  "result": "HOLD"
+}
