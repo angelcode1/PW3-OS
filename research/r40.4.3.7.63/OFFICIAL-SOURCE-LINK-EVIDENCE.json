@@ -1,0 +1,20 @@
+{
+  "milestone": "R40.4.3.7.63",
+  "result": "AMAZON_OFFICIAL_PW3_SOURCE_LINK_DISCOVERED_ARCHIVE_UNFETCHED",
+  "source_notice_url": "https://digprjsurvey.amazon.com/csad/help/node/200203720",
+  "device_section": "Kindle Paperwhite (7th Generation)",
+  "selected_visible_archive": "Kindle_src_5.16.2.1.1_4097470002.tar.gz",
+  "selected_link_url": "https://kindledownloads.s3.amazonaws.com/Kindle_src_5.16.2.1.1_4097470002.tar.gz",
+  "older_5_10_visible_filename": "Kindle_src_5.10.1.1_3358230034.tar.gz",
+  "older_5_10_actual_link_filename": "Kindle_src_5.10.1.1_3358210034.tar.gz",
+  "older_5_10_label_href_inconsistent": true,
+  "pinned_community_mirror_config_git_blob_sha1": "bbc2f92713d05dfd6ea52973fc7d958e49fa6464",
+  "selected_archive_download_completed": false,
+  "selected_archive_sha256_known": false,
+  "official_archive_defconfig_match_tested": false,
+  "r13_image_provenance_authenticated": false,
+  "actual_pw3_running_kernel_verified": false,
+  "firmware_write_authorized": false,
+  "boot_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
