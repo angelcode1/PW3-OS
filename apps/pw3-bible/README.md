@@ -96,3 +96,37 @@ APK, with passage links into WEB. The other reading plans remain on Home.
 
 Rebuild the archive to update the menus. The existing reader executable can
 open the rebuilt archive.
+
+## Import a batch of Life Bible downloads
+
+Add `--life-bible-dir /path/to/local-volume-mirror` to the build command. Put
+numbered SQLite files (for example, `8.sqlite` or `1016.sqlite`) directly in
+that folder. For companion files, preserve paths such as `1016/data/...`.
+To pull selected volumes from the phone, substitute the IDs you want:
+
+```sh
+src=/storage/emulated/0/Android/data/com.tecarta.TecartaBible/files/.bibles
+out="$HOME/Downloads/lifebible-samples"
+mkdir -p "$out"
+for id in 8 1016 2300; do
+    adb pull "$src/$id.sqlite" "$out/$id.sqlite" || continue
+    if adb shell "test -d '$src/$id'"; then
+        adb pull "$src/$id" "$out/"
+    fi
+done
+```
+
+Use the same directory with both `--life-bible-dir` and
+`--jesus-calling-dir` if it also contains the complete Jesus Calling sample.
+The dedicated numbered reader takes precedence for that title.
+
+The batch import uses the APK catalogue for titles and categories. It imports
+readable 66-book verse text, inline resource text, and local companion HTML
+with book/chapter grouping and basic internal links. Its per-volume output
+identifies skipped files and unavailable resource rows. Footnotes, Strong's
+lookups, artwork, original folder trees, and audio playback require separate
+support. A resource verse-range label opens its first verse in WEB. Imported
+content stays on the Mac until you copy the resulting archive to the Kindle.
+
+For large collections, build selected batches. The current reader accepts at
+most 100,000 pages and archives smaller than 2 GiB.

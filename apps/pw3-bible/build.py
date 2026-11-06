@@ -78,6 +78,8 @@ class Pages:
         self.rows[key] = [("T", clean(title)), *rows]
 
     def write(self, path, daily_start):
+        if len(self.ids) > 100_000:
+            raise ValueError("Archive exceeds the reader’s 100,000-page limit; select fewer volumes")
         records = []
         for key in self.ids:
             lines = []
@@ -96,6 +98,8 @@ class Pages:
         offsets = [offset]
         for data in records:
             offsets.append(offsets[-1] + len(data))
+        if offsets[-1] > 0x7FFFFFFF:
+            raise ValueError("Archive exceeds the reader’s 2 GiB limit; select fewer volumes")
         with path.open("wb") as file:
             file.write(struct.pack("<8sII", b"PW3BIB1\0", len(records), daily_start))
             file.write(struct.pack(f"<{len(offsets)}I", *offsets))
@@ -444,7 +448,148 @@ def add_jesus_calling(pages, sample_dir, chapters):
     print(f"Jesus Calling: {len(days)} numbered readings and Scripture links")
 
 
-def add_library(pages, apk_path, chapters, has_jesus_calling):
+def volume_catalog(products):
+    catalog = {}
+    for category, _, _, entries in products["categories"]:
+        for volume, title, *_ in entries:
+            lower = title.lower()
+            group = {22: "bibles", 23: "commentaries", 21: "study-bibles",
+                     24: "devotional-bibles", 19: "audio-bibles"}.get(category)
+            if lower.startswith("once-a-day"):
+                group = "once-a-day"
+            elif lower.startswith(("the one year ", "one year ")):
+                group = "one-year-devotions"
+            elif "devotional bible" in lower or volume == 1306:
+                group = "devotional-bibles"
+            catalog[volume] = (title, group)
+    return catalog
+
+
+def local_volume_text(source):
+    if not isinstance(source, str) or not source.strip():
+        return []
+    parser = DevotionalText()
+    parser.feed(source)
+    parser.close()
+    return parser.paragraphs()
+
+
+def local_translation(db):
+    result = defaultdict(dict)
+    for book, chapter, verse, body in db.execute(
+        "SELECT bookNum, chapter, verse, info FROM verses ORDER BY bookNum, chapter, verse"
+    ):
+        if book not in BOOKS or not isinstance(chapter, int) or chapter < 1 or not isinstance(verse, int) or not 1 <= verse <= 999:
+            raise ValueError("unsupported book, chapter, or verse numbering")
+        text = " ".join(local_volume_text(body))
+        if not text or verse in result[book, chapter]:
+            raise ValueError("empty or duplicate verse")
+        result[book, chapter][verse] = text
+    if {book for book, _ in result} != set(BOOKS):
+        raise ValueError("translation does not cover the supported 66 books")
+    return dict(result)
+
+
+def local_resources(db, folder):
+    rows = db.execute("""
+        SELECT id, title, caption, book, chapter, verse, endVerse, fileName, link, textData
+        FROM ResourceItems ORDER BY id
+    """).fetchall()
+    records, unavailable = {}, 0
+    root = (folder / "data").resolve()
+    for item, title, caption, book, chapter, verse, end, filename, onward, inline in rows:
+        body = local_volume_text(inline)
+        if not body and isinstance(filename, str) and filename.lower().endswith((".html", ".htm")):
+            asset = (root / filename).resolve()
+            if root in asset.parents and asset.is_file():
+                body = local_volume_text(asset.read_text(encoding="utf-8-sig", errors="replace"))
+        if body:
+            label = clean(title or caption or f"Entry {item}")
+            records[item] = (label, book, chapter, verse, end, body)
+    aliases = []
+    for item, title, caption, _, _, _, _, _, onward, _ in rows:
+        label = title or caption
+        target = onward.strip() if isinstance(onward, str) else ""
+        if item not in records and label and target.isascii() and target.isdecimal() and int(target) in records:
+            aliases.append((clean(label), int(target)))
+        elif item not in records:
+            unavailable += 1
+    return records, aliases, unavailable
+
+
+def add_resource_volume(pages, volume, title, records, aliases, chapters):
+    groups = defaultdict(list)
+    for item, (label, book, chapter, verse, end, body) in records.items():
+        key = ("resource-item", volume, item)
+        rows = []
+        if book in BOOKS and isinstance(chapter, int) and chapter > 0 and isinstance(verse, int) and verse > 0:
+            ref = f"{book}/{chapter}/{verse}"
+            if isinstance(end, int) and end > verse:
+                ref += f"-{end}"
+            passage = reference(ref)[0]
+            label = f"{passage} • {label}"
+            rows.append(reference_link(ref, chapters))
+        groups[(book if book in BOOKS else 0, chapter if book in BOOKS and isinstance(chapter, int) and chapter > 0 else 0)].append(link(label, key))
+        pages.page(key, label, [*rows, *map(paragraph, body)])
+    menu = []
+    if aliases:
+        alias_menu = ("resource-aliases", volume)
+        pages.page(alias_menu, f"{title} • Linked entries", [
+            link(label, ("resource-item", volume, item)) for label, item in aliases
+        ])
+        menu.append(link("Linked entries", alias_menu))
+    by_book = defaultdict(list)
+    for (book, chapter), links in sorted(groups.items()):
+        name = BOOKS[book] if book else "Standalone material"
+        label = f"Chapter {chapter}" if chapter else "Overview"
+        key = ("resource-group", volume, book, chapter)
+        pages.page(key, f"{name} • {label}", links)
+        by_book[book].append(link(label, key))
+    for book, links in by_book.items():
+        name = BOOKS[book] if book else "Standalone material"
+        key = ("resource-book", volume, book)
+        pages.page(key, name, links)
+        menu.append(link(name, key))
+    pages.page(("resource", volume), title, menu)
+
+
+def import_local_volumes(pages, root, products, translations, has_jesus_calling):
+    groups = defaultdict(list)
+    catalog = volume_catalog(products)
+    for path in sorted(root.glob("*.sqlite")):
+        if not path.stem.isascii() or not path.stem.isdecimal():
+            continue
+        volume = int(path.stem)
+        title, group = catalog.get(volume, (f"Volume {volume}", None))
+        if not group or group == "audio-bibles":
+            print(f"Life Bible {volume} {title}: skipped, unsupported catalogue category")
+            continue
+        if volume == 1306 and has_jesus_calling:
+            continue
+        try:
+            with sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True) as db:
+                db.execute("PRAGMA trusted_schema=OFF")
+                tables = {name for name, in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
+                if group == "bibles" and "verses" in tables:
+                    key = f"LB{volume}"
+                    translations[key] = local_translation(db)
+                    TRANSLATIONS[key] = title
+                    print(f"Life Bible {volume} {title}: imported verse text; notes and concordance excluded")
+                    continue
+                if "ResourceItems" not in tables:
+                    raise ValueError("unsupported database layout")
+                records, aliases, unavailable = local_resources(db, root / path.stem)
+            if not records:
+                raise ValueError("no readable inline or companion HTML entries")
+            add_resource_volume(pages, volume, title, records, aliases, translations["WEB"])
+            groups[group].append(link(title, ("resource", volume)))
+            print(f"Life Bible {volume} {title}: {len(records)} text entries, {len(aliases)} local links, {unavailable} unavailable rows")
+        except (OSError, ValueError, sqlite3.Error) as error:
+            print(f"Life Bible {volume} {title}: skipped, {error}")
+    return groups
+
+
+def add_library(pages, products, chapters, has_jesus_calling, imported):
     categories = [
         ("Bible Translations", "bibles"),
         ("Commentaries", "commentaries"),
@@ -460,10 +605,8 @@ def add_library(pages, apk_path, chapters, has_jesus_calling):
         "one-year-devotions": [link("The One Year Bible • Reading Plan", "one-year-bible")],
     }
     for title, key in categories[1:]:
-        pages.page(key, title, contents.get(key) or [paragraph("No titles imported in this category.")])
+        pages.page(key, title, (contents.get(key, []) + imported.get(key, [])) or [paragraph("No titles imported in this category.")])
 
-    with ZipFile(apk_path) as apk:
-        products = json.loads(apk.read(ASSETS + "products.json"))
     schedule = products["items"]["the-one-year-bible-reading-plan"]["devos"]
     if len(schedule) != 365:
         raise ValueError("Expected 365 entries in The One Year Bible schedule")
@@ -493,6 +636,7 @@ def main():
     ap.add_argument("--output", type=Path, required=True)
     ap.add_argument("--jesus-calling-dir", type=Path,
                     help="Local folder containing 1306.sqlite and 1306/data/Devos")
+    ap.add_argument("--life-bible-dir", type=Path, help="Local .bibles mirror with numbered databases and companion folders")
     args = ap.parse_args()
     translations = {key: load_translation(getattr(args, key.lower())) for key in TRANSLATIONS}
     daily, plans, topics, questions, refs = read_assets(args.apk)
@@ -515,8 +659,15 @@ def main():
         link("Reading Plans", "plans"), link("TouchPoints • All topics", "topics"),
         link("Browse the 2026 daily archive", "months")
     ])
+    with ZipFile(args.apk) as apk:
+        products = json.loads(apk.read(ASSETS + "products.json"))
+    imported = {}
+    if args.life_bible_dir:
+        if not args.life_bible_dir.is_dir():
+            ap.error("--life-bible-dir must point to an existing directory")
+        imported = import_local_volumes(pages, args.life_bible_dir, products, translations, bool(args.jesus_calling_dir))
     add_bibles(pages, translations)
-    add_library(pages, args.apk, web, bool(args.jesus_calling_dir))
+    add_library(pages, products, web, bool(args.jesus_calling_dir), imported)
     add_topics(pages, topics, questions, refs, web)
     unresolved = add_daily(pages, daily, topics, questions, web)
     add_plans(pages, plans, web)
