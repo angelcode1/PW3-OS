@@ -1,0 +1,70 @@
+name: R3778 user-reported Alpine keyring evidence consistency
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.78/**'
+      - '.github/workflows/pw3-r3778-evidence-checks.yml'
+  push:
+    branches:
+      - main
+      - research/r3778-keyring-corroboration
+    paths:
+      - 'research/r40.4.3.7.78/**'
+      - '.github/workflows/pw3-r3778-evidence-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate reported evidence's internal consistency (no rootfs read)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('research/r40.4.3.7.78/USER-MAC-KEYRING-RESULT.json')
+          d=json.loads(p.read_text())
+          assert d['record_type']=='USER_SUPPLIED_MAC_JSON_OFFLINE_AND_ONLINE_NOT_GITHUB_EXECUTION'
+          assert d['github_runner_executed_original_rootfs_probe'] is False
+          o=d['offline']; n=d['online']
+          assert o['observed_exit_code']==n['observed_exit_code']==2
+          assert o['result']==n['result']=='HOLD'
+          assert o['network_access_performed'] is False
+          assert o['r3777_offline_baseline_replayed'] is True
+          assert o['diagnostic']=='R3778_OFFLINE_ARCH_ALIAS_PREFLIGHT_NO_FETCH'
+          assert n['network_access_performed'] is True
+          assert n['diagnostic']=='R3778_OFFICIAL_SIGNED_KEYRING_ARCH_ALIAS_FORENSIC_STATIC_ONLY'
+          for k in ('official_main_index_signature_valid_with_staged_key','official_alpine_keys_package_downloaded',
+                    'official_alpine_keys_package_signature_valid_with_staged_key',
+                    'official_alpine_keys_package_control_identity_matches_signed_index',
+                    'official_alpine_keys_package_datahash_verified'):
+              assert n[k] is True,k
+          t=n['signed_package_key_payload_crosswalk']
+          assert t['expected_staged_key_count']==2
+          assert t['distinct_staged_public_keys_found_in_signed_package']==2
+          assert t['regular_etc_key_members_verified']==2
+          assert t['regular_shared_key_members_verified']==2
+          assert t['selected_arch_alias_symlinks_validated_lexically']==2
+          assert t['signed_package_keys_equal_staged_and_pinned_upstream'] is True
+          assert n['alpine_keys_package_pkginfo_arch_mismatch_count']==0
+          assert n['original_three_affected_packages_pkginfo_arch_mismatch_count']==3
+          assert n['original_regular_file_changed_against_signed_package']==1
+          assert n['original_symlink_target_changed_against_signed_package']==3
+          for v in (o,n):
+              assert v['immutable_hold']=='NOT_BOOTABLE'
+              assert v['hold_category']=='APK_INSTALLED_FILE_RECORD_DISAGREEMENT_HOLD'
+              assert v['r13_image_provenance_authenticated'] is False
+              assert v['independent_signer_identity_attested'] is False
+              assert v['independent_trust_root_established'] is False
+              for key in ('boot_authorized','device_access_authorized','guest_execution_authorized',
+                          'firmware_write_authorized','mapping_applied','prune_authorized',
+                          'package_install_or_filesystem_extraction_performed','source_files_executed','stage_modified'):
+                  assert v[key] is False,key
+          print('R3778_REPORTED_MAC_RESULT_INTERNALLY_CONSISTENT_NOT_BOOTABLE_NO_STAGE_ACCESS')
+          PY
