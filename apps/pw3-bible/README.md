@@ -88,8 +88,9 @@ return to the reading.
 ## Library categories
 
 The Library lists Bible Translations, Commentaries, Study Bibles, Devotional
-Bibles, The One Year Devotions, Once-A-Day Devotionals, Español, and Audio
-Bibles in Life Bible's order. Categories with no imported titles say so. The One
+Bibles, The One Year Devotions, and Once-A-Day Devotionals in Life Bible's order.
+Categories with no imported titles say so. Audio Bibles requires a verified
+playback path on PW3 Alpine. The One
 Year Devotions includes The One Year Bible's 365-day Scripture schedule from the
 APK, with passage links into WEB. The other reading plans remain on Home.
 

@@ -452,8 +452,6 @@ def add_library(pages, apk_path, chapters, has_jesus_calling):
         ("Devotional Bibles", "devotional-bibles"),
         ("The One Year Devotions", "one-year-devotions"),
         ("Once-A-Day Devotionals", "once-a-day"),
-        ("Español", "spanish"),
-        ("Audio Bibles", "audio-bibles"),
     ]
     pages.page("library", "Library", [link(title, key) for title, key in categories])
     contents = {
