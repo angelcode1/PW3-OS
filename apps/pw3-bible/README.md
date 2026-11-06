@@ -150,3 +150,16 @@ See **[AUDIO.md](AUDIO.md)** for requirements, manifest format, safety
 gates, host tests and unverified PW3 hardware dependencies. Rebuild both
 the C reader and \`bible.pw3\` archive together to add explicit audio
 book/chapter metadata. The existing boot hold remains unchanged.
+
+### Shaped Hebrew in Strong’s definitions
+
+For standalone Hebrew words, add `--hebrew-font /path/to/DejaVuSans.ttf` alongside
+`--strongs-db`. This requires Pillow with RAQM on the build host. The builder
+shapes the Hebrew and stores a small monochrome bitmap with the original
+Unicode text. The terminal preview prints the original text. The e-ink reader
+draws the bitmap. Mixed-language paragraphs continue to use the normal text
+renderer.
+
+Rebuild both the archive and reader for this option. Older reader binaries
+cannot open archives containing Hebrew bitmaps. Existing archives and builds
+that omit the option continue to work with the updated reader.

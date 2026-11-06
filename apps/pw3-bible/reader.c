@@ -12,7 +12,8 @@
 #endif
 
 typedef struct { int page, verse; } Location;
-typedef struct { char kind; Location to; char *text; } Row;
+typedef struct { const char *hex; int width, height; } WordBitmap;
+typedef struct { char kind; Location to; char *text; WordBitmap bitmap; } Row;
 typedef struct { Location place; int line; } Visit;
 
 static FILE *archive;
@@ -91,6 +92,23 @@ static int number(const char *str, int low, int high, int *out) {
     return 1;
 }
 
+static int hex_value(char c) {
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    return -1;
+}
+
+static int parse_bitmap(char **line, WordBitmap *bitmap) {
+    if (!number(field(line), 1, 512, &bitmap->width) ||
+        !number(field(line), 1, 64, &bitmap->height)) return 0;
+    bitmap->hex = field(line);
+    size_t size = (size_t)((bitmap->width + 7) / 8) * bitmap->height * 2;
+    if (!bitmap->hex || strlen(bitmap->hex) != size || !*line || !**line) return 0;
+    for (size_t i = 0; i < size; i++)
+        if (hex_value(bitmap->hex[i]) < 0) return 0;
+    return 1;
+}
+
 static int load(Location place) {
     place = resolve(place);
     if (place.page < 0 || (uint32_t)place.page >= total) return 0;
@@ -130,6 +148,9 @@ static int load(Location place) {
                     !number(field(&line), 1, 150, &metadata_chapter) || line) goto fail;
                 row->text = "";
                 continue;
+            case 'I':
+                if (!parse_bitmap(&line, &row->bitmap)) goto fail;
+                break;
             case 'P': case 'T':
                 break;
             default:
@@ -226,7 +247,7 @@ static int terminal(void) {
     }
 }
 #else
-typedef struct { char *label; int col, span, height; Location to; } Line;
+typedef struct { char *label; int col, span, height; Location to; WordBitmap bitmap; } Line;
 typedef struct { int x, y, width, height; Location to; } Hit;
 static Line *lines;
 static size_t line_count, capacity;
@@ -247,7 +268,7 @@ static int add_line(const char *s, size_t size, int col, int span, int height, L
     if (!label) return 0;
     memcpy(label, s, size);
     label[size] = 0;
-    lines[line_count++] = (Line){label, col, span, height, to};
+    lines[line_count++] = (Line){label, col, span, height, to, {0}};
     return 1;
 }
 
@@ -276,6 +297,9 @@ static int make_lines(int seek_verse) {
             col = 0;
             if (row.kind == 'B') {
                 ok = add_line(row.text, strlen(row.text), 0, grid_cols, px * 2, row.to);
+            } else if (row.kind == 'I') {
+                ok = add_line("", 0, 0, grid_cols, row.bitmap.height + px / 2, (Location){-2, 0});
+                if (ok) lines[line_count - 1].bitmap = row.bitmap;
             } else {
                 if (row.kind == 'V') {
                     passage = 1;
@@ -303,6 +327,20 @@ static int next_row(int first) {
     int next = first + 1;
     while ((size_t)next < line_count && lines[next].col) next++;
     return next;
+}
+
+static void draw_word_bitmap(WordBitmap bitmap, int x, int y, int max_width) {
+    int stride = (bitmap.width + 7) / 8;
+    int width = bitmap.width < max_width ? bitmap.width : max_width;
+    for (int row = 0; row < bitmap.height; row++) {
+        unsigned char *pixels = fb + (y + row) * PITCH + x;
+        const char *hex = bitmap.hex + row * stride * 2;
+        for (int col = 0; col < width; col++) {
+            unsigned byte = (unsigned)(hex_value(hex[(col / 8) * 2]) * 16 +
+                                       hex_value(hex[(col / 8) * 2 + 1]));
+            if (byte & (128u >> (col % 8))) pixels[col] = BLACK;
+        }
+    }
 }
 
 static void draw(void) {
@@ -335,6 +373,8 @@ static void draw(void) {
                 if (hit_count < sizeof hits / sizeof hits[0]) {
                     hits[hit_count++] = (Hit){x, y, width, line->height, line->to};
                 }
+            } else if (line->bitmap.hex) {
+                draw_word_bitmap(line->bitmap, x, y, width);
             } else {
                 text(&f_ui, px, x, y, line->label, BLACK);
             }

@@ -743,7 +743,29 @@ def add_library(pages, products, chapters, has_jesus_calling, imported):
         pages.page(("oyb-month", month), f"The One Year Bible • {name}", rows)
 
 
-def add_strongs(pages, path, chapters):
+def hebrew_word_rows(font_path):
+    from PIL import Image, ImageDraw, ImageFont, features
+
+    if not features.check_feature("raqm"):
+        raise ValueError("Hebrew word rendering requires Pillow with RAQM support")
+    font = ImageFont.truetype(str(font_path), 36, layout_engine=ImageFont.Layout.RAQM)
+
+    def make_row(line):
+        if not re.fullmatch(r"[\u0590-\u05ff .,'’–-]+", line) or not re.search(r"[\u05d0-\u05ea]", line):
+            return paragraph(line)
+        left, top, right, bottom = font.getbbox(line, direction="rtl", language="he")
+        width, height = right - left, bottom - top
+        if not (0 < width <= 512 and 0 < height <= 64):
+            return paragraph(line)
+        image = Image.new("L", (width, height))
+        ImageDraw.Draw(image).text((-left, -top), line, font=font, fill=255,
+                                  direction="rtl", language="he")
+        return ("I", width, height, image.convert("1", dither=0).tobytes().hex(), line)
+
+    return make_row
+
+
+def add_strongs(pages, path, chapters, make_row=paragraph):
     definitions = {}
     word_links = defaultdict(dict)
     failed = 0
@@ -797,7 +819,7 @@ def add_strongs(pages, path, chapters):
         pages.page(("strongs-chapter", book, chapter), f"{BOOKS[book]} {chapter} • Strong’s lookup", links)
     for number in sorted(used):
         pages.page(("strongs-definition", number), f"Strong’s {number}",
-                   [paragraph(line) for line in definitions[number]])
+                   [make_row(line) for line in definitions[number]])
     print(f"Strong’s: {len(word_links)} verses, {len(used)} linked definitions, {failed} undecodable definition rows")
     return chapter_links
 
@@ -813,7 +835,10 @@ def main():
                     help="Local folder containing 1306.sqlite and 1306/data/Devos")
     ap.add_argument("--life-bible-dir", type=Path, help="Local .bibles mirror with numbered databases and companion folders")
     ap.add_argument("--strongs-db", type=Path, help="Local Life Bible 309.sqlite for KJV word lookup")
+    ap.add_argument("--hebrew-font", type=Path, help="Hebrew-capable TTF for shaped Strong’s words (requires Pillow with RAQM and updated reader)")
     args = ap.parse_args()
+    if args.hebrew_font and not args.strongs_db:
+        ap.error("--hebrew-font requires --strongs-db")
     translations = {key: load_translation(getattr(args, key.lower())) for key in TRANSLATIONS}
     daily, plans, topics, questions, refs = read_assets(args.apk)
     web = translations["WEB"]
@@ -842,7 +867,10 @@ def main():
         if not args.life_bible_dir.is_dir():
             ap.error("--life-bible-dir must point to an existing directory")
         imported = import_local_volumes(pages, args.life_bible_dir, products, translations, bool(args.jesus_calling_dir))
-    strongs_chapters = add_strongs(pages, args.strongs_db, translations["KJV"]) if args.strongs_db else ()
+    strongs_chapters = ()
+    if args.strongs_db:
+        make_row = hebrew_word_rows(args.hebrew_font) if args.hebrew_font else paragraph
+        strongs_chapters = add_strongs(pages, args.strongs_db, translations["KJV"], make_row)
     add_bibles(pages, translations, strongs_chapters)
     add_library(pages, products, web, bool(args.jesus_calling_dir), imported)
     add_topics(pages, topics, questions, refs, web)
