@@ -1,0 +1,72 @@
+name: R3784 reported symlink equivalence evidence consistency
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.84/**'
+      - 'research/r40.4.3.7.85/**'
+      - '.github/workflows/pw3-r3784-r3785-evidence.yml'
+  push:
+    branches:
+      - main
+      - research/r3784-symlink-equivalence
+    paths:
+      - 'research/r40.4.3.7.84/**'
+      - 'research/r40.4.3.7.85/**'
+      - '.github/workflows/pw3-r3784-r3785-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-reported-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check observations and hold without reading user's private stage
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research/r40.4.3.7.84/USER-MAC-R3784-SYMLINK-PATTERN-SUMMARY.json').read_text())
+          assert d['record_type']=='USER_REPORTED_MAC_R3784_OFFLINE_AND_ONLINE_SELECTED_FIELDS'
+          assert d['offline']['exit_code']==d['online']['exit_code']==2
+          assert d['offline']['network_access_performed'] is False
+          p=d['online']
+          assert p['network_access_performed'] is True
+          assert p['candidate_minirootfs_signature_verified'] is True
+          assert p['candidate_minirootfs_sha256_manifest_verified'] is True
+          assert p['release_key_fingerprint_equal_published_fingerprint'] is True
+          x=p['signed_baseline_entry_crosswalk']
+          assert x['archive_entries']==515 and x['archive_regular']==83 and x['archive_symlink']==335 and x['archive_directories']==96
+          assert x['stage_regular_hash_equal']==83 and x['stage_regular_hash_different']==0
+          assert x['stage_symlink_literal_equal']==29 and x['stage_symlink_literal_different']==306
+          y=p['symlink_literal_pattern_audit']
+          assert y['differences_lexically_same_destination']==306
+          assert y['differences_lexically_distinct_destination']==0
+          assert y['differences_with_unsafe_or_unresolved_lexical_destination']==0
+          assert y['differences_with_changed_absolute_relative_status']==306
+          assert y['archive_target_shape_counts']=={'absolute':306}
+          assert y['stage_target_shape_counts']=={'parent_relative':225,'single_component_relative':81}
+          assert y['symlink_targets_followed'] is False
+          assert y['lexical_equivalence_proves_runtime_symlink_resolution'] is False
+          assert p['candidate_archive_verified_original_R13_input'] is False
+          assert p['r13_image_provenance_authenticated'] is False
+          assert p['stage_modified'] is False
+          for k in ('boot_authorized','device_access_authorized','guest_execution_authorized',
+                    'firmware_write_authorized','mapping_applied','prune_authorized','stage_modified'):
+              assert d[k] is False,k
+          assert p['immutable_hold']==d['offline']['immutable_hold']=='NOT_BOOTABLE'
+          t=json.loads(Path('research/r40.4.3.7.85/LOCAL-HOST-TEST-PACKAGE-METADATA.json').read_text())
+          assert t['total_host_tests_passed']==128
+          assert t['inherited_host_tests']+t['new_host_tests']==128
+          assert t['clean_extraction_verified'] and t['sha256_manifest_verified']
+          assert t['real_user_r13_stage_test_performed'] is False
+          assert t['missing_stage_exit_code']==2
+          assert t['missing_stage_network_access_performed'] is False
+          assert t['immutable_hold']=='NOT_BOOTABLE'
+          assert t['boot_authorized'] is False
+          print('R3784_USER_REPORT_CONSISTENT_R3785_HOST_ONLY_NOT_BOOTABLE')
+          PY
