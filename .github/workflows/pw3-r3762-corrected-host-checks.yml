@@ -7,6 +7,7 @@ on:
       - '.github/workflows/pw3-r3762-corrected-host-checks.yml'
   push:
     branches:
+      - main
       - fix/r3762-kconfig-mixedcase
     paths:
       - 'research/r40.4.3.7.62/corrected/**'
