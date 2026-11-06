@@ -1,0 +1,71 @@
+name: R3763 Amazon source comparison host-only checks
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.63/**'
+      - '.github/workflows/pw3-r3763-source-host-checks.yml'
+  push:
+    branches:
+      - main
+      - research/r3763-amazon-source-anchor
+    paths:
+      - 'research/r40.4.3.7.63/**'
+      - '.github/workflows/pw3-r3763-source-host-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-only:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ['3.9', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Run 14 synthetic tests on symlink-free temporary path
+        shell: bash
+        working-directory: research/r40.4.3.7.63
+        run: |
+          export TMPDIR="$(pwd -P)/.r3763-tmp"
+          export TMP="$TMPDIR" TEMP="$TMPDIR"
+          mkdir -p "$TMPDIR"
+          python -B - <<'PY'
+          import sys
+          import unittest
+          suite = unittest.defaultTestLoader.discover('.', pattern='test_r4043763.py')
+          assert suite.countTestCases() == 14, 'expected 14 synthetic host tests'
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          sys.exit(0 if result.wasSuccessful() else 1)
+          PY
+      - name: Verify static pins and immutable hold without Amazon download
+        shell: bash
+        working-directory: research/r40.4.3.7.63
+        run: |
+          python -B - <<'PY'
+          import importlib.util
+          import json
+          from pathlib import Path
+          p = Path('R4043763-AMAZON-PW3-SOURCE-COMPARE-READONLY.py')
+          spec = importlib.util.spec_from_file_location('r3763', p)
+          obj = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(obj)
+          record = json.loads(Path('OFFICIAL-SOURCE-LINK-EVIDENCE.json').read_text())
+          assert obj.PIN_BLOB == 'bbc2f92713d05dfd6ea52973fc7d958e49fa6464'
+          assert obj.PIN_SIZE == 59582
+          assert obj.OFFICIAL_ARCHIVE_URL == record['selected_link_url']
+          assert record['selected_archive_download_completed'] is False
+          assert record['official_archive_defconfig_match_tested'] is False
+          assert record['r13_image_provenance_authenticated'] is False
+          assert record['immutable_hold'] == 'NOT_BOOTABLE'
+          assert 'subprocess' not in p.read_text()
+          print('R3763_STATIC_PINS_PASS_OFFICIAL_ARCHIVE_NOT_TESTED_NOT_BOOTABLE')
+          PY
