@@ -1,0 +1,61 @@
+name: R3877 ARM execution failure evidence consistency
+
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-first-runtime/**'
+      - '.github/workflows/pw3-r3877-first-runtime-evidence.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-first-arm-exec-diagnosis
+    paths:
+      - 'research/r3877-first-runtime/**'
+      - '.github/workflows/pw3-r3877-first-runtime-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  user-report-consistency-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify summary consistency, never run R13 or Docker
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research/r3877-first-runtime/USER-MAC-R3877-R3877.1-SELECTED-RESULTS.json').read_text())
+          assert d['record_type']=='USER_REPORTED_MAC_R3877_R3877_1_RESULTS_AND_LOCAL_R3877_2_HOST_TESTS'
+          assert d['r3877_offline']['exit_code']==2
+          s=d['r3877_signed_source']
+          assert s['exit_code']==2
+          for k in ('official_release_sha256_manifest_verified','official_release_detached_signature_verified',
+                    'official_release_primary_key_fingerprint_verified'):
+              assert s[k] is True,k
+          assert s['original_r13_build_input_authenticated'] is False
+          r=d['r3877_runtime']
+          assert r['busybox_help_exit_code']==255 and not r['arm32_busybox_success']
+          assert r['image_import_attempted'] and r['image_created']
+          assert r['original_r13_stage_accessed'] is False
+          x=d['r3877_1_diagnostics']
+          assert x['exit_code']==2 and x['colima_arm_binfmt_status']=='NOT_REGISTERED'
+          for k in ('busybox_help','busybox_shell','musl_loader'):
+              assert x[k]['exit_code']==255 and x[k]['error_family']=='EXEC_FORMAT_ERROR',k
+          assert not x['privileged_container_invoked'] and not x['host_binfmt_configuration_changed']
+          t=d['r3877_2_assistant_local_source_package']
+          assert t['host_tests_passed']==139
+          assert t['inherited_host_tests']+t['new_host_tests']==139
+          assert t['real_colima_arm32_test_performed'] is False
+          assert t['requires_privileged_binfmt_registration'] is False
+          assert len(t['sha256'])==64 and set(t['sha256']).issubset(set('0123456789abcdef'))
+          for k in ('boot_authorized','device_access_authorized','firmware_write_authorized',
+                    'guest_executed_on_physical_pw3','mapping_applied_to_original_stage',
+                    'pruning_authorized','original_stage_modified','original_r13_image_provenance_authenticated'):
+              assert d['safety'][k] is False,k
+          assert d['safety']['immutable_hold']=='NOT_BOOTABLE'
+          print('R3877_USER_REPORTED_ARM_EXEC_FORMAT_FAILURE_CONSISTENT_NOT_BOOTABLE')
+          PY
