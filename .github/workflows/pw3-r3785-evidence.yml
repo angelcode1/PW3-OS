@@ -1,0 +1,67 @@
+name: R3785 user-reported virtual endpoint result consistency
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.85/**'
+      - '.github/workflows/pw3-r3785-evidence.yml'
+  push:
+    branches:
+      - main
+      - research/r3785-virtual-endpoint-crosswalk
+    paths:
+      - 'research/r40.4.3.7.85/**'
+      - '.github/workflows/pw3-r3785-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-report-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check user result consistency without stage access
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research/r40.4.3.7.85/USER-MAC-R3785-SELECTED-RESULT.json').read_text())
+          assert d['record_type']=='USER_REPORTED_MAC_R3785_OFFLINE_ONLINE_SELECTED_EVIDENCE'
+          assert d['github_ci_not_original_mac_stage_run'] is True
+          assert d['offline']['exit_code']==d['online']['exit_code']==2
+          assert d['offline']['network_access_performed'] is False
+          assert d['online']['network_access_performed'] is True
+          a=d['online']
+          assert a['candidate_minirootfs_sha256_manifest_verified'] is True
+          assert a['candidate_minirootfs_signature_verified'] is True
+          assert a['release_key_fingerprint_equal_published_fingerprint'] is True
+          assert a['release_signer_identity_out_of_band_attested'] is False
+          assert a['candidate_archive_verified_original_R13_input'] is False
+          assert a['original_r13_image_provenance_authenticated'] is False
+          assert a['signed_baseline_entry_crosswalk']['complete_minrootfs_member_overlap'] is False
+          b=a['signed_virtual_symlink_endpoint_crosswalk']
+          assert b['signed_archive_links_checked']==335
+          assert b['links_with_identical_literal_omitted_from_difference_analysis']==29
+          assert b['changed_link_targets_checked']==306
+          assert b['changed_links_same_resolved_virtual_path']==306
+          assert b['changed_links_different_resolved_virtual_path']==0
+          assert b['changed_links_same_resolved_regular_archive_member']==305
+          assert b['changed_links_same_resolved_directory_archive_member']==1
+          assert b['changed_links_with_unresolved_endpoint']==0
+          assert b['changed_links_with_stage_root_escape_or_cycle']==0
+          assert b['changed_links_with_archive_root_escape_or_cycle']==0
+          assert b['stage_link_targets_followed_by_host'] is False
+          assert b['virtual_resolution_proves_guest_runtime_semantics'] is False
+          assert a['symlink_literal_pattern_audit']['differences_lexically_same_destination']==306
+          assert a['symlink_literal_pattern_audit']['differences_lexically_distinct_destination']==0
+          assert d['safety']['immutable_hold']=='NOT_BOOTABLE'
+          assert a['immutable_hold']==d['offline']['immutable_hold']=='NOT_BOOTABLE'
+          assert a['result']=='HOLD' and d['offline']['result']=='HOLD'
+          for k in ('stage_modified','device_access_authorized','guest_execution_authorized',
+                    'boot_authorized','firmware_write_authorized','mapping_applied','prune_authorized'):
+              assert d['safety'][k] is False,k
+          print('R3785_REPORTED_VIRTUAL_ENDPOINTS_CONSISTENT_NOT_BOOTABLE_CI_ONLY')
+          PY
