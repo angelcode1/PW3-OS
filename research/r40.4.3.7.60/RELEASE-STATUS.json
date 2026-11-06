@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.60",
-  "state": "USER_MAC_R26_SOURCE_ARCHIVE_MISSING_OR_SYMLINK_HOLD",
+  "state": "USER_SHA_MATCHED_R26_ARCHIVE_RECOVERED_AWAITING_R3760_RERUN",
   "purpose": "SHA_PINNED_ORIGINAL_R26_TOOLING_ARCHIVE_VS_PUBLISHED_CHECKPOINT",
   "parent_r3759_sha256": "89f0dc418437dfbd082ef8251c0182e28731d73f55bdaee2214b60afb41b3b4",
   "source_sha256": "0409f136fb295413e80c599e3f11fd4c524cd19463f782569e969d49ce7e2a03",
@@ -33,5 +33,10 @@
   "github_actions_status": "NOT_VERIFIED",
   "github_source_publication": "RELEASE_METADATA_ONLY_RUNNABLE_CODE_IN_CONVERSATION_ZIP",
   "user_mac_result_reference": "research/r40.4.3.7.60/USER-MAC-AUDIT-RESULT.json",
-  "user_mac_hold_category": "R26_SOURCE_ARCHIVE_MISSING_OR_SYMLINK_HOLD"
+  "user_mac_hold_category": "R26_SOURCE_ARCHIVE_MISSING_OR_SYMLINK_HOLD",
+  "prior_mac_hold_preserved": true,
+  "prior_mac_hold_category": "R26_SOURCE_ARCHIVE_MISSING_OR_SYMLINK_HOLD",
+  "user_mac_archive_recovery_reference": "research/r40.4.3.7.60/USER-MAC-ARCHIVE-RECOVERY.json",
+  "user_reported_sha256_checkpoint_match": true,
+  "mac_archive_internal_integrity_audit": "NOT_RERUN"
 }
