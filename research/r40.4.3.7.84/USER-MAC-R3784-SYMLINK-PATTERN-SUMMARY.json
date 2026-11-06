@@ -1,0 +1,90 @@
+{
+  "record_type": "USER_REPORTED_MAC_R3784_OFFLINE_AND_ONLINE_SELECTED_FIELDS",
+  "observation_date": "2026-11-06",
+  "full_original_report_not_reexecuted_by_github": true,
+  "offline": {
+    "milestone": "R40.4.3.7.84",
+    "diagnostic": "R3784_OFFLINE_SIGNED_SYMLINK_PATTERN_PREFLIGHT",
+    "exit_code": 2,
+    "network_access_performed": false,
+    "result": "HOLD",
+    "immutable_hold": "NOT_BOOTABLE"
+  },
+  "online": {
+    "milestone": "R40.4.3.7.84",
+    "diagnostic": "R3784_SIGNED_MINIROOTFS_SYMLINK_PATTERN_STATIC_ONLY",
+    "exit_code": 2,
+    "network_access_performed": true,
+    "result": "HOLD",
+    "hold_category": "ORIGINAL_R13_IMAGE_PROVENANCE_UNAUTHENTICATED_HOLD",
+    "immutable_hold": "NOT_BOOTABLE",
+    "candidate_release_version": "3.24.3",
+    "candidate_release_architecture": "armv7",
+    "candidate_minirootfs_sha256_manifest_verified": true,
+    "candidate_minirootfs_signature_verified": true,
+    "release_key_fingerprint_equal_published_fingerprint": true,
+    "candidate_archive_verified_original_R13_input": false,
+    "r13_image_provenance_authenticated": false,
+    "release_signer_identity_out_of_band_attested": false,
+    "stage_modified": false,
+    "historical_package_discrepancy_regular": 1,
+    "historical_package_discrepancy_symlinks": 3,
+    "signed_baseline_entry_crosswalk": {
+      "archive_directories": 96,
+      "archive_entries": 515,
+      "archive_other_skipped": 0,
+      "archive_regular": 83,
+      "archive_symlink": 335,
+      "complete_minrootfs_member_overlap": false,
+      "stage_directory_missing_or_non_directory": 0,
+      "stage_directory_present": 96,
+      "stage_regular_bytes_compared": 5446454,
+      "stage_regular_hash_different": 0,
+      "stage_regular_hash_equal": 83,
+      "stage_regular_missing": 0,
+      "stage_regular_nonregular_or_oversize": 0,
+      "stage_symlink_literal_different": 306,
+      "stage_symlink_literal_equal": 29,
+      "stage_symlink_missing": 0,
+      "stage_symlink_non_symlink": 0
+    },
+    "symlink_literal_pattern_audit": {
+      "archive_link_literally_different_stage": 306,
+      "archive_link_literally_equal_stage": 29,
+      "archive_symlinks_rechecked": 335,
+      "archive_target_shape_counts": {
+        "absolute": 306
+      },
+      "differences_lexically_distinct_destination": 0,
+      "differences_lexically_same_destination": 306,
+      "differences_with_changed_absolute_relative_status": 306,
+      "differences_with_different_final_basename": 0,
+      "differences_with_same_final_basename": 306,
+      "differences_with_unsafe_or_unresolved_lexical_destination": 0,
+      "differing_archive_target_distinct_literal_count": 3,
+      "differing_stage_target_distinct_literal_count": 5,
+      "largest_archive_target_literal_multiplicity": 304,
+      "largest_stage_target_literal_multiplicity": 163,
+      "member_first_component_categories": {
+        "bin": 81,
+        "etc": 2,
+        "sbin": 60,
+        "usr": 163
+      },
+      "stage_symlinks_rechecked_nofollow": 335,
+      "stage_target_shape_counts": {
+        "parent_relative": 225,
+        "single_component_relative": 81
+      },
+      "symlink_targets_followed": false,
+      "lexical_equivalence_proves_runtime_symlink_resolution": false
+    }
+  },
+  "stage_modified": false,
+  "device_access_authorized": false,
+  "guest_execution_authorized": false,
+  "firmware_write_authorized": false,
+  "boot_authorized": false,
+  "mapping_applied": false,
+  "prune_authorized": false
+}
