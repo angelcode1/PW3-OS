@@ -1,0 +1,7 @@
+R3760 host-verified provenance-checkpoint research release — SHA-256
+89f0dc418437dfbd082ef8251c0182e28731d73f55bdaee2214b60afb41b3b4  R4043759-R13-MANIFEST-PROVENANCE-SURVEY-READONLY.py
+0409f136fb295413e80c599e3f11fd4c524cd19463f782569e969d49ce7e2a03  R4043760-R26-SOURCE-ARCHIVE-CHECKPOINT-READONLY.py
+17a900efd7b8c9c794058f36664a771c26a47c9d916acb8c811a3bd4e94efed9  test_r4043760.py
+3084db2fe0ec7d13618eaee609bf42083a834bba096f0a0c657287e4a4c0fa0c  pw3-os-r26-static-dependency-inventory.zip (historical documentation checkpoint; MAC USER COPY NOT VERIFIED)
+18000bd425293f67f34aa94f0fc72138073aa901d6961341b9022ff18b55bf7d  pw3-r3760-r26-source-archive-checkpoint-readonly.zip
+The conversation ZIP contains 68 members and a full 67-file SHA256SUMS manifest. Clean extraction 972/972 synthetic tests PASS. Entire distribution ZIP checksum and integrity PASS. Mac-stage original R26 ZIP not yet checked; no GitHub Actions PASS claimed.
