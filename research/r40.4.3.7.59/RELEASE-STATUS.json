@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.59",
-  "state": "HOST_SYNTHETIC_940_OF_940_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_R13_MANIFEST_PRESENT_NO_RECOGNIZED_PROVENANCE_FIELDS",
   "purpose": "READONLY_R13_MANIFEST_ORIGIN_AND_FILE_HASH_CONCURRENCE_CATEGORIES",
   "parent_r3758_source_sha256": "ff23eb681b28cba575efeb38de44172776db582d89583f88fd1e0757041f822c",
   "source_sha256": "89f0dc418437dfbd082ef8251c0182e28731d73f55bdaee2214b60afb41b3b4b",
@@ -28,5 +28,12 @@
   "firmware_write_authorized": false,
   "immutable_hold": "NOT_BOOTABLE",
   "github_actions_status": "NOT_VERIFIED",
-  "github_source_publication": "RELEASE_METADATA_ONLY_CODE_IN_CONVERSATION_ZIP"
+  "github_source_publication": "RELEASE_METADATA_ONLY_CODE_IN_CONVERSATION_ZIP",
+  "mac_stage_audit": "USER_REPORTED_COMPLETED",
+  "user_mac_report_reference": "research/r40.4.3.7.59/USER-MAC-AUDIT-RESULT.json",
+  "user_r13_manifest_located": true,
+  "user_r13_manifest_raw_hash_reverified": true,
+  "user_recognized_manifest_file_hash_records": 0,
+  "user_manifest_metadata_fields_declared": 0,
+  "independent_source_trust_anchor_supplied": false
 }
