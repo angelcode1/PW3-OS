@@ -1,0 +1,60 @@
+{
+  "milestone": "R40.4.3.7.77",
+  "record_type": "USER_SUPPLIED_MAC_JSON_WITH_SEPARATE_OFFLINE_AND_ONLINE_OBSERVATIONS",
+  "reported_on": "2026-11-06",
+  "offline": {
+    "diagnostic": "R3777_OFFLINE_KEYRING_PACKAGE_PREFLIGHT_NO_FETCH",
+    "exit_code": 2,
+    "result": "HOLD",
+    "r3776_offline_corroboration_replayed": true,
+    "staged_public_keys_equal_pinned_aports_count": 2,
+    "network_access_performed": false,
+    "official_alpine_keys_package_downloaded": false,
+    "hold_category": "APK_INSTALLED_FILE_RECORD_DISAGREEMENT_HOLD",
+    "immutable_hold": "NOT_BOOTABLE"
+  },
+  "online": {
+    "diagnostic": "R3777_FAIL_CLOSED_HOLD",
+    "exit_code": 2,
+    "result": "HOLD",
+    "network_fetch_requested": true,
+    "network_access_performed": true,
+    "hold_category": "ALPINE_KEYS_PACKAGE_MEMBER_NONREGULAR_HOLD",
+    "official_main_index_signature_valid_with_staged_key": false,
+    "official_alpine_keys_package_downloaded": false,
+    "official_alpine_keys_package_signature_valid_with_staged_key": false,
+    "official_alpine_keys_package_control_identity_matches_signed_index": false,
+    "official_alpine_keys_package_datahash_verified": false,
+    "r3776_offline_corroboration_replayed": false,
+    "staged_public_keys_equal_pinned_aports_count": 0,
+    "signed_package_key_payload_crosswalk": null,
+    "r13_image_provenance_authenticated": false,
+    "independent_trust_root_established": false,
+    "immutable_hold": "NOT_BOOTABLE"
+  },
+  "interpretation": {
+    "fail_closed_online_result_resets_verification_flags": true,
+    "reported_false_verification_flags_are_not_independent_evidence_of_signature_failure": true,
+    "pinned_alpine_keys_recipe_installs_regular_and_arch_symlink_entries": true,
+    "pinned_source": "https://github.com/alpinelinux/aports/blob/f223d8d0d1a43fb02d57c33c52f999eb7197bd54/main/alpine-keys/APKBUILD",
+    "strict_r3777_parser_rejects_nonregular_matching_basename": true,
+    "underlying_actual_official_apk_member_type_verified_independently": false,
+    "underlying_archive_version_source_provenance_independently_attested": false,
+    "original_regular_file_changed_against_signed_package": 1,
+    "original_symlink_target_changed_against_signed_package": 3,
+    "original_three_affected_packages_pkginfo_arch_mismatch_count": 3,
+    "arch_index_rewrite_invocation_in_original_build_proven": false
+  },
+  "forbidden_operations": {
+    "boot_authorized": false,
+    "device_access_authorized": false,
+    "guest_execution_authorized": false,
+    "firmware_write_authorized": false,
+    "mapping_applied": false,
+    "prune_authorized": false,
+    "stage_modified": false
+  },
+  "user_private_archive_or_rootfs_uploaded_to_github": false,
+  "original_mac_program_rerun_in_github_actions": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
