@@ -1,0 +1,12 @@
+R3762 checksum pins — 2026-11-06, host verified
+Public GPL reference revision: katadelos/linux-3.0.35-lab126 commit 7ac2585f384573da8cbdcc987a3503e2e6ff1fb4
+Public arch/arm/configs/imx60_wario_defconfig: Git blob SHA1 bbc2f92713d05dfd6ea52973fc7d958e49fa6464, 59582 bytes
+SHA256 source/tooling ZIP:
+ece09d6b9c59e03d3fae8c8567fcb5255494b9a9fbd1e627c22e2f0500ca0690  R4043762-PUBLIC-WARIO-KERNEL-REFERENCE-READONLY.py
+0ad8acfb236028239d426963a7a54c88ac0b84681935ae67ab6d4271af16b636  test_r4043762.py
+a32979a2e0cb287c582573111a00b791afc717ad29254da1541f7f8404623feb  ZIP_BUNDLED_README.md
+df44c70e1e8fd5197574d99643ef318f8e86c19037bafbb79988528901055ba0  ZIP_BUNDLED_RELEASE-STATUS.json
+f39ed375cb13d40b0fb7e8beb3c92ef5e6c3aa6ef092686472014b1613af9896  ZIP_BUNDLED_pw3-r3762-host-checks.yml
+27325fd3ad09b56410798fb4ea3307731189c9d7a19004bb46be2212d32c610c  ZIP_BUNDLED_SHA256SUMS
+62628fb7abbf1ef97fe702c5a4d8463e925f21a0bf86a7ca56fa4e6d7118eeeb  pw3-r3762-public-kernel-reference-readonly.zip
+Six total archive members; five SHA256SUMS entries verified after clean extraction, 32/32 standalone synthetic tests pass. R3762 executable source bundled in conversation ZIP only; GitHub README and release status are separate documents. No GitHub Actions pass claimed.
