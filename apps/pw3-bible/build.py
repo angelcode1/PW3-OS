@@ -501,7 +501,7 @@ NIV_PLACEHOLDERS = {
 
 
 DUPLICATE_VERSE_RECORDS = {46: (48, 16, 9), 65: (51, 8, 1)}
-EMPTY_VERSE_RECORDS = {86: (9, 13, 1), 202: (49, 17, 36), 218: (47, 17, 21)}
+VOLUMES_WITH_EMPTY_VERSE_RECORDS = {86, 202, 218}
 
 
 def local_translation(db, volume=None):
@@ -523,7 +523,7 @@ def local_translation(db, volume=None):
         if not text:
             if volume == 32 and ref in NIV_PLACEHOLDERS and (body is None or isinstance(body, str)):
                 text = "[No main-text verse in this edition]"
-            elif ref == EMPTY_VERSE_RECORDS.get(volume) and body == "":
+            elif volume in VOLUMES_WITH_EMPTY_VERSE_RECORDS and body == "":
                 text = "[Empty verse record in source]"
             else:
                 raise ValueError(f"empty verse after text extraction at {BOOKS[book]} {chapter}:{verse}")
