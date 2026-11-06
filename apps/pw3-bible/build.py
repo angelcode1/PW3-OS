@@ -133,7 +133,7 @@ def load_translation(path):
 
 
 def add_bibles(pages, translations):
-    pages.page("bibles", "Bible translations", [
+    pages.page("bibles", "Bible Translations", [
         link(f"{key}  |  {TRANSLATIONS[key]}", ("books", key)) for key in translations
     ])
     for key, chapters in translations.items():
@@ -444,6 +444,48 @@ def add_jesus_calling(pages, sample_dir, chapters):
     print(f"Jesus Calling: {len(days)} numbered readings and Scripture links")
 
 
+def add_library(pages, apk_path, chapters, has_jesus_calling):
+    categories = [
+        ("Bible Translations", "bibles"),
+        ("Commentaries", "commentaries"),
+        ("Study Bibles", "study-bibles"),
+        ("Devotional Bibles", "devotional-bibles"),
+        ("The One Year Devotions", "one-year-devotions"),
+        ("Once-A-Day Devotionals", "once-a-day"),
+        ("Español", "spanish"),
+        ("Audio Bibles", "audio-bibles"),
+    ]
+    pages.page("library", "Library", [link(title, key) for title, key in categories])
+    contents = {
+        "devotional-bibles": [link("Jesus Calling Devotional Bible", "jesus-calling")]
+        if has_jesus_calling else [],
+        "one-year-devotions": [link("The One Year Bible • Reading Plan", "one-year-bible")],
+    }
+    for title, key in categories[1:]:
+        pages.page(key, title, contents.get(key) or [paragraph("No titles imported in this category.")])
+
+    with ZipFile(apk_path) as apk:
+        products = json.loads(apk.read(ASSETS + "products.json"))
+    schedule = products["items"]["the-one-year-bible-reading-plan"]["devos"]
+    if len(schedule) != 365:
+        raise ValueError("Expected 365 entries in The One Year Bible schedule")
+    pages.page("one-year-bible", "The One Year Bible • Reading Plan", [
+        link(calendar.month_name[month], ("oyb-month", month), grid=True) for month in range(1, 13)
+    ])
+    for month in range(1, 13):
+        name = calendar.month_name[month]
+        rows = []
+        for day in range(1, calendar.monthrange(2026, month)[1] + 1):
+            index = (date(2026, month, day) - DATE0).days
+            key = ("oyb-day", index)
+            rows.append(link(f"{name} {day}", key))
+            passages, _ = schedule[index]
+            pages.page(key, f"The One Year Bible • {name} {day}", [
+                reference_link(ref, chapters) for ref in passages.split(";")
+            ])
+        pages.page(("oyb-month", month), f"The One Year Bible • {name}", rows)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--apk", type=Path, required=True)
@@ -469,15 +511,14 @@ def main():
             pages.reserve(("card", day, kind))
     [vision] = [i for i, title in topics.items() if title.casefold() == "vision"]
     pages.page("home", "Bible on Paperwhite", [
-        link("Bible • Book, chapter, verse", "bibles"),
+        link("Library", "library"),
         link("Daily Verse", "today", 1), link("Daily TouchPoint", "today", 2),
         link("Daily Devotional", "today", 3), link("TouchPoint • Vision", ("topic", vision)),
         link("Reading Plans", "plans"), link("TouchPoints • All topics", "topics"),
-        link("Browse the 2026 daily archive", "months"),
-        *([link("Jesus Calling • Numbered readings", "jesus-calling")]
-          if args.jesus_calling_dir else [])
+        link("Browse the 2026 daily archive", "months")
     ])
     add_bibles(pages, translations)
+    add_library(pages, args.apk, web, bool(args.jesus_calling_dir))
     add_topics(pages, topics, questions, refs, web)
     unresolved = add_daily(pages, daily, topics, questions, web)
     add_plans(pages, plans, web)

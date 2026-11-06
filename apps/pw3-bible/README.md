@@ -81,6 +81,17 @@ extracts display text from the local HTML. It adds the numbered readings and
 Scripture anchors to the archive. Keep the downloaded files and generated archive
 local.
 
-In the Mac preview, open **Jesus Calling • Numbered readings**. Compare Days 1
+In the Mac preview, open **Library → Devotional Bibles → Jesus Calling Devotional Bible**. Compare Days 1
 and 261 with Life Bible offline, open Day 1's Genesis 1:1 link, and press `b` to
 return to the reading.
+
+## Library categories
+
+The Library lists Bible Translations, Commentaries, Study Bibles, Devotional
+Bibles, The One Year Devotions, Once-A-Day Devotionals, Español, and Audio
+Bibles in Life Bible's order. Categories with no imported titles say so. The One
+Year Devotions includes The One Year Bible's 365-day Scripture schedule from the
+APK, with passage links into WEB. The other reading plans remain on Home.
+
+Rebuild the archive to update the menus. The existing reader executable can
+open the rebuilt archive.
