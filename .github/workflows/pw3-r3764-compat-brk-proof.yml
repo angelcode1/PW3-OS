@@ -1,0 +1,76 @@
+name: R3764 COMPAT_BRK fingerprint proof host-only
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.64/**'
+      - '.github/workflows/pw3-r3764-compat-brk-proof.yml'
+  push:
+    branches:
+      - main
+      - research/r3764-compat-brk-delta-evidence
+    paths:
+      - 'research/r40.4.3.7.64/**'
+      - '.github/workflows/pw3-r3764-compat-brk-proof.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reference-proof:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ['3.9', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Run 5 host-only proof tests
+        shell: bash
+        run: |
+          export TMPDIR="$(pwd -P)/.r3764-ci-tmp"
+          export TMP="$TMPDIR" TEMP="$TMPDIR"
+          mkdir -p "$TMPDIR"
+          python -B - <<'PY'
+          import unittest
+          import sys
+          suite = unittest.defaultTestLoader.discover('research/r40.4.3.7.64', pattern='test_r4043764_fingerprint_proof.py')
+          assert suite.countTestCases() == 5
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          sys.exit(0 if result.wasSuccessful() else 1)
+          PY
+      - name: Verify reported blob fingerprint and unchanged safety boundaries
+        shell: bash
+        run: |
+          python -B - <<'PY'
+          import json
+          import subprocess
+          import sys
+          from pathlib import Path
+          root = Path('research/r40.4.3.7.64')
+          record = json.loads((root/'USER-MAC-AUDIT-AND-RECONSTRUCTION.json').read_text())
+          source = root/'R4043764-COMPAT-BRK-FINGERPRINT-PROOF.py'
+          r = subprocess.run([sys.executable, '-B', str(source)], capture_output=True, text=True)
+          assert r.returncode == 0, (r.returncode, r.stdout, r.stderr)
+          obj = json.loads(r.stdout)
+          assert obj['result'] == 'SINGLE_SETTING_FINGERPRINT_REPRODUCED_STATIC_ONLY'
+          assert obj['reconstructed_blob_git_sha1'] == record['amazon_config_git_blob_sha1']
+          assert obj['reconstructed_size_bytes'] == record['amazon_config_size_bytes']
+          assert obj['reconstructed_sha256'] == record['reconstructed_exact_single_line_change']['candidate_sha256']
+          assert record['shared_option_raw_value_changed_sample'] == ['CONFIG_COMPAT_BRK']
+          assert record['tracked_feature_status_difference_count'] == 0
+          assert record['actual_blob_match'] is False
+          assert record['exit_code_observed'] == 2
+          assert record['immutable_hold'] == obj['immutable_hold'] == 'NOT_BOOTABLE'
+          for flag in ('boot_authorized', 'device_access_authorized', 'firmware_write_authorized',
+                       'r13_image_provenance_authenticated', 'actual_pw3_running_kernel_verified',
+                       'amazon_config_full_bytes_compared', 'actual_amazon_archive_opened'):
+              assert obj[flag] is False, flag
+          print('R3764_PUBLIC_REFERENCE_FINGERPRINT_REPRODUCED_NOT_BOOTABLE')
+          PY
