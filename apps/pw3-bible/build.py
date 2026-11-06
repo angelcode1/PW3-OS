@@ -465,6 +465,21 @@ def volume_catalog(products):
     return catalog
 
 
+LEGACY_DEVOTIONAL_GROUPS = {
+    **dict.fromkeys((1710, 2001, 2003, 2006, 2007, 2019), "one-year-devotions"),
+    **dict.fromkeys((2100, 2101, 2102, 2103, 2104, 2105, 2106, 2108, 2109, 2110, 2111), "once-a-day"),
+}
+
+
+def legacy_devotional(db, volume):
+    row = db.execute(
+        "SELECT name FROM info WHERE identifier = ? AND type = 3", (volume,)
+    ).fetchone()
+    if not row or not isinstance(row[0], str) or not row[0].strip():
+        raise ValueError("missing matching legacy devotional metadata")
+    return clean(row[0])
+
+
 def local_volume_text(source):
     if not isinstance(source, str) or not source.strip():
         return []
@@ -482,8 +497,10 @@ def local_translation(db):
         if book not in BOOKS or not isinstance(chapter, int) or chapter < 1 or not isinstance(verse, int) or not 1 <= verse <= 999:
             raise ValueError("unsupported book, chapter, or verse numbering")
         text = " ".join(local_volume_text(body))
-        if not text or verse in result[book, chapter]:
-            raise ValueError("empty or duplicate verse")
+        if not text:
+            raise ValueError(f"empty verse after text extraction at {BOOKS[book]} {chapter}:{verse}")
+        if verse in result[book, chapter]:
+            raise ValueError(f"duplicate verse at {BOOKS[book]} {chapter}:{verse}")
         result[book, chapter][verse] = text
     if {book for book, _ in result} != set(BOOKS):
         raise ValueError("translation does not cover the supported 66 books")
@@ -560,7 +577,7 @@ def import_local_volumes(pages, root, products, translations, has_jesus_calling)
         if not path.stem.isascii() or not path.stem.isdecimal():
             continue
         volume = int(path.stem)
-        title, group = catalog.get(volume, (f"Volume {volume}", None))
+        title, group = catalog.get(volume, (f"Volume {volume}", LEGACY_DEVOTIONAL_GROUPS.get(volume)))
         if not group or group == "audio-bibles":
             print(f"Life Bible {volume} {title}: skipped, unsupported catalogue category")
             continue
@@ -569,6 +586,8 @@ def import_local_volumes(pages, root, products, translations, has_jesus_calling)
         try:
             with sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True) as db:
                 db.execute("PRAGMA trusted_schema=OFF")
+                if volume not in catalog:
+                    title = legacy_devotional(db, volume)
                 tables = {name for name, in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
                 if group == "bibles" and "verses" in tables:
                     key = f"LB{volume}"
