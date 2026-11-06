@@ -1,0 +1,8 @@
+R3757 read-only AEABI ARM file build-attribute audit — verified host SHA256
+786aca0dd7e577e82a8292019d6dac4bad89fbf8ef2852bf171dfeed04c0760d  R4043756-INTERPRETER-SELF-GNU-VERSION-METADATA-READONLY.py
+073461a9bbcbd55a4a9dd3d8f2af27580cd10d0f392e919d4f021d9eca936330  R4043757-INTERPRETER-ARM-BUILD-ATTRIBUTES-READONLY.py
+7099b868982e0aab790dd39c8b63da825bcef8fdb2210e332f5c638ba044a777  test_r4043757.py
+f563d0624f4bec7a2b55b8eb138e29aa31df7fea17e34d84d4eed1e05db39ed8  pw3-r3757-arm-build-attributes-readonly.zip
+The ZIP includes a full 58-file SHA256SUMS manifest plus unchanged pinned predecessor scripts and regression tests (59 members total).
+Verified after clean extraction: 863 of 863 synthetic tests pass; full manifest and ZIP integrity pass.
+GitHub contains release metadata only; runnable code is in conversation ZIP; no GitHub Actions PASS claimed.
