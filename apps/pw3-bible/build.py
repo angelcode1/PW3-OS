@@ -534,12 +534,12 @@ def local_translation(db, volume=None):
     return dict(result), placeholders, additional
 
 
-def local_resources(db, folder, has_folders=False, word_study_text=None):
+def local_resources(db, folder, has_folders=False):
     rows = db.execute("""
         SELECT id, title, caption, book, chapter, verse, endVerse, fileName, link, textData
         FROM ResourceItems ORDER BY id
     """).fetchall()
-    records, unavailable, recovered = {}, 0, 0
+    records, unavailable = {}, 0
     root = (folder / "data").resolve()
     for item, title, caption, book, chapter, verse, end, filename, onward, inline in rows:
         body = local_volume_text(inline)
@@ -547,11 +547,6 @@ def local_resources(db, folder, has_folders=False, word_study_text=None):
             asset = (root / filename).resolve()
             if root in asset.parents and asset.is_file():
                 body = local_volume_text(asset.read_text(encoding="utf-8-sig", errors="replace"))
-        if not body and word_study_text and book in BOOKS and chapter and verse and chapter > 0 and verse > 0:
-            candidate = word_study_text.get(item)
-            if isinstance(candidate, str) and len(clean(candidate)) >= 100:
-                body = ["Source index text • original formatting unavailable", clean(candidate)]
-                recovered += 1
         if body:
             label = clean(title or caption or f"Entry {item}")
             records[item] = (label, book, chapter, verse, end, body)
@@ -589,7 +584,7 @@ def local_resources(db, folder, has_folders=False, word_study_text=None):
     }
     folders = {item: links for item, links in folders.items() if links}
     unavailable -= len(folders.keys() - readable)
-    return records, aliases, unavailable, labels, folders, recovered
+    return records, aliases, unavailable, labels, folders
 
 
 def add_resource_folders(pages, volume, title, records, aliases, labels, folders):
@@ -692,24 +687,14 @@ def import_local_volumes(pages, root, products, translations, has_jesus_calling)
                     continue
                 if "ResourceItems" not in tables:
                     raise ValueError("unsupported database layout")
-                word_study_text = None
-                if volume == 1315 and {"ResourceText", "ResourceItemTypes"} <= tables:
-                    word_study_text = dict(db.execute("""
-                        SELECT r.itemID, min(r.info)
-                        FROM ResourceText AS r
-                        JOIN (SELECT DISTINCT itemID FROM ResourceItemTypes WHERE type = 19) AS t
-                          ON t.itemID = r.itemID
-                        GROUP BY r.itemID
-                        HAVING count(DISTINCT r.info) = 1
-                    """))
-                records, aliases, unavailable, labels, folders, recovered = local_resources(
-                    db, root / path.stem, "ResourceItemsFolders" in tables, word_study_text
+                records, aliases, unavailable, labels, folders = local_resources(
+                    db, root / path.stem, "ResourceItemsFolders" in tables
                 )
             if not records:
                 raise ValueError("no readable inline or companion HTML entries")
             add_resource_volume(pages, volume, title, records, aliases, translations["WEB"], labels, folders)
             groups[group].append(link(title, ("resource", volume)))
-            print(f"Life Bible {volume} {title}: {len(records)} text entries, {recovered} source-index readings, {len(aliases)} local links, {len(folders)} source folders, {unavailable} unavailable rows")
+            print(f"Life Bible {volume} {title}: {len(records)} text entries, {len(aliases)} local links, {len(folders)} source folders, {unavailable} unavailable rows")
         except (OSError, ValueError, sqlite3.Error) as error:
             print(f"Life Bible {volume} {title}: skipped, {error}")
     return groups
