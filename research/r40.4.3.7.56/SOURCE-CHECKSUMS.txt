@@ -1,0 +1,8 @@
+R3756 host-verified release SHA256 pins
+eb1c7ef30f1a9d9a532a009589bbf5877ec19ec57f9e3200055f3ea989d934eb  R4043755-INTERPRETER-RELCOUNT-AND-SYMBOL-GEOMETRY-READONLY.py
+786aca0dd7e577e82a8292019d6dac4bad89fbf8ef2852bf171dfeed04c0760d  R4043756-INTERPRETER-SELF-GNU-VERSION-METADATA-READONLY.py
+72488da356b5731cca2ff8b7d0f71fa6966b81a80345fe8b0e373eeee0064390  test_r4043756.py
+c1f60e9f1729eba412e495f16de9c96e707b6683df2e993d876ddb295def37c1  pw3-r3756-interpreter-gnu-version-selfsymbols-readonly.zip
+The ZIP includes 57 files, a 56-entry SHA256SUMS and the unchanged pinned predecessors.
+Verified from clean extraction: 804/804 synthetic tests PASS; all file hashes PASS; ZIP integrity PASS.
+No real Mac stage audit or runtime loader use is verified. No GitHub Actions PASS is claimed.
