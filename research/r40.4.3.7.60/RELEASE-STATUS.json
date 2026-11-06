@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.60",
-  "state": "HOST_SYNTHETIC_972_OF_972_PASS_MAC_R26_ARCHIVE_UNRUN",
+  "state": "USER_MAC_R26_SOURCE_ARCHIVE_MISSING_OR_SYMLINK_HOLD",
   "purpose": "SHA_PINNED_ORIGINAL_R26_TOOLING_ARCHIVE_VS_PUBLISHED_CHECKPOINT",
   "parent_r3759_sha256": "89f0dc418437dfbd082ef8251c0182e28731d73f55bdaee2214b60afb41b3b4",
   "source_sha256": "0409f136fb295413e80c599e3f11fd4c524cd19463f782569e969d49ce7e2a03",
@@ -15,7 +15,7 @@
   "clean_extract_synthetic_tests": "972_OF_972_PASS",
   "checksum_manifest": "PASS",
   "zip_integrity": "PASS",
-  "user_mac_archive_audit": "NOT_EXECUTED",
+  "user_mac_archive_audit": "HOLD",
   "user_r3759_manifest_survey": "NO_RECOGNIZED_AUTHENTICATION_OR_HASH_COLLECTION",
   "user_r3758_stage_historical_inventory_match": true,
   "r26_tooling_source_archive_origin_authenticated": false,
@@ -31,5 +31,7 @@
   "firmware_write_authorized": false,
   "immutable_hold": "NOT_BOOTABLE",
   "github_actions_status": "NOT_VERIFIED",
-  "github_source_publication": "RELEASE_METADATA_ONLY_RUNNABLE_CODE_IN_CONVERSATION_ZIP"
+  "github_source_publication": "RELEASE_METADATA_ONLY_RUNNABLE_CODE_IN_CONVERSATION_ZIP",
+  "user_mac_result_reference": "research/r40.4.3.7.60/USER-MAC-AUDIT-RESULT.json",
+  "user_mac_hold_category": "R26_SOURCE_ARCHIVE_MISSING_OR_SYMLINK_HOLD"
 }
