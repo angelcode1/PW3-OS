@@ -1,0 +1,52 @@
+name: R3777 user Mac failure evidence static checks
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.77/**'
+      - '.github/workflows/pw3-r3777-evidence-checks.yml'
+  push:
+    branches:
+      - main
+      - research/r3777-archive-alias-diagnostic
+    paths:
+      - 'research/r40.4.3.7.77/**'
+      - '.github/workflows/pw3-r3777-evidence-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preserve fail-closed status and verify record consistency
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          v=json.loads(Path('research/r40.4.3.7.77/USER-MAC-KEYRING-RESULT.json').read_text())
+          assert v['record_type']=='USER_SUPPLIED_MAC_JSON_WITH_SEPARATE_OFFLINE_AND_ONLINE_OBSERVATIONS'
+          assert v['offline']['diagnostic']=='R3777_OFFLINE_KEYRING_PACKAGE_PREFLIGHT_NO_FETCH'
+          assert v['offline']['exit_code']==2
+          assert v['offline']['r3776_offline_corroboration_replayed']
+          assert v['offline']['staged_public_keys_equal_pinned_aports_count']==2
+          assert v['offline']['network_access_performed'] is False
+          assert v['online']['diagnostic']=='R3777_FAIL_CLOSED_HOLD'
+          assert v['online']['hold_category']=='ALPINE_KEYS_PACKAGE_MEMBER_NONREGULAR_HOLD'
+          assert v['online']['exit_code']==2
+          assert v['online']['network_access_performed'] is True
+          assert v['online']['signed_package_key_payload_crosswalk'] is None
+          assert v['interpretation']['fail_closed_online_result_resets_verification_flags']
+          assert v['interpretation']['underlying_actual_official_apk_member_type_verified_independently'] is False
+          assert v['online']['independent_trust_root_established'] is False
+          assert v['online']['r13_image_provenance_authenticated'] is False
+          assert v['immutable_hold']=='NOT_BOOTABLE'
+          for k, val in v['forbidden_operations'].items():
+              assert val is False,k
+          assert v['original_mac_program_rerun_in_github_actions'] is False
+          print('R3777_USER_REPORTED_HOLD_PRESERVED_NO_PRIVATE_STAGE_ACCESS')
+          PY
