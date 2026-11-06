@@ -1,0 +1,20 @@
+{
+  "milestone": "R40.4.3.7.60",
+  "record_type": "USER_REPORTED_ARCHIVE_RECOVERY_AFTER_ORIGINAL_HOLD",
+  "search_archives_checked": 181,
+  "checksum_matches": 1,
+  "matched_basename": "pw3-os-r26-static-dependency-inventory.zip",
+  "sha256_matches_documented_checkpoint": true,
+  "documented_sha256": "3084db2fe0ec7d13618eaee609bf42083a834bba096f0a0c657287e4a4c0fa0c",
+  "prior_result": "HOLD",
+  "prior_hold_category": "R26_SOURCE_ARCHIVE_MISSING_OR_SYMLINK_HOLD",
+  "prior_hold_preserved": true,
+  "archive_internal_checksum_validation": "NOT_RERUN",
+  "original_r26_source_provenance_authenticated": false,
+  "guest_interpreter_path_resolved": false,
+  "stage_modified": false,
+  "boot_authorized": false,
+  "prune_authorized": false,
+  "firmware_write_authorized": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
