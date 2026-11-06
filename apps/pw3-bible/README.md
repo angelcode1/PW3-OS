@@ -130,3 +130,23 @@ content stays on the Mac until you copy the resulting archive to the Kindle.
 
 For large collections, build selected batches. The current reader accepts at
 most 100,000 pages and archives smaller than 2 GiB.
+
+
+## Optional Bluetooth audio (feature-gated)
+
+The chapter reading screen includes an optional e-ink audio dropdown and
+Play/Pause control. **It is hidden unless Alpine detects both a Bluetooth
+radio and connected Bluetooth audio output, and mpv is available.** The
+2015 Paperwhite 3 is not known to offer built-in Bluetooth, so this needs
+verified external hardware and a working BlueZ/Pulse-compatible audio stack.
+
+Old Testament: **KJV Drama or CSB**. New Testament: **KJV Drama, CSB or
+Breathe Bible NLT**. Controls apply to the current book and chapter.
+The player accepts only user-configured authorised sources from
+\`audio-links.tsv\`; CSB and Breathe URLs have not yet been validated.
+Changing chapters or leaving the reader stops playback.
+
+See **[AUDIO.md](AUDIO.md)** for requirements, manifest format, safety
+gates, host tests and unverified PW3 hardware dependencies. Rebuild both
+the C reader and \`bible.pw3\` archive together to add explicit audio
+book/chapter metadata. The existing boot hold remains unchanged.

@@ -163,7 +163,9 @@ def add_bibles(pages, translations):
                 link("Read from the start", read),
                 *[link(verse, read, verse, grid=True) for verse in verses]
             ])
-            rows = [link("Choose book, chapter or verse", ("pick", key, book, chapter)),
+            # Explicit chapter metadata for the optional Bluetooth audio controller.
+            # The matching reader accepts this additive 'A' row; older binaries do not.
+            rows = [("A", book, chapter), link("Choose book, chapter or verse", ("pick", key, book, chapter)),
                     link("Change translation", ("switch", key, book, chapter))]
             pages.page(("pick", key, book, chapter), f"Go to • {location}", [
                 link("Book", ("books", key)), link("Chapter", ("chapter", key, book)),

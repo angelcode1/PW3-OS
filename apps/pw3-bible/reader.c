@@ -23,6 +23,10 @@ static size_t row_count;
 static Visit current, history[64];
 static size_t depth;
 static const char *preview_date;
+static int chapter_book, chapter_num;
+#ifndef PW3_HOST
+static void audio_on_page(void);
+#endif
 
 static int read_u32(uint32_t *value) {
     unsigned char bytes[4];
@@ -94,6 +98,7 @@ static int load(Location place) {
     char *buf = malloc(length + 1);
     if (!buf) return 0;
     Row *parsed = NULL;
+    int metadata_book = 0, metadata_chapter = 0;
     if (fseek(archive, (long)offsets[place.page], SEEK_SET) ||
         fread(buf, 1, length, archive) != length || buf[length - 1] != '\n') goto fail;
     buf[length] = 0;
@@ -120,6 +125,11 @@ static int load(Location place) {
             case 'V':
                 if (!number(field(&line), 1, 999, &row->to.verse)) goto fail;
                 break;
+            case 'A':
+                if (metadata_book || !number(field(&line), 1, 73, &metadata_book) ||
+                    !number(field(&line), 1, 150, &metadata_chapter) || line) goto fail;
+                row->text = "";
+                continue;
             case 'P': case 'T':
                 break;
             default:
@@ -133,6 +143,8 @@ static int load(Location place) {
     storage = buf;
     rows = parsed;
     row_count = count;
+    chapter_book = metadata_book;
+    chapter_num = metadata_chapter;
     return 1;
 fail:
     free(buf);
@@ -151,6 +163,9 @@ static int jump(Location place, int remember) {
         history[depth++] = current;
     }
     current = (Visit){place, 0};
+#ifndef PW3_HOST
+    audio_on_page();
+#endif
     return 1;
 }
 
@@ -160,6 +175,9 @@ static void back(void) {
         if (load(previous.place)) {
             current = previous;
             depth--;
+#ifndef PW3_HOST
+            audio_on_page();
+#endif
         }
     }
 }
@@ -215,6 +233,7 @@ static size_t line_count, capacity;
 static Hit hits[128];
 static size_t hit_count;
 static int margin, grid_cols, px, page_end, passage;
+#include "audio_ui.h"
 
 static int add_line(const char *s, size_t size, int col, int span, int height, Location to) {
     if (line_count == capacity) {
@@ -249,6 +268,7 @@ static int make_lines(int seek_verse) {
     grid_cols = 5;
     for (size_t i = 1; i < row_count; i++) {
         Row row = rows[i];
+        if (row.kind == 'A') continue;
         if (row.kind == 'G') {
             ok = add_line(row.text, strlen(row.text), col, 1, px * 2, row.to);
             col = (col + 1) % grid_cols;
@@ -286,7 +306,8 @@ static int next_row(int first) {
 }
 
 static void draw(void) {
-    int box = px * 2, top = box * 2 + margin / 2, bottom = H - box - 8;
+    int box = px * 2, top = box * 2 + margin / 2 +
+        (audio_visible && chapter_book ? 3 * px : 0), bottom = H - box - 8;
     fill(0, 0, W, H, WHITE);
     char heading[220];
     text_fit(&f_ui, px + 3, rows[0].text, W - 2 * margin - (passage ? px * 4 : 0), heading, sizeof heading);
@@ -326,6 +347,7 @@ static void draw(void) {
     if (current.line) text(&f_ui, px - 2, margin, bottom + px / 3, "< Previous", BLACK);
     if ((size_t)page_end < line_count)
         text_right(&f_ui, px - 2, W - margin, bottom + px / 3, "Next >", BLACK);
+    audio_draw_controls(top, margin, px);
 }
 
 static void turn(int step) {
@@ -353,6 +375,7 @@ static int kindle(void) {
         fputs("PW3 touch input unavailable\n", stderr);
         return 1;
     }
+    audio_visible = audio_run("ready", 0, 0, 0);
     if (!make_lines(1)) return 1;
     draw();
     refresh_all();
@@ -360,7 +383,9 @@ static int kindle(void) {
         event e = input_wait(-1);
         if (e.type == EV_POWER) break;
         if (e.type != EV_TAP) continue;
-        if (abs(e.ux - e.x) > W / 7) {
+        if (audio_handle_tap(e.ux, e.uy)) {
+            /* Native audio selector or Play/Pause was handled. */
+        } else if (abs(e.ux - e.x) > W / 7) {
             turn(e.ux < e.x ? 1 : -1);
         } else if (e.uy >= H - px * 2 - 8) {
             turn(e.ux < W / 2 ? -1 : 1);
@@ -384,6 +409,7 @@ static int kindle(void) {
         draw();
         flip();
     }
+    audio_stop();
     return 0;
 }
 #endif
