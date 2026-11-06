@@ -1,0 +1,38 @@
+{
+  "boot_authorized": false,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_r3745_hold_preserved": true,
+  "immutable_hold": "NOT_BOOTABLE",
+  "independent_source_trust_anchor_supplied": false,
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.59",
+  "no_private_paths_names_values_or_hashes_exported": true,
+  "original_r26_source_provenance_authenticated": false,
+  "original_r26_stage_inventory_hashes_reverified": true,
+  "prune_authorized": false,
+  "r13_manifest_file_hash_collection": {
+    "collection_category": "NO_RECOGNIZED_FILE_COLLECTION",
+    "collection_schema_category": "NOT_COMPARABLE",
+    "collection_total_entries": 0,
+    "historical_file_hash_records_matched": 0,
+    "recognized_file_hash_records": 0
+  },
+  "r13_manifest_located_in_historical_inventory": true,
+  "r13_manifest_metadata_field_categories": {
+    "ATTESTATION_FIELD_DECLARED": 0,
+    "BUILD_METADATA_DECLARED": 0,
+    "FILE_COLLECTION_FIELD_DECLARED": 0,
+    "KEY_FIELD_DECLARED": 0,
+    "SIGNATURE_FIELD_DECLARED": 0,
+    "SOURCE_METADATA_DECLARED": 0
+  },
+  "r13_manifest_origin_authenticated": false,
+  "r13_manifest_raw_hash_reverified_through_r26": true,
+  "r13_manifest_top_level_category": "OBJECT",
+  "r3758_exact_parent_sha_and_inventory_baseline_replayed": true,
+  "result": "R13_STAGE_MANIFEST_PROVENANCE_CATEGORIES_UNAUTHENTICATED",
+  "runtime_loader_or_tls_verified": false,
+  "signature_cryptographic_validation_performed": false,
+  "stage_modified": false
+}
