@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.58",
-  "state": "HOST_SYNTHETIC_901_OF_901_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_R26_INVENTORY_2070_OF_2070_MATCH_UNAUTHENTICATED",
   "purpose": "READONLY_ORIGINAL_R26_PRIVATE_STAGE_INVENTORY_CONTENT_REVERIFICATION",
   "parent_r3757_source_sha256": "073461a9bbcbd55a4a9dd3d8f2af27580cd10d0f392e919d4f021d9eca936330",
   "source_sha256": "ff23eb681b28cba575efeb38de44172776db582d89583f88fd1e0757041f822c",
@@ -14,10 +14,10 @@
   "clean_extract_synthetic_tests": "901_OF_901_PASS",
   "checksum_manifest": "PASS",
   "zip_integrity": "PASS",
-  "mac_stage_audit": "NOT_EXECUTED",
-  "private_inventory_schema_confirmed_on_user_mac": false,
+  "mac_stage_audit": "USER_REPORTED_COMPLETED",
+  "private_inventory_schema_confirmed_on_user_mac": true,
   "original_r26_source_provenance_authenticated": false,
-  "historical_inventory_hashes_reverified": false,
+  "historical_inventory_hashes_reverified": true,
   "guest_interpreter_path_resolved": false,
   "mapping_applied": false,
   "runtime_loader_or_tls_verified": false,
@@ -28,5 +28,11 @@
   "firmware_write_authorized": false,
   "immutable_hold": "NOT_BOOTABLE",
   "github_actions_status": "NOT_VERIFIED",
-  "github_publication": "RELEASE_METADATA_ONLY_RUNNABLE_CODE_IN_CONVERSATION_ZIP"
+  "github_publication": "RELEASE_METADATA_ONLY_RUNNABLE_CODE_IN_CONVERSATION_ZIP",
+  "user_mac_result_reference": "research/r40.4.3.7.58/USER-MAC-AUDIT-RESULT.json",
+  "user_mac_regular_sha256_match": 1448,
+  "user_mac_symlink_literal_match": 335,
+  "user_mac_directory_membership_match": 287,
+  "user_mac_modes_compared": 2070,
+  "user_mac_missing_modes": 0
 }
