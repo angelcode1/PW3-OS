@@ -500,26 +500,38 @@ NIV_PLACEHOLDERS = {
 }
 
 
+DUPLICATE_VERSE_RECORDS = {46: (48, 16, 9), 65: (51, 8, 1)}
+EMPTY_VERSE_RECORDS = {86: (9, 13, 1), 202: (49, 17, 36), 218: (47, 17, 21)}
+
+
 def local_translation(db, volume=None):
     result = defaultdict(dict)
-    placeholders = 0
+    placeholders = additional = 0
     for book, chapter, verse, body in db.execute(
-        "SELECT bookNum, chapter, verse, info FROM verses ORDER BY bookNum, chapter, verse"
+        "SELECT bookNum, chapter, verse, info FROM verses ORDER BY bookNum, chapter, verse, rowid"
     ):
         if book not in BOOKS or not isinstance(chapter, int) or chapter < 1 or not isinstance(verse, int) or not 1 <= verse <= 999:
             raise ValueError("unsupported book, chapter, or verse numbering")
         text = " ".join(local_volume_text(body))
+        ref = (book, chapter, verse)
         if verse in result[book, chapter]:
-            raise ValueError(f"duplicate verse at {BOOKS[book]} {chapter}:{verse}")
+            if ref != DUPLICATE_VERSE_RECORDS.get(volume) or not text or additional:
+                raise ValueError(f"duplicate verse at {BOOKS[book]} {chapter}:{verse}")
+            result[book, chapter][verse] += " [Additional source entry] " + text
+            additional += 1
+            continue
         if not text:
-            if volume != 32 or (book, chapter, verse) not in NIV_PLACEHOLDERS or (body is not None and not isinstance(body, str)):
+            if volume == 32 and ref in NIV_PLACEHOLDERS and (body is None or isinstance(body, str)):
+                text = "[No main-text verse in this edition]"
+            elif ref == EMPTY_VERSE_RECORDS.get(volume) and body == "":
+                text = "[Empty verse record in source]"
+            else:
                 raise ValueError(f"empty verse after text extraction at {BOOKS[book]} {chapter}:{verse}")
-            text = "[No main-text verse in this edition]"
             placeholders += 1
         result[book, chapter][verse] = text
     if {book for book, _ in result} != set(BOOKS):
         raise ValueError("translation does not cover the supported 66 books")
-    return dict(result), placeholders
+    return dict(result), placeholders, additional
 
 
 def local_resources(db, folder):
@@ -606,9 +618,9 @@ def import_local_volumes(pages, root, products, translations, has_jesus_calling)
                 tables = {name for name, in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
                 if group == "bibles" and "verses" in tables:
                     key = f"LB{volume}"
-                    translations[key], placeholders = local_translation(db, volume)
+                    translations[key], placeholders, additional = local_translation(db, volume)
                     TRANSLATIONS[key] = title
-                    print(f"Life Bible {volume} {title}: imported verse text; {placeholders} verse placeholders; notes and concordance excluded")
+                    print(f"Life Bible {volume} {title}: imported verse text; {placeholders} verse placeholders; {additional} additional source entries; notes and concordance excluded")
                     continue
                 if "ResourceItems" not in tables:
                     raise ValueError("unsupported database layout")
