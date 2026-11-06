@@ -1,0 +1,107 @@
+{
+  "record_type": "USER_REPORTED_MAC_R3877_R3877_1_RESULTS_AND_LOCAL_R3877_2_HOST_TESTS",
+  "observed_local_date": "2026-11-07",
+  "r3877_offline": {
+    "diagnostic": "R3877_OFFLINE_RUNTIME_GATE_READY_NO_ARM_EXECUTION",
+    "exit_code": 2,
+    "result": "HOLD",
+    "original_r13_stage_accessed": false,
+    "guest_executed": false
+  },
+  "r3877_signed_source": {
+    "diagnostic": "R3877_SIGNED_SOURCE_READY_GUEST_EXECUTION_NOT_AUTHORIZED",
+    "exit_code": 2,
+    "source_release_sha256": "dc1ddfaf03ede4be79ad7475490f6b7859dbcbbbbb85150aa1ee013b4bc2f0c1",
+    "candidate_version": "3.24.3",
+    "candidate_architecture": "armv7",
+    "official_release_sha256_manifest_verified": true,
+    "official_release_detached_signature_verified": true,
+    "official_release_primary_key_fingerprint_verified": true,
+    "original_r13_build_input_authenticated": false
+  },
+  "r3877_runtime": {
+    "diagnostic": "R3877_FAIL_CLOSED",
+    "exit_code": 2,
+    "hold_category": "R3877_BUSYBOX_HELP_RUNTIME_HOLD",
+    "docker_image_tag": "pw3-r3877-signed-alpine:3.24.3-armv7-dc1ddfaf03ed",
+    "image_import_attempted": true,
+    "image_created": true,
+    "busybox_help_exit_code": 255,
+    "busybox_help_status": "HOLD",
+    "isolated_guest_execution_performed": true,
+    "arm32_busybox_success": false,
+    "musl_loader_executed_and_verified": false,
+    "original_r13_stage_accessed": false,
+    "original_r13_stage_modified": false
+  },
+  "docker_server": {
+    "platform": "linux/arm64",
+    "reported_architecture": "aarch64",
+    "os": "Ubuntu 24.04.4 LTS",
+    "kernel": "6.8.0-117-generic",
+    "context": "colima",
+    "is_actual_pw3_kernel": false
+  },
+  "r3877_1_inspection": {
+    "diagnostic": "R3877_1_OFFLINE_EXISTING_IMAGE_TRIAGE_PREFLIGHT",
+    "exit_code": 2,
+    "colima_arm_binfmt_status": "NOT_REGISTERED",
+    "docker_image_platform": "linux/arm/v7",
+    "probe_performed": false,
+    "host_binfmt_configuration_changed": false
+  },
+  "r3877_1_diagnostics": {
+    "diagnostic": "R3877_1_ARM32_EXEC_FORMAT_FAILURE_DIAGNOSED",
+    "exit_code": 2,
+    "hold_category": "HOST_ARM32_EXECUTION_OR_BINFMT_EMULATION_HOLD",
+    "busybox_help": {
+      "status": "HOLD",
+      "exit_code": 255,
+      "error_family": "EXEC_FORMAT_ERROR"
+    },
+    "busybox_shell": {
+      "status": "HOLD",
+      "exit_code": 255,
+      "error_family": "EXEC_FORMAT_ERROR"
+    },
+    "musl_loader": {
+      "status": "HOLD",
+      "exit_code": 255,
+      "error_family": "EXEC_FORMAT_ERROR"
+    },
+    "colima_arm_binfmt_status": "NOT_REGISTERED",
+    "host_binfmt_configuration_changed": false,
+    "new_image_imported_or_built": false,
+    "privileged_container_invoked": false,
+    "host_volumes_configured": false,
+    "guest_network_enabled": false,
+    "original_r13_stage_accessed": false
+  },
+  "r3877_2_assistant_local_source_package": {
+    "milestone": "R3877.2",
+    "zip_name": "pw3-r3877-2-explicit-qemu-arm32-readonly.zip",
+    "sha256": "90d6dc0a89450887daabc398468a704d1f55f60fbd315b3db2252596b43c1fae",
+    "zip_size_bytes": 36909,
+    "host_tests_passed": 139,
+    "inherited_host_tests": 104,
+    "new_host_tests": 35,
+    "clean_extract_sha256_manifest_passed": true,
+    "fail_closed_offline_preflight_passed": true,
+    "real_colima_arm32_test_performed": false,
+    "original_r13_stage_accessed": false,
+    "helper_pull_is_explicit_optin": true,
+    "requires_privileged_binfmt_registration": false
+  },
+  "safety": {
+    "immutable_hold": "NOT_BOOTABLE",
+    "boot_authorized": false,
+    "device_access_authorized": false,
+    "firmware_write_authorized": false,
+    "guest_executed_on_physical_pw3": false,
+    "mapping_applied_to_original_stage": false,
+    "pruning_authorized": false,
+    "original_stage_modified": false,
+    "original_r13_image_provenance_authenticated": false
+  },
+  "ci_scope": "Checks only internal JSON consistency; does not fetch signed Alpine, pull QEMU helper, run Docker, inspect user's Mac or user rootfs."
+}
