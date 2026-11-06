@@ -1,0 +1,135 @@
+{
+  "attribute_section_or_tag_values_exported": false,
+  "attribute_value_equality_does_not_prove_abi_compatibility": true,
+  "boot_authorized": false,
+  "candidate_aeabi_section_metadata_counts": {
+    "file_subsections": 1,
+    "ignored_section_or_symbol_subsections": 0,
+    "public_vendors": 1,
+    "repeated_identical_tags": 0,
+    "vendors": 1
+  },
+  "candidate_attribute_section_category": "PRESENT",
+  "candidate_elf_count": 1,
+  "candidate_file_tag_presence": {
+    "ABI_ALIGN_NEEDED": "PRESENT",
+    "ABI_ALIGN_PRESERVED": "PRESENT",
+    "ABI_ENUM_SIZE": "PRESENT",
+    "ABI_HARDFP_USE": "PRESENT",
+    "ABI_VFP_ARGS": "ABSENT",
+    "ARM_ISA": "PRESENT",
+    "CPU_ARCH": "PRESENT",
+    "CPU_ARCH_PROFILE": "PRESENT",
+    "DIV_USE": "ABSENT",
+    "PCS_GOT_USE": "ABSENT",
+    "PCS_R9_USE": "ABSENT",
+    "PCS_WCHAR_SIZE": "PRESENT",
+    "THUMB_ISA": "PRESENT"
+  },
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "historical_r3745_hold_preserved": true,
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.57",
+  "missing_attributes_are_not_assumed_compatible": true,
+  "original_r26_source_provenance_authenticated": false,
+  "parent_r3756_source_sha_pinned_and_replayed": true,
+  "prune_authorized": false,
+  "requester_attribute_section_categories": {
+    "PRESENT": 12
+  },
+  "requester_candidate_file_tag_relation_counts": {
+    "ABI_ALIGN_NEEDED": {
+      "BOTH_PRESENT_EQUAL": 12
+    },
+    "ABI_ALIGN_PRESERVED": {
+      "BOTH_PRESENT_EQUAL": 9,
+      "CANDIDATE_ONLY": 3
+    },
+    "ABI_ENUM_SIZE": {
+      "BOTH_PRESENT_EQUAL": 12
+    },
+    "ABI_HARDFP_USE": {
+      "BOTH_PRESENT_EQUAL": 10,
+      "CANDIDATE_ONLY": 2
+    },
+    "ABI_VFP_ARGS": {
+      "BOTH_ABSENT": 12
+    },
+    "ARM_ISA": {
+      "BOTH_PRESENT_EQUAL": 12
+    },
+    "CPU_ARCH": {
+      "BOTH_PRESENT_EQUAL": 12
+    },
+    "CPU_ARCH_PROFILE": {
+      "BOTH_PRESENT_EQUAL": 12
+    },
+    "DIV_USE": {
+      "BOTH_ABSENT": 12
+    },
+    "PCS_GOT_USE": {
+      "BOTH_ABSENT": 12
+    },
+    "PCS_R9_USE": {
+      "BOTH_ABSENT": 12
+    },
+    "PCS_WCHAR_SIZE": {
+      "BOTH_PRESENT_EQUAL": 12
+    },
+    "THUMB_ISA": {
+      "BOTH_PRESENT_EQUAL": 12
+    }
+  },
+  "requester_file_tag_presence_counts": {
+    "ABI_ALIGN_NEEDED": {
+      "PRESENT": 12
+    },
+    "ABI_ALIGN_PRESERVED": {
+      "ABSENT": 3,
+      "PRESENT": 9
+    },
+    "ABI_ENUM_SIZE": {
+      "PRESENT": 12
+    },
+    "ABI_HARDFP_USE": {
+      "ABSENT": 2,
+      "PRESENT": 10
+    },
+    "ABI_VFP_ARGS": {
+      "ABSENT": 12
+    },
+    "ARM_ISA": {
+      "PRESENT": 12
+    },
+    "CPU_ARCH": {
+      "PRESENT": 12
+    },
+    "CPU_ARCH_PROFILE": {
+      "PRESENT": 12
+    },
+    "DIV_USE": {
+      "ABSENT": 12
+    },
+    "PCS_GOT_USE": {
+      "ABSENT": 12
+    },
+    "PCS_R9_USE": {
+      "ABSENT": 12
+    },
+    "PCS_WCHAR_SIZE": {
+      "PRESENT": 12
+    },
+    "THUMB_ISA": {
+      "PRESENT": 12
+    }
+  },
+  "result": "ALTERNATE_INTERPRETER_ARM_FILE_BUILD_ATTRIBUTES_STATIC_ONLY",
+  "runtime_loader_function_verified": false,
+  "runtime_tls_compatibility_verified": false,
+  "source_elf_count": 12,
+  "stage_modified": false,
+  "weak_symbol_runtime_resolution_verified": false
+}
