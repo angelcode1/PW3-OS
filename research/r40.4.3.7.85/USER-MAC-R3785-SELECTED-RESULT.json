@@ -1,0 +1,104 @@
+{
+  "record_type": "USER_REPORTED_MAC_R3785_OFFLINE_ONLINE_SELECTED_EVIDENCE",
+  "observation_date": "2026-11-07",
+  "full_original_user_json_not_replaced_by_summary": true,
+  "assistant_host_bundle_sha256": "4c541460b35e4438f6dfc99c925edfc2833e9e961ceda09b7849af0d45ae81c2",
+  "offline": {
+    "diagnostic": "R3785_VIRTUAL_ENDPOINT_OFFLINE_PREFLIGHT_NO_FETCH",
+    "exit_code": 2,
+    "network_access_performed": false,
+    "candidate_release_version": "3.24.3",
+    "candidate_release_architecture": "armv7",
+    "r13_rootfs_subtree_selected": true,
+    "r3784_pinned_source_verified": true,
+    "result": "HOLD",
+    "immutable_hold": "NOT_BOOTABLE"
+  },
+  "online": {
+    "diagnostic": "R3785_SIGNED_VIRTUAL_SYMLINK_ENDPOINT_STATIC_ONLY",
+    "exit_code": 2,
+    "network_access_performed": true,
+    "candidate_release_version": "3.24.3",
+    "candidate_release_architecture": "armv7",
+    "candidate_minirootfs_sha256_manifest_verified": true,
+    "candidate_minirootfs_signature_verified": true,
+    "release_key_fingerprint_equal_published_fingerprint": true,
+    "original_r13_image_provenance_authenticated": false,
+    "release_signer_identity_out_of_band_attested": false,
+    "candidate_archive_verified_original_R13_input": false,
+    "r3783_signed_baseline_replayed": true,
+    "signed_baseline_entry_crosswalk": {
+      "archive_entries": 515,
+      "archive_directories": 96,
+      "archive_regular": 83,
+      "archive_symlink": 335,
+      "stage_directory_present": 96,
+      "stage_regular_hash_equal": 83,
+      "stage_regular_hash_different": 0,
+      "stage_symlink_literal_equal": 29,
+      "stage_symlink_literal_different": 306,
+      "complete_minrootfs_member_overlap": false
+    },
+    "symlink_literal_pattern_audit": {
+      "differences_lexically_same_destination": 306,
+      "differences_lexically_distinct_destination": 0,
+      "differences_with_unsafe_or_unresolved_lexical_destination": 0,
+      "differences_with_changed_absolute_relative_status": 306,
+      "archive_target_shape_counts": {
+        "absolute": 306
+      },
+      "stage_target_shape_counts": {
+        "parent_relative": 225,
+        "single_component_relative": 81
+      },
+      "symlink_targets_followed": false,
+      "lexical_equivalence_proves_runtime_symlink_resolution": false
+    },
+    "signed_virtual_symlink_endpoint_crosswalk": {
+      "signed_archive_links_checked": 335,
+      "links_with_identical_literal_omitted_from_difference_analysis": 29,
+      "changed_link_targets_checked": 306,
+      "changed_links_same_resolved_virtual_path": 306,
+      "changed_links_different_resolved_virtual_path": 0,
+      "changed_links_same_resolved_regular_archive_member": 305,
+      "changed_links_same_resolved_directory_archive_member": 1,
+      "changed_links_with_unresolved_endpoint": 0,
+      "changed_link_archive_endpoint_status_counts": {
+        "dir": 1,
+        "file": 305
+      },
+      "changed_link_stage_endpoint_status_counts": {
+        "dir": 1,
+        "file": 305
+      },
+      "changed_links_with_multi_hop_archive_resolution": 1,
+      "changed_links_with_multi_hop_stage_resolution": 1,
+      "changed_links_with_stage_root_escape_or_cycle": 0,
+      "changed_links_with_archive_root_escape_or_cycle": 0,
+      "stage_link_targets_followed_by_host": false,
+      "archive_extracted_or_installed": false,
+      "virtual_resolution_proves_guest_runtime_semantics": false,
+      "original_stage_modified": false,
+      "path_names_targets_or_contents_exported": false
+    },
+    "result": "HOLD",
+    "hold_category": "ORIGINAL_R13_IMAGE_PROVENANCE_UNAUTHENTICATED_HOLD",
+    "immutable_hold": "NOT_BOOTABLE"
+  },
+  "historical_package_discrepancies": {
+    "regular_file_different": 1,
+    "symlink_target_literals_different": 3,
+    "source_provenance_unknown": true
+  },
+  "safety": {
+    "immutable_hold": "NOT_BOOTABLE",
+    "stage_modified": false,
+    "device_access_authorized": false,
+    "guest_execution_authorized": false,
+    "boot_authorized": false,
+    "firmware_write_authorized": false,
+    "mapping_applied": false,
+    "prune_authorized": false
+  },
+  "github_ci_not_original_mac_stage_run": true
+}

@@ -1,29 +1,25 @@
-# R3784 symlink pattern corroboration and R3785 next host test
+# R3785 — User Mac result: signed Alpine virtual symlink endpoints
 
-**Research and educational use only. Immutable NOT_BOOTABLE.**
+**Research and educational purposes only. No guest execution, stage writes, hardware actions, mapping, pruning or boot. Immutable NOT_BOOTABLE.**
 
-## User-reported R3784 Mac result
+## Verifications reported by the user (offline and online, exit 2 each)
 
-The user verified the candidate Alpine **3.24.3 armv7** archive's release checksum and detached GPG signature, checked the published release-key fingerprint, and replayed the unchanged 515-member source-to-stage inventory. The candidate archive's **83 regular files matched SHA-256**, all **96 directories** and **335 symlink entries** were present, but only **29 symlink target literals** matched exactly. The remaining **306** archive links used absolute targets where stage links used relative targets, yet the two target literals normalized to the **same virtual rootfs-relative lexical path** for all 306.
+- R3785 offline returned `R3785_VIRTUAL_ENDPOINT_OFFLINE_PREFLIGHT_NO_FETCH` and made no network request.
+- R3785 online reran the R3782–R3784 pinned chain, checked Alpine **3.24.3 armv7** minirootfs's SHA-256 release record, GPG signature and published release-key fingerprint, and reproduced the baseline of 515 archive entries (83 regular bytes matching staged files, 96 directories present, 335 symlink entries).
+- The 306 archive/stage symlink literals that differed (archive absolute vs stage relative) all resolved in the bounded virtual namespace resolver to the **same normalized final virtual path and endpoint type**: **305 regular files and one directory**. The 29 literally identical symlink members are omitted from the difference-specific resolver classification.
+- **Zero** unresolved endpoints, different resolved virtual paths, cycles and root escapes. One archive and one stage traversal required multi-hop resolution. Host OS symlinks were **not followed**.
+- The user-reported JSON is summarized in `USER-MAC-R3785-SELECTED-RESULT.json`; it is **not** the full original result. GitHub CI has no access to the user's original R13 stage or the downloaded signed upstream tar.
 
-These observations support a systematic absolute-to-relative symlink conversion. They **do not** establish that the target exists, that the complete symlink chain is resolvable, or that a real guest process interpreted either target using the assumed root namespace. They do not prove the candidate archive was actually used to assemble R13.
+## Precise interpretation
 
-A selected-field summary of the user's separately reported offline and online JSON and the immutable safety flags is in `USER-MAC-R3784-SYMLINK-PATTERN-SUMMARY.json`. It is **not** a verbatim copy of the complete user result and GitHub cannot access the user's private stage.
+This closes the previously observed 306 symlink-literal deviations as **structurally equivalent in the tested virtual rootfs namespace**. The original `complete_minrootfs_member_overlap` flag still reports false because the 306 *literal* targets differ. That boolean must **not** be re-labelled as true; instead, report virtual endpoint equivalence separately.
 
-## Next R3785 verifier (host-tested, Mac run pending)
+The GPG key fingerprint was compared against an Alpine-published value, but the release signer identity was **not** attested out-of-band. More importantly, exact source-to-stage overlap does **not prove** this Alpine candidate was the original R13 build input, nor authenticate the locally assembled R13 image. No guest runtime/chroot resolution, ELF loader, TLS, kernel ABI, hardware compatibility, recovery or boot status is proven.
 
-The separately supplied local archive `pw3-r3785-signed-virtual-link-endpoints-readonly.zip`, SHA-256 `4c541460b35e4438f6dfc99c925edfc2833e9e961ceda09b7849af0d45ae81c2`, contains:
+The unrelated four APK-signed-payload disagreements from R3775 remain historical: **one regular file, three symlink target literals**. Whether the three package-level symlinks are among the 306 upstream-minirootfs conversions remains to be tested with appropriately authenticated original package payloads, if further testing is justified.
 
-- Unmodified, exact-SHA-pinned predecessor R3782, R3783 and R3784 source scripts and tests
-- R3785 bounded **virtual rootfs** symlink endpoint resolver and regressions
-- Source/usage README, selected R3784 summary, SHA-256 manifest
+## Source bundle
 
-The assistant-side host suite reported **128/128 synthetic tests PASS** (94 inherited and 34 new), clean extraction, all ZIP manifest hashes verified, and a missing-stage `HOLD`/exit 2 with no network attempt. This is **not** a Mac scan of the user's R13 stage and the independent verification of the candidate against user-stage endpoint semantics remains pending.
+The R3785 synthetic-host-test ZIP `pw3-r3785-signed-virtual-link-endpoints-readonly.zip` is identified by SHA256 `4c541460b35e4438f6dfc99c925edfc2833e9e961ceda09b7849af0d45ae81c2` (128/128 prior assistant host tests). The user-run results have now validated its online virtual endpoint inspection on the user's Mac. This evidence-only PR does not commit the ZIP or private stage.
 
-R3785 compares terminal entries of paths in two virtual namespaces without ever following a host symlink: `O_DIRECTORY|O_NOFOLLOW` parent FDs, `stat(follow_symlinks=False)`, `readlink(dir_fd=...)`, bounded link-hop count, root-escape and cycle detection. Outputs are aggregate and do not expose private paths, link targets, package names or staged file hashes.
-
-A fully resolved match would extend the prior lexical equivalence finding to **structural virtual endpoint consistency** only. It would not authenticate the original R13 build input, attest release signer identity out of band, establish runtime ELF loader/ABI/TLS, prove kernel/chroot semantics, justify pruning or authorize device actions.
-
-## Safety state
-
-Older R3775 package-level differences remain one regular staged file and three staged symlink target changes versus signed package payloads. The assembled R13 source provenance and historical build commands are not authenticated. No stage changes, guest execution, Kindle device access, firmware writes, mapping, pruning, boot, or recovery actions are authorized. **NOT_BOOTABLE.**
+**Current:** `HOLD` / `ORIGINAL_R13_IMAGE_PROVENANCE_UNAUTHENTICATED_HOLD` / `NOT_BOOTABLE`.
