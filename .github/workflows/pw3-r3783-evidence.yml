@@ -1,0 +1,62 @@
+name: R3783 user Mac signed Alpine baseline evidence
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.83/**'
+      - '.github/workflows/pw3-r3783-evidence.yml'
+  push:
+    branches:
+      - main
+      - research/r3783-signed-minirootfs-evidence
+    paths:
+      - 'research/r40.4.3.7.83/**'
+      - '.github/workflows/pw3-r3783-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-reported-record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check reported fields only; no private stage access
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research/r40.4.3.7.83/USER-MAC-SIGNED-MINIROOTFS-RESULT.json').read_text())
+          assert d['record_type']=='USER_SUPPLIED_R3783_MAC_OFFLINE_AND_ONLINE_RESULTS'
+          assert d['github_actions_scanned_users_private_stage'] is False
+          for scope in ('offline','online'):
+              x=d[scope]
+              assert x['milestone']=='R40.4.3.7.83' and x['exit_code']==2
+              assert x['result']=='HOLD' and x['immutable_hold']=='NOT_BOOTABLE'
+              assert x['hold_category']=='ORIGINAL_R13_IMAGE_PROVENANCE_UNAUTHENTICATED_HOLD'
+              assert x['r13_rootfs_subtree_selected'] is True
+              assert x['candidate_release_version']=='3.24.3' and x['candidate_release_architecture']=='armv7'
+              assert x['candidate_version_derived_from_stage_not_authenticated_as_original_input'] is True
+              assert x['r13_image_provenance_authenticated'] is False
+              assert x['release_signer_identity_out_of_band_attested'] is False
+              assert x['original_package_disagreement_hold_retained'] is True
+              for k in ('boot_authorized','device_access_authorized','firmware_write_authorized',
+                        'guest_execution_authorized','mapping_applied','prune_authorized','stage_modified'):
+                  assert x[k] is False,k
+          a=d['offline'];o=d['online']
+          assert a['network_access_performed'] is False and a['signed_baseline_entry_crosswalk'] is None
+          assert o['network_access_performed'] is True
+          assert o['candidate_minirootfs_sha256_manifest_verified'] is True
+          assert o['candidate_minirootfs_signature_verified'] is True
+          assert o['release_key_fingerprint_equal_published_fingerprint'] is True
+          x=o['signed_baseline_entry_crosswalk']
+          assert x['archive_entries']==515 and x['archive_regular']==83 and x['archive_symlink']==335 and x['archive_directories']==96
+          assert x['stage_regular_hash_equal']==83 and x['stage_regular_hash_different']==0
+          assert x['stage_symlink_literal_equal']==29 and x['stage_symlink_literal_different']==306
+          assert x['stage_symlink_missing']==x['stage_symlink_non_symlink']==0
+          assert x['stage_directory_present']==96 and x['stage_directory_missing_or_non_directory']==0
+          assert x['complete_minrootfs_member_overlap'] is False
+          print('R3783_USER_REPORTED_SIGNED_BASELINE_CONSISTENT_NOT_BOOTABLE')
+          PY
