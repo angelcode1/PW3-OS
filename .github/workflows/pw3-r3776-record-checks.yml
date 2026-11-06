@@ -1,0 +1,56 @@
+name: R3776 user Mac evidence static consistency checks
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.76/**'
+      - '.github/workflows/pw3-r3776-record-checks.yml'
+  push:
+    branches:
+      - main
+      - research/r3776-key-evidence-record
+    paths:
+      - 'research/r40.4.3.7.76/**'
+      - '.github/workflows/pw3-r3776-record-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate immutable safety flags and keep observation claims separate
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path('research/r40.4.3.7.76/USER-MAC-KEY-CORROBORATION-RESULT.json')
+          v=json.loads(p.read_text())
+          assert v['record_type']=='USER_SUPPLIED_MAC_JSON'
+          assert v['diagnostic']=='PINNED_ALPINE_APORTS_PUBLIC_KEY_OFFLINE_CORROBORATION_ONLY'
+          assert v['staged_key_count']==2
+          assert v['staged_key_der_equal_upstream_count']==2
+          assert v['staged_key_file_bytes_equal_upstream_count']==2
+          assert v['upstream_public_key_blobs_verified']==3
+          assert v['expected_arm_key_set_matched'] is True
+          assert v['external_upstream_snapshot_commit_cryptographically_signed'] is False
+          assert v['independently_attested_alpine_signer_identity'] is False
+          assert v['r13_image_provenance_authenticated'] is False
+          assert v['actual_pw3_running_kernel_verified'] is False
+          assert v['previous_r3775_online_package_signatures_replayed'] is False
+          assert v['previous_r3775_online_payloads_reverified'] is False
+          assert v['original_regular_disagreement']==1
+          assert v['original_symlink_target_disagreements']==3
+          assert v['result']=='HOLD' and v['exit_code_observed']==2
+          assert v['immutable_hold']=='NOT_BOOTABLE'
+          assert v['original_tools_run_by_github_actions'] is False
+          for key in ('boot_authorized','guest_execution_authorized','firmware_write_authorized',
+                      'device_access_authorized','mapping_applied','prune_authorized',
+                      'stage_modified','stage_binaries_executed'):
+              assert v[key] is False,key
+          print('R3776_REPORTED_MAC_EVIDENCE_INTERNAL_CONSISTENCY_ONLY_NOT_BOOTABLE')
+          PY
