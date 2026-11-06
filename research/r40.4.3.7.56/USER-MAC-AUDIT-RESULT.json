@@ -1,0 +1,41 @@
+{
+  "boot_authorized": false,
+  "candidate_distinct_versym_indexes_on_self_symbols": 2,
+  "candidate_elf_count": 1,
+  "candidate_self_relocated_defined_dynsym_count": 9,
+  "candidate_self_relocation_symbol_occurrences": 10,
+  "candidate_soname_basename_relation": "SONAME_MATCHES_CANDIDATE_BASENAME",
+  "candidate_verdef_record_categories": {
+    "VERDEF_BASE_FLAG_CLEAR": 2,
+    "VERDEF_BASE_FLAG_SET": 1,
+    "VERDEF_RECORDS": 3,
+    "VERDEF_WEAK_FLAG_CLEAR": 3
+  },
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "loader_abi_or_version_lookup_runtime_verified": false,
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.56",
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3745_hold_preserved": true,
+  "parent_r3755_sha_pinned_and_replayed": true,
+  "private_names_paths_version_strings_or_values_exported": false,
+  "prune_authorized": false,
+  "result": "ALTERNATE_INTERPRETER_SELF_SYMBOL_GNU_VERSION_METADATA_STATIC_ONLY",
+  "self_relocated_symbol_name_categories": {
+    "SYMBOL_NAME_NONEMPTY": 9
+  },
+  "self_relocated_symbol_versym_categories": {
+    "MAPPED_VERDEF_NAMED": 9,
+    "VERSYM_HIDDEN_BIT_CLEAR": 9,
+    "VERSYM_INDEX_MAPPED_VERDEF": 9
+  },
+  "soname_relation_is_not_kernel_interp_path_resolution": true,
+  "source_elf_count": 12,
+  "stage_modified": false,
+  "tls_runtime_compatibility_verified": false,
+  "version_index_mapping_is_not_runtime_symbol_lookup": true,
+  "weak_symbol_runtime_resolution_verified": false
+}
