@@ -1,0 +1,36 @@
+{
+  "boot_authorized": false,
+  "content_match_counts": {
+    "directory_membership_match": 287,
+    "historical_modes_explicitly_compared": 2070,
+    "historical_modes_unavailable": 0,
+    "regular_sha256_match": 1448,
+    "symlink_literal_match": 335
+  },
+  "current_stage_entry_count": 2070,
+  "firmware_write_authorized": false,
+  "guest_interpreter_path_resolved": false,
+  "historical_inventory_hashes_reverified": true,
+  "historical_r26_recorded_entry_count": 2070,
+  "historical_type_counts": {
+    "directory": 287,
+    "regular": 1448,
+    "symlink": 335
+  },
+  "immutable_hold": "NOT_BOOTABLE",
+  "mapping_applied": false,
+  "milestone": "R40.4.3.7.58",
+  "no_private_paths_names_targets_or_hashes_exported": true,
+  "original_r26_inventory_supplied_locally": true,
+  "original_r26_source_provenance_authenticated": false,
+  "original_r3745_hold_preserved": true,
+  "parent_r3757_abi_attribute_baseline_replayed": true,
+  "parent_r3757_sha_pinned_and_replayed": true,
+  "prune_authorized": false,
+  "result": "R26_HISTORICAL_STAGE_INVENTORY_MATCH_UNAUTHENTICATED",
+  "runtime_loader_or_tls_verified": false,
+  "source_manifest_is_not_signed_or_authenticated": true,
+  "stage_modified": false,
+  "weak_symbol_runtime_resolution_verified": false,
+  "record_type": "USER_SUPPLIED_MAC_JSON"
+}
