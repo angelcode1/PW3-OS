@@ -2,6 +2,7 @@
 """Convert locally supplied Life Bible 10.2.665 assets into the PW3 reader's page archive."""
 import argparse
 import calendar
+import gzip
 from collections import defaultdict
 from datetime import date, timedelta
 from html.parser import HTMLParser
@@ -136,7 +137,7 @@ def load_translation(path):
     return dict(sorted(chapters.items()))
 
 
-def add_bibles(pages, translations):
+def add_bibles(pages, translations, strongs_chapters=()):
     pages.page("bibles", "Bible Translations", [
         link(f"{key}  |  {TRANSLATIONS[key]}", ("books", key)) for key in translations
     ])
@@ -159,8 +160,12 @@ def add_bibles(pages, translations):
             verses = chapters[book, chapter]
             read = ("read", key, book, chapter)
             location = f"{BOOKS[book]} {chapter}"
+            study_links = (
+                [link("Strong’s word lookup", ("strongs-chapter", book, chapter))]
+                if key == "KJV" and (book, chapter) in strongs_chapters else []
+            )
             pages.page(("verses", key, book, chapter), f"{location} • Choose a verse", [
-                link("Read from the start", read),
+                link("Read from the start", read), *study_links,
                 *[link(verse, read, verse, grid=True) for verse in verses]
             ])
             # Explicit chapter metadata for the optional Bluetooth audio controller.
@@ -170,7 +175,7 @@ def add_bibles(pages, translations):
             pages.page(("pick", key, book, chapter), f"Go to • {location}", [
                 link("Book", ("books", key)), link("Chapter", ("chapter", key, book)),
                 link("Verse", ("verses", key, book, chapter)),
-                link("Translation", ("switch", key, book, chapter))
+                link("Translation", ("switch", key, book, chapter)), *study_links
             ])
             pages.page(("switch", key, book, chapter), f"Translation • {location}", [
                 link(TRANSLATIONS[k], ("read", k, book, chapter)) for k, other in translations.items()
@@ -738,6 +743,65 @@ def add_library(pages, products, chapters, has_jesus_calling, imported):
         pages.page(("oyb-month", month), f"The One Year Bible • {name}", rows)
 
 
+def add_strongs(pages, path, chapters):
+    definitions = {}
+    word_links = defaultdict(dict)
+    failed = 0
+    with sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True) as db:
+        db.execute("PRAGMA trusted_schema=OFF")
+        for number, blob in db.execute("SELECT strongs, info FROM strongs ORDER BY strongs"):
+            if not isinstance(number, str) or not re.fullmatch(r"[GH][0-9]+[A-Z]?", number, re.I):
+                continue
+            try:
+                content = gzip.decompress(blob).decode("utf-8")
+            except (OSError, EOFError, TypeError, UnicodeError, zlib.error):
+                failed += 1
+                continue
+            body = local_volume_text(content)
+            if body:
+                definitions[number.upper()] = body
+        for book, chapter, verse, word in db.execute("""
+            SELECT v.bookNum, v.chapter, v.verse, wl.word
+            FROM words AS w
+            JOIN wordlist AS wl ON wl.id = w.wordNum
+            JOIN verses AS v ON v.id = w.verseID
+            WHERE wl.word GLOB '[hHgG][0-9]*-*'
+        """):
+            match = re.fullmatch(r"([GH][0-9]+[A-Z]?)-(.+)", word, re.I)
+            if not match or verse not in chapters.get((book, chapter), {}):
+                continue
+            number = match[1].upper()
+            label = clean(match[2])
+            if number in definitions and label:
+                word_links[book, chapter, verse][label, number] = None
+
+    if not word_links:
+        raise ValueError("No Strong’s word links resolved against the KJV archive")
+
+    chapter_links = defaultdict(list)
+    used = set()
+    for (book, chapter, verse), entries in sorted(word_links.items()):
+        key = ("strongs-verse", book, chapter, verse)
+        ref = f"{BOOKS[book]} {chapter}:{verse}"
+        rows = [
+            link(f"Read {ref} • KJV", ("read", "KJV", book, chapter), verse),
+            paragraph(chapters[book, chapter][verse]),
+        ]
+        for label, number in sorted(entries):
+            rows.append(link(f"{label} • {number}", ("strongs-definition", number)))
+            used.add(number)
+        pages.page(key, f"{ref} • Strong’s words", rows)
+        chapter_links[book, chapter].append(link(f"Verse {verse}", key, grid=True))
+
+    for (book, chapter), links in chapter_links.items():
+        pages.page(("strongs-chapter", book, chapter), f"{BOOKS[book]} {chapter} • Strong’s lookup", links)
+    for number in sorted(used):
+        pages.page(("strongs-definition", number), f"Strong’s {number}",
+                   [paragraph(line) for line in definitions[number]])
+    print(f"Strong’s: {len(word_links)} verses, {len(used)} linked definitions, {failed} undecodable definition rows")
+    return chapter_links
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--apk", type=Path, required=True)
@@ -748,6 +812,7 @@ def main():
     ap.add_argument("--jesus-calling-dir", type=Path,
                     help="Local folder containing 1306.sqlite and 1306/data/Devos")
     ap.add_argument("--life-bible-dir", type=Path, help="Local .bibles mirror with numbered databases and companion folders")
+    ap.add_argument("--strongs-db", type=Path, help="Local Life Bible 309.sqlite for KJV word lookup")
     args = ap.parse_args()
     translations = {key: load_translation(getattr(args, key.lower())) for key in TRANSLATIONS}
     daily, plans, topics, questions, refs = read_assets(args.apk)
@@ -777,7 +842,8 @@ def main():
         if not args.life_bible_dir.is_dir():
             ap.error("--life-bible-dir must point to an existing directory")
         imported = import_local_volumes(pages, args.life_bible_dir, products, translations, bool(args.jesus_calling_dir))
-    add_bibles(pages, translations)
+    strongs_chapters = add_strongs(pages, args.strongs_db, translations["KJV"]) if args.strongs_db else ()
+    add_bibles(pages, translations, strongs_chapters)
     add_library(pages, products, web, bool(args.jesus_calling_dir), imported)
     add_topics(pages, topics, questions, refs, web)
     unresolved = add_daily(pages, daily, topics, questions, web)
