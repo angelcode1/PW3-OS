@@ -44,7 +44,7 @@ Tap a button to navigate. Swipe left or right or tap Previous and Next to turn a
 
 ## Rebuild from the source APK
 
-To generate `bible.pw3`, Python 3.10 or newer takes the APK and the eBible VPL archives:
+To generate `bible.pw3`, Python 3.8 or newer takes the APK and the eBible VPL archives:
 
 ```sh
 curl -fL https://ebible.org/Scriptures/engwebp_vpl.zip -o web.zip

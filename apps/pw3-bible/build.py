@@ -21,9 +21,11 @@ MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 
 1JN 2JN 3JN JUD REV""".split()
 NAMES = """Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|1 Samuel|2 Samuel|1 Kings|2 Kings|1 Chronicles|2 Chronicles|Ezra|Nehemiah|Esther|Job|Psalms|Proverbs|Ecclesiastes|Song of Songs|Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|1 Corinthians|2 Corinthians|Galatians|Ephesians|Philippians|Colossians|1 Thessalonians|2 Thessalonians|1 Timothy|2 Timothy|Titus|Philemon|Hebrews|James|1 Peter|2 Peter|1 John|2 John|3 John|Jude|Revelation""".split("|")
 IDS = [n for n in range(1, 74) if n not in {17, 18, 20, 21, 27, 28, 32}]
-BOOKS = dict(zip(IDS, NAMES, strict=True))
-BOOK_IDS = dict(zip(CODES, IDS, strict=True))
-ABBR = dict(zip(IDS, CODES, strict=True))
+if len(IDS) != len(NAMES) or len(IDS) != len(CODES):
+    raise ValueError("Book IDs, names and codes must have the same length")
+BOOKS = dict(zip(IDS, NAMES))
+BOOK_IDS = dict(zip(CODES, IDS))
+ABBR = dict(zip(IDS, CODES))
 DATE0 = date(2026, 1, 1)
 DAY_TYPES = ("Daily Verse", "Daily TouchPoint", "Daily Devotional")
 RANGE = re.compile(r"(\d+)/(\d+)/(\d+)(?:-(\d+)|_(\d+)/(\d+)/(\d+))?$")
@@ -409,7 +411,7 @@ def add_jesus_calling(pages, sample_dir, chapters):
         targets.add(target)
         if not filename or not filename.startswith("Devos/"):
             raise ValueError(f"Jesus Calling Day {day}: missing devotional filename")
-        asset = (root / filename.removeprefix("Devos/")).resolve()
+        asset = (root / filename[len("Devos/"):]).resolve()
         if root not in asset.parents or not asset.is_file():
             raise ValueError(f"Jesus Calling Day {day}: invalid or missing devotional file")
         parser = DevotionalText()
