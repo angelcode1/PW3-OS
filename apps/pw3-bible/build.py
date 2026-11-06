@@ -534,7 +534,7 @@ def local_translation(db, volume=None):
     return dict(result), placeholders, additional
 
 
-def local_resources(db, folder):
+def local_resources(db, folder, has_folders=False):
     rows = db.execute("""
         SELECT id, title, caption, book, chapter, verse, endVerse, fileName, link, textData
         FROM ResourceItems ORDER BY id
@@ -555,13 +555,76 @@ def local_resources(db, folder):
         label = title or caption
         target = onward.strip() if isinstance(onward, str) else ""
         if item not in records and label and target.isascii() and target.isdecimal() and int(target) in records:
-            aliases.append((clean(label), int(target)))
+            aliases.append((item, clean(label), int(target)))
         elif item not in records:
             unavailable += 1
-    return records, aliases, unavailable
+    labels = {row[0]: clean(row[1] or row[2] or f"Entry {row[0]}") for row in rows}
+    children = defaultdict(dict)
+    parents = defaultdict(set)
+    if has_folders:
+        for child, parent in db.execute(
+            "SELECT itemID, parentItemID FROM ResourceItemsFolders ORDER BY rowid"
+        ):
+            if child != parent and child in labels and parent in labels:
+                children[parent][child] = None
+                parents[child].add(parent)
+
+    readable = set(records) | {item for item, _, _ in aliases}
+    reachable = set(readable)
+    pending = list(readable)
+    while pending:
+        for parent in parents.get(pending.pop(), ()):
+            if parent not in reachable:
+                reachable.add(parent)
+                pending.append(parent)
+
+    folders = {
+        parent: [child for child in links if child in reachable]
+        for parent, links in children.items() if parent in reachable
+    }
+    folders = {item: links for item, links in folders.items() if links}
+    unavailable -= len(folders.keys() - readable)
+    return records, aliases, unavailable, labels, folders
 
 
-def add_resource_volume(pages, volume, title, records, aliases, chapters):
+def add_resource_folders(pages, volume, title, records, aliases, labels, folders):
+    if not folders:
+        return []
+    targets = {item: ("resource-item", volume, item) for item in records}
+    targets.update({item: ("resource-item", volume, target) for item, _, target in aliases})
+    nested = {child for links in folders.values() for child in links}
+    roots = [item for item in folders if item not in nested]
+    visited = set()
+
+    def visit(root):
+        pending = [root]
+        while pending:
+            item = pending.pop()
+            if item not in visited:
+                visited.add(item)
+                pending.extend(folders.get(item, ()))
+
+    for item in roots:
+        visit(item)
+    # Keep a route into any component whose source data has no root.
+    for item in folders:
+        if item not in visited:
+            roots.append(item)
+            visit(item)
+
+    def destination(item):
+        return ("resource-folder", volume, item) if item in folders else targets[item]
+
+    for item, links in folders.items():
+        rows = [link("Read this entry", targets[item])] if item in targets else []
+        rows.extend(link(labels[child], destination(child)) for child in links)
+        pages.page(destination(item), labels[item], rows)
+    key = ("resource-folders", volume)
+    pages.page(key, f"{title} • Contents", [link(labels[item], destination(item)) for item in roots])
+    return [link("Browse source contents", key)]
+
+
+def add_resource_volume(pages, volume, title, records, aliases, chapters, labels, folders):
     groups = defaultdict(list)
     for item, (label, book, chapter, verse, end, body) in records.items():
         key = ("resource-item", volume, item)
@@ -575,11 +638,11 @@ def add_resource_volume(pages, volume, title, records, aliases, chapters):
             rows.append(reference_link(ref, chapters))
         groups[(book if book in BOOKS else 0, chapter if book in BOOKS and isinstance(chapter, int) and chapter > 0 else 0)].append(link(label, key))
         pages.page(key, label, [*rows, *map(paragraph, body)])
-    menu = []
+    menu = add_resource_folders(pages, volume, title, records, aliases, labels, folders)
     if aliases:
         alias_menu = ("resource-aliases", volume)
         pages.page(alias_menu, f"{title} • Linked entries", [
-            link(label, ("resource-item", volume, item)) for label, item in aliases
+            link(label, ("resource-item", volume, item)) for _, label, item in aliases
         ])
         menu.append(link("Linked entries", alias_menu))
     by_book = defaultdict(list)
@@ -624,12 +687,14 @@ def import_local_volumes(pages, root, products, translations, has_jesus_calling)
                     continue
                 if "ResourceItems" not in tables:
                     raise ValueError("unsupported database layout")
-                records, aliases, unavailable = local_resources(db, root / path.stem)
+                records, aliases, unavailable, labels, folders = local_resources(
+                    db, root / path.stem, "ResourceItemsFolders" in tables
+                )
             if not records:
                 raise ValueError("no readable inline or companion HTML entries")
-            add_resource_volume(pages, volume, title, records, aliases, translations["WEB"])
+            add_resource_volume(pages, volume, title, records, aliases, translations["WEB"], labels, folders)
             groups[group].append(link(title, ("resource", volume)))
-            print(f"Life Bible {volume} {title}: {len(records)} text entries, {len(aliases)} local links, {unavailable} unavailable rows")
+            print(f"Life Bible {volume} {title}: {len(records)} text entries, {len(aliases)} local links, {len(folders)} source folders, {unavailable} unavailable rows")
         except (OSError, ValueError, sqlite3.Error) as error:
             print(f"Life Bible {volume} {title}: skipped, {error}")
     return groups
