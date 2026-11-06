@@ -36,7 +36,7 @@ jobs:
           assert d['user_host_verify_reports']['original_private_stage_scanned_by_repo_ci'] is False
           assert len(d['original_closeout_zip']['file_sha256'])==5
           for sha in [d['original_closeout_zip']['sha256'],*d['original_closeout_zip']['file_sha256'].values()]:
-              assert len(sha)==64 and set(sha)<set('0123456789abcdef'),sha
+              assert len(sha)==64 and set(sha).issubset(set('0123456789abcdef')),sha
           a,b,c=d['reports']
           assert a['non_arch_fields_equal']==28 and a['non_arch_fields_differ']==0
           assert a['optional_fields_unavailable']==8 and not a['original_rewrite_invocation_proven']
