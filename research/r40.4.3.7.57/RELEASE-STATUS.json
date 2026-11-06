@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.57",
-  "state": "HOST_SYNTHETIC_863_OF_863_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_ARM_ATTRIBUTE_TAGS_ALL_SHARED_EQUAL_MISSING_TAGS_CLASSIFIED",
   "purpose": "READONLY_ARM_AEABI_PUBLIC_FILE_ATTRIBUTES_REQUESTER_VS_ALTERNATE_INTERPRETER",
   "parent_r3756_source_sha256": "786aca0dd7e577e82a8292019d6dac4bad89fbf8ef2852bf171dfeed04c0760d",
   "source_sha256": "073461a9bbcbd55a4a9dd3d8f2af27580cd10d0f392e919d4f021d9eca936330",
@@ -13,7 +13,7 @@
   "clean_extract_synthetic_tests": "863_OF_863_PASS",
   "checksum_manifest": "PASS",
   "zip_integrity": "PASS",
-  "mac_stage_audit": "NOT_EXECUTED",
+  "mac_stage_audit": "USER_REPORTED_COMPLETED",
   "github_actions_status": "NOT_VERIFIED",
   "github_source_publication": "RELEASE_METADATA_ONLY_CODE_IN_CONVERSATION_ZIP",
   "original_r3745_hold_preserved": true,
@@ -29,5 +29,10 @@
   "boot_authorized": false,
   "prune_authorized": false,
   "firmware_write_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.57/USER-MAC-AUDIT-RESULT.json",
+  "user_arm_attribute_file_sections_present": 13,
+  "user_abi_align_preserved_candidate_only_requesters": 3,
+  "user_abi_hardfp_use_candidate_only_requesters": 2,
+  "user_shared_attribute_value_disagreements": 0
 }
