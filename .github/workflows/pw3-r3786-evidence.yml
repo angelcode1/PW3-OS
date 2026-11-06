@@ -1,0 +1,60 @@
+name: R3786 user-reported dual signed source intersection
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.86/**'
+      - '.github/workflows/pw3-r3786-evidence.yml'
+  push:
+    branches:
+      - main
+      - research/r3786-dual-signed-source-closure
+    paths:
+      - 'research/r40.4.3.7.86/**'
+      - '.github/workflows/pw3-r3786-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reported-evidence-consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert reported values and safety invariants (no stage access)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research/r40.4.3.7.86/USER-MAC-R3786-SIGNED-SOURCE-SELECTED-RESULT.json').read_text())
+          assert d['record_type']=='USER_REPORTED_MAC_R3786_DUAL_SIGNED_SOURCE_INTERSECTION_SELECTED_FIELDS'
+          assert d['github_ci_executed_original_mac_stage'] is False
+          off,on=d['offline'],d['online']
+          assert off['exit_code']==on['exit_code']==2
+          assert off['network_access_performed'] is False and on['network_access_performed'] is True
+          assert off['signed_payload_vs_minirootfs_intersection'] is None
+          assert on['official_signed_apk_payloads_replayed'] and on['official_signed_minirootfs_replayed']
+          assert on['original_apk_payload_mismatch_count']==4
+          i=on['signed_payload_vs_minirootfs_intersection']
+          assert i['symlink_discrepancies']==3
+          assert i['symlink_path_present_as_minirootfs_symlink']==3
+          assert i['signed_apk_symlink_literal_equals_candidate_minirootfs_literal']==3
+          assert i['signed_apk_discrepancy_matches_minirootfs_absolute_relative_conversion']==3
+          assert i['signed_apk_vs_stage_symlink_same_lexical_virtual_destination']==3
+          assert i['regular_discrepancies']==1 and i['regular_path_present_as_minirootfs_regular']==1
+          assert i['signed_apk_vs_stage_symlink_distinct_lexical_virtual_destination']==0
+          assert i['signed_source_literal_match_proves_original_historical_build_order'] is False
+          assert d['previous_r3785_user_report']['signed_minirootfs_regular_files_identical_to_stage']==83
+          assert d['joint_evidence_inference']['historical_install_order_or_modification_cause_proven'] is False
+          assert not on['original_apk_discrepancies_explained_as_historical_build_steps']
+          assert not on['original_alpine_release_was_r13_build_input_proven']
+          assert d['safety']['immutable_hold']=='NOT_BOOTABLE'
+          assert off['result']==on['result']=='HOLD'
+          for k in ('boot_authorized','physical_device_access_authorized','guest_execution_authorized',
+                    'firmware_write_authorized','stage_modified','original_r13_image_provenance_authenticated',
+                    'mapping_applied','pruning_authorized'):
+              assert d['safety'][k] is False,k
+          print('R3786_USER_REPORTED_SIGNED_SOURCE_INTERSECTION_CONSISTENT_NOT_BOOTABLE')
+          PY

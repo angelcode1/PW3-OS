@@ -1,0 +1,81 @@
+{
+  "record_type": "USER_REPORTED_MAC_R3786_DUAL_SIGNED_SOURCE_INTERSECTION_SELECTED_FIELDS",
+  "observed_local_date": "2026-11-07",
+  "github_ci_executed_original_mac_stage": false,
+  "offline": {
+    "diagnostic": "R3786_OFFLINE_DUAL_SOURCE_PREFLIGHT_NO_FETCH",
+    "exit_code": 2,
+    "network_access_performed": false,
+    "network_fetch_requested": false,
+    "official_signed_apk_payloads_replayed": false,
+    "official_signed_minirootfs_replayed": false,
+    "signed_payload_vs_minirootfs_intersection": null,
+    "result": "HOLD",
+    "immutable_hold": "NOT_BOOTABLE"
+  },
+  "online": {
+    "diagnostic": "R3786_SIGNED_MINIROOTFS_APK_DISCREPANCY_INTERSECTION_STATIC_ONLY",
+    "exit_code": 2,
+    "network_access_performed": true,
+    "network_fetch_requested": true,
+    "official_signed_apk_payloads_replayed": true,
+    "official_signed_minirootfs_replayed": true,
+    "original_apk_payload_mismatch_count": 4,
+    "historical_apk_regular_disagreement_count": 1,
+    "historical_apk_symlink_disagreement_count": 3,
+    "signed_payload_vs_minirootfs_intersection": {
+      "regular_discrepancies": 1,
+      "regular_path_present_in_candidate_minirootfs": 1,
+      "regular_path_present_as_minirootfs_regular": 1,
+      "regular_path_not_in_candidate_minirootfs": 0,
+      "regular_candidate_kind_conflict": 0,
+      "symlink_discrepancies": 3,
+      "symlink_path_present_in_candidate_minirootfs": 3,
+      "symlink_path_present_as_minirootfs_symlink": 3,
+      "symlink_path_not_in_candidate_minirootfs": 0,
+      "symlink_candidate_kind_conflict": 0,
+      "signed_apk_symlink_literal_equals_candidate_minirootfs_literal": 3,
+      "signed_apk_symlink_literal_differs_candidate_minirootfs_literal": 0,
+      "signed_apk_discrepancy_matches_minirootfs_absolute_relative_conversion": 3,
+      "signed_apk_vs_stage_symlink_same_lexical_virtual_destination": 3,
+      "signed_apk_vs_stage_symlink_distinct_lexical_virtual_destination": 0,
+      "signed_apk_vs_stage_symlink_unclassified_destination": 0,
+      "signed_source_literal_match_proves_original_historical_build_order": false,
+      "lexical_destination_equivalence_proves_runtime_link_resolution": false,
+      "path_names_or_target_literals_exported": false
+    },
+    "original_alpine_release_was_r13_build_input_proven": false,
+    "original_apk_discrepancies_explained_as_historical_build_steps": false,
+    "original_r13_image_provenance_authenticated": false,
+    "original_stage_modified": false,
+    "package_install_or_filesystem_extraction_performed": false,
+    "result": "HOLD",
+    "hold_category": "ORIGINAL_R13_IMAGE_PROVENANCE_UNAUTHENTICATED_HOLD",
+    "immutable_hold": "NOT_BOOTABLE"
+  },
+  "previous_r3785_user_report": {
+    "signed_minirootfs_regular_files_identical_to_stage": 83,
+    "signed_minirootfs_regular_files_compared": 83,
+    "signed_minirootfs_symlink_changes_virtual_endpoint_equivalent": 306,
+    "signed_minirootfs_candidate_original_r13_build_input_proven": false
+  },
+  "joint_evidence_inference": {
+    "one_discrepant_regular_stage_file_same_path_as_signed_minirootfs_regular": true,
+    "all_signed_minirootfs_regular_entries_reported_byte_equal_to_stage": true,
+    "therefore_discrepant_regular_stage_file_matches_signed_minirootfs": true,
+    "signed_apk_payload_for_that_path_differs_from_stage": true,
+    "historical_install_order_or_modification_cause_proven": false,
+    "inference_grounded_in_combined_user_reported_r3785_and_r3786_not_separate_runtime_test": true
+  },
+  "safety": {
+    "immutable_hold": "NOT_BOOTABLE",
+    "boot_authorized": false,
+    "physical_device_access_authorized": false,
+    "guest_execution_authorized": false,
+    "firmware_write_authorized": false,
+    "stage_modified": false,
+    "original_r13_image_provenance_authenticated": false,
+    "mapping_applied": false,
+    "pruning_authorized": false
+  }
+}
