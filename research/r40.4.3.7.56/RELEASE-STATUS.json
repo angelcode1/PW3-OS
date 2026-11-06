@@ -1,6 +1,6 @@
 {
   "milestone": "R40.4.3.7.56",
-  "state": "HOST_SYNTHETIC_804_OF_804_PASS_USER_MAC_STAGE_UNRUN",
+  "state": "USER_MAC_SELF_VERSYM_9_OF_9_MAPPED_AND_SONAME_MATCH",
   "purpose": "SHA_PINNED_ALTERNATE_INTERPRETER_GNU_VERDEF_VERSYM_AND_SONAME_METADATA_READONLY",
   "parent_r3755_source_sha256": "eb1c7ef30f1a9d9a532a009589bbf5877ec19ec57f9e3200055f3ea989d934eb",
   "new_source_sha256": "786aca0dd7e577e82a8292019d6dac4bad89fbf8ef2852bf171dfeed04c0760d",
@@ -13,7 +13,7 @@
   "clean_extract_synthetic_tests": "804_OF_804_PASS",
   "zip_integrity": "PASS",
   "checksum_manifest": "PASS",
-  "user_mac_stage_audit": "NOT_EXECUTED",
+  "user_mac_stage_audit": "USER_REPORTED_COMPLETED",
   "source_code_publication": "CONVERSATION_ZIP_ONLY_GITHUB_RELEASE_METADATA",
   "github_actions_status": "NOT_VERIFIED",
   "original_r3745_hold_preserved": true,
@@ -29,5 +29,10 @@
   "boot_authorized": false,
   "firmware_write_authorized": false,
   "prune_authorized": false,
-  "immutable_hold": "NOT_BOOTABLE"
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_mac_report_reference": "research/r40.4.3.7.56/USER-MAC-AUDIT-RESULT.json",
+  "user_self_relocated_defined_dynsym_count": 9,
+  "user_versym_mapped_count": 9,
+  "user_distinct_self_versym_indices": 2,
+  "user_soname_basename_match": true
 }
