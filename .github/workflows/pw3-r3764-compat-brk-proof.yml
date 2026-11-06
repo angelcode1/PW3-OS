@@ -74,3 +74,46 @@ jobs:
               assert obj[flag] is False, flag
           print('R3764_PUBLIC_REFERENCE_FINGERPRINT_REPRODUCED_NOT_BOOTABLE')
           PY
+      - name: Validate historical and later user evidence separately (no Amazon download)
+        shell: bash
+        run: |
+          python -B - <<'PY'
+          import json
+          import subprocess
+          import sys
+          from pathlib import Path
+          root = Path('research/r40.4.3.7.64')
+          historical = json.loads((root/'USER-MAC-AUDIT-AND-RECONSTRUCTION.json').read_text())
+          later = json.loads((root/'USER-MAC-EXACT-ARCHIVE-EQUALITY.json').read_text())
+          result = subprocess.run(
+              [sys.executable, '-B', str(root/'R4043764-COMPAT-BRK-FINGERPRINT-PROOF.py')],
+              capture_output=True, text=True, check=True,
+          )
+          rebuilt = json.loads(result.stdout)
+          assert historical['actual_blob_match'] is False
+          assert historical['reconstructed_exact_single_line_change']['full_byte_equality_not_independently_proven'] is True
+          assert later['result'] == 'HOLD'
+          assert later['hold_category'] == 'PUBLIC_REFERENCE_BLOB_DIFFERS_HOLD'
+          assert later['exit_code_observed'] == 2
+          assert later['evidence_check'] == 'EXACT_ONE_LINE_CONFIG_DELTA_CONFIRMED_STATIC_ONLY'
+          assert later['source'] == 'Mac stdout of R4043764-COMPAT-BRK-EXACT-DELTA-VERIFY.py on 2026-11-06'
+          assert later['observed_amazon_blob_report_match'] is True
+          assert later['observed_archive_report_sha256_match'] is True
+          assert later['observed_full_config_bytes_equal_single_line_reconstruction'] is True
+          assert later['observed_amazon_config_sha256'] == later['reconstructed_config_sha256']
+          assert later['observed_amazon_config_sha256'] == rebuilt['reconstructed_sha256']
+          assert later['observed_amazon_config_blob_sha1'] == rebuilt['reconstructed_blob_git_sha1']
+          assert later['observed_amazon_config_size_bytes'] == rebuilt['reconstructed_size_bytes']
+          assert later['reconstructed_change'] == 'CONFIG_COMPAT_BRK=y -> # CONFIG_COMPAT_BRK is not set'
+          assert later['github_actions_scanned_amazon_archive'] is False
+          assert later['archive_origin_cryptographically_authenticated'] is False
+          assert later['r13_image_provenance_authenticated'] is False
+          assert later['actual_pw3_running_kernel_verified'] is False
+          assert later['kernel_abi_runtime_compatibility_verified'] is False
+          assert later['boot_authorized'] is False
+          assert later['firmware_write_authorized'] is False
+          assert later['device_access_authorized'] is False
+          assert later['guest_execution_authorized'] is False
+          assert later['immutable_hold'] == 'NOT_BOOTABLE'
+          print('R3764_LOCAL_REPORT_INTERNALLY_CONSISTENT_NOT_AN_ARCHIVE_ATTESTATION_NOT_BOOTABLE')
+          PY
