@@ -1,0 +1,99 @@
+{
+  "record_type": "USER_REPORTED_MAC_R3779_R3781_CLOSEOUT_VERIFIED_CHECKSUM_BUNDLE",
+  "verified_date": "2026-11-06",
+  "user_host_sha256_manifest_check": {
+    "status": "PASS",
+    "confirmed_files": [
+      "README.md",
+      "USER-MAC-R3779-METADATA-PARITY.json",
+      "USER-MAC-R3780-LOCAL-SCRIPT-CORRELATION.json",
+      "USER-MAC-R3781-OPERATION-PROXIMITY.json",
+      "verify_reports.py"
+    ],
+    "not_an_independent_archive_origin_attestation": true
+  },
+  "user_host_verify_reports": {
+    "output": "R3781_CLOSEOUT_REPORTED_EVIDENCE_CONSISTENT_NOT_BOOTABLE",
+    "exit_code": 0,
+    "original_private_stage_scanned_by_repo_ci": false
+  },
+  "original_closeout_zip": {
+    "filename": "pw3-r3781-static-investigation-closeout.zip",
+    "sha256": "e5435f2a904880fd292f53c67db76964ba0f36a722c8444ea69e6dc3843a592d",
+    "file_sha256": {
+      "README.md": "b2d92e0b0e4d08a9066063eba2c15ead7b40bc22be1caa08ed257b87acc8d06e",
+      "USER-MAC-R3779-METADATA-PARITY.json": "e56d3b5a091a69ab8d53ea8a412d0485ff047db3437c43172ccb7557c91be9b3",
+      "USER-MAC-R3780-LOCAL-SCRIPT-CORRELATION.json": "70983fc6e9d09ed0d431c1503b2ceab8e09d78882c9efb8ea66284a2f921c997",
+      "USER-MAC-R3781-OPERATION-PROXIMITY.json": "a9c371f48cb4e59e184a86f9b32a0579702065c98843082662f82c7010c66277",
+      "verify_reports.py": "9d2d0680e881ea9cbfd47f740546e7aad58f26ebc9bf4aa8934e08aea4f65d2c"
+    }
+  },
+  "reports": [
+    {
+      "milestone": "R40.4.3.7.79",
+      "reported_offline_exit_code": 2,
+      "reported_online_exit_code": 2,
+      "online_diagnostic": "R3779_SIGNED_INDEX_PKGINFO_METADATA_PARITY_STATIC_ONLY",
+      "affected_packages": 3,
+      "verified_package_control_q1": 3,
+      "verified_payload_datahash": 3,
+      "non_arch_fields_equal": 28,
+      "non_arch_fields_differ": 0,
+      "optional_fields_unavailable": 8,
+      "arch_noarch_vs_index": 3,
+      "original_rewrite_invocation_proven": false
+    },
+    {
+      "milestone": "R40.4.3.7.80",
+      "reported_exit_code": 2,
+      "diagnostic": "R3780_BOUND_LOCAL_RECIPE_PATH_CORRELATION_STATIC_ONLY",
+      "script_candidates": 8,
+      "script_bytes_read": 15825,
+      "exact_path_reference_scripts": 3,
+      "distinct_symlink_paths_referenced": 1,
+      "regular_etc_path_referenced": 0,
+      "scripts_with_path_and_write_like_hint": 1,
+      "script_execution_proven": false
+    },
+    {
+      "milestone": "R40.4.3.7.81",
+      "reported_exit_code": 2,
+      "diagnostic": "R3781_BOUND_PATH_OPERATION_PROXIMITY_STATIC_ONLY",
+      "exact_path_reference_scripts": 3,
+      "shell_comment_only_references": 3,
+      "active_literal_path_tokens": 0,
+      "possible_direct_write_destinations": 0,
+      "python_direct_literal_write_calls": 0,
+      "unparsed_path_bearing_shell_lines": 0,
+      "unclassified_script_candidates": 1,
+      "guest_or_source_execution_proven": false
+    }
+  ],
+  "previously_observed_discrepancies": {
+    "staged_regular_file_differs_from_package_payload": 1,
+    "staged_symlink_targets_differ_from_package_payload": 3,
+    "corresponding_package_archive_provenance_independently_attested": false
+  },
+  "unclosed_gates": {
+    "r13_image_provenance_authenticated": false,
+    "independently_attested_distribution_signer_identity": false,
+    "original_build_script_execution_proven": false,
+    "original_index_arch_rewrite_execution_proven": false,
+    "physical_pw3_running_kernel_verified": false,
+    "kernel_abi_runtime_compatibility_verified": false,
+    "pt_interp_mapping_applied": false,
+    "rootfs_boot_authorized": false
+  },
+  "immutability": {
+    "immutable_hold": "NOT_BOOTABLE",
+    "result": "HOLD",
+    "hold_category": "APK_INSTALLED_FILE_RECORD_DISAGREEMENT_HOLD",
+    "stage_modified": false,
+    "guest_execution_authorized": false,
+    "device_access_authorized": false,
+    "firmware_write_authorized": false,
+    "prune_authorized": false,
+    "boot_authorized": false
+  },
+  "note": "Selected summary and checksums of existing complete user-reported ZIP; does not replace the original three JSON records or independently scan the private R13 stage."
+}

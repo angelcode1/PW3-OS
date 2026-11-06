@@ -1,0 +1,55 @@
+name: R3779-R3781 closeout evidence consistency
+
+on:
+  pull_request:
+    paths:
+      - 'research/r40.4.3.7.81-closeout/**'
+      - '.github/workflows/pw3-r3781-closeout-evidence.yml'
+  push:
+    branches:
+      - main
+      - research/r3779-r3781-evidence-closeout
+    paths:
+      - 'research/r40.4.3.7.81-closeout/**'
+      - '.github/workflows/pw3-r3781-closeout-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reported-evidence-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify report logic and safety boundary (no R13 stage access)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('research/r40.4.3.7.81-closeout/USER-MAC-CLOSEOUT-VERIFIED.json')
+          d=json.loads(p.read_text())
+          assert d['record_type']=='USER_REPORTED_MAC_R3779_R3781_CLOSEOUT_VERIFIED_CHECKSUM_BUNDLE'
+          assert d['user_host_verify_reports']['exit_code']==0
+          assert d['user_host_verify_reports']['output']=='R3781_CLOSEOUT_REPORTED_EVIDENCE_CONSISTENT_NOT_BOOTABLE'
+          assert d['user_host_verify_reports']['original_private_stage_scanned_by_repo_ci'] is False
+          assert len(d['original_closeout_zip']['file_sha256'])==5
+          for sha in [d['original_closeout_zip']['sha256'],*d['original_closeout_zip']['file_sha256'].values()]:
+              assert len(sha)==64 and set(sha)<set('0123456789abcdef'),sha
+          a,b,c=d['reports']
+          assert a['non_arch_fields_equal']==28 and a['non_arch_fields_differ']==0
+          assert a['optional_fields_unavailable']==8 and not a['original_rewrite_invocation_proven']
+          assert b['exact_path_reference_scripts']==3 and not b['script_execution_proven']
+          assert c['shell_comment_only_references']==3 and c['active_literal_path_tokens']==0
+          assert c['possible_direct_write_destinations']==0
+          assert d['previously_observed_discrepancies']['staged_regular_file_differs_from_package_payload']==1
+          assert d['previously_observed_discrepancies']['staged_symlink_targets_differ_from_package_payload']==3
+          assert not any(d['unclosed_gates'].values())
+          i=d['immutability']
+          assert i['immutable_hold']=='NOT_BOOTABLE' and i['result']=='HOLD'
+          for k in ('stage_modified','guest_execution_authorized','device_access_authorized',
+                     'firmware_write_authorized','prune_authorized','boot_authorized'):
+              assert i[k] is False,k
+          print('R3781_CLOSEOUT_REPORTED_EVIDENCE_CI_CONSISTENCY_ONLY_NOT_BOOTABLE')
+          PY
