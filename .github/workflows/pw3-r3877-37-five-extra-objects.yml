@@ -1,0 +1,49 @@
+name: R3877.37 five extra objects offline safety audit
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/r3877-17-2-nobits-parser-fix
+      - main
+    paths:
+      - 'research/r3877-36/**'
+      - 'research/r3877-37/**'
+      - '.github/workflows/pw3-r3877-37-five-extra-objects.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-36/**'
+      - 'research/r3877-37/**'
+      - '.github/workflows/pw3-r3877-37-five-extra-objects.yml'
+permissions:
+  contents: read
+jobs:
+  synthetic-offline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test inherited log parsers plus R3877.37 (no log/ARM/Kindle)
+        working-directory: research/r3877-37
+        env:
+          PYTHONPATH: ../r3877-36
+        run: |
+          python3 -B -m unittest -q \
+            test_r3877_31 test_r3877_32 test_r3877_32_1 \
+            test_r3877_32_2 test_r3877_33 test_r3877_33_1 \
+            test_r3877_34 test_r3877_35 test_r3877_36 test_r3877_37
+      - name: Missing log must hold with immutable NOT_BOOTABLE
+        working-directory: research/r3877-37
+        env:
+          PYTHONPATH: ../r3877-36
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, sys
+          p=subprocess.run([sys.executable,'-B','pw3_r3877_37_auxiliary_context_audit.py',
+                            '/missing/private-log'],capture_output=True,text=True)
+          assert p.returncode==2
+          result=json.loads(p.stdout)
+          assert result['result']=='HOLD'
+          assert result['immutable_hold']=='NOT_BOOTABLE'
+          assert result['kindle_ssh_sessions']==0
+          assert result['binary_execution_performed'] is False
+          print('OFFLINE_MISSING_LOG_HOLD_PASS')
+          PY
