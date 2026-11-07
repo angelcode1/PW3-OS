@@ -1,0 +1,42 @@
+name: R3877.19.1 offline eMMC boot-area parser regression
+on:
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-19-1/**'
+      - '.github/workflows/pw3-r3877-19-1-emmc-parse.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-19-1/**'
+      - '.github/workflows/pw3-r3877-19-1-emmc-parse.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 26 offline regression tests (no SSH and no device access)
+        working-directory: research/r3877-19-1
+        run: python3 -B -m unittest -q test_r3877_19.py test_r3877_19_1.py
+      - name: Reanalyze user-reported sanitized metadata only
+        working-directory: research/r3877-19-1
+        run: |
+          python3 -B pw3_r3877_19_analyze.py R3877_19_USER_MAC_STORAGE_RAW.txt > /tmp/r3877_19_1_result.json
+          python3 - <<'PY'
+          import json
+          p=json.load(open('/tmp/r3877_19_1_result.json'))
+          assert p['milestone']=='R3877.19.1'
+          assert p['result']=='PASS_STORAGE_METADATA_ONLY'
+          assert p['immutable_hold']=='NOT_BOOTABLE'
+          assert p['inventory']['emmc_boot_area_names']==['mmcblk0boot0','mmcblk0boot1']
+          assert p['inventory']['root_block_device_not_identified_from_rootfs']
+          for field in ('recovery_verified','rootfs_backup_verified','bootloader_verified',
+                        'bootloader_location_verified','root_backing_partition_verified',
+                        'raw_block_or_mtd_data_read','firmware_write_performed'):
+            assert p[field] is False, field
+          print('R3877_19_1_METADATA_ONLY_NOT_BOOTABLE_PASS')
+          PY
