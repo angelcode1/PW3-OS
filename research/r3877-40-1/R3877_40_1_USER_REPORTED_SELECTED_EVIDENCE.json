@@ -1,0 +1,20 @@
+{
+  "milestone": "R3877.40.1",
+  "reported_by": "User-provided Mac audit JSON",
+  "result": "PASS_VERIFIED_LOCAL_INPUT_RESOLUTION_AND_R3877_40_ONLY",
+  "original_analyzer_result": "PASS_PINNED_SIGNED_LOADER_STATIC_ELF_METADATA_ONLY",
+  "original_analyzer_exit_code": 0,
+  "selected_index_matches_earlier_sha256": true,
+  "valid_apk_candidates": 1,
+  "candidate_loader_sha256_matches": 1,
+  "candidate_index_files": 1,
+  "pinned_public_key_directories": 1,
+  "source_to_binary_reproducibility_verified": false,
+  "historical_builder_toolchain_versions_verified": false,
+  "kindle_ssh_sessions": 0,
+  "binary_execution_performed": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "elf_metadata_values_in_selected_report": false
+}
