@@ -1,0 +1,26 @@
+{
+  "source": "User-provided R3877.36 Mac audit result; not independently rerun on real log in assistant environment",
+  "milestone": "R3877.36",
+  "result": "PASS_PINNED_UNLINKED_PRINTED_COMPILE_OUTPUT_TRIAGE_ONLY",
+  "reported_exit_code": 0,
+  "immutable_hold": "NOT_BOOTABLE",
+  "log_bytes": 1644394,
+  "log_sha256": "a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce",
+  "joined_link_candidate_sha256": "5bfd03a5a13d402b69eab716bd4374a2ee25c90496e6fc362284041489b3e9f0",
+  "printed_compile_outputs": 1428,
+  "printed_main_link_objects": 1423,
+  "exact_text_matches": 1423,
+  "unmatched_printed_main_link_objects": 0,
+  "printed_compile_outputs_not_in_main_link": 5,
+  "unlinked_outputs_with_full_token_mentions_outside_compile_or_main_link": 5,
+  "unlinked_outputs_without_such_observed_mentions": 0,
+  "extra_printed_token_mentions_by_generic_context": {
+    "copy_install_or_binary_tool_like": 5
+  },
+  "other_printed_lines_scanned": 551,
+  "other_printed_lines_not_lexically_parsed": 1,
+  "source_to_binary_reproducibility_verified": false,
+  "historical_builder_toolchain_versions_verified": false,
+  "public_build_log_signature_verified": false,
+  "kindle_ssh_sessions": 0
+}

@@ -1,0 +1,13 @@
+{
+  "source": "USER_REPORTED_R3877_22_RESULT",
+  "milestone": "R3877.22",
+  "result": "PASS_PINNED_UPSTREAM_ARM_SOURCE_NAMES_ONLY",
+  "upstream_git_blob_sha1": "2c04ed5efeb50707ac3353958434d37691841839",
+  "upstream_arm_syscall_definitions_parsed": 340,
+  "upstream_all_20_core_names_defined": true,
+  "same_as_running_vendor_kernel_verified": false,
+  "target_kernel_syscall_dispatch_verified": false,
+  "target_musl_runtime_verified": false,
+  "root_partition_supported_from_prior_mount_metadata": "mmcblk0p1",
+  "immutable_hold": "NOT_BOOTABLE"
+}

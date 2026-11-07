@@ -1,0 +1,33 @@
+name: PW3 R3877.44 host-only BusyBox classifier tests
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'research/r3877-44/**'
+      - '.github/workflows/pw3-r3877-44-offline-tests.yml'
+permissions:
+  contents: read
+jobs:
+  host-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify host-only classifier tests, no emulation or Docker
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/r3877-44
+          python3 -B -m unittest -v test_r3877_44.py
+          set +e
+          python3 -B pw3_r3877_44_busybox_qemu_recheck.py > preflight.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          with open('preflight.json', encoding='utf-8') as f:
+              report=json.load(f)
+          assert report['immutable_hold'] == 'NOT_BOOTABLE'
+          assert report['authorized_qemu_execution_performed'] is False
+          assert report['r3877_6_historic_probe']['classification'] == 'BUSYBOX_SINGLE_HYPHEN_HELP_APPLET_ERROR'
+          PY

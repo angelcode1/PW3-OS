@@ -1,0 +1,1 @@
+GitHub Actions runs 63 offline tests against synthetic logs. Neither the 1.64 MB public build log nor the Kindle firmware is uploaded to GitHub. The actual linker-line result remains pending until the user executes the hash-pinned audit locally.

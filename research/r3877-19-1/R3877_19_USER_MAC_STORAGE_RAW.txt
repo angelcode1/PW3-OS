@@ -1,0 +1,17 @@
+R3877_19_READ_ONLY_STORAGE_BEGIN
+kernel_release=3.0.35-lab126
+machine=armv7l
+root_device=rootfs
+root_fstype=rootfs
+root_mount_read_only=false
+partitions_status=AVAILABLE
+partition=mmcblk0,179,0,3817472
+partition=mmcblk0p1,179,1,460800
+partition=mmcblk0p2,179,2,65536
+partition=mmcblk0p3,179,3,65536
+partition=mmcblk0p4,179,4,3192832
+partition=mmcblk0boot1,179,16,4096
+partition=mmcblk0boot0,179,8,4096
+mtd_status=NOT_EXPOSED
+block_readonly=mmcblk0,0
+R3877_19_READ_ONLY_STORAGE_COMPLETE

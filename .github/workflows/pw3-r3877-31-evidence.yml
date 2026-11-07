@@ -1,0 +1,38 @@
+name: PW3 R3877.31 reported log evidence consistency
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-31/R3877_31_USER_MAC_SELECTED_RESULT.json'
+      - '.github/workflows/pw3-r3877-31-evidence.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-31/R3877_31_USER_MAC_SELECTED_RESULT.json'
+      - '.github/workflows/pw3-r3877-31-evidence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm selected user-reported evidence remains fail-closed
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path('research/r3877-31/R3877_31_USER_MAC_SELECTED_RESULT.json').read_text())
+          assert p['result'] == 'PASS_HASH_PINNED_PUBLIC_BUILDLOG_STATIC_EVIDENCE_ONLY'
+          assert p['log_sha256'] == 'a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce'
+          assert p['log_bytes'] == 1644394
+          assert p['likely_compile_lines'] == 1428
+          assert p['likely_link_lines'] == 1
+          assert p['immutable_hold'] == 'NOT_BOOTABLE'
+          assert p['kindle_ssh_sessions'] == 0
+          for k in ('historical_builder_machine_identity_verified','historical_builder_toolchain_versions_verified','historical_builder_cflags_ldflags_verified','public_build_log_signature_verified','source_to_binary_reproducibility_verified'):
+              assert p[k] is False
+          print('PASS_USER_REPORTED_STATIC_EVIDENCE_CONSISTENCY_ONLY')
+          PY

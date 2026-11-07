@@ -1,0 +1,19 @@
+{
+  "milestone": "R3877.35",
+  "reported_by": "User-provided successful Mac run, output R3877_35_EXIT_CODE=0",
+  "result": "PASS_PINNED_PRINTED_COMPILE_LINK_OBJECT_CROSSCHECK_ONLY",
+  "immutable_hold": "NOT_BOOTABLE",
+  "public_build_log_sha256": "a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce",
+  "joined_printed_link_candidate_sha256": "5bfd03a5a13d402b69eab716bd4374a2ee25c90496e6fc362284041489b3e9f0",
+  "printed_compile_output_objects": 1428,
+  "printed_link_object_inputs": 1423,
+  "exact_text_object_occurrences_matched": 1423,
+  "printed_link_object_occurrences_without_compile_output_match": 0,
+  "printed_compile_output_occurrences_not_in_link_candidate": 5,
+  "compiled_objects_distinct_and_not_duplicated": true,
+  "binary_execution_performed": false,
+  "kindle_ssh_sessions": 0,
+  "source_to_binary_reproducibility_verified": false,
+  "historical_builder_toolchain_versions_verified": false,
+  "public_build_log_signature_verified": false
+}

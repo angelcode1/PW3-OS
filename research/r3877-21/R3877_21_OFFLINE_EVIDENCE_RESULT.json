@@ -1,0 +1,232 @@
+{
+  "alpine_application_syscall_requirements_verified": false,
+  "boot_performed": false,
+  "bootloader_verified": false,
+  "core_arm_syscall_names": {
+    "brk": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "clock_gettime": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "clock_nanosleep": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "clone": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "close": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "epoll_ctl": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "epoll_wait": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "eventfd2": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "futex": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "mmap2": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "mprotect": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "munmap": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "openat": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "read": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "rt_sigaction": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "rt_sigprocmask": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "set_tid_address": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "signalfd4": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "timerfd_create": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    },
+    "write": {
+      "actual_target_dispatch_verified": false,
+      "arm_v3_0_source_number": null,
+      "source_name_in_supplied_header": null
+    }
+  },
+  "firmware_write_performed": false,
+  "hold_category": "NOT_BOOTABLE",
+  "immutable_hold": "NOT_BOOTABLE",
+  "kernel_config_reports": {
+    "CONFIG_AEABI": {
+      "actual_syscall_dispatch_verified": false,
+      "reported_status": "BUILTIN"
+    },
+    "CONFIG_BINFMT_ELF": {
+      "actual_syscall_dispatch_verified": false,
+      "reported_status": "BUILTIN"
+    },
+    "CONFIG_CPU_V7": {
+      "actual_syscall_dispatch_verified": false,
+      "reported_status": "BUILTIN"
+    },
+    "CONFIG_EPOLL": {
+      "actual_syscall_dispatch_verified": false,
+      "reported_status": "BUILTIN"
+    },
+    "CONFIG_EVENTFD": {
+      "actual_syscall_dispatch_verified": false,
+      "reported_status": "BUILTIN"
+    },
+    "CONFIG_FUTEX": {
+      "actual_syscall_dispatch_verified": false,
+      "reported_status": "BUILTIN"
+    },
+    "CONFIG_HIGH_RES_TIMERS": {
+      "actual_syscall_dispatch_verified": false,
+      "reported_status": "BUILTIN"
+    },
+    "CONFIG_INOTIFY_USER": {
+      "actual_syscall_dispatch_verified": false,
+      "reported_status": "BUILTIN"
+    },
+    "CONFIG_SIGNALFD": {
+      "actual_syscall_dispatch_verified": false,
+      "reported_status": "BUILTIN"
+    },
+    "CONFIG_TIMERFD": {
+      "actual_syscall_dispatch_verified": false,
+      "reported_status": "BUILTIN"
+    }
+  },
+  "kernel_version_exceeds_musl_general_minimum": true,
+  "koreader_dependency_closure_verified": false,
+  "milestone": "R3877.21",
+  "musl_exact_source_fallbacks_verified": false,
+  "musl_general_minimum_is_not_application_compatibility_proof": true,
+  "newer_mainline_syscall_baseline": {
+    "clock_gettime64": {
+      "actual_target_syscall_verified": false,
+      "arm_source_number": null,
+      "mainline_first_kernel": "5.1",
+      "mainline_postdates_device_kernel": true,
+      "review": "32-bit ARM musl time64 fallback requires source/runtime audit",
+      "vendor_backport_checked": false
+    },
+    "clone3": {
+      "actual_target_syscall_verified": false,
+      "arm_source_number": null,
+      "mainline_first_kernel": "5.3",
+      "mainline_postdates_device_kernel": true,
+      "review": "verify clone fallback for programs requesting clone3",
+      "vendor_backport_checked": false
+    },
+    "futex_time64": {
+      "actual_target_syscall_verified": false,
+      "arm_source_number": null,
+      "mainline_first_kernel": "5.1",
+      "mainline_postdates_device_kernel": true,
+      "review": "32-bit ARM musl timed synchronization requires fallback audit",
+      "vendor_backport_checked": false
+    },
+    "getrandom": {
+      "actual_target_syscall_verified": false,
+      "arm_source_number": null,
+      "mainline_first_kernel": "3.17",
+      "mainline_postdates_device_kernel": true,
+      "review": "verify entropy fallback; do not assume /dev/urandom correctness",
+      "vendor_backport_checked": false
+    },
+    "openat2": {
+      "actual_target_syscall_verified": false,
+      "arm_source_number": null,
+      "mainline_first_kernel": "5.6",
+      "mainline_postdates_device_kernel": true,
+      "review": "not all openat2 path-resolution guarantees have fallback",
+      "vendor_backport_checked": false
+    },
+    "renameat2": {
+      "actual_target_syscall_verified": false,
+      "arm_source_number": null,
+      "mainline_first_kernel": "3.15",
+      "mainline_postdates_device_kernel": true,
+      "review": "renameat2 flags require separate fallback/handling",
+      "vendor_backport_checked": false
+    },
+    "statx": {
+      "actual_target_syscall_verified": false,
+      "arm_source_number": null,
+      "mainline_first_kernel": "4.11",
+      "mainline_postdates_device_kernel": true,
+      "review": "verify stat/fstatat fallback if the application needs statx",
+      "vendor_backport_checked": false
+    }
+  },
+  "original_r13_stage_provenance_verified": false,
+  "physical_device_access_performed": false,
+  "raw_device_bytes_read": false,
+  "recovery_verified": false,
+  "reference_kernel_release": "3.0.35-lab126",
+  "result": "PASS_VERSION_CONFIG_RISK_MATRIX_ONLY",
+  "root_backing_partition_confirmed_from_prior_live_metadata": "mmcblk0p1",
+  "rootfs_backup_verified": false,
+  "runtime_syscall_execution_verified": false,
+  "source": {
+    "kernel_table_binding_verified": false,
+    "label": null,
+    "parsed_arm_syscall_definitions": 0,
+    "same_as_running_vendor_kernel_verified": false,
+    "sha256": null
+  },
+  "vendor_backports_verified": false
+}

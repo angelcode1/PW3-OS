@@ -1,0 +1,38 @@
+name: R3877.22 ARM syscall source offline tests
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-22/**'
+      - '.github/workflows/pw3-r3877-22-syscall-source.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-22/**'
+      - '.github/workflows/pw3-r3877-22-syscall-source.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run synthetic source parser and hold regression tests
+        working-directory: research/r3877-22
+        run: |
+          python3 -B -m unittest -q test_r3877_21.py test_r3877_22.py
+      - name: Confirm no external header exists and fail closed
+        working-directory: research/r3877-22
+        run: |
+          python3 - <<'PY'
+          import json,subprocess,sys
+          p=subprocess.run([sys.executable,'-B','pw3_r3877_22_upstream_source_binding.py','nonexistent.h','R3877_21_USER_REPORTED_INPUT.json'],capture_output=True,text=True)
+          assert p.returncode == 2, p.stderr
+          j=json.loads(p.stdout)
+          assert j['result']=='HOLD'
+          assert j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['physical_device_access_performed'] is False
+          print('R3877_22_OFFLINE_ONLY_NOT_BOOTABLE')
+          PY

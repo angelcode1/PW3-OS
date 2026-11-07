@@ -1,0 +1,42 @@
+name: PW3 R3877.47 offline applet and argv0 regression tests
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-47/**'
+      - '.github/workflows/pw3-r3877-47-host-only.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-47/**'
+      - '.github/workflows/pw3-r3877-47-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: R3877.47 synthetic regressions only
+        run: |
+          cd research/r3877-47
+          python3 -B -m unittest -q test_r3877_47.py
+      - name: Default preflight must not touch Docker
+        run: |
+          cd research/r3877-47
+          set +e
+          python3 -B pw3_r3877_47_qemu_applet_argv0.py > /tmp/r3877_47_preflight.json
+          rc=$?
+          test "$rc" -eq 2 || exit 1
+          python3 - <<'PY2'
+          import json
+          x=json.load(open('/tmp/r3877_47_preflight.json'))
+          assert x['result']=='HOLD'
+          assert x['immutable_hold']=='NOT_BOOTABLE'
+          assert x['authorized_qemu_execution_performed'] is False
+          assert x['boot_performed'] is False
+          assert x['physical_device_access_performed'] is False
+          print('R3877_47_ZERO_DOCKER_PREFLIGHT_HOLD')
+          PY2

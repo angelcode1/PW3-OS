@@ -1,0 +1,40 @@
+name: PW3 R3877.28 offline build provenance regression
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-28/**'
+      - '.github/workflows/pw3-r3877-28-builder-provenance.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-28/**'
+      - '.github/workflows/pw3-r3877-28-builder-provenance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Host-only synthetic regression tests; no Docker or Kindle
+        working-directory: research/r3877-28
+        run: |
+          python3 -B -m unittest -q test_r3877_24.py test_r3877_25.py test_r3877_26.py test_r3877_26_1.py test_r3877_27.py test_r3877_28.py
+      - name: Refuse missing external inputs
+        working-directory: research/r3877-28
+        run: |
+          python3 - <<'PY'
+          import json, subprocess,sys
+          r=subprocess.run([sys.executable,'-B','pw3_r3877_28_build_environment_inputs.py'],capture_output=True,text=True)
+          assert r.returncode==2
+          d=json.loads(r.stdout)
+          assert d['result']=='HOLD'
+          assert d['hold_category']=='MISSING_EXPLICIT_LOCAL_INPUTS'
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['kindle_ssh_sessions']==0
+          assert d['signed_loader_rebuild_performed'] is False
+          print('R3877_28_NOT_BOOTABLE_OFFLINE_ONLY')
+          PY

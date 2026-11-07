@@ -1,0 +1,1 @@
+Offline CI executes *synthetic* parser regressions and checks that a missing log yields HOLD. No real public build log is committed to the repository. The user-supplied hash-pinned Mac run is required for real-file matching. The CI result cannot verify Alpine's historical builder or Kindle runtime. NOT_BOOTABLE remains immutable.

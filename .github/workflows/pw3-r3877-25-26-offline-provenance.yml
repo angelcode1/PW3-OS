@@ -1,0 +1,43 @@
+name: R3877.25-26 offline pinned Alpine source provenance checks
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-25/**'
+      - 'research/r3877-26/**'
+      - '.github/workflows/pw3-r3877-25-26-offline-provenance.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-25/**'
+      - 'research/r3877-26/**'
+      - '.github/workflows/pw3-r3877-25-26-offline-provenance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  host-only-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: R3877.25 host-only synthetic RSA regression
+        working-directory: research/r3877-25
+        run: python3 -B -m unittest -q test_r3877_24.py test_r3877_25.py
+      - name: R3877.26 host-only archive and patch regression
+        working-directory: research/r3877-26
+        run: python3 -B -m unittest -q test_r3877_26.py
+      - name: Fail-closed no-sources preflight — NOT_BOOTABLE
+        working-directory: research/r3877-26
+        run: |
+          python3 - <<'PY'
+          import subprocess,json,sys
+          p=subprocess.run([sys.executable,"-B","pw3_r3877_26_aports_input_audit.py","--source-dir","/path-that-does-not-exist"],capture_output=True,text=True)
+          assert p.returncode == 2
+          x=json.loads(p.stdout)
+          assert x["result"]=="HOLD"
+          assert x["immutable_hold"]=="NOT_BOOTABLE"
+          assert x["kindle_ssh_sessions"]==0
+          assert x["new_kindle_binary_installed_or_executed"] is False
+          print("OFFLINE_NO_KINDLE_NOT_BOOTABLE")
+          PY

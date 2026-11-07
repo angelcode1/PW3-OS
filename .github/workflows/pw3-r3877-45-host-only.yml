@@ -1,0 +1,43 @@
+name: PW3 R3877.45 host-only QEMU harness regressions
+on:
+  push:
+    branches:
+      - research/r3877-17-2-nobits-parser-fix
+      - main
+    paths:
+      - 'research/r3877-45/**'
+      - '.github/workflows/pw3-r3877-45-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-45/**'
+      - '.github/workflows/pw3-r3877-45-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-tests-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Offline synthetic tests (no Docker/QEMU or Kindle)
+        run: |
+          cd research/r3877-45
+          python3 -B -m unittest -q test_r3877_45.py
+      - name: Verify fail-closed no-Docker default preflight
+        run: |
+          set +e
+          cd research/r3877-45
+          python3 -B pw3_r3877_45_direct_stopped_guest.py > /tmp/r3877_45_preflight.json
+          rc=$?
+          test "$rc" -eq 2 || exit 1
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/r3877_45_preflight.json'))
+          assert d['result']=='HOLD'
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['authorized_qemu_execution_performed'] is False
+          assert d['derived_image_created'] is False
+          assert d['boot_performed'] is False
+          assert d['physical_device_access_performed'] is False
+          print('R3877_45_HOST_ONLY_HOLD_EXPECTED')
+          PY

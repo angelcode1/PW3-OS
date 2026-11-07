@@ -1,0 +1,14 @@
+{
+  "milestone": "R3877.21",
+  "source": "user-reported Mac host-only result; not executed by GitHub CI",
+  "result": "PASS_VERSION_CONFIG_RISK_MATRIX_ONLY",
+  "kernel_release": "3.0.35-lab126",
+  "parsed_arm_syscall_definitions": 0,
+  "same_as_running_vendor_kernel_verified": false,
+  "musl_exact_source_fallbacks_verified": false,
+  "alpine_application_syscall_requirements_verified": false,
+  "root_backing_partition_confirmed_from_prior_live_metadata": "mmcblk0p1",
+  "runtime_syscall_execution_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

@@ -1,0 +1,13 @@
+{
+  "milestone": "R3877.41",
+  "result": "HOLD",
+  "hold_category": "INPUT_NOT_REGULAR_OR_SYMLINK",
+  "result_exit_code": 2,
+  "immutable_hold": "NOT_BOOTABLE",
+  "kindle_ssh_sessions": 0,
+  "physical_device_access_performed": false,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "source_to_binary_reproducibility_verified": false,
+  "provenance": "User-provided R3877.41 output; no real ABI crosscheck performed in this failed run."
+}

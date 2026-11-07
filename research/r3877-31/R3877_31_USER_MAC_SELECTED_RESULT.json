@@ -1,0 +1,28 @@
+{
+  "milestone": "R3877.31",
+  "result": "PASS_HASH_PINNED_PUBLIC_BUILDLOG_STATIC_EVIDENCE_ONLY",
+  "source": "User-run Mac audit of public Alpine ARMv7 musl-1.2.6-r3 build log; not independently authenticated",
+  "log_bytes": 1644394,
+  "log_sha256": "a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce",
+  "log_line_count": 1981,
+  "likely_compile_lines": 1428,
+  "likely_link_lines": 1,
+  "compiler_like_lines_with_flags": 1429,
+  "observed_allowlisted_flags": {
+    "-O2": 1429,
+    "-fno-asynchronous-unwind-tables": 1429,
+    "-fPIC": 1425,
+    "-O3": 92,
+    "-fno-stack-protector": 13,
+    "-Wl,-soname,libc.musl-armv7.so.1": 1
+  },
+  "musl_build_complete_marker_count": 1,
+  "musl_build_failure_marker_count": 0,
+  "historical_builder_machine_identity_verified": false,
+  "historical_builder_toolchain_versions_verified": false,
+  "historical_builder_cflags_ldflags_verified": false,
+  "public_build_log_signature_verified": false,
+  "source_to_binary_reproducibility_verified": false,
+  "kindle_ssh_sessions": 0,
+  "immutable_hold": "NOT_BOOTABLE"
+}
