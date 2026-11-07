@@ -1,0 +1,31 @@
+{
+  "milestone": "R3877.44",
+  "origin": "User-reported Mac Colima result; not reproduced by GitHub CI",
+  "result": "HOLD",
+  "exit_code_reported": 2,
+  "diagnostic": "R3877_44_OFFLINE_QEMU_RECHECK_ATTEMPTED",
+  "error_category": "DERIVED_PLATFORM_OR_ID_MISMATCH",
+  "exact_platform_or_id_field_disagreement_verified": false,
+  "authorized_qemu_execution_performed": false,
+  "runtime_probes": {},
+  "docker_server_architecture": "arm64",
+  "busybox_elf": {
+    "bits": 32,
+    "e_flags": "0x05000400",
+    "machine": 40
+  },
+  "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+  "original_image_id_sha256": "sha256:c732b1bb478555ebb81e01632b519b712bd32b262d80af8bfbed2940602d397a",
+  "helper_image_id_sha256": "sha256:8f58e6214f4cc9dc83ce8f5acad1ece508eb6b20e696a8c1e9f274481982c541",
+  "original_image_unchanged": true,
+  "disposable_image_removed": true,
+  "temporary_containers_removed": true,
+  "no_guest_network_or_host_mounts": true,
+  "binfmt_registration_changed": false,
+  "privileged_container_invoked": false,
+  "boot_performed": false,
+  "physical_device_access_performed": false,
+  "firmware_write_performed": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "interpretation": "Stopped before executing any ARMv7 guest probe. Do not infer missing ELF interpreter, wrong musl ABI, or a specific Docker Variant-field problem."
+}
