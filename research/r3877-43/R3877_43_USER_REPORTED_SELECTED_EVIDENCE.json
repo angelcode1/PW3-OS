@@ -1,0 +1,74 @@
+{
+  "milestone": "R3877.43",
+  "origin": "User-reported macOS offline diagnostic output shared in ChatGPT; not independently authenticated",
+  "exit_code_reported": 0,
+  "result": "PASS_PINNED_SIGNED_INDEX_TOOLCHAIN_PACKAGE_CANDIDATES_ONLY",
+  "hold_category": "NOT_BOOTABLE",
+  "immutable_hold": "NOT_BOOTABLE",
+  "inventory": {
+    "signed_index_sha256": "5a709ea29c02499f799f2e56a2af7fe95f4dd6859867bbe65a0aa597fe294140",
+    "signed_index_payload_sha256": "c76517d7988e7dd469923be1331d5a441965d92c872988d15b154444c9b1b71c",
+    "index_signature_verified_with_pinned_aports_key": true,
+    "key_trust_anchored_to_pinned_git_snapshot_not_independent": true,
+    "candidate_index_filenames": 1,
+    "matching_pinned_index_files": 1,
+    "index_record_count": 5958,
+    "search_entries_examined": 93213,
+    "index_arch_restriction": "armv7_or_noarch",
+    "selected_package_names_absent_from_index": [],
+    "selected_repository_package_records": {
+      "abuild": {
+        "index_arch": "armv7",
+        "package_version": "3.17.0-r0"
+      },
+      "binutils": {
+        "index_arch": "armv7",
+        "package_version": "2.45.1-r1"
+      },
+      "build-base": {
+        "index_arch": "armv7",
+        "package_version": "0.5-r4"
+      },
+      "gcc": {
+        "index_arch": "armv7",
+        "package_version": "15.2.0-r5"
+      },
+      "make": {
+        "index_arch": "armv7",
+        "package_version": "4.4.1-r4"
+      },
+      "musl": {
+        "index_arch": "armv7",
+        "package_version": "1.2.6-r3"
+      },
+      "musl-dev": {
+        "index_arch": "armv7",
+        "package_version": "1.2.6-r3"
+      }
+    },
+    "r42_pinned_public_log_rechecked": true,
+    "r42_report_not_cryptographically_authenticated": true,
+    "r42_ambiguous_abuild_3_17_0_clue_observed": true,
+    "abuild_log_clue_is_not_version_attestation": true,
+    "abuild_log_ambiguous_clue_matches_index_package_upstream_version": true,
+    "printed_log_signature_verified": false,
+    "index_snapshot_is_not_historical_builder_installed_package_inventory": true,
+    "repository_index_snapshot_date_at_build_time_verified": false,
+    "historical_builder_toolchain_versions_verified": false,
+    "historical_builder_compiler_default_float_abi_verified": false,
+    "historical_builder_environment_equivalence_verified": false,
+    "target_musl_runtime_verified": false,
+    "source_to_binary_reproducibility_verified": false,
+    "raw_file_paths_and_signed_index_record_text_disclosed": false
+  },
+  "physical_device_access_performed": false,
+  "kindle_ssh_sessions": 0,
+  "binary_execution_performed": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "new_kindle_binary_installed_or_executed": false,
+  "recovery_verified": false,
+  "historical_builder_toolchain_versions_verified": false,
+  "target_musl_runtime_verified": false,
+  "source_to_binary_reproducibility_verified": false
+}
