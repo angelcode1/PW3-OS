@@ -1,0 +1,50 @@
+name: R3877.2 user runtime failure and R3877.3 host-only metadata
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-2-helper-image-hold/**'
+      - '.github/workflows/pw3-r3877-2-helper-hold.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-2-helper-inspect-hold
+    paths:
+      - 'research/r3877-2-helper-image-hold/**'
+      - '.github/workflows/pw3-r3877-2-helper-hold.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-reported-fields:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate reported evidence, not private Colima runtime
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research/r3877-2-helper-image-hold/USER-R3877-2-HELPER-HOLD.json').read_text())
+          p=d['r3877_2']
+          assert p['diagnostic']=='R3877_2_FAIL_CLOSED' and p['exit_code']==2
+          assert p['hold_category']=='REQUIRED_DOCKER_IMAGE_UNAVAILABLE_HOLD'
+          assert p['helper_image_pull_performed'] is True
+          assert p['helper_image_architecture_verified'] is False
+          assert p['test_outcomes'] is None
+          assert p['arm32_busybox_actual_qemu_execution_verified'] is False
+          assert p['arm32_musl_loader_actual_qemu_execution_verified'] is False
+          i=d['source_code_derived_interpretation']
+          assert i['precise_inspect_error_cause_proven'] is False
+          assert i['observed_hold_implies_inspect_failed_after_zero_exit_pull'] is True
+          t=d['r3877_3_local_host_package']
+          assert t['host_tests_total_passed']==t['inherited_tests']+t['new_tests']==162
+          assert t['actual_mac_colima_runtime_executed'] is False
+          assert t['target_pw3_kernel_test_executed'] is False
+          assert len(t['sha256'])==64 and set(t['sha256']).issubset(set('0123456789abcdef'))
+          assert p['immutable_hold']==d['safety']['immutable_hold']=='NOT_BOOTABLE'
+          for k in ('original_stage_modified','boot_authorized','physical_device_access_authorized',
+                    'firmware_write_authorized','original_r13_image_provenance_authenticated'):
+              assert d['safety'][k] is False,k
+          print('R3877_2_HELPER_INSPECT_HOLD_PRESERVED_R3877_3_MAC_PENDING_NOT_BOOTABLE')
+          PY
