@@ -1,0 +1,61 @@
+name: R3877.4 commit output hold and R3877.5 host-only followup
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-4-to-5/**'
+      - '.github/workflows/pw3-r3877-4-5-evidence.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-4-commit-id-hold-r3877-5-host
+    paths:
+      - 'research/r3877-4-to-5/**'
+      - '.github/workflows/pw3-r3877-4-5-evidence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-reported-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify consistency only; no Colima, QEMU, or private stage
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research/r3877-4-to-5/USER-R3877-4-AND-R3877-5-HOST-SUMMARY.json').read_text())
+          assert d['record_type']=='USER_MAC_R3877_4_COMMIT_IMAGE_ID_HOLD_WITH_ASSISTANT_R3877_5_HOST_ONLY_RELEASE'
+          x=d['actual_r3877_4_user_report']
+          assert x['exit_code']==2 and x['hold_category']=='DOCKER_NEW_IMAGE_ID_INVALID_HOLD'
+          assert x['helper_image_architecture_verified'] and x['helper_qemu_binary_aarch64_verified']
+          assert x['qemu_injected_into_nonrunning_preparation_container']
+          assert x['disposable_preparation_container_removed_after_use']
+          assert not x['arm32_busybox_actual_qemu_execution_verified']
+          assert not x['arm32_musl_loader_actual_qemu_execution_verified']
+          assert x['test_outcomes'] is None
+          assert x['original_signed_alpine_image_id_unchanged']
+          assert not x['original_r13_stage_accessed'] and not x['original_r13_stage_modified']
+          i=d['source_code_supported_interpretation']
+          assert i['docker_commit_zero_exit_implied_by_reaching_valid_id_check']
+          assert i['runner_accepted_only_full_sha256_image_id_stdout']
+          assert i['exact_docker_commit_stdout_not_retained'] is True
+          assert i['possible_created_untagged_local_image_not_identified'] is True
+          assert i['no_image_pruning_authorized'] is True
+          q=d['r3877_5_authoring_host_checks']
+          assert q['total_host_tests_passed']==q['inherited_test_count']+q['new_test_count']==254
+          assert q['zip_manifest_entry_count']==25
+          assert q['clean_extraction_all_unit_tests_pass']
+          assert q['clean_extraction_all_manifest_hashes_match']
+          assert q['runtime_user_mac_executed'] is False
+          assert q['offline_preflight_exit_code']==2
+          assert q['immutable_hold']=='NOT_BOOTABLE'
+          assert len(q['artifact_sha256'])==64 and set(q['artifact_sha256']).issubset(set('0123456789abcdef'))
+          assert d['safety']['immutable_hold']=='NOT_BOOTABLE'
+          for k in ('stage_modified','firmware_write_authorized','boot_authorized','physical_device_access_authorized',
+                    'privileged_binfmt_registration_authorized','mapping_to_original_stage_authorized',
+                    'pruning_authorized','guest_armv7_runtime_verified','r13_provenance_authenticated'):
+              assert d['safety'][k] is False,k
+          print('R3877_4_USER_COMMIT_ID_HOLD_R3877_5_HOST_ONLY_NOT_BOOTABLE')
+          PY
