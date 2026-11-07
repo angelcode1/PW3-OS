@@ -1,0 +1,17 @@
+{
+  "milestone": "R3877.32.2",
+  "result": "PASS_PINNED_LINK_LEXER_ERROR_TAXONOMY_ONLY",
+  "log_sha256": "a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce",
+  "log_bytes": 1644394,
+  "link_line_number": 1666,
+  "link_line_sha256": "1082a4442e1edcdcdedcda614abceae9d08961b69bd7bb0c09c2010dbefe6dcd",
+  "error_kind": "ESCAPE_AT_END_OF_PRINTED_LINE",
+  "lexer_stopped_at_character_offset": 1253,
+  "complete_prefix_tokens_before_error": 66,
+  "printed_line_ends_with_unpaired_backslash": true,
+  "source_to_binary_reproducibility_verified": false,
+  "historical_builder_complete_link_invocation_verified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "kindle_ssh_sessions": 0,
+  "firmware_write_performed": false
+}
