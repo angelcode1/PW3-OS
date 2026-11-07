@@ -1,0 +1,15 @@
+{
+  "milestone": "R3877.23",
+  "evidence_source": "USER_REPORTED_LOCAL_MAC_RUN_NOT_REPRODUCED_IN_GITHUB_CI",
+  "source_only_result": "PASS_PINNED_UPSTREAM_MUSL_SOURCE_ONLY",
+  "candidate_result": "PASS_PINNED_MUSL_SOURCE_AND_CANDIDATE_METADATA_ONLY",
+  "candidate_image_id": "sha256:c732b1bb478555ebb81e01632b519b712bd32b262d80af8bfbed2940602d397a",
+  "installed_musl_arch": "armv7",
+  "installed_musl_version": "1.2.6-r3",
+  "candidate_loader_sha256": "2acf3c82bc97b496c40e1d5007d4258570c8df0edc45793d6651a352fb778990",
+  "binary_provenance_to_patched_source_verified": false,
+  "vendor_kernel_dispatch_verified": false,
+  "target_musl_runtime_verified": false,
+  "kindle_ssh_sessions": 0,
+  "immutable_hold": "NOT_BOOTABLE"
+}
