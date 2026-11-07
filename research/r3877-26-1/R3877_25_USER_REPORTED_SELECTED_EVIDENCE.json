@@ -1,0 +1,22 @@
+{
+  "milestone": "R3877.25",
+  "provenance": "USER_REPORTED_LOCAL_MAC_AUDIT_NOT_GITHUB_CI",
+  "result": "PASS_PINNED_APORTS_SIGNATURES_AND_PUBLIC_LOADER_MATCH_ONLY",
+  "exit_code": 0,
+  "alpine_aports_key_snapshot_commit": "35f5eb2864e50dd4448758d31f3e2a32f733ab84",
+  "key_filename": "alpine-devel@lists.alpinelinux.org-616adfeb.rsa.pub",
+  "key_git_blob_sha1": "bb15efe96d7c95a0602b243ce0848aa42cf80020",
+  "package_signature_verified": true,
+  "index_signature_verified": true,
+  "public_package_loader_sha256": "2acf3c82bc97b496c40e1d5007d4258570c8df0edc45793d6651a352fb778990",
+  "cached_candidate_loader_byte_for_byte_match": true,
+  "public_package_sha256": "9fca75b09538f9788b1ca800d56cd93dd4d584fac76a57c959666a9a0b93d397",
+  "apkindex_sha256_at_run": "5a709ea29c02499f799f2e56a2af7fe95f4dd6859867bbe65a0aa597fe294140",
+  "key_authenticity_independently_verified": false,
+  "patched_source_to_binary_equivalence_verified": false,
+  "vendor_kernel_runtime_compatibility_verified": false,
+  "recovery_verified": false,
+  "kindle_ssh_sessions": 0,
+  "firmware_write_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
