@@ -1,0 +1,39 @@
+name: R3877.18 offline ELF binding regression
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-18/**'
+      - '.github/workflows/pw3-r3877-18-symbol-relocation-audit.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-18/**'
+      - '.github/workflows/pw3-r3877-18-symbol-relocation-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-regressions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify offline ELF parsers and synthetic tests (NO SSH)
+        working-directory: research/r3877-18
+        run: |
+          python3 -B -m unittest -q test_r3877_15.py test_r3877_16.py test_r3877_17.py test_r3877_17_1.py test_r3877_17_2.py test_r3877_18.py
+      - name: Verify no authorization in preflight
+        working-directory: research/r3877-18
+        run: |
+          python3 - <<'PY'
+          import json, subprocess,sys
+          p=subprocess.run([sys.executable,'-B','pw3_r3877_18_relocation_candidates.py'],capture_output=True,text=True)
+          assert p.returncode==2
+          d=json.loads(p.stdout)
+          assert d['result']=='HOLD'
+          assert d['hold_category']=='EXPLICIT_READONLY_SSH_AUTHORIZATION_REQUIRED'
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['ssh_sessions_requested']==0
+          print('R3877_18_OFFLINE_ONLY_NOT_BOOTABLE')
+          PY
