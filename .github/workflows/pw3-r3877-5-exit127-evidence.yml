@@ -1,0 +1,59 @@
+name: R3877.5 QEMU version pass and BusyBox exit 127 evidence
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-5-exit127/**'
+      - '.github/workflows/pw3-r3877-5-exit127-evidence.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-5-guest-exit-127-evidence
+    paths:
+      - 'research/r3877-5-exit127/**'
+      - '.github/workflows/pw3-r3877-5-exit127-evidence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-reported-record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check user report consistency and holds (no Docker)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research/r3877-5-exit127/USER-MAC-R3877-5-SELECTED-RESULT.json').read_text())
+          assert d['record_type']=='USER_MAC_R3877_5_QEMU_VERSION_PASS_BUSYBOX_EXIT_127_WITH_R3877_6_LOCAL_HOST_PACKAGE'
+          x=d['user_report']
+          assert x['host_python_tests_passed']==254 and x['runtime_exit_code']==2
+          assert x['hold_category']=='R3877_5_BUSYBOX_HELP_RUNTIME_HOLD'
+          assert x['qemu_version']['status']=='PASS' and x['qemu_version']['exit_code']==0
+          assert x['busybox_help']['status']=='HOLD' and x['busybox_help']['exit_code']==127
+          assert x['busybox_help']['error_family']=='UNCLASSIFIED_NONZERO_EXIT'
+          assert not x['arm32_busybox_actual_qemu_execution_verified']
+          assert not x['arm32_musl_loader_actual_qemu_execution_verified']
+          assert x['disposable_derived_image_removed_after_use']
+          assert x['temporary_image_tag_absent_after_cleanup']
+          assert x['temporary_derived_image_id_absent_after_cleanup']
+          assert x['original_signed_alpine_image_id_unchanged']
+          for k in ('original_r13_stage_accessed','original_r13_stage_modified','host_binfmt_configuration_changed',
+                    'guest_network_enabled','host_volumes_or_devices_mounted','privileged_container_invoked',
+                    'firmware_write_performed','physical_device_access_performed','boot_performed'):
+              assert x[k] is False,k
+          t=d['r3877_6_local_host_package']
+          assert t['host_tests_passed']==t['inherited_tests']+t['added_tests']==274
+          assert t['sha256_manifest_file_count']==29
+          assert t['actual_user_colima_run_performed'] is False
+          assert t['changes_existing_guest_commands'] is False
+          assert len(t['sha256'])==64 and set(t['sha256']).issubset(set('0123456789abcdef'))
+          assert x['immutable_hold']==t['immutable_hold']=='NOT_BOOTABLE'
+          i=d['interpretation']
+          assert i['qemu_native_aarch64_binary_executes_version_probe'] is True
+          assert i['qemu_user_mode_arm32_target_execution_verified'] is False
+          assert i['busybox_failure_cause_proven'] is False
+          assert i['github_ci_can_execute_docker_or_private_stage_for_this_record'] is False
+          print('R3877_5_QEMU_NATIVE_EXEC_PASS_ARMV7_BUSYBOX_EXIT127_HOLD_CI_ONLY_NOT_BOOTABLE')
+          PY
