@@ -1,0 +1,11 @@
+{
+  "alpine_aports_commit": "35f5eb2864e50dd4448758d31f3e2a32f733ab84",
+  "expected_patched_tree_sha256": "61bc0d7c9559ffb9c6d1f25a40f041a04391bd2960a0176ac65cc9fe4aae7b8e",
+  "snapshot_recipe_git_blobs": {
+    "build-base": {"path": "main/build-base/APKBUILD", "git_blob_sha1": "862243111685766848fe529178cf6a8504577c97", "version": "0.5-r4"},
+    "gcc": {"path": "main/gcc/APKBUILD", "git_blob_sha1": "de97708e6ba1e5f868d635f39a0050e7bc418b05", "version": "15.2.0-r5"},
+    "binutils": {"path": "main/binutils/APKBUILD", "git_blob_sha1": "59b9bcf6aee1d5898bdf282c7b11277ee56c4a6a", "version": "2.45.1-r1"},
+    "make": {"path": "main/make/APKBUILD", "git_blob_sha1": "99115a0bb4ac709dd77f74a82f75c182cec7d448", "version": "4.4.1-r4"},
+    "abuild": {"path": "main/abuild/APKBUILD", "git_blob_sha1": "0978e9fa2cd31cfceefde0e930258be6ddcbbad7", "version": "3.17.0-r0"}
+  }
+}

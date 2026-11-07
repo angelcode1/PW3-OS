@@ -1,0 +1,81 @@
+{
+  "milestone": "R3877.26",
+  "source_repository": "alpinelinux/aports",
+  "aports_commit": "35f5eb2864e50dd4448758d31f3e2a32f733ab84",
+  "apkbuild_git_blob_sha1": "b729315a72d9060cc69ba9bddec53c0691c05158",
+  "expected_apkbuild_version": "1.2.6-r3",
+  "source_tarball": "musl-1.2.6.tar.gz",
+  "entries": [
+    {
+      "name": "musl-1.2.6.tar.gz",
+      "role": "upstream_tarball",
+      "sha512": "1adad96eddb3a2eb0cacb3e363b0046568925fcdd75cf8b0503f2139df1f693d64730779ca0ce8131b7624ab2d37f4247bb1d3393c523de6e30d2b1d7732555c"
+    },
+    {
+      "name": "handle-aux-at_base.patch",
+      "role": "patch",
+      "git_blob_sha1": "7c9f2dc5fc05abaf82f2e7b59704862b325c0aab",
+      "sha512": "a76f79b801497ad994746cf82bb6eaf86f9e1ae646e6819fbae8532a7f4eee53a96ac1d4e789ec8f66aea2a68027b0597f7a579b3369e01258da8accfce41370"
+    },
+    {
+      "name": "0001-add-stub-for-pthread_mutexattr_setprioceiling.patch",
+      "role": "patch",
+      "git_blob_sha1": "0afb1fbc2e96c3f6a41d02635d64115184b8e614",
+      "sha512": "83ec0f774dbb5d4f4d4b917d149ea0ef609d028d18ae7624e90fedda6e3174c91ade93751bfd376adfa2848155110fc4dd02b6790363b98e5395c4787e8731e8"
+    },
+    {
+      "name": "fix-loongarch64-zero-len-extcontext.patch",
+      "role": "patch",
+      "git_blob_sha1": "7955bddd4db379bdf668d80666a141cbf175c986",
+      "sha512": "6eae45aa82db69bc96386aedf3d1bfe83dfa0a7b4b824326c1c7e1bab31100d635ed0e8930c26a1694697fad59167a42e2b5f3a2ac51b07e36d85f047e268cff"
+    },
+    {
+      "name": "CVE-2026-6042.patch",
+      "role": "patch",
+      "git_blob_sha1": "4c52c0a3211ec70c5010bc6bce0446c183914380",
+      "sha512": "f7849abeab0e4eab992a80464afa07b9c8aae5cee76040523b9dbc0931435f28ea8f5792b8a4a0cd6d608ac2f37e3225e89afcb3171a0a6df44450ed57cee83b"
+    },
+    {
+      "name": "CVE-2026-40200.patch",
+      "role": "patch",
+      "git_blob_sha1": "88298ca471d38b2c8861f817caf394a591fcdc26",
+      "sha512": "a64ab7688d1a85e560b5687783df482d2467a79a74400da5a1601382847d6b4e6a79b7529a8dc80c46ddda8dc2a812f2261557fc8ee98dc3bdf7322761bd6d9c"
+    },
+    {
+      "name": "CVE-2026-107891.patch",
+      "role": "patch",
+      "git_blob_sha1": "2abae19db458c2b3e9b45281a6f4867347c7c26f",
+      "sha512": "df73a35b9da531021ad5b1a6aad12b9d8d69de2bed7fc91b1156d9727476ab25c0d3c2341d60488152ee8ccbddb83786e91fff950cdb177b9b04673da98fdc4e"
+    },
+    {
+      "name": "ldconfig",
+      "role": "helper",
+      "git_blob_sha1": "9a6c05978d1bfae6871fb96a862dfd3e7bb9c326",
+      "sha512": "29da5e89358103846a42987c2a5ff26ec131e29a6a7a714cd0e2941baf1f1e5cd9b1ee66f488c8e222135031bf2de507d7d05b037ab65c30482147dba63d2e52"
+    },
+    {
+      "name": "__stack_chk_fail_local.c",
+      "role": "helper",
+      "git_blob_sha1": "2b403a6e046fb288af4b3d16eda76980a599aea4",
+      "sha512": "062bb49fa54839010acd4af113e20f7263dde1c8a2ca359b5fb2661ef9ed9d84a0f7c3bc10c25dcfa10bb3c5a4874588dff636ac43d5dbb3d748d75400756d0b"
+    },
+    {
+      "name": "getconf.c",
+      "role": "helper",
+      "git_blob_sha1": "c4235242b0ef70bb7a99cb210a134d19c15dc0b9",
+      "sha512": "0d80f37b34a35e3d14b012257c50862dfeb9d2c81139ea2dfa101d981d093b009b9fa450ba27a708ac59377a48626971dfc58e20a3799084a65777a0c32cbc7d"
+    },
+    {
+      "name": "getent.c",
+      "role": "helper",
+      "git_blob_sha1": "bcc8b81c10bef1de5af8db7053dac48547c8e14d",
+      "sha512": "246e029350d4295147fe311108dcfb991ef130271b856040c1fb6a9955414f263d2a51f978b8ae91f52ff49705e8e4572b8f0e6939801fa854e3f095a67d3d64"
+    },
+    {
+      "name": "iconv.c",
+      "role": "helper",
+      "git_blob_sha1": "f5d5ce2aa730461df126cdf8bc8b084b4ebb881c",
+      "sha512": "9d42d66fb1facce2b85dad919be5be819ee290bd26ca2db00982b2f8e055a0196290a008711cbe2b18ec9eee8d2270e3b3a4692c5a1b807013baa5c2b70a2bbf"
+    }
+  ]
+}

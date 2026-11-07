@@ -1,0 +1,14 @@
+{
+  "milestone": "R3877.27",
+  "reported_by": "User-provided R3877.26.1 successful Mac audit",
+  "source_git_snapshot": "35f5eb2864e50dd4448758d31f3e2a32f733ab84",
+  "expected": {
+    "arch/loongarch64/bits/signal.h": "95518ab3fc50b0ac5684b3965bf3fbadf737c4e76957891757b586c56b35f0e2",
+    "src/env/__init_tls.c": "4b84d74aed44e0fc3d66429102eac9b3ced62a004f386db71956c09cf3b158ab",
+    "src/locale/gb18030utf.h": "94b51d272a81a1164a035918253004ab71cc21e29f11100dcf9bd3dc22757c28",
+    "src/locale/iconv.c": "7038e7f56b0bf7e62541140df50d498f84c81383854f2c97b0e755f8cc11e226",
+    "src/regex/regcomp.c": "2a2e31036916f50f1fc68337d65b11e1fed393d0c4dbf2564bb901963e65e8d7",
+    "src/stdlib/qsort.c": "c7c9e1437e55ad9ac3f24f4b0eb54fbd09f8175a21299f4d7412181b27dfa57a",
+    "src/thread/pthread_mutexattr_setprioceiling.c": "c046c27d3ca79212c5d052006013133631ab87763ac1493d42f48bd1efb51724"
+  }
+}
