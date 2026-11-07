@@ -1,0 +1,24 @@
+{
+  "milestone": "R3877.42",
+  "origin": "User-reported Mac static audit output; not a signed execution record",
+  "result": "PASS_PINNED_PRINTED_TOOLCHAIN_VERSION_CLUE_TRIAGE_ONLY",
+  "public_build_log_sha256": "a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce",
+  "public_build_log_bytes": 1644394,
+  "public_build_log_lines": 1981,
+  "printed_ambiguous_version_number_cues": {
+    "abuild": [
+      "3.17.0"
+    ]
+  },
+  "printed_version_probe_text_line_count": 0,
+  "printed_package_version_clue_line_count": 0,
+  "printed_lines_over_scan_budget": 2,
+  "printed_explicit_arm_abi_switch_mentions_by_kind": {},
+  "historical_builder_toolchain_versions_verified": false,
+  "source_to_binary_reproducibility_verified": false,
+  "binary_execution_performed": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "kindle_ssh_sessions": 0,
+  "immutable_hold": "NOT_BOOTABLE"
+}
