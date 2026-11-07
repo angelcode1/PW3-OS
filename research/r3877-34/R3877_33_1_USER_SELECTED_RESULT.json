@@ -1,0 +1,20 @@
+{
+  "milestone": "R3877.33.1",
+  "result": "PASS_PINNED_LONG_NEIGHBOR_LOG_TRIAGE_ONLY",
+  "log_sha256": "a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce",
+  "first_line_number": 1666,
+  "first_line_sha256": "1082a4442e1edcdcdedcda614abceae9d08961b69bd7bb0c09c2010dbefe6dcd",
+  "second_line_number": 1667,
+  "second_line_sha256": "9ba3880bd7bbe7ae8431f51e735ceae7649e443ece10361a7cd0e48ff2186fb3",
+  "second_line_characters": 39419,
+  "joined_candidate_sha256": "5bfd03a5a13d402b69eab716bd4374a2ee25c90496e6fc362284041489b3e9f0",
+  "joined_candidate_characters": 40671,
+  "lexical_result": "SHLEX_TOKENIZED_CANDIDATE_ONLY",
+  "candidate_token_count": 1494,
+  "printed_driver_class": "cc",
+  "historical_builder_complete_link_invocation_verified": false,
+  "historical_builder_toolchain_versions_verified": false,
+  "source_to_binary_reproducibility_verified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "kindle_ssh_sessions": 0
+}
