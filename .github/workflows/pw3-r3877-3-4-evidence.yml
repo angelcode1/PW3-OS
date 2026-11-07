@@ -1,0 +1,48 @@
+name: R3877.3 observed injection hold and R3877.4 host evidence
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-3-to-4/**'
+      - '.github/workflows/pw3-r3877-3-4-evidence.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-3-injection-hold-r3877-4-host
+    paths:
+      - 'research/r3877-3-to-4/**'
+      - '.github/workflows/pw3-r3877-3-4-evidence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-report-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check report consistency without Docker or user R13 stage
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research/r3877-3-to-4/USER-R3877-3-AND-R3877-4-HOST-SUMMARY.json').read_text())
+          assert d['record_type']=='USER_REPORTED_MAC_R3877_3_INJECTION_FAILURE_AND_ASSISTANT_HOST_R3877_4_PACKAGE'
+          assert d['github_ci_cannot_access_users_colima'] is True
+          p=d['observed_r3877_3']
+          assert p['exit_code']==2 and p['result']=='HOLD'
+          assert p['hold_category']=='QEMU_GUEST_INJECTION_FAILED_HOLD'
+          assert p['helper_image_architecture_verified'] is True and p['helper_qemu_binary_aarch64_verified'] is True
+          assert p['helper_container_removed_after_use'] and p['guest_containers_removed_after_use']
+          assert not p['arm32_busybox_actual_qemu_execution_verified']
+          assert not p['arm32_musl_loader_actual_qemu_execution_verified']
+          assert p['test_outcomes'] is None and p['original_r13_stage_modified'] is False
+          q=d['r3877_4_tested_package']
+          assert q['total_host_test_cases_passed']==q['new_test_cases_passed']+q['inherited_test_cases_passed']==204
+          assert q['sha256_manifest_files_checked']==20 and q['zip_member_count']==21
+          assert q['actual_colima_armv7_execution_performed'] is False
+          assert q['expected_runtime_guest_readonly'] and not q['actual_runtime_guest_verified']
+          assert q['offline_exit_code']==2
+          assert len(q['sha256'])==64 and set(q['sha256']).issubset(set('0123456789abcdef'))
+          assert not d['interpretation']['no_causal_proof_of_error_reason'] is False
+          assert p['immutable_hold']==q['immutable_hold']=='NOT_BOOTABLE'
+          print('R3877_3_USER_INJECTION_HOLD_R3877_4_HOST_ONLY_NOT_BOOTABLE')
+          PY
