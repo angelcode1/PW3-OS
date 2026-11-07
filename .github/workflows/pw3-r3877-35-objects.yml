@@ -1,0 +1,45 @@
+name: R3877.35 printed compile/link object crosscheck (offline)
+on:
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-34/**'
+      - 'research/r3877-35/**'
+      - '.github/workflows/pw3-r3877-35-objects.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-34/**'
+      - 'research/r3877-35/**'
+      - '.github/workflows/pw3-r3877-35-objects.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-offline-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: R3877.31 through R3877.35 offline regression suite
+        working-directory: research/r3877-35
+        run: |
+          PYTHONPATH=.:../r3877-34 python3 -B -m unittest -q \
+            test_r3877_31 test_r3877_32 test_r3877_32_1 test_r3877_32_2 \
+            test_r3877_33 test_r3877_33_1 test_r3877_34 test_r3877_35
+      - name: Missing pinned build log must HOLD; no device access
+        working-directory: research/r3877-35
+        run: |
+          PYTHONPATH=.:../r3877-34 python3 - <<'PY'
+          import json,subprocess,sys
+          p=subprocess.run([sys.executable,'-B','pw3_r3877_35_object_link_consistency.py',
+                            '/not-mounted/pw3-r3877-30/musl-armv7-build.log'],
+                            capture_output=True,text=True,check=False)
+          assert p.returncode == 2
+          v=json.loads(p.stdout)
+          assert v['result']=='HOLD'
+          assert v['immutable_hold']=='NOT_BOOTABLE'
+          assert v['kindle_ssh_sessions']==0
+          assert v['source_to_binary_reproducibility_verified'] is False
+          print('OFFLINE_HOLD_OK')
+          PY
