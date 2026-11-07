@@ -1,0 +1,28 @@
+{
+  "source": "User-reported R3877.13, R3877.14 and R3877.20.1 results; selected metadata only",
+  "kernel_release": "3.0.35-lab126",
+  "machine": "armv7l",
+  "root_backing_partition": "mmcblk0p1",
+  "root_backing_partition_verified": true,
+  "kconfig_status": "AVAILABLE",
+  "kconfig": {
+    "CONFIG_AEABI": "BUILTIN",
+    "CONFIG_BINFMT_ELF": "BUILTIN",
+    "CONFIG_CPU_V7": "BUILTIN",
+    "CONFIG_FUTEX": "BUILTIN",
+    "CONFIG_EPOLL": "BUILTIN",
+    "CONFIG_EVENTFD": "BUILTIN",
+    "CONFIG_SIGNALFD": "BUILTIN",
+    "CONFIG_TIMERFD": "BUILTIN",
+    "CONFIG_INOTIFY_USER": "BUILTIN",
+    "CONFIG_HIGH_RES_TIMERS": "BUILTIN",
+    "CONFIG_UNIX": "BUILTIN",
+    "CONFIG_VFP": "BUILTIN",
+    "CONFIG_NEON": "BUILTIN",
+    "CONFIG_SECCOMP": "DISABLED"
+  },
+  "hwcap_tls_reported": true,
+  "binary_runtime_on_target_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
