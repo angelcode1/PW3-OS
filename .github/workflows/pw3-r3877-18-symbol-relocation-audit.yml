@@ -22,7 +22,7 @@ jobs:
       - name: Verify offline ELF parsers and synthetic tests (NO SSH)
         working-directory: research/r3877-18
         run: |
-          python3 -B -m unittest -q test_r3877_15.py test_r3877_16.py test_r3877_17.py test_r3877_17_1.py test_r3877_17_2.py test_r3877_18.py
+          python3 -B -m unittest -q test_r3877_15.py test_r3877_16.py test_r3877_17.py test_r3877_17_1.py test_r3877_17_2.py test_r3877_18.py test_r3877_18_1.py test_r3877_18_2.py
       - name: Verify no authorization in preflight
         working-directory: research/r3877-18
         run: |
