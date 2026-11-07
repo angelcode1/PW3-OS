@@ -1,0 +1,43 @@
+name: R3877.23 pinned musl source offline tests
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-23/**'
+      - '.github/workflows/pw3-r3877-23-musl-source.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-23/**'
+      - '.github/workflows/pw3-r3877-23-musl-source.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  host-only-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run host-only source and candidate metadata parser tests
+        working-directory: research/r3877-23
+        run: |
+          python3 -B -m unittest -q test_r3877_23.py
+      - name: Preflight must HOLD without downloaded source or candidate
+        working-directory: research/r3877-23
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, sys
+          x=subprocess.run(
+            [sys.executable,'-B','pw3_r3877_23_musl_source_audit.py',
+             '--source-dir','no-sources','--candidate-dir','no-candidate','--require-candidate'],
+            capture_output=True,text=True)
+          assert x.returncode==2, (x.returncode,x.stdout,x.stderr)
+          d=json.loads(x.stdout)
+          assert d['result']=='HOLD'
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['kindle_ssh_sessions']==0
+          assert not d['physical_device_access_performed']
+          assert not d['target_musl_runtime_verified']
+          print('R3877_23_HOST_ONLY_NOT_BOOTABLE')
+          PY
