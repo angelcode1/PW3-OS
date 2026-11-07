@@ -1,0 +1,32 @@
+{
+  "milestone": "R3877.18.3",
+  "source": "User-reported local Mac audit, not a GitHub-run device test",
+  "result": "PASS_PROVIDER_TYPE_METADATA_ONLY",
+  "prior_strict_scope_missing_count": 167,
+  "main_luajit_export_candidates_outside_strict_scope": 163,
+  "main_luajit_elf_type": "ET_EXEC",
+  "main_luajit_dynamic_export_count": 164,
+  "type_mismatch_count": 4,
+  "provider_file": "system/lib/librt.so.1",
+  "symbol": "clock_gettime",
+  "required_version": "GLIBC_2.4",
+  "import_type": "STT_FUNC",
+  "export_type": "STT_GNU_IFUNC",
+  "requesters": [
+    "koreader/libs/libcrypto.so.57",
+    "koreader/libs/libczmq.so.4",
+    "koreader/libs/libssl.so.60",
+    "koreader/libs/libzmq.so.5"
+  ],
+  "ifunc_resolver_not_executed": true,
+  "main_executable_global_scope_not_verified": true,
+  "source_snapshots_atomic": false,
+  "runtime_bindings_verified": false,
+  "full_koreader_dependency_closure_verified": false,
+  "alpine_musl_syscall_compatibility_verified": false,
+  "original_r13_stage_accessed": false,
+  "device_files_written": false,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

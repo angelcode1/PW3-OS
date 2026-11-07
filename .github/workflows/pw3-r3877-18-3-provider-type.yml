@@ -1,0 +1,38 @@
+name: R3877.18.3 offline ELF provider type regression
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-18-3/**'
+      - '.github/workflows/pw3-r3877-18-3-provider-type.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-18-3/**'
+      - '.github/workflows/pw3-r3877-18-3-provider-type.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Offline regression tests (no Kindle connection)
+        working-directory: research/r3877-18-3
+        run: |
+          python3 -B -m unittest -q test_r3877_15.py test_r3877_16.py test_r3877_17.py test_r3877_17_1.py test_r3877_17_2.py test_r3877_18.py test_r3877_18_1.py test_r3877_18_2.py test_r3877_18_3.py
+      - name: Safety preflight must refuse unapproved SSH
+        working-directory: research/r3877-18-3
+        run: |
+          python3 - <<'PY'
+          import json,subprocess,sys
+          r=subprocess.run([sys.executable,"-B","pw3_r3877_18_3_provider_type_diagnostic.py"],capture_output=True,text=True)
+          assert r.returncode==2
+          p=json.loads(r.stdout)
+          assert p["result"]=="HOLD"
+          assert p["immutable_hold"]=="NOT_BOOTABLE"
+          assert p["ssh_sessions_requested"]==0
+          print("R3877_18_3_OFFLINE_ONLY_PASS")
+          PY
