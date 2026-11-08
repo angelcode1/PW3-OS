@@ -4,3 +4,5 @@
 /__pycache__/
 /*.apk
 /*.zip
+/audio-links.tsv
+/audio/
