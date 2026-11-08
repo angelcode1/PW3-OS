@@ -1,0 +1,47 @@
+name: PW3 R3877.59.2 musl DT_NEEDED repair host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-59-2/**'
+      - '.github/workflows/pw3-r3877-59-2-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-59-2/**'
+      - '.github/workflows/pw3-r3877-59-2-host-only.yml'
+  workflow_dispatch:
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Assemble pinned host files, never execute ARM or Docker
+        run: |
+          set -eu
+          cd research/r3877-59-2
+          cp ../r3877-59/pw3_r3877_49_3_controlled_trace.py .
+          cp ../r3877-59/pw3_r3877_59_qemu_pthread_tls.py .
+          cp ../r3877-59-1/pw3_r3877_59_1_failure_diagnostic.py .
+          cp ../r3877-59/pw3_r3877_59_armv7_probe.elf.b64 old.elf.b64
+          python3 - <<'PY'
+          import base64,pathlib
+          for input,output in [('old.elf.b64','pw3_r3877_59_armv7_probe.elf'),('pw3_r3877_59_2_armv7_probe.elf.b64','pw3_r3877_59_2_armv7_probe.elf')]:
+              pathlib.Path(output).write_bytes(base64.b64decode(pathlib.Path(input).read_text().strip(),validate=True))
+          PY
+          cp ../r3877-59/pw3_r3877_59_armv7_probe.c .
+          cp ../r3877-59/test_r3877_49_3.py .
+          cp ../r3877-59/test_r3877_59.py .
+          cp ../r3877-59-1/test_r3877_59_1.py .
+          sha256sum -c SHA256SUMS_R3877_59_2.txt
+          python3 -B -m unittest -q test_r3877_49_3.py test_r3877_59.py test_r3877_59_1.py test_r3877_59_2.py
+          python3 -B pw3_r3877_59_2_musl_needed_runtime.py > preflight.json && exit 1 || rc=$?
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          x=json.load(open('preflight.json'))
+          assert x['result']=='HOLD' and x['docker_used'] is False and x['immutable_hold']=='NOT_BOOTABLE'
+          PY
