@@ -1,11 +1,13 @@
 """Host regression checks for the opt-in Bluetooth-only audio controller."""
 import importlib.util
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
 
 APP = Path(__file__).resolve().parents[1] / "apps" / "pw3-bible"
+sys.path.insert(0, str(APP))
 spec = importlib.util.spec_from_file_location("audio_control", APP / "audio_control.py")
 audio = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(audio)
