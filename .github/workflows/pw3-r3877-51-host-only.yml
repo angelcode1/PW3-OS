@@ -1,0 +1,48 @@
+name: PW3 R3877.51 selected kernel metadata parser host-only
+on:
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-51/**'
+      - '.github/workflows/pw3-r3877-51-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-51/**'
+      - '.github/workflows/pw3-r3877-51-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-parser-regressions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate pure host-only tests and no-SSH preflight
+        run: |
+          cd research/r3877-51
+          python3 -B -m unittest -q test_r3877_51.py
+          python3 - <<'PY'
+          import ast, pathlib, subprocess
+          t=ast.parse(pathlib.Path('pw3_r3877_51_kernel_metadata.py').read_text())
+          remote=next(n.value.value for n in t.body if isinstance(n,ast.Assign)
+                    and any(isinstance(x,ast.Name) and x.id=='REMOTE_SCRIPT' for x in n.targets))
+          subprocess.run(['sh','-n'],input=remote,text=True,check=True)
+          print('REMOTE_SHELL_SYNTAX_ONLY_VALID')
+          PY
+          set +e
+          python3 -B pw3_r3877_51_kernel_metadata.py > /tmp/r51_preflight.json
+          rc=$?
+          test "$rc" -eq 2 || exit 1
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/r51_preflight.json'))
+          assert d['result']=='HOLD'
+          assert d['kindle_ssh_sessions']==0
+          assert d['physical_device_access_performed'] is False
+          assert d['firmware_write_performed'] is False
+          assert d['boot_performed'] is False
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          print('R51_ZERO_SSH_PREFLIGHT_HOLD_PASS')
+          PY
