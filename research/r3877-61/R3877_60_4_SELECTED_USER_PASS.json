@@ -1,0 +1,22 @@
+{
+  "all_created_containers_removed": true,
+  "anonymous_volume_cleanup_verified": true,
+  "boot_performed": false,
+  "exit_code": 0,
+  "firmware_write_performed": false,
+  "guest_getrandom_call_count": 1,
+  "guest_getrandom_enosys_count": 1,
+  "guest_statx_call_count": 1,
+  "guest_statx_enosys_count": 0,
+  "host_getrandom_enosys_direct_verified": true,
+  "host_statx_enosys_direct_verified": true,
+  "immutable_hold": "NOT_BOOTABLE",
+  "kindle_ssh_sessions": 0,
+  "milestone": "R3877.60.4",
+  "origin": "USER_REPORTED_MAC_COLIMA_REAL_RUNTIME_SELECTED_EVIDENCE",
+  "original_image_unchanged": true,
+  "qemu_guest_statx_success_consistent_with_qemu_internal_fstatat_fallback": true,
+  "recovery_verified": false,
+  "result": "PASS_QEMU_HOST_GETRANDOM_STATX_ENOSYS_WITH_GUEST_STATX_EMULATION_ONLY",
+  "runtime_musl_getentropy_enosys_return_verified": false
+}
