@@ -19,6 +19,8 @@ import subprocess
 import sys
 import time
 
+from audio_stream import resolve_stream
+
 BASE = Path(__file__).resolve().parent
 MANIFEST = BASE / "audio-links.tsv"
 EDITION = {"kjv", "csb", "breathe"}
@@ -64,14 +66,7 @@ def approved_media(value):
     # Disallow mpv special protocols and shell/playlist substitutions.
     if value.startswith(("https://", "http://")):
         return len(value) <= 4096 and not any(c.isspace() or ord(c) < 32 for c in value)
-    if value.startswith("./audio/") and ".." not in Path(value).parts:
-        resolved = (BASE / value).resolve()
-        directory = (BASE / "audio").resolve()
-        try:
-            resolved.relative_to(directory)
-        except ValueError:
-            return False
-        return resolved.is_file()
+    # Streaming-only mode: local audio files are deliberately disallowed.
     return False
 
 
@@ -80,16 +75,18 @@ def find_audio(edition, book, chapter):
         return None
     if edition == "breathe" and book < 47:
         return None
-    if not MANIFEST.is_file():
-        return None
-    with MANIFEST.open(encoding="utf-8") as src:
-        for line in src:
-            if not line.strip() or line.lstrip().startswith("#"):
-                continue
-            cols = line.rstrip("\n\r").split("\t")
-            if len(cols) == 4 and cols[:3] == [edition, str(book), str(chapter)]:
-                return cols[3] if approved_media(cols[3]) else None
-    return None
+    # User-owned, explicitly authorized stream manifest takes precedence.
+    if MANIFEST.is_file():
+        with MANIFEST.open(encoding="utf-8") as src:
+            for line in src:
+                if not line.strip() or line.lstrip().startswith("#"):
+                    continue
+                cols = line.rstrip("\n\r").split("\t")
+                if len(cols) == 4 and cols[:3] == [edition, str(book), str(chapter)]:
+                    return cols[3] if approved_media(cols[3]) else None
+    # Resolve at playback time. A failed/denied endpoint never falls back to
+    # another edition or to a local copy.
+    return resolve_stream(edition, book, chapter)
 
 
 def state_path(root):
@@ -163,6 +160,7 @@ def start(root, state, edition, book, chapter):
         return 2
     stop(root, state)
     cmd = ["mpv", "--no-config", "--no-video", "--no-terminal",
+           "--cache=no", "--ytdl=no", "--no-resume-playback",
            "--audio-device=pulse/" + output, "--audio-fallback-to-null=no",
            "--input-ipc-server=" + str(root / "mpv.sock"), "--", media]
     proc = subprocess.Popen(cmd, stdin=subprocess.DEVNULL,
