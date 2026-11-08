@@ -39,9 +39,21 @@ class AudioPlayerTests(unittest.TestCase):
                 self.assertIsNone(audio.find_audio("breathe", 1, 1))
                 self.assertIsNone(audio.find_audio("csb", 51, 2))
 
-    def test_missing_manifest_fails_closed(self):
+    def test_no_manifest_resolves_stream_on_demand(self):
         with patch.object(audio, "MANIFEST", Path("/definitely/not/pw3-audio-links.tsv")):
-            self.assertIsNone(audio.find_audio("kjv", 51, 1))
+            with patch.object(audio, "resolve_stream", return_value="https://cf-audio.tecartabible.com/8009/test") as resolve:
+                self.assertEqual(audio.find_audio("kjv", 51, 1), "https://cf-audio.tecartabible.com/8009/test")
+                resolve.assert_called_once_with("kjv", 51, 1)
+
+    def test_local_audio_files_are_not_accepted(self):
+        self.assertFalse(audio.approved_media("./audio/chapter.mp3"))
+
+    def test_breathe_nt_stream_fallback(self):
+        with patch.object(audio, "MANIFEST", Path("/definitely/not/pw3-audio-links.tsv")):
+            with patch.object(audio, "resolve_stream", return_value="https://cf-audio.tecartabible.com/8026/test") as resolve:
+                self.assertIsNotNone(audio.find_audio("breathe", 47, 1))
+                resolve.assert_called_once_with("breathe", 47, 1)
+                self.assertIsNone(audio.find_audio("breathe", 1, 1))
 
     def test_rejects_non_bluetooth_output_and_missing_player(self):
         class Completed:
