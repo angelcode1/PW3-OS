@@ -1,0 +1,41 @@
+{
+  "all_created_containers_removed": true,
+  "authorized_qemu_execution_performed": true,
+  "boot_performed": false,
+  "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+  "diagnostic": "R3877_49_2_EXPLICIT_DISPOSABLE_WRITABLE_GUEST_ATTEMPTED",
+  "diagnostic_interpretation": "The untraced true output bytes match the previously observed BusyBox help output. R3877.49.2 applies QEMU -0 to all applets, unlike the independently successful R3877.47 true/uname/echo probes; this is a strong harness-regression candidate, not proof of a kernel, musl or BusyBox regression.",
+  "error_category": "GUEST_PROBE_FAILED:busybox_true_control",
+  "firmware_write_performed": false,
+  "guest_containers_created": 3,
+  "historical_r3877_47_forced_argv0_help_output_sha256": "f5ff598da419a795d590934c471c8e99ecb595dfe701bf5e2d891df19cf5031d",
+  "immutable_hold": "NOT_BOOTABLE",
+  "independent_untraced_controls_verified": false,
+  "milestone": "R3877.49.2",
+  "observed_untraced_true": {
+    "exit_code": 0,
+    "expected_applet_output_matches": false,
+    "guest_argv_verified_by_inspect": true,
+    "output_bytes": 2968,
+    "output_sha256": "f5ff598da419a795d590934c471c8e99ecb595dfe701bf5e2d891df19cf5031d",
+    "status": "HOLD"
+  },
+  "origin": "User-reported local Mac/Colima output; not independently rerun by GitHub Actions",
+  "original_image_id_sha256": "sha256:c732b1bb478555ebb81e01632b519b712bd32b262d80af8bfbed2940602d397a",
+  "original_image_modified": false,
+  "original_image_unchanged": true,
+  "physical_device_access_performed": false,
+  "qemu_binary_sha256": "3347b95a4006c1eb19b93ba09469a2c42b04fe5d89a430ce96cbf2a2367cf5c1",
+  "read_only_copy_probe": {
+    "classification": "READONLY_ROOTFS_COPY_REJECTED",
+    "exit_code": 1,
+    "output_bytes": 260,
+    "output_sha256": "f307bd7be1ec18358cad8502012e6ef98901bf829c5562e3849c5af0935c9a27"
+  },
+  "reported_exit_code": 2,
+  "result": "HOLD",
+  "syscall_trace_diagnostics": {},
+  "vendor_linux_3_0_35_syscalls_verified": false,
+  "writable_disposable_layer_authorized": true,
+  "writable_fallback_used": true
+}
