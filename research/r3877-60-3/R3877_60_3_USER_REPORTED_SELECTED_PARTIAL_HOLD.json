@@ -1,0 +1,51 @@
+{
+  "milestone": "R3877.60.3",
+  "origin": "user-reported real Mac Colima QEMU run",
+  "result": "HOLD",
+  "exit_code": 2,
+  "hold_category": "TARGETED_GUEST_ENOSYS_NOT_OBSERVED:stat_trace",
+  "observed": {
+    "host_seccomp_injection_performed": true,
+    "host_filter_installed_marker_present_all_probes": true,
+    "arm_guest_execution_performed": true,
+    "arm_control_passed": true,
+    "stat_control_passed": true,
+    "arm_trace": {
+      "target_guest_syscall_name": "getrandom",
+      "target_guest_call_count": 1,
+      "target_guest_enosys_count": 1,
+      "syscall_record_count": 24,
+      "trace_unclassified_line_count": 4
+    },
+    "stat_trace": {
+      "target_guest_syscall_name": "statx",
+      "target_guest_call_count": 1,
+      "target_guest_enosys_count": 0,
+      "syscall_record_count": 20,
+      "trace_unclassified_line_count": 1
+    },
+    "all_created_containers_removed": true,
+    "anonymous_volume_cleanup_verified": true,
+    "original_image_unchanged": true,
+    "guest_network_enabled": false,
+    "host_mounts_enabled": false,
+    "kindle_ssh_sessions": 0,
+    "firmware_write_performed": false,
+    "boot_performed": false
+  },
+  "qemu_v10_0_4_source": {
+    "repository": "qemu/qemu",
+    "ref": "v10.0.4",
+    "path": "linux-user/syscall.c",
+    "git_blob_sha1": "3a25abfaca2ef9f0a049cc38e74133c3187aaca7",
+    "behavior": "When host sys_statx yields TARGET_ENOSYS, linux-user falls back to host fstatat, so guest statx can succeed."
+  },
+  "unverified": {
+    "host_statx_enosys_direct_observed": false,
+    "actual_vendor_kernel_compatibility": true,
+    "getentropy_enosys_fallback": true,
+    "time64_legacy_fallback": true,
+    "recovery": true
+  },
+  "immutable_hold": "NOT_BOOTABLE"
+}
