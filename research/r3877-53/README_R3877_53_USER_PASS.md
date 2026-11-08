@@ -1,0 +1,3 @@
+# R3877.53 user-reported Mac source evidence
+
+Mac-local run returned `PASS_PINNED_PUBLIC_LINUX3_ENTROPY_ABI_AND_MUSL_CALLPATH_SOURCE_ONLY` exit code 0 and matched 6 pinned public Git blobs. This is a source-only PASS. Upstream musl libc startup requests `AT_RANDOM` for stack canary seeding; musl `getrandom` and `getentropy` do not have an internal device entropy fallback. Linux 3.0 public ARM tables lack `getrandom`; do not promote source absence into a verified property of the running Kindle kernel. Applications' entropy use, musl binary provenance, actual syscall dispatch, and recovery remain unverified. No Kindle, Docker, or ARM execution. `NOT_BOOTABLE` remains immutable.
