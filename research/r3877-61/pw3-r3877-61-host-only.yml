@@ -22,6 +22,8 @@ jobs:
         run: |
           set -euo pipefail
           cd research/r3877-61
+          # Reuse committed R60.4 helpers before decoding pinned binaries.
+          cp -a ../r3877-60-4/. .
           python3 - <<'PY_RESTORE'
           import base64,hashlib
           from pathlib import Path

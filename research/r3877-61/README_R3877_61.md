@@ -46,6 +46,10 @@ printf 'R3877_61_EXIT_CODE=%s\n' "$?"
 
 Stop on HOLD. Keep the JSON report. No Kindle commands.
 
+## GitHub CI provenance
+
+The new source, Base64-encoded ARM probe and tests are committed under `research/r3877-61/`. The host-only CI copies byte-identical previously committed helpers from `research/r3877-60-4/`, restores four ELF binaries from pinned Base64 blobs with mode 0755, verifies the full R61 checksum manifest, runs offline tests and confirms that the default CLI returns HOLD without Docker. The downloadable ZIP is self-contained; no fetch or compiler is required on Mac.
+
 ## Build provenance limitation
 
 The new ARM ELF was linked on a host with clang/lld; an empty SONAME `libc.so` anchor was used *only* at link time to populate `DT_NEEDED`. The anchor is absent from the release and is never copied into the guest. The binary SHA-256 is `ee6b5b8d175618afc46a15cf4451e070c1e67f5da3213150d0882188354acfa2`. This is a new research test program, not a reproducible rebuild of patched musl or an installation artifact for the Kindle.
