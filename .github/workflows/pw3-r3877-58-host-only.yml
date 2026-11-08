@@ -1,0 +1,43 @@
+name: PW3 R3877.58 QEMU runtime harness host-only tests
+on:
+  push:
+    branches: [research/r3877-17-2-nobits-parser-fix]
+    paths:
+      - 'research/r3877-58/**'
+      - '.github/workflows/pw3-r3877-58-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-58/**'
+      - '.github/workflows/pw3-r3877-58-host-only.yml'
+  workflow_dispatch:
+jobs:
+  host-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify research-file checksums
+        working-directory: research/r3877-58
+        run: sha256sum -c SHA256SUMS_R3877_58.txt
+      - name: Run host-only synthetic tests (no Docker daemon)
+        working-directory: research/r3877-58
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python3 -B -m unittest -q test_r3877_49_3.py test_r3877_58.py
+      - name: Enforce default zero-Docker HOLD
+        working-directory: research/r3877-58
+        run: |
+          set +e
+          python3 -B pw3_r3877_58_qemu_applets.py > preflight.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          v=json.load(open('preflight.json'))
+          assert v['result']=='HOLD' and v['immutable_hold']=='NOT_BOOTABLE'
+          assert v['docker_used'] is False
+          assert v['physical_device_access_performed'] is False
+          PY
