@@ -1,0 +1,43 @@
+name: PW3 R3877.51.1 live symbols vs historical config (host only)
+on:
+  push:
+    branches: [main, research/r3877-17-2-nobits-parser-fix]
+    paths:
+      - 'research/r3877-51-1/**'
+      - '.github/workflows/pw3-r3877-51-1-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-51-1/**'
+      - '.github/workflows/pw3-r3877-51-1-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run offline regressions and pinned receipt
+        run: |
+          cd research/r3877-51-1
+          python3 -B -m unittest -q test_r3877_51_1.py
+          set +e
+          python3 -B pw3_r3877_51_1_live_symbol_historical_config.py > /tmp/r511_preflight.json
+          rc=$?
+          test "$rc" -eq 2 || exit 1
+          python3 -B pw3_r3877_51_1_live_symbol_historical_config.py \
+            --live-receipt R3877_51_LIVE_SANITIZED_RECEIPT.txt \
+            --historical-r21-json R3877_21_PRIOR_USER_REPORTED_INPUT.json > /tmp/r511_result.json || exit 1
+          python3 - <<'PY'
+          import json
+          p=json.load(open('/tmp/r511_preflight.json'))
+          q=json.load(open('/tmp/r511_result.json'))
+          assert p['result']=='HOLD'
+          assert q['result']=='PASS_SELECTED_LIVE_SYMBOL_NAMES_HISTORICAL_CONFIG_CONTEXT_ONLY'
+          assert q['selected_live_kernel_symbols_present']==14
+          assert q['historical_reported_config_known_count']==14
+          assert q['live_kernel_config_verified'] is False
+          assert q['actual_vendor_syscall_dispatch_verified'] is False
+          assert q['immutable_hold']=='NOT_BOOTABLE'
+          print('R3877_51_1_HOST_ONLY_PASS_NOT_BOOTABLE')
+          PY
