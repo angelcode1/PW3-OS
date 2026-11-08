@@ -50,3 +50,7 @@ Expected output cannot be promised before a real run. A PASS carries the narrow 
 ## Verification boundary
 
 The authoring environment ran Python unit tests and inspected release ZIP and SHA-256 manifest. It did **not** execute Colima, Docker or the ARMv7 binary. The GitHub Actions workflow runs only Python synthetic tests and the no-Docker preflight. The observed R3877.46 data remain user-reported.
+
+## User-reported real Colima result (R3877.47)
+
+The user subsequently reported **exit 0** and `PASS_ARM32_BUSYBOX_APPLETS_QEMU_ONLY`, with pinned QEMU version, ARMv7 BusyBox `true`, `uname -m` (`armv7l`), and exact echo marker all PASS. The default `--help` probe still returned `-help: applet not found` (exit 127), while a forced QEMU target argv0 `-0 /bin/busybox` returned normal BusyBox help (exit 0). All seven temporary guests were removed and the original image ID remained unchanged. See `R3877_47_USER_REPORTED_SELECTED_EVIDENCE.json`. **This is user-reported, not independently replayed by GitHub Actions**, which tests only the offline Python harness. Verified success is limited to ARMv7 BusyBox applets in QEMU on the Colima host; no Linux 3.0.35 kernel, musl PT_INTERP, KOReader/glibc, Kindle boot or recovery compatibility is established. `NOT_BOOTABLE` persists.

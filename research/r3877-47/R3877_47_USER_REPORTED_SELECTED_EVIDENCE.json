@@ -1,0 +1,81 @@
+{
+  "milestone": "R3877.47",
+  "origin": "User-reported Mac Colima execution output (not independently replayed in GitHub CI)",
+  "exit_code_reported": 0,
+  "result": "PASS_ARM32_BUSYBOX_APPLETS_QEMU_ONLY",
+  "diagnostic": "R3877_47_QEMU_APPLET_PROBES_PASS_NOT_BOOTABLE",
+  "positive_arm32_applets_verified": true,
+  "authorized_qemu_execution_performed": true,
+  "argv0_override_changes_help_result": true,
+  "help_diagnostics": {
+    "busybox_default_help": "KNOWN_BUSYBOX_APPLET_DISPATCH_ANOMALY",
+    "busybox_forced_argv0_help": "HELP_OK"
+  },
+  "runtime_probes": {
+    "qemu_version": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output_sha256": "b417a7edbe319288f25679c9f9cd7fb1393b5b0ee0ebe756ae554e3c86b45d12"
+    },
+    "busybox_true": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "busybox_uname_machine": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": "armv7l\n",
+      "output_sha256": "89f2e800f1d04659475cfb6c9a6a613b7222378b6e290922b6cdb902f6438594"
+    },
+    "busybox_echo_marker": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output": "PW3_R3877_47_ARMV7_QEMU_OK\n",
+      "output_sha256": "5abda8ab555ad9e8846b31424a73a488c2730966038501bf81476a01b851f9ac"
+    },
+    "busybox_default_help": {
+      "status": "DIAGNOSTIC_ANOMALY",
+      "exit_code": 127,
+      "output": "-help: applet not found\n",
+      "output_sha256": "686d46a259767f1b59961c24aa5e885e1bb178829e9bd8886f34b68723d6ac8c"
+    },
+    "busybox_forced_argv0_help": {
+      "status": "PASS",
+      "exit_code": 0,
+      "output_prefix": "BusyBox v1.37.0 (2026-01-10 15:38:28 UTC) multi-call binary.",
+      "output_sha256": "f5ff598da419a795d590934c471c8e99ecb595dfe701bf5e2d891df19cf5031d"
+    }
+  },
+  "busybox_elf": {
+    "bits": 32,
+    "machine": 40,
+    "e_flags": "0x05000400"
+  },
+  "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+  "qemu_binary_sha256": "3347b95a4006c1eb19b93ba09469a2c42b04fe5d89a430ce96cbf2a2367cf5c1",
+  "original_image_id_sha256": "sha256:c732b1bb478555ebb81e01632b519b712bd32b262d80af8bfbed2940602d397a",
+  "helper_image_id_sha256": "sha256:8f58e6214f4cc9dc83ce8f5acad1ece508eb6b20e696a8c1e9f274481982c541",
+  "docker_server_architecture": "arm64",
+  "guest_containers_created": 7,
+  "writable_disposable_layer_authorized": true,
+  "writable_fallback_used": true,
+  "read_only_copy_probe": {
+    "classification": "READONLY_ROOTFS_COPY_REJECTED",
+    "exit_code": 1,
+    "output_sha256": "b558b5ea6bdea606d7f36b58786b4f8792e3a8ed9b633e402ab0ef5ef9b332cf"
+  },
+  "all_created_containers_removed": true,
+  "original_image_unchanged": true,
+  "host_mounts_or_guest_network_enabled": false,
+  "privileged_container_invoked": false,
+  "binfmt_registration_changed": false,
+  "derived_image_created": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "physical_device_access_performed": false,
+  "target_musl_loader_dynamic_linkage_verified": false,
+  "target_pw3_linux_3_0_35_vendor_dispatch_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
