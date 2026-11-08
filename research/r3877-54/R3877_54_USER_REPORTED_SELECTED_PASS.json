@@ -1,0 +1,67 @@
+{
+  "milestone": "R3877.54",
+  "result": "PASS_PINNED_BUSYBOX_DIRECT_ELF_ENTROPY_INDICATORS_ONLY",
+  "origin": "user-reported Mac-local stopped-container analysis; not reproduced in GitHub Actions",
+  "exit_code_reported": 0,
+  "binary_audit": {
+    "dynamic_import_table_readable": true,
+    "undefined_dynamic_symbol_count": 392,
+    "direct_getrandom_dynamic_import_present": false,
+    "direct_getentropy_dynamic_import_present": false,
+    "interesting_undefined_imports": {
+      "RAND_bytes": false,
+      "arc4random": false,
+      "fopen": true,
+      "getentropy": false,
+      "getrandom": false,
+      "open": true,
+      "open64": false,
+      "openat": false,
+      "read": true,
+      "syscall": true
+    },
+    "embedded_byte_marker_present": {
+      "/dev/random": false,
+      "/dev/urandom": true,
+      "getentropy": false,
+      "getrandom": false
+    },
+    "linkage": {
+      "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+      "loader_sha256": "2acf3c82bc97b496c40e1d5007d4258570c8df0edc45793d6651a352fb778990",
+      "interpreter_path_matches_pinned_loader": true,
+      "busybox": {
+        "machine": 40,
+        "e_flags": "0x05000400",
+        "pt_interp": "/lib/ld-musl-armhf.so.1",
+        "pt_dynamic_present": true,
+        "type": "ET_DYN"
+      },
+      "loader": {
+        "machine": 40,
+        "e_flags": "0x05000400",
+        "pt_interp": null,
+        "pt_dynamic_present": true,
+        "type": "ET_DYN"
+      }
+    },
+    "no_dynamic_import_does_not_prove_no_syscall": true,
+    "embedded_string_does_not_prove_executed_path": true,
+    "dynamic_symbol_audit_is_not_syscall_trace": true,
+    "application_entropy_fallback_verified": false
+  },
+  "original_image_unchanged": true,
+  "stopped_container_removed": true,
+  "docker_stopped_container_only": true,
+  "docker_used": true,
+  "arm_executable_launched": false,
+  "actual_vendor_syscall_dispatch_verified": false,
+  "target_musl_linux_3_0_35_compatibility_verified": false,
+  "application_entropy_fallback_verified": false,
+  "recovery_verified": false,
+  "kindle_ssh_sessions": 0,
+  "physical_device_access_performed": false,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
