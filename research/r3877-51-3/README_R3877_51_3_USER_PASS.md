@@ -1,0 +1,7 @@
+# R3877.51.3 — user-reported live config metadata PASS (sanitized)
+
+The user reported successful password-authenticated, read-only SSH transfer of `/proc/config.gz`, followed by local Mac Python gzip decoding, full checksum verification, and 28 regression tests. The analyzer returned exit code 0 with `PASS_LOCAL_DECODED_KERNEL_CONFIG_AND_PRIOR_LIVE_SYMBOL_NAMES_ONLY`. These observations are stored as selected metadata in `R3877_51_3_USER_REPORTED_SELECTED_PASS.json`; **the compressed file and complete decompressed kernel configuration are intentionally not committed**.
+
+All 18 selected configuration values are known: sixteen `y` including AEABI, BINFMT_ELF, CPU_V7, FUTEX, EPOLL, VFP, NEON, and KALLSYMS; `CONFIG_SECCOMP=n` and `CONFIG_SMP=n`. The earlier live `/proc/kallsyms` sanitized receipt had 14/14 selected implementation names present. This combines separately acquired evidence, not one combined proof of actual syscall dispatch.
+
+The Python offline analyzer reported zero *analyzer-initiated* SSH sessions; the user separately performed one successful `ssh cat /proc/config.gz` transfer. Neither the source mirror nor the current output proves the exact kernel binary, musl runtime on target, KOReader/Alpine compatibility or recovery. `NOT_BOOTABLE` remains immutable. As of this evidence update, the R3877.51.3 Python source, tests and host-only workflow are supplied in the release ZIP and are **not yet committed as executable source or run in GitHub Actions**.
