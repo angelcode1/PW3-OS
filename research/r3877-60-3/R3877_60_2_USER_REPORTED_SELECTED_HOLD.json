@@ -1,0 +1,44 @@
+{
+  "milestone": "R3877.60.2",
+  "origin": "User-reported Mac/Colima run; selected sanitized findings, not independent rerun",
+  "result": "HOLD",
+  "exit_code_reported": 2,
+  "hold_category": "GUEST_EXIT_OOM_STATE_UNVERIFIED:arm_control",
+  "auxiliary_container_isolation": {
+    "helper": {
+      "all_verified": true,
+      "anonymous_image_declared_volume_count": 1,
+      "mount_classification": "IMAGE_DECLARED_ANONYMOUS_LOCAL_VOLUMES",
+      "failed_checks": []
+    },
+    "preparation": {
+      "all_verified": true,
+      "anonymous_image_declared_volume_count": 0,
+      "mount_classification": "NO_MOUNTS",
+      "failed_checks": []
+    }
+  },
+  "original_image_unchanged": true,
+  "all_created_containers_removed": true,
+  "anonymous_volume_cleanup_verified": true,
+  "docker_builtin_seccomp_profile_attested": true,
+  "readonly_copy_probe": {
+    "classification": "READONLY_COPY_REJECTED",
+    "exit_code": 1,
+    "sha256": "b558b5ea6bdea606d7f36b58786b4f8792e3a8ed9b633e402ab0ef5ef9b332cf"
+  },
+  "writable_fallback_used": true,
+  "host_seccomp_injection_performed": false,
+  "arm_guest_execution_performed": false,
+  "host_mounts_enabled": false,
+  "guest_network_enabled": false,
+  "host_binfmt_registration_changed": false,
+  "kindle_ssh_sessions": 0,
+  "physical_device_access_performed": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "runtime_musl_getentropy_enosys_fallback_verified": false,
+  "actual_vendor_kernel_compatibility_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
