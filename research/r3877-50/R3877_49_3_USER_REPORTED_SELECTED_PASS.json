@@ -1,0 +1,59 @@
+{
+  "milestone": "R3877.49.3",
+  "origin": "User-reported successful Mac Colima result on 2026-11-08; source-selected subset, not independently replayed by CI",
+  "result": "PASS_QEMU_SYSCALL_NAMES_AND_UNTRACED_APPLET_CONTROLS_ONLY",
+  "exit_code_reported": 0,
+  "immutable_hold": "NOT_BOOTABLE",
+  "independent_untraced_controls_verified": true,
+  "authorized_qemu_execution_performed": true,
+  "original_image_id_sha256": "sha256:c732b1bb478555ebb81e01632b519b712bd32b262d80af8bfbed2940602d397a",
+  "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+  "qemu_binary_sha256": "3347b95a4006c1eb19b93ba09469a2c42b04fe5d89a430ce96cbf2a2367cf5c1",
+  "all_created_containers_removed": true,
+  "original_image_unchanged": true,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "physical_device_access_performed": false,
+  "host_mounts_or_guest_network_enabled": false,
+  "vendor_linux_3_0_35_syscalls_verified": false,
+  "trace_output_separation_verified": false,
+  "trace_stream_unclassified_output_present": true,
+  "runtime_probes": {
+    "busybox_true_control": {
+      "status": "PASS", "exit_code": 0, "expected_applet_output_matches": true,
+      "program_output_bytes": 0
+    },
+    "busybox_uname_control": {
+      "status": "PASS", "exit_code": 0, "expected_applet_output_matches": true,
+      "program_output_bytes": 7
+    },
+    "busybox_echo_control": {
+      "status": "PASS", "exit_code": 0, "expected_applet_output_matches": true,
+      "program_output_bytes": 32
+    },
+    "busybox_true_trace": {
+      "status": "TRACE_OBSERVED_CLEAN_STREAM", "exit_code": 0,
+      "untraced_control_verified": true, "guest_argv_verified_by_inspect": true,
+      "trace": {
+        "syscall_record_count": 17, "trace_enosys_record_count": 0, "trace_unknown_record_count": 0,
+        "syscall_names": ["brk", "exit_group", "getgid32", "getuid32", "mmap2", "mprotect", "rt_sigprocmask", "set_tid_address", "setgid32", "setuid32"]
+      }
+    },
+    "busybox_uname_trace": {
+      "status": "TRACE_OBSERVED_UNCLASSIFIED_STREAM", "exit_code": 0,
+      "untraced_control_verified": true, "guest_argv_verified_by_inspect": true,
+      "trace": {
+        "syscall_record_count": 20, "trace_enosys_record_count": 0, "trace_unknown_record_count": 0,
+        "syscall_names": ["brk", "exit_group", "getgid32", "getuid32", "ioctl", "mmap2", "mprotect", "rt_sigprocmask", "set_tid_address", "setgid32", "setuid32", "uname", "writev"]
+      }
+    },
+    "busybox_echo_trace": {
+      "status": "TRACE_OBSERVED_UNCLASSIFIED_STREAM", "exit_code": 0,
+      "untraced_control_verified": true, "guest_argv_verified_by_inspect": true,
+      "trace": {
+        "syscall_record_count": 18, "trace_enosys_record_count": 0, "trace_unknown_record_count": 0,
+        "syscall_names": ["brk", "exit_group", "getgid32", "getuid32", "mmap2", "mprotect", "rt_sigprocmask", "set_tid_address", "setgid32", "setuid32", "write"]
+      }
+    }
+  }
+}

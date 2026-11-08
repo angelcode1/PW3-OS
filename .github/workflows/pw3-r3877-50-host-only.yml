@@ -1,0 +1,42 @@
+name: PW3 R3877.50 public Lab126 syscall source crosswalk (offline)
+on:
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-50/**'
+      - '.github/workflows/pw3-r3877-50-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-50/**'
+      - '.github/workflows/pw3-r3877-50-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run synthetic no-network no-device tests
+        run: |
+          cd research/r3877-50
+          python3 -B -m unittest -q test_r3877_50.py
+      - name: Default is a zero-input HOLD
+        run: |
+          cd research/r3877-50
+          set +e
+          python3 -B pw3_r3877_50_public_lab126_syscall_crosswalk.py > /tmp/r50_preflight.json
+          rc=$?
+          test "$rc" -eq 2 || exit 1
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/r50_preflight.json'))
+          assert d['result']=='HOLD'
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['physical_device_access_performed'] is False
+          assert d['arm_binary_execution_performed'] is False
+          assert d['boot_performed'] is False
+          print('R3877_50_STATIC_PREFLIGHT_HOLD_EXPECTED')
+          PY
