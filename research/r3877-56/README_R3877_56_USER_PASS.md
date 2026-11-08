@@ -1,0 +1,3 @@
+# R3877.56 Mac user-reported package metadata PASS
+
+User's Mac returned `PASS_PINNED_BUSYBOX_APK_METADATA_AND_PACKAGE_GENERATED_APPLET_LIST_ONLY`, exit 0. Stopped-only Docker image was unchanged, container removed, no ARM execution, no Kindle access. BusyBox package `1.37.0-r31`, `armv7`; APK-generated list has 304 unique applet basenames, `ash` listed and `seedrng` absent. Exact BusyBox and musl loader SHA-256 pins matched. **Package-generated applet list is not verified compiled dispatch**, and import/string evidence is not runtime behavior. Source-to-binary equivalence, getrandom fallback, actual vendor kernel dispatch and recovery remain unresolved. Immutable `NOT_BOOTABLE`.
