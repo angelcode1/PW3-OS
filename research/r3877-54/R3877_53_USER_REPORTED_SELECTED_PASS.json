@@ -1,0 +1,17 @@
+{
+  "milestone": "R3877.53",
+  "source": "User-reported successful Mac pinned public-source audit; selected fields only",
+  "result": "PASS_PINNED_PUBLIC_LINUX3_ENTROPY_ABI_AND_MUSL_CALLPATH_SOURCE_ONLY",
+  "exit_code_reported": 0,
+  "public_source_git_blob_count": 6,
+  "source_audit": {
+    "AT_RANDOM_not_the_getrandom_syscall": true,
+    "musl_getrandom_direct_syscall_wrapper_without_device_fallback_source": true,
+    "musl_getentropy_uses_getrandom_without_enosys_fallback_source": true,
+    "musl_stack_canary_seeded_from_kernel_auxv_AT_RANDOM_when_available_source": true,
+    "public_linux3_arm_getrandom_syscall_definition_present": false,
+    "application_level_entropy_fallback_verified": false
+  },
+  "target_musl_linux_3_0_35_compatibility_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
