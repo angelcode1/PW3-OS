@@ -1,0 +1,68 @@
+{
+  "milestone": "R3877.58",
+  "origin": "user-reported Mac Colima QEMU pinned ARMv7 BusyBox runtime; not GitHub Actions ARM execution",
+  "first_readonly_attempt": {
+    "result": "HOLD",
+    "exit_code": 2,
+    "reason": "READONLY_COPY_REJECTED_WRITABLE_FALLBACK_NOT_AUTHORIZED",
+    "read_only_copy_probe": {
+      "classification": "READONLY_ROOTFS_COPY_REJECTED",
+      "exit_code": 1
+    }
+  },
+  "second_authorized_disposable_writable_attempt": {
+    "result": "PASS_PINNED_QEMU_BUSYBOX_ASH_STAT_DATE_URANDOM_RUNTIME_ONLY",
+    "exit_code": 0,
+    "controls": {
+      "musl_startup_busybox_true": "PASS",
+      "ash_builtin_printf": "PASS",
+      "stat_existing_busybox_file": "PASS",
+      "date_seconds": "PASS",
+      "od_dev_urandom_16_bytes": "PASS"
+    },
+    "trace_observations": {
+      "date": {
+        "syscall_names_including": [
+          "clock_gettime64"
+        ],
+        "enosys_record_count": 0
+      },
+      "stat": {
+        "syscall_names_including": [
+          "statx"
+        ],
+        "enosys_record_count": 0
+      },
+      "ash": {
+        "syscall_records": 32,
+        "enosys_record_count": 0
+      },
+      "urandom": {
+        "syscall_records": 25,
+        "enosys_record_count": 0
+      }
+    },
+    "trace_stream_unclassified_output_present": true,
+    "trace_output_attribution_verified": false,
+    "qemu_binary_sha256": "3347b95a4006c1eb19b93ba09469a2c42b04fe5d89a430ce96cbf2a2367cf5c1",
+    "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+    "parent_image_unchanged": true,
+    "all_created_containers_removed": true,
+    "read_only_copy_probe_classification": "READONLY_ROOTFS_COPY_REJECTED",
+    "disposable_writable_layer_additional_opt_in": true
+  },
+  "kindle_ssh_sessions": 0,
+  "arm_guest_execution_performed": true,
+  "physical_device_access_performed": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "host_binfmt_registration_changed": false,
+  "guest_network_enabled": false,
+  "host_mounts_enabled": false,
+  "arm_thread_clone_runtime_verified": false,
+  "runtime_getrandom_enosys_fallback_verified": false,
+  "vendor_kernel_syscall_dispatch_verified": false,
+  "target_musl_linux_3_0_35_compatibility_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
