@@ -1,0 +1,35 @@
+name: PW3 R3877.53 public musl entropy source host-only synthetic audit
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-53/**'
+      - '.github/workflows/pw3-r3877-53-host-only.yml'
+  workflow_dispatch:
+jobs:
+  host-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: research/r3877-53
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hash release-manifest files
+        run: sha256sum -c SHA256SUMS_R3877_53.txt
+      - name: Offline Python unit tests
+        run: python3 -B -m unittest -q test_r3877_53.py
+      - name: No-input HOLD (no web, Docker, or Kindle)
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_53_entropy_source_audit.py > preflight.json
+          status=$?
+          python3 - <<'PY'
+          import json
+          d=json.load(open('preflight.json'))
+          assert d['result']=='HOLD' and d['immutable_hold']=='NOT_BOOTABLE'
+          PY
+          test "$status" -eq 2
+      - name: Shell syntax only
+        run: sh -n FETCH_R3877_53_PUBLIC_SOURCES.sh

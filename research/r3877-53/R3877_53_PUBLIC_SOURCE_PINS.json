@@ -1,0 +1,51 @@
+{
+  "milestone": "R3877.53",
+  "source_revisions": {
+    "musl": "ifduyue/musl@v1.2.6",
+    "public_lab126": "katadelos/linux-3.0.35-lab126@7ac2585f384573da8cbdcc987a3503e2e6ff1fb4"
+  },
+  "entries": [
+    {
+      "local_path": "lab126/arch/arm/include/asm/unistd.h",
+      "repository": "katadelos/linux-3.0.35-lab126",
+      "revision": "7ac2585f384573da8cbdcc987a3503e2e6ff1fb4",
+      "repository_path": "arch/arm/include/asm/unistd.h",
+      "git_blob_sha1": "2c04ed5efeb50707ac3353958434d37691841839"
+    },
+    {
+      "local_path": "lab126/arch/arm/kernel/calls.S",
+      "repository": "katadelos/linux-3.0.35-lab126",
+      "revision": "7ac2585f384573da8cbdcc987a3503e2e6ff1fb4",
+      "repository_path": "arch/arm/kernel/calls.S",
+      "git_blob_sha1": "80f7896cc0164ad6f74469f1e777b90c1f306443"
+    },
+    {
+      "local_path": "musl/src/linux/getrandom.c",
+      "repository": "ifduyue/musl",
+      "revision": "v1.2.6",
+      "repository_path": "src/linux/getrandom.c",
+      "git_blob_sha1": "6cc6f6b047c18c9c8c564b5ece3f80a2f2b1f65f"
+    },
+    {
+      "local_path": "musl/src/misc/getentropy.c",
+      "repository": "ifduyue/musl",
+      "revision": "v1.2.6",
+      "repository_path": "src/misc/getentropy.c",
+      "git_blob_sha1": "651ea95f14310cda867b88378a0aedf2225d4462"
+    },
+    {
+      "local_path": "musl/src/env/__libc_start_main.c",
+      "repository": "ifduyue/musl",
+      "revision": "v1.2.6",
+      "repository_path": "src/env/__libc_start_main.c",
+      "git_blob_sha1": "c5b277bdcf2e6b927dd93090137ea66dcb1c76a4"
+    },
+    {
+      "local_path": "musl/src/env/__stack_chk_fail.c",
+      "repository": "ifduyue/musl",
+      "revision": "v1.2.6",
+      "repository_path": "src/env/__stack_chk_fail.c",
+      "git_blob_sha1": "e53526020f751d34542f07c6b30d94c5dc08bf72"
+    }
+  ]
+}
