@@ -1,0 +1,61 @@
+{
+  "milestone": "R3877.59.2",
+  "origin": "USER_REPORTED_MAC_COLIMA_RUNTIME_R3877_59_2_1",
+  "exit_code_reported": 0,
+  "result": "PASS_PINNED_QEMU_ARMV7_MUSL_PTHREAD_TLS_WITH_LIBC_NEEDED_ONLY",
+  "r59_wrapper_result": "PASS_PINNED_QEMU_ARMV7_MUSL_PTHREAD_TLS_AND_HOST_GETRANDOM_ONLY",
+  "diagnostic_control_output": {
+    "exit_code": 0,
+    "expected_exact_output_matched": true,
+    "output_bytes": 136,
+    "output_sha256": "a7f1f05004a6d867365f1d249a40172a234493ec930140386a0821890224de62",
+    "allowlisted_program_markers": [
+      "R59_OBS_GETENTROPY_SUPPORTED_BY_HOST",
+      "R59_OBS_GETRANDOM_SUPPORTED_BY_HOST",
+      "R59_PASS_ARMV7_PTHREAD_TLS",
+      "R59_PASS_QEMU_ARMV7_MUSL_PROBE_ONLY"
+    ],
+    "unrecognized_line_count": 0
+  },
+  "new_probe_linkage": {
+    "elf_sha256": "b0b89626cd48482e99ea8515b4c808c378e1ff65b4ea4de05b16a4c373df18f4",
+    "original_probe_sha256": "5ce343387f982330965aa1d101daf15d1d53fd38de329d8e7c14a30d6cd37085",
+    "dt_needed": [
+      "libc.so"
+    ],
+    "pt_interp": "/lib/ld-musl-armhf.so.1",
+    "pt_tls_present": true,
+    "elf_armv7_hard_float_verified": true,
+    "rpath_or_runpath_absent": true
+  },
+  "r59_prior_loader_failure_fingerprint": {
+    "classification": "EXACT_KNOWN_MUSL_RELOCATION_ERROR_FINGERPRINT",
+    "matched_prior_output_bytes": 740,
+    "matched_prior_output_sha256": "c5a0eb0c4ac06bc5154e324411a4df0dbce3fd56402ec3b023367633d2971332",
+    "unresolved_symbol_count": 9
+  },
+  "execution": {
+    "arm_guest_execution_performed": true,
+    "pthread_and_tls_runtime_under_qemu_verified": true,
+    "getrandom_and_getentropy_host_kernel_only_verified": true,
+    "qemu_guest_uses_host_kernel_not_kindle_kernel": true,
+    "writable_fallback_used": true,
+    "read_only_copy_classification": "READONLY_ROOTFS_COPY_REJECTED",
+    "all_created_containers_removed": true,
+    "original_image_unchanged": true,
+    "host_mounts_enabled": false,
+    "guest_network_enabled": false,
+    "host_binfmt_registration_changed": false
+  },
+  "unverified": {
+    "runtime_getrandom_enosys_fallback": true,
+    "actual_vendor_kernel_compatibility": true,
+    "original_patched_musl_binary_reproducibility": true,
+    "recovery": true
+  },
+  "kindle_ssh_sessions": 0,
+  "physical_device_access_performed": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
