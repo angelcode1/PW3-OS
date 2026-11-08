@@ -1,0 +1,47 @@
+name: PW3 R3877.60.2 Docker volume classification (host only)
+on:
+  push:
+    paths:
+      - 'research/r3877-60-2/**'
+      - '.github/workflows/pw3-r3877-60-2-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-60-2/**'
+      - '.github/workflows/pw3-r3877-60-2-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-no-docker-no-kindle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore exact pinned ELF binaries, verify and run synthetic tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/r3877-60-2
+          python3 - <<'PY'
+          import hashlib, base64
+          from pathlib import Path
+          pins={'pw3_r3877_59_2_armv7_probe.elf':'b0b89626cd48482e99ea8515b4c808c378e1ff65b4ea4de05b16a4c373df18f4',
+                'pw3_r3877_60_aarch64_seccomp_launcher.elf':'66252ad8f424e8b902e8bb7c68021f9b367d962b02b926a818fda18af3fe49a4'}
+          for name, expect in pins.items():
+              blob=base64.b64decode(Path(name+'.b64').read_bytes().strip(),validate=True)
+              if hashlib.sha256(blob).hexdigest()!=expect: raise SystemExit('bad ELF pin '+name)
+              if Path(name).exists() and Path(name).read_bytes()!=blob:raise SystemExit('ELF differs '+name)
+              Path(name).write_bytes(blob)
+          PY
+          sha256sum -c SHA256SUMS_R3877_60_2.txt
+          python3 -B -m unittest -q test_r3877_49_3.py test_r3877_60.py test_r3877_60_1.py test_r3877_60_2.py
+          set +e
+          python3 -B pw3_r3877_60_2_qemu_enosys.py >/tmp/pw3-r602-preflight.json
+          code=$?
+          set -e
+          test "$code" -eq 2
+          python3 - <<'PY'
+          import json
+          r=json.load(open('/tmp/pw3-r602-preflight.json'))
+          assert r['result']=='HOLD' and not r['docker_used'] and r['immutable_hold']=='NOT_BOOTABLE'
+          PY

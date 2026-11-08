@@ -1,0 +1,18 @@
+{
+  "milestone": "R3877.60.3",
+  "user_reported_exit_code": 2,
+  "result": "HOLD",
+  "hold_category": "TARGETED_GUEST_ENOSYS_NOT_OBSERVED:stat_trace",
+  "arm_guest_execution_performed": true,
+  "host_seccomp_injection_performed": true,
+  "arm_getrandom_guest_enosys_count": 1,
+  "arm_getrandom_guest_call_count": 1,
+  "arm_statx_guest_enosys_count": 0,
+  "arm_statx_guest_call_count": 1,
+  "arm_control_passed": true,
+  "stat_control_passed": true,
+  "all_created_containers_removed": true,
+  "anonymous_volume_cleanup_verified": true,
+  "original_image_unchanged": true,
+  "immutable_hold": "NOT_BOOTABLE"
+}
