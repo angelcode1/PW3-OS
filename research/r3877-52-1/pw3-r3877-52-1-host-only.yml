@@ -1,0 +1,34 @@
+name: PW3 R3877.52.1 macOS fixture regression — host-only
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'research/r3877-52-1/**'
+      - '.github/workflows/pw3-r3877-52-1-host-only.yml'
+permissions:
+  contents: read
+jobs:
+  offline-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic, isolated, no-device checks
+        working-directory: research/r3877-52-1
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum -c SHA256SUMS_R3877_52_1.txt
+          python3 -B -m unittest -q test_r3877_52.py
+          python3 -m py_compile pw3_r3877_52_musl_arm_tls_fallback_audit.py
+          sh -n FETCH_R3877_52_PUBLIC_SOURCES.sh
+          set +e
+          python3 -B pw3_r3877_52_musl_arm_tls_fallback_audit.py > /tmp/r52-1-default-hold.json
+          code=$?
+          set -e
+          test "$code" -eq 2
+          python3 - <<'PY2'
+          import json
+          x=json.load(open('/tmp/r52-1-default-hold.json'))
+          assert x['result']=='HOLD' and x['immutable_hold']=='NOT_BOOTABLE'
+          assert x['kindle_ssh_sessions']==0
+          PY2
