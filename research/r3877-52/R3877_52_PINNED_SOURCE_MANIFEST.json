@@ -1,0 +1,26 @@
+{
+  "alpine_aports_commit_from_prior_evidence": "35f5eb2864e50dd4448758d31f3e2a32f733ab84",
+  "exact_vendor_kernel_binary_attested": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "local_source_directories": "sources/musl/ and sources/lab126/",
+  "milestone": "R3877.52",
+  "patched_alpine_tree_verified_here": false,
+  "public_lab126_commit": "7ac2585f384573da8cbdcc987a3503e2e6ff1fb4",
+  "source_git_blobs": {
+    "lab126/arch/arm/include/asm/unistd.h": "2c04ed5efeb50707ac3353958434d37691841839",
+    "lab126/arch/arm/kernel/entry-common.S": "b2a27b6b0046ee6c1e0f0928c3269ab5f6c63cd2",
+    "lab126/arch/arm/kernel/traps.c": "fcbf7c85bb1005091525f3417d202655d4727553",
+    "musl/arch/arm/pthread_arch.h": "157e2eae66d21203f13647cf12a3b556bbcd9642",
+    "musl/src/linux/getrandom.c": "6cc6f6b047c18c9c8c564b5ece3f80a2f2b1f65f",
+    "musl/src/misc/getentropy.c": "651ea95f14310cda867b88378a0aedf2225d4462",
+    "musl/src/stat/fstatat.c": "9eed063b26bcfb1a0d52b700d153ac3ad718774f",
+    "musl/src/thread/__timedwait.c": "666093be98516a1c84b2997f075a8dbfcb797b2c",
+    "musl/src/thread/arm/__set_thread_area.c": "09de65aab04aa8a225d62515d74b61740a4ba8b7",
+    "musl/src/thread/arm/clone.s": "4ff0c0e88b1d8892f914fc3b1703a1bf8a13239a",
+    "musl/src/thread/pthread_create.c": "087f6206d5d64165bc54ae741e77099994ae96e0",
+    "musl/src/time/clock_gettime.c": "4d2ec22f38a0012867632c7fcea763f090246174",
+    "musl/src/time/clock_nanosleep.c": "e195499cc0729ad4561e5244445f3e570b3aed1d"
+  },
+  "source_identity": "Git blobs reported by GitHub connector reading pinned public repository refs; not signed origin of the Alpine musl loader",
+  "upstream_musl_version": "v1.2.6"
+}
