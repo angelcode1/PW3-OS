@@ -98,3 +98,28 @@ or stable chapter URLs established for CSB/Breathe; no automatic next-chapter
 playback; no synchronised verse highlighting; no audio UI in the host terminal
 preview; no bundled recordings; audio connection is rechecked on launch,
 not continuously. This is a gated integration, not a device-certified feature.
+
+## Streaming-only update (8 November 2026)
+
+Audio recordings are **not** bundled with the Kindle image, stored as files,
+or committed to GitHub. The player invokes `audio_stream.py` at Play time for
+KJV Drama (8009), CSB (8231), and Breathe NLT (8026). Breathe remains a
+selectable **New Testament** source. It first checks the source-derived v8
+`audio-links/{book}_{chapter}.json` metadata URL, then checks a hashed
+chapter candidate using HEAD if necessary. Playback starts only after a
+recognized stream is returned. No media bytes are fetched by the resolver.
+The host player uses mpv with `--cache=no`; decoding will naturally buffer
+small amounts in RAM. This is not a promise of zero in-memory buffering.
+
+A user-provided `audio-links.tsv` can still override one chapter with a
+**stream URL only**, not a local file. Existing `./audio/...` entries are
+rejected. None of the candidates are evidence of entitlement, and the server
+may reject an edition or chapter. Breathe is **enabled in the UI**, but actual
+8026 playback has not been confirmed by live test. The code does not silently
+substitute another edition or make a local recording copy.
+
+**Important:** PW3 device Bluetooth and mpv output remain unverified and the
+existing hardware boot hold has not been lifted. Test on an appropriate host
+or after the separately approved hardware preflight.
+
+Host checks: `python3 -m unittest discover -s tests -p 'test_pw3_audio_stream.py' -v`.
