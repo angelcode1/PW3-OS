@@ -8,10 +8,7 @@
   "bootloader_commands_match_kernel_offsets": true,
   "bootloader_version_marker": "2009.08-lab126",
   "serial_baudrate_marker": 115200,
-  "bootdelay_values_observed": [
-    0,
-    1
-  ],
+  "bootdelay_values_observed": [0, 1],
   "runtime_bootdelay_verified": false,
   "normal_kernel_offset_hex": "0x41000",
   "normal_kernel_payload_bytes": 2919996,
