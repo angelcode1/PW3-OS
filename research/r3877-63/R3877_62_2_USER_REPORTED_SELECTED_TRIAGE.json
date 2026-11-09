@@ -1,0 +1,37 @@
+{
+  "milestone": "R3877.62.2",
+  "record_type": "USER_REPORTED_MAC_CANDIDATE_FIRST_METADATA_TRIAGE",
+  "result": "HOLD",
+  "exit_code_reported": 2,
+  "hold_category": "RECOVERY_AUTHENTICITY_AND_INDEPENDENT_RESTORE_UNVERIFIED",
+  "bounded_scope_scan_complete": true,
+  "directory_entries_considered": 58080,
+  "regular_files_considered": 57596,
+  "directories_scanned": 219,
+  "candidate_count_total": 121,
+  "candidate_counts_by_category": {
+    "integrity_manifest_filename_candidate": 61,
+    "nonresearch_named_backup_archive_candidate": 4,
+    "recovery_document_candidate": 5,
+    "research_named_archive_candidate_not_authenticated_backup": 51
+  },
+  "candidate_total_sizes_bytes_by_category": {
+    "integrity_manifest_filename_candidate": 63312,
+    "nonresearch_named_backup_archive_candidate": 69302116,
+    "recovery_document_candidate": 11828,
+    "research_named_archive_candidate_not_authenticated_backup": 1517042
+  },
+  "candidate_file_contents_read": false,
+  "file_hashes_verified": false,
+  "stock_partition_image_authenticity_verified": false,
+  "recovery_assets_authenticated": false,
+  "recovery_procedure_tested": false,
+  "kindle_ssh_sessions": 0,
+  "physical_device_access_performed": false,
+  "docker_used": false,
+  "network_access_performed": false,
+  "local_files_modified": false,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
