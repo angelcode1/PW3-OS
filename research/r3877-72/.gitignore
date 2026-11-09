@@ -1,0 +1,8 @@
+*.img
+*.img.*
+*.bin
+*.dump
+*.raw
+*.sha256
+*r3877_72_result.json
+*local_result.json

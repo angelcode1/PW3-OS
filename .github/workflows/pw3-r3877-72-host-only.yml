@@ -1,0 +1,49 @@
+name: PW3 R3877.72 boot chain evidence host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-72/**'
+      - '.github/workflows/pw3-r3877-72-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-72/**'
+      - '.github/workflows/pw3-r3877-72-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  host-only:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: research/r3877-72
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic offline unit tests
+        run: python3 -B -m unittest -q test_r3877_72.py
+      - name: Assert report hold and no-opt-in hold
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path('USER_REPORTED_R3877_72_HOLD.json').read_text())
+          assert j['result']=='HOLD' and j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['independent_restore_verified'] is False
+          assert j['interactive_uboot_access_verified'] is False
+          assert j['real_device_bootloader_environment_verified'] is False
+          assert j['raw_private_images_or_hashes_committed'] is False
+          PY
+          set +e
+          python3 -B pw3_r3877_72_boot_chain_preflight.py > preflight.json
+          exitcode=$?
+          set -e
+          test "$exitcode" -eq 2
+          python3 - <<'PY'
+          import json
+          j=json.load(open('preflight.json'))
+          assert j['result']=='HOLD' and j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['hold_category']=='EXPLICIT_OFFLINE_IMAGE_OPT_IN_REQUIRED'
+          assert j['firmware_write_performed'] is False
+          assert j['serial_port_opened'] is False
+          PY
