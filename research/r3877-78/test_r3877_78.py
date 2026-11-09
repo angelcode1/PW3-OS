@@ -12,7 +12,7 @@ from unittest.mock import Mock, patch
 import pw3_r3877_78_musl_runtime as m
 
 
-def arm_elf(*, loader=False, needed=b'libc.musl-armhf.so.1\0'):
+def arm_elf(*, loader=False, needed=b'libc.musl-armv7.so.1\0'):
     contents = bytearray(1024)
     contents[:16] = b'\x7fELF' + bytes([1, 1, 1, 0]) + bytes(8)
     phnum = 1 if loader else 3
@@ -58,7 +58,7 @@ class Tests(unittest.TestCase):
         blob=arm_elf()
         x=m.elf_metadata(blob)
         self.assertEqual(x['interp'], '/lib/ld-musl-armhf.so.1')
-        self.assertEqual(m.needed_libraries(blob,x), ['libc.musl-armhf.so.1'])
+        self.assertEqual(m.needed_libraries(blob,x), ['libc.musl-armv7.so.1'])
 
     def test_03_wrong_cpu(self):
         b=bytearray(arm_elf())
@@ -76,15 +76,15 @@ class Tests(unittest.TestCase):
     def test_06_prepare_three_regular_files(self):
         tar=gzip_tar({'lib/ld-musl-armhf.so.1':arm_elf(loader=True),'bin/busybox':arm_elf()})
         packed,files,needed=m.prepare(tar)
-        self.assertEqual(sorted(files), ['busybox','ld-musl-armhf.so.1','libc.musl-armhf.so.1'])
-        self.assertEqual(needed,['libc.musl-armhf.so.1'])
+        self.assertEqual(sorted(files), ['busybox','ld-musl-armhf.so.1','libc.musl-armv7.so.1'])
+        self.assertEqual(needed,['libc.musl-armv7.so.1'])
         with tarfile.open(fileobj=io.BytesIO(packed),mode='r:') as tf:
             self.assertTrue(all(x.isfile() for x in tf.getmembers()))
             self.assertEqual(len(tf.getmembers()),3)
 
     def test_07_symlink_lib(self):
-        tar=gzip_tar({'lib/ld-musl-armhf.so.1':'libc.musl-armhf.so.1',
-                      'lib/libc.musl-armhf.so.1':arm_elf(loader=True),
+        tar=gzip_tar({'lib/ld-musl-armhf.so.1':'libc.musl-armv7.so.1',
+                      'lib/libc.musl-armv7.so.1':arm_elf(loader=True),
                       'bin/busybox':arm_elf()})
         self.assertEqual(len(m.prepare(tar)[1]),3)
 
@@ -122,8 +122,8 @@ class Tests(unittest.TestCase):
         a=Mock(returncode=0,stdout=m.MARKER.encode(),stderr=b'')
         with patch.object(m,'read_pinned_archive',return_value=b'fake'), \
              patch.object(m,'prepare',return_value=(b'tar',
-                 {'ld-musl-armhf.so.1':b'elf','libc.musl-armhf.so.1':b'elf','busybox':b'busy'},
-                 ['libc.musl-armhf.so.1'])):
+                 {'ld-musl-armhf.so.1':b'elf','libc.musl-armv7.so.1':b'elf','busybox':b'busy'},
+                 ['libc.musl-armv7.so.1'])):
             with redirect_stdout(io.StringIO()) as out:
                 code=m.main(['--acknowledge-single-process-mac-and-kindle-tmpfs'],
                             runner=lambda *_a,**_k:a)
@@ -137,8 +137,8 @@ class Tests(unittest.TestCase):
         a=Mock(returncode=42,stdout=b'',stderr=b'')
         with patch.object(m,'read_pinned_archive',return_value=b'fake'), \
              patch.object(m,'prepare',return_value=(b'tar',
-                 {'ld-musl-armhf.so.1':b'elf','libc.musl-armhf.so.1':b'elf','busybox':b'busy'},
-                 ['libc.musl-armhf.so.1'])):
+                 {'ld-musl-armhf.so.1':b'elf','libc.musl-armv7.so.1':b'elf','busybox':b'busy'},
+                 ['libc.musl-armv7.so.1'])):
             with redirect_stdout(io.StringIO()) as out:
                 code=m.main(['--acknowledge-single-process-mac-and-kindle-tmpfs'],
                             runner=lambda *_a,**_k:a)
@@ -146,7 +146,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(json.loads(out.getvalue())['hold_category'],'NO_EXECUTABLE_EXISTING_TMPFS')
 
     def test_15_remote_no_persistent_operations(self):
-        s=m.remote_script({'ld-musl-armhf.so.1':b'x', 'libc.musl-armhf.so.1':b'x','busybox':b'y'})
+        s=m.remote_script({'ld-musl-armhf.so.1':b'x', 'libc.musl-armv7.so.1':b'x','busybox':b'y'})
         self.assertNotIn('mount -',s)
         self.assertNotIn('chroot',s)
         self.assertNotIn('mmcblk',s)
@@ -157,5 +157,45 @@ class Tests(unittest.TestCase):
         with redirect_stdout(io.StringIO()) as out:
             m.main([])
         self.assertNotIn(m.ROOTFS_SHA256,out.getvalue())
+
+    def test_17_armv7_libc_vs_armhf_loader_name_regression(self):
+        tar=gzip_tar({'lib/ld-musl-armhf.so.1':arm_elf(loader=True),'bin/busybox':arm_elf()})
+        payload,items,needed=m.prepare(tar)
+        self.assertEqual(needed, ['libc.musl-armv7.so.1'])
+        self.assertEqual(sorted(items), ['busybox','ld-musl-armhf.so.1','libc.musl-armv7.so.1'])
+        remote=m.remote_script(items)
+        self.assertIn('"$work/libc.musl-armv7.so.1"',remote)
+        self.assertNotIn('libc.musl-armhf.so.1',remote)
+
+    def test_18_offline_validation_never_connects(self):
+        def forbidden(*args, **kwargs):
+            raise AssertionError('MUST_NOT_CONNECT')
+        with patch.object(m,'read_pinned_archive',return_value=b'fake'), \
+             patch.object(m,'prepare',return_value=(b'tar',
+                 {'ld-musl-armhf.so.1':b'elf','libc.musl-armv7.so.1':b'elf','busybox':b'busy'},
+                 ['libc.musl-armv7.so.1'])):
+            with redirect_stdout(io.StringIO()) as out:
+                code=m.main(['--validate-archive-only'],runner=forbidden)
+        r=json.loads(out.getvalue())
+        self.assertEqual(code,2)
+        self.assertTrue(r['offline_validation_passed'])
+        self.assertFalse(r['device_execution_attempted'])
+        self.assertEqual(r['immutable_hold'],'NOT_BOOTABLE')
+
+    def test_19_offline_refusal_exposes_safe_reason_only(self):
+        with patch.object(m,'read_pinned_archive',return_value=b'fake'), \
+             patch.object(m,'prepare',side_effect=m.Refused('BUSYBOX_DEPENDENCY_SET_UNEXPECTED')):
+            with redirect_stdout(io.StringIO()) as out:
+                code=m.main(['--validate-archive-only'],runner=lambda *a,**k:None)
+        r=json.loads(out.getvalue())
+        self.assertEqual(code,2)
+        self.assertEqual(r['offline_refusal_code'],'BUSYBOX_DEPENDENCY_SET_UNEXPECTED')
+        self.assertFalse(r['device_execution_attempted'])
+
+    def test_20_archive_only_wrong_target_never_ssh(self):
+        with redirect_stdout(io.StringIO()) as out:
+            code=m.main(['--validate-archive-only','--target','root@evil;bad'])
+        self.assertEqual(code,2)
+        self.assertEqual(json.loads(out.getvalue())['hold_category'],'TARGET_OR_PORT_INVALID')
 
 if __name__=='__main__':unittest.main()

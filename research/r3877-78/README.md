@@ -1,5 +1,10 @@
 # PW3 R3877.78 — one-shot Alpine musl runtime against Linux 3.0.35
 
+> **R3877.78.1 correction:** The original validator expected the wrong ARMv7
+> libc SONAME. Use [the corrected archive-only procedure](README_R3877_78_1.md)
+> with the existing downloaded rootfs before any new Kindle execution.
+
+
 **Research only. Independent boot is still `NOT_BOOTABLE`.** This performs one
 manually authorized ARMv7 musl/BusyBox application command using only an
 **existing** executable tmpfs on the live Kindle. It does **not** mount, chroot,
@@ -65,7 +70,7 @@ bounded in-archive symlink) and `/bin/busybox`, and validates:
 - ELF32 little-endian ARM EABI5 and hard-float metadata on both objects;
 - BusyBox requests `/lib/ld-musl-armhf.so.1` as interpreter;
 - BusyBox has exactly one shared-library dependency:
-  `libc.musl-armhf.so.1`;
+  `libc.musl-armv7.so.1`;
 - the staged tar contains exactly three regular files: the loader under two
   expected names and BusyBox. No archive paths, symlinks or permissions from
   the rootfs tar are carried into the staging tar.

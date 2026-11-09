@@ -157,10 +157,10 @@ def prepare(archive):
     if bb['interp'] != '/lib/ld-musl-armhf.so.1':
         raise Refused('BUSYBOX_INTERPRETER_UNEXPECTED')
     needed = needed_libraries(busybox, bb)
-    if needed != ['libc.musl-armhf.so.1']:
+    if needed != ['libc.musl-armv7.so.1']:
         raise Refused('BUSYBOX_DEPENDENCY_SET_UNEXPECTED')
     items = {'ld-musl-armhf.so.1': loader,
-             'libc.musl-armhf.so.1': loader,
+             'libc.musl-armv7.so.1': loader,
              'busybox': busybox}
     if sum(len(v) for v in items.values()) > 8_388_608:
         raise Refused('STAGING_TOO_LARGE')
@@ -202,15 +202,15 @@ done
 [ -n "$bb" ] || exit 43
 work="$chosen/pw3-r3877-78-$$"
 mkdir "$work" || exit 44
-cleanup() { rm -f "$work/ld-musl-armhf.so.1" "$work/libc.musl-armhf.so.1" "$work/busybox"; rmdir "$work"; }
+cleanup() { rm -f "$work/ld-musl-armhf.so.1" "$work/libc.musl-armv7.so.1" "$work/busybox"; rmdir "$work"; }
 trap 'cleanup' 0
 trap 'exit 70' 1 2 3 15
 "$bb" tar -xf - -C "$work" || exit 45
-for item in ld-musl-armhf.so.1 libc.musl-armhf.so.1 busybox; do
+for item in ld-musl-armhf.so.1 libc.musl-armv7.so.1 busybox; do
   [ -f "$work/$item" ] && [ ! -L "$work/$item" ] || exit 46
   case "$item" in
     ld-musl-armhf.so.1) expected=HASH_LD ; bytes=BYTES_LD ;;
-    libc.musl-armhf.so.1) expected=HASH_LIBC ; bytes=BYTES_LIBC ;;
+    libc.musl-armv7.so.1) expected=HASH_LIBC ; bytes=BYTES_LIBC ;;
     busybox) expected=HASH_BB ; bytes=BYTES_BB ;;
   esac
   actual_bytes=$(wc -c < "$work/$item") || exit 47
@@ -226,10 +226,10 @@ LD_LIBRARY_PATH="$work" LC_ALL=C "$work/ld-musl-armhf.so.1" "$work/busybox" echo
 cleanup || exit 51
 trap - 0 1 2 3 15
 exit 0'''.replace('HASH_LD', hashes['ld-musl-armhf.so.1']) \
-        .replace('HASH_LIBC', hashes['libc.musl-armhf.so.1']) \
+        .replace('HASH_LIBC', hashes['libc.musl-armv7.so.1']) \
         .replace('HASH_BB', hashes['busybox']) \
         .replace('BYTES_LD', str(len(items['ld-musl-armhf.so.1']))) \
-        .replace('BYTES_LIBC', str(len(items['libc.musl-armhf.so.1']))) \
+        .replace('BYTES_LIBC', str(len(items['libc.musl-armv7.so.1']))) \
         .replace('BYTES_BB', str(len(items['busybox'])))
 
 
@@ -247,18 +247,20 @@ REMOTE_EXIT = {
 def main(argv=None, runner=subprocess.run):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--rootfs-tar', default=ROOTFS_NAME)
+    p.add_argument('--validate-archive-only', action='store_true')
     p.add_argument('--acknowledge-single-process-mac-and-kindle-tmpfs', action='store_true')
     p.add_argument('--target', default='root@192.168.8.102')
     p.add_argument('--port', type=int, default=2222)
     a = p.parse_args(argv)
-    report = {'milestone': 'R3877.78', 'result': 'HOLD', 'immutable_hold': 'NOT_BOOTABLE',
+    report = {'milestone': 'R3877.78.1', 'result': 'HOLD', 'immutable_hold': 'NOT_BOOTABLE',
               'hold_category': 'DEVICE_MUSL_TEST_NOT_AUTHORIZED',
               'archive_pinned_version': 'Alpine_3.24.2_armv7',
-              'archive_sha256_verified': False, 'single_process_musl_verified': False,
+              'archive_sha256_verified': False, 'offline_validation_passed': False,
+              'single_process_musl_verified': False,
               'physical_restore_verified': False, 'stock_boot_modified': False,
               'chroot_performed': False, 'mount_performed': False,
               'firmware_write_performed': False, 'device_execution_attempted': False}
-    if not a.acknowledge_single_process_mac_and_kindle_tmpfs:
+    if not a.acknowledge_single_process_mac_and_kindle_tmpfs and not a.validate_archive_only:
         print(json.dumps(report, sort_keys=True, separators=(',', ':')))
         return 2
     if not re.fullmatch(r'root@[A-Za-z0-9][A-Za-z0-9.\-]{0,252}', a.target) or not (1 <= a.port <= 65535):
@@ -269,11 +271,21 @@ def main(argv=None, runner=subprocess.run):
         archive = read_pinned_archive(a.rootfs_tar)
         report['archive_sha256_verified'] = True
         payload, items, needed = prepare(archive)
-        report['offline_armhf_elf_abi_verified'] = True
+        report['offline_armv7_elf_abi_verified'] = True
+        report['offline_validation_passed'] = True
         report['busybox_exact_needed_libraries'] = needed
         report['loader_and_busybox_staging_bytes'] = sum(len(v) for v in items.values())
-    except (OSError, ValueError, Refused, tarfile.TarError, UnicodeError, struct.error):
+    except (OSError, ValueError, Refused, tarfile.TarError, UnicodeError, struct.error) as exc:
         report['hold_category'] = 'PINNED_ARCHIVE_OR_ELF_VALIDATION_REFUSED'
+        if isinstance(exc, Refused):
+            # Only approved fixed diagnostic labels, never file paths or hashes.
+            report['offline_refusal_code'] = str(exc)
+        print(json.dumps(report, sort_keys=True, separators=(',', ':')))
+        return 2
+    if a.validate_archive_only:
+        report['hold_category'] = 'OFFLINE_ELF_VALIDATION_PASS_DEVICE_RUNTIME_UNVERIFIED'
+        report['offline_validation_passed'] = True
+        report['device_execution_attempted'] = False
         print(json.dumps(report, sort_keys=True, separators=(',', ':')))
         return 2
     cmd = ['ssh', '-T', '-o', 'ConnectTimeout=15', '-o', 'ConnectionAttempts=1',
