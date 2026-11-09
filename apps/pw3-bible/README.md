@@ -163,3 +163,42 @@ renderer.
 Rebuild both the archive and reader for this option. Older reader binaries
 cannot open archives containing Hebrew bitmaps. Existing archives and builds
 that omit the option continue to work with the updated reader.
+
+## On-demand Bible text (public CDN only; no EPUB or chapter downloads)
+
+The chapter reading page has a **Text: Offline** selector. Selecting a listed
+online edition fetches *only the current chapter* from:
+`https://cf-stream.tecartabible.com/8/{volume}/chapters/{book}_{chapter}.json`.
+The helper reads the returned `verses` object, passes text to the native
+reader over a pipe and retains it solely in RAM while that chapter is visible.
+**No downloaded verse files, JSON, EPUB or SQLite are written.**
+
+The menu is paginated and includes 45 English translation candidates whose
+Genesis 1 public-CDN endpoint responded with JSON on 8 November 2026.
+That observation does **not** guarantee all chapters are accessible or that
+the user has any particular license. A title missing from the list is not
+queried. A 403, 404, redirect, malformed chapter, network error, or missing
+Python 3 causes a clear **unavailable / offline shown** indication. The
+preinstalled WEB/KJV/ASV archive remains readable without a network.
+
+**Signed CDNs are not supported:** no `cf-signed.tecartabible.com`, no
+Policy/Signature/Key-Pair-Id, no token acquisition or refresh, and **no**
+automatic follow of HTTP redirects. The online menu does not fetch study
+resource contents or devotional books; those are separate data models.
+
+The current PW3 app still needs the local base `bible.pw3` archive for
+navigation and its three offline translations. Build it using the existing
+public-domain source instructions above, and include these three new files
+in the installed app directory:
+`online_verse.py`, `online_ui.h`, `online-translations.tsv`.
+Rebuild `pw3-bible-arm` from this revision of `reader.c`.
+It needs Python 3, working HTTPS/TLS CA trust, DNS and access to the public
+CDN. Streaming is synchronous at selection time with an 8-second request
+timeout. No hardware test is claimed; the existing Kindle boot hold applies.
+
+Host tests:
+
+```sh
+python3 -m unittest discover -s tests -p 'test_pw3_online_verse.py' -v
+cc -O2 -Wall -Wextra -fsyntax-only apps/pw3-bible/reader.c
+```
