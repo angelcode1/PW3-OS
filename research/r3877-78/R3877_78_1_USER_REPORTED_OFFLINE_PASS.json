@@ -1,0 +1,25 @@
+{
+  "milestone": "R3877.78.1",
+  "source": "user-reported macOS corrected archive-only validation",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "archive_pinned_version": "Alpine_3.24.2_armv7",
+  "archive_sha256_verified": true,
+  "offline_armv7_elf_abi_verified": true,
+  "offline_validation_passed": true,
+  "busybox_exact_needed_libraries": [
+    "libc.musl-armv7.so.1"
+  ],
+  "loader_and_busybox_staging_bytes": 1786532,
+  "hold_category": "OFFLINE_ELF_VALIDATION_PASS_DEVICE_RUNTIME_UNVERIFIED",
+  "device_execution_attempted": false,
+  "single_process_musl_verified": false,
+  "firmware_write_performed": false,
+  "mount_performed": false,
+  "chroot_performed": false,
+  "stock_boot_modified": false,
+  "physical_restore_verified": false,
+  "user_reported_exit_code": 2,
+  "next_test": "Explicitly authorized one-shot pinned musl loader and BusyBox echo on existing executable tmpfs; not yet run",
+  "note": "Exit code 2 is expected for archive-only mode, not a failed ELF validation."
+}
