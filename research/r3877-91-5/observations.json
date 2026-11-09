@@ -1,0 +1,31 @@
+{
+  "milestone": "R3877.91.5",
+  "kind": "research_observation_summary",
+  "reported_by": "user-host-run",
+  "result": "HOST_RELOCATION_SCOPE_MODEL_COMPLETE",
+  "host_process_exit_code": 0,
+  "mode": "HOST_ONLY_NO_STAGED_EXECUTION",
+  "gnu_boundary_elfs": 64,
+  "gnu_library_edges_modeled": 181,
+  "relocation_entries_inspected": 68516,
+  "relocation_imports_unique_by_object": 5114,
+  "status_counts": {
+    "MODEL_DIRECT_DEP_MATCH": 1107,
+    "MODEL_MATCH": 3266,
+    "NOT_IN_DIRECT_NEEDED_SCOPE": 412,
+    "WEAK_OPTIONAL_IMPORT": 329
+  },
+  "potential_model_scope_gaps_total": 412,
+  "potential_model_scope_gaps_in_report": 60,
+  "potential_model_scope_gaps_not_shown": 352,
+  "visible_scope_gap_examples_all_lua_c_api": true,
+  "objects_without_relocation_sections": 0,
+  "parser_errors": [],
+  "staged_elf_executed": false,
+  "device_accessed": false,
+  "stage_modified": false,
+  "actual_loader_resolution_verified": false,
+  "symbol_binding_verified_by_runtime": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "scope_note": "Diagnostic categories are not proven missing symbols. 60 visible examples only; 352 unlisted."
+}
