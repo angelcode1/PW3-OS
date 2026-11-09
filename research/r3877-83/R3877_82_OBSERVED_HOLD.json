@@ -1,0 +1,29 @@
+{
+  "milestone": "R3877.82",
+  "origin": "user-reported host-only ELF ABI and GNU version audit",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_reported_exit_code": 2,
+  "device_execution_performed": false,
+  "kindle_access_performed": false,
+  "stage_files_modified": false,
+  "needed_direct": ["libm.so.6", "libdl.so.2", "libgcc_s.so.1", "libc.so.6"],
+  "loader": "/lib/ld-linux.so.3",
+  "provider_count": 5,
+  "arm_float_flags": "soft_all_six_objects",
+  "arm_vfp_warnings": [],
+  "arm_attributes_vfp_args": "TAG_ABSENT_ALL_SIX_OBJECTS",
+  "gnu_symbol_versions": {
+    "required": 13,
+    "matched_by_name": 13,
+    "missing": 0,
+    "missing_definition_tables": 0,
+    "actual_runtime_bindings_verified": false
+  },
+  "lua_rpath_categories": ["UNSAFE_OR_UNKNOWN_RPATH", "BUNDLE_DIRECTORY_PRESENT"],
+  "stage_regular_files": 1446,
+  "historic_r26_regular_files": 1448,
+  "full_stage_identity_reverified_against_r26": false,
+  "glibc_loader_on_kindle_verified": false,
+  "next_gate": "Explicit loader --list mapping in pre-existing tmpfs before single-process LuaJIT test"
+}
