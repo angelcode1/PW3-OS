@@ -1,0 +1,22 @@
+{
+  "milestone": "R3877.62",
+  "source": "user-reported macOS Python 3.9 unittest output",
+  "reported_tests_run": 18,
+  "reported_errors": 7,
+  "reported_error_type": "pw3_r3877_62_recovery_inventory.Hold",
+  "reported_error_category": "SYMLINK_IN_DIRECTORY_ANCESTRY",
+  "failing_tests": [
+    "test_file_cap",
+    "test_metadata_only_cant_verify_recovery",
+    "test_missing_skipped_hidden",
+    "test_no_file_read_and_no_names",
+    "test_subdir_depth",
+    "test_symlink_dirs_skipped",
+    "test_symlink_files_skipped"
+  ],
+  "explanation": "macOS tempfile often starts under /var/folders; the system /var -> /private/var alias was rejected by the overly broad ancestor-symlink gate; exact local directory alias not independently attested in this report",
+  "inventory_scan_completed": false,
+  "recovery_verified": false,
+  "physical_device_access_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}
