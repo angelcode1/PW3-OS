@@ -1,0 +1,25 @@
+{
+  "milestone": "R3877.88.2",
+  "origin": "user-provided Mac-only geometry comparison output",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "hold_category": "HOST_SOURCE_COMPARE_REFUSED",
+  "refusal_code": "UPSTREAM_REFERENCE_PIN_MISMATCH",
+  "user_reported_exit_code": 2,
+  "kindle_access_performed": false,
+  "device_execution_performed": false,
+  "stage_files_modified": false,
+  "firmware_write_performed": false,
+  "boot_hook_modified": false,
+  "independent_restore_verified": false,
+  "confirmed": "The program refused the downloaded upstream reference before comparing it to the original stage geometry file.",
+  "exact_expected_reference": {
+    "repo": "koreader/koreader",
+    "commit": "9192014d8bd82a91dc1012473be0f238dedfdb54",
+    "path": "frontend/ui/geometry.lua",
+    "bytes": 10734,
+    "git_blob_sha1": "dc8362ae455d3fddce2513865d340b482a9bdc53"
+  },
+  "diagnosis": "DOWNLOADED_FILE_BYTES_NOT_PROVIDED_CAUSE_UNDETERMINED",
+  "next": "Use pinned GitHub git-blob API, decode base64 and verify Git blob hash before running existing stage-local diff. Do not alter original stage."
+}
