@@ -1,0 +1,32 @@
+{
+  "milestone": "R3877.40",
+  "provenance": "User-supplied successful signed-loader static_elf result excerpt; original raw loader not included in GitHub",
+  "result": "PASS_PINNED_SIGNED_LOADER_STATIC_ELF_METADATA_ONLY",
+  "static_elf": {
+    "elf_class": "ELF32",
+    "elf_endianness": "little",
+    "elf_machine": "EM_ARM",
+    "elf_type": "ET_DYN",
+    "elf_e_flags_hex": "0x05000400",
+    "elf_eabi_version_field": 5,
+    "ef_arm_abi_float_hard_bit": true,
+    "ef_arm_abi_float_soft_bit": false,
+    "arm_attribute_cpu_arch": 10,
+    "arm_attribute_fp_arch": 4,
+    "arm_attribute_abi_vfp_args": 1,
+    "gnu_build_id_bytes": 20,
+    "gnu_build_id_sha256": "933bbb54ac7a8c8211ca64df9e5f8652bcf6a233582b42babaff77302f1f0d2d",
+    "comment_section_present": false,
+    "dwarf_debug_section_count": 0
+  },
+  "historical_builder_machine_identity_verified": false,
+  "historical_builder_toolchain_versions_verified": false,
+  "historical_builder_cflags_ldflags_verified": false,
+  "source_to_binary_reproducibility_verified": false,
+  "vendor_kernel_dispatch_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "kindle_ssh_sessions": 0,
+  "boot_performed": false,
+  "firmware_write_performed": false
+}

@@ -1,0 +1,44 @@
+{
+  "milestone": "R3877.71",
+  "record_type": "USER_REPORTED_DEVICE_DERIVED_OFFLINE_BACKUP_EVIDENCE",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "kindle_kernel": "3.0.35-lab126",
+  "kindle_machine": "armv7l",
+  "user_area_total_sectors": 7634944,
+  "prepartition_region_sectors": 65536,
+  "mbr_four_partition_entries_match_kernel_geometry": true,
+  "user_reported_remote_sha256_matches": {
+    "p1": true,
+    "p2": true,
+    "boot0": true,
+    "boot1": true,
+    "initial_32_mib": true
+  },
+  "captured_region_sizes_bytes": {
+    "p1": 471859200,
+    "p2": 67108864,
+    "boot0": 4194304,
+    "boot1": 4194304,
+    "initial_32_mib": 33554432
+  },
+  "observed_uimage_offsets_hex": [
+    "0x41000",
+    "0xe41000"
+  ],
+  "uimage_header_and_payload_crc32_valid": true,
+  "p1_and_p2_ext3_signatures_observed": true,
+  "boot0_uboot_and_diagnostics_strings_observed": true,
+  "boot1_all_zero_observed": true,
+  "p3_backup_verified": false,
+  "p4_backup_verified": false,
+  "stock_factory_provenance_verified": false,
+  "independent_restore_verified": false,
+  "recovery_console_access_verified": false,
+  "vendor_kernel_compatibility_verified": false,
+  "physical_device_write_performed": false,
+  "boot_performed_during_evidence_capture": false,
+  "raw_firmware_contents_committed": false,
+  "raw_private_digests_committed": false,
+  "hold_category": "DEVICE_IMAGES_VERIFIED_RECOVERY_ACCESS_AND_RESTORE_UNVERIFIED"
+}

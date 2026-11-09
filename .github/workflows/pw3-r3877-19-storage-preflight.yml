@@ -1,0 +1,38 @@
+name: R3877.19 offline storage inventory tests
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-19/**'
+      - '.github/workflows/pw3-r3877-19-storage-preflight.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-19/**'
+      - '.github/workflows/pw3-r3877-19-storage-preflight.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static/read-only inventory tests (no Kindle or SSH)
+        working-directory: research/r3877-19
+        run: |
+          sh -n pw3_r3877_19_readonly_storage.sh
+          sha256sum -c SHA256SUMS_R3877_19.txt
+          python3 -B -m unittest -q test_r3877_19.py
+      - name: Incomplete input must retain immutable hold
+        working-directory: research/r3877-19
+        run: |
+          python3 - <<'PY'
+          from pw3_r3877_19_analyze import analyze
+          x = analyze("R3877_19_READ_ONLY_STORAGE_BEGIN")
+          assert x["result"] == "HOLD"
+          assert x["immutable_hold"] == "NOT_BOOTABLE"
+          assert not x["recovery_verified"]
+          print("R3877_19_OFFLINE_ONLY_PASS")
+          PY

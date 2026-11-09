@@ -1,0 +1,67 @@
+{
+  "binfmt_registration_changed": false,
+  "boot_performed": false,
+  "busybox_elf": {
+    "bits": 32,
+    "e_flags": "0x05000400",
+    "machine": 40
+  },
+  "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+  "firmware_write_performed": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "interpretation": "Successful pinned QEMU native version and ARMv7 BusyBox applet-dispatch response, not positive BusyBox applet functionality; root cause of --help -> -help still unknown; full musl and PW3 kernel not tested",
+  "milestone": "R3877.46",
+  "origin": "User-reported local Mac/Colima console JSON; not a signed execution attestation or independent CI execution",
+  "original_image_id_sha256": "sha256:c732b1bb478555ebb81e01632b519b712bd32b262d80af8bfbed2940602d397a",
+  "parent_platform": {
+    "architecture": "arm",
+    "os": "linux",
+    "variant": "v7"
+  },
+  "physical_device_access_performed": false,
+  "qemu_binary_sha256": "3347b95a4006c1eb19b93ba09469a2c42b04fe5d89a430ce96cbf2a2367cf5c1",
+  "read_only_run": {
+    "all_created_containers_removed": true,
+    "authorized_qemu_execution_performed": false,
+    "error_category": "READONLY_COPY_REJECTED_WRITABLE_FALLBACK_NOT_AUTHORIZED",
+    "exit_code_reported": 2,
+    "read_only_copy_probe": {
+      "classification": "READONLY_ROOTFS_COPY_REJECTED",
+      "exit_code": 1,
+      "output_bytes": 259,
+      "output_sha256": "40ab6a1331e02f7a2764cfc3954d3dec2c0d158de546d5e3811af2e2c6eea835"
+    },
+    "result": "HOLD"
+  },
+  "writable_fallback_run": {
+    "all_created_containers_removed": true,
+    "authorized_qemu_execution_performed": true,
+    "derived_image_created": false,
+    "error_category": "GUEST_PROBE_FAILED:busybox_double_dash_help",
+    "exit_code_reported": 2,
+    "host_mounts_or_guest_network_enabled": false,
+    "original_image_unchanged": true,
+    "privileged_container_invoked": false,
+    "read_only_copy_probe": {
+      "classification": "READONLY_ROOTFS_COPY_REJECTED",
+      "exit_code": 1,
+      "output_bytes": 259,
+      "output_sha256": "eec003184275a302b7df1b1555d745e7619b3addb042da31fc5d1ca1f6f271c7"
+    },
+    "result": "HOLD",
+    "runtime_probes": {
+      "busybox_double_dash_help": {
+        "exit_code": 127,
+        "output_prefix": "-help: applet not found\n",
+        "output_sha256": "686d46a259767f1b59961c24aa5e885e1bb178829e9bd8886f34b68723d6ac8c",
+        "status": "HOLD"
+      },
+      "qemu_version": {
+        "exit_code": 0,
+        "output_sha256": "b417a7edbe319288f25679c9f9cd7fb1393b5b0ee0ebe756ae554e3c86b45d12",
+        "status": "PASS"
+      }
+    },
+    "writable_fallback_used": true
+  }
+}

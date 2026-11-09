@@ -1,0 +1,23 @@
+{
+  "milestone": "R3877.38",
+  "reported_by": "user supplied successful R3877.38 Mac audit JSON",
+  "result": "PASS_PINNED_FIVE_EXTRA_OBJECT_COPY_ARGUMENT_STRUCTURE_ONLY",
+  "exit_code": 0,
+  "log_sha256": "a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce",
+  "joined_link_candidate_sha256": "5bfd03a5a13d402b69eab716bd4374a2ee25c90496e6fc362284041489b3e9f0",
+  "compile_output_count": 1428,
+  "main_link_exact_match_count": 1423,
+  "extra_compile_outputs": 5,
+  "extra_objects_in_source_operand_position": 5,
+  "extra_objects_in_destination_operand_position": 0,
+  "supported_cp_positional_shapes": 5,
+  "distinct_printed_destination_texts": 5,
+  "nonmain_lines_not_lexically_parsed": 1,
+  "historical_builder_machine_identity_verified": false,
+  "historical_builder_toolchain_versions_verified": false,
+  "source_to_binary_reproducibility_verified": false,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "kindle_ssh_sessions": 0,
+  "immutable_hold": "NOT_BOOTABLE"
+}

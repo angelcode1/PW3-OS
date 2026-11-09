@@ -1,0 +1,17 @@
+R3877_20_MOUNT_MAPPING_BEGIN
+kernel_release=3.0.35-lab126
+machine=armv7l
+boot_root_hint=/dev/mmcblk0p1
+boot_root_hint_count=1
+proc_mount_root=rootfs|rootfs|rw
+proc_mount_root=/dev/root|ext3|ro
+proc_mount_root_count=2
+mountinfo_root=179:1|ext3|/dev/root|/|ro
+selected_mount=/var/local|179:3|ext3|/dev/mmcblk0p3
+mountinfo_root_count=1
+selected_mount_count=1
+sysfs_map=mmcblk0p1|179:1
+sysfs_map=mmcblk0p2|179:2
+sysfs_map=mmcblk0p3|179:3
+sysfs_map=mmcblk0p4|179:4
+R3877_20_MOUNT_MAPPING_COMPLETE

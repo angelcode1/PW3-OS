@@ -1,0 +1,18 @@
+{
+  "milestone": "R3877.60",
+  "result": "HOLD",
+  "origin": "USER_REPORTED_MAC_COLIMA_R60",
+  "hold_category": "HELPER_CONTAINER_ISOLATION_UNVERIFIED",
+  "docker_builtin_seccomp_profile_attested": true,
+  "host_seccomp_injection_performed": false,
+  "arm_guest_execution_performed": false,
+  "all_created_containers_removed": true,
+  "original_image_unchanged": true,
+  "disposable_writable_layer_additional_opt_in": true,
+  "physical_device_access_performed": false,
+  "kindle_ssh_sessions": 0,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "limitation": "Original R60 helper isolation guard reported one aggregate category; cannot infer which Docker field differed."
+}

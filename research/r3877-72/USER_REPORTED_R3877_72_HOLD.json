@@ -1,0 +1,32 @@
+{
+  "milestone": "R3877.72",
+  "record_type": "USER_DERIVED_BOOT_CHAIN_OFFLINE_PASS_RECOVERY_HOLD",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "offline_structural_review": "PASS_BOOT_CHAIN_OFFLINE_STRUCTURAL_ONLY",
+  "bootloader_embedded_version_marker": "U-Boot 2009.08-lab126",
+  "serial_baudrate_marker": 115200,
+  "bootdelay_strings_observed": [
+    0,
+    1
+  ],
+  "normal_boot_offset_hex": "0x41000",
+  "diagnostics_boot_offset_hex": "0xe41000",
+  "normal_and_diagnostics_kernel_header_crc_valid": true,
+  "normal_and_diagnostics_kernel_payload_crc_valid": true,
+  "real_device_bootloader_environment_verified": false,
+  "serial_hardware_verified": false,
+  "passive_serial_output_observed": false,
+  "interactive_uboot_access_verified": false,
+  "diagnostics_boot_verified": false,
+  "independent_restore_verified": false,
+  "stock_factory_image_authenticity_verified": false,
+  "p3_backup_verified": false,
+  "p4_backup_verified": false,
+  "vendor_kernel_compatibility_verified": false,
+  "physical_device_access_performed_in_offline_probe": false,
+  "firmware_write_performed": false,
+  "boot_performed_in_offline_probe": false,
+  "raw_private_images_or_hashes_committed": false,
+  "hold_category": "RECOVERY_CONSOLE_ACCESS_AND_INDEPENDENT_RESTORE_UNVERIFIED"
+}

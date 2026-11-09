@@ -1,0 +1,51 @@
+name: R3877.36 pinned printed compile object triage (offline)
+on:
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-36/**'
+      - '.github/workflows/pw3-r3877-36-compile-output-triage.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-36/**'
+      - '.github/workflows/pw3-r3877-36-compile-output-triage.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-regression-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source and offline synthetic test checksums
+        run: |
+          cd research/r3877-36
+          sha256sum -c SHA256SUMS_R3877_36.txt
+      - name: Run inherited and R3877.36 synthetic tests
+        working-directory: research/r3877-36
+        run: |
+          python3 -B -m unittest -q \
+            test_r3877_31.py test_r3877_32.py \
+            test_r3877_32_1.py test_r3877_32_2.py \
+            test_r3877_33.py test_r3877_33_1.py \
+            test_r3877_34.py test_r3877_35.py test_r3877_36.py
+      - name: Missing public log must preserve NOT_BOOTABLE hold
+        working-directory: research/r3877-36
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, sys
+          p=subprocess.run([sys.executable,'-B',
+              'pw3_r3877_36_unlinked_compile_triage.py',
+              '/unmounted/musl-armv7-build.log'],
+              capture_output=True,text=True,check=False)
+          assert p.returncode==2
+          j=json.loads(p.stdout)
+          assert j['result']=='HOLD'
+          assert j['hold_category']=='LOG_FILE_MISSING_OR_SYMLINK'
+          assert j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['kindle_ssh_sessions']==0
+          assert j['source_to_binary_reproducibility_verified'] is False
+          print('HOST_ONLY_MISSING_LOG_HOLD_PASS')
+          PY

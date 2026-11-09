@@ -1,0 +1,3 @@
+# R3877.59.2.1 user-reported Mac QEMU runtime PASS
+
+Exit 0, `PASS_PINNED_QEMU_ARMV7_MUSL_PTHREAD_TLS_WITH_LIBC_NEEDED_ONLY`. Corrected exact ARMv7 hard-float ELF hash `b0b89626cd48482e99ea8515b4c808c378e1ff65b4ea4de05b16a4c373df18f4` uses `DT_NEEDED: libc.so`. Genuine guest execution under Colima QEMU established pthread create/join, distinct thread-local storage and successful `getrandom` and `getentropy` calls **on host Linux kernel only**, not the Kindle's legacy vendor kernel. Program output exact-match 136 bytes; exit code 0; all containers removed, parent unchanged. `ENOSYS` handling, vendor syscall dispatch, patched musl binary reproducibility and recovery remain unverified. `NOT_BOOTABLE` remains immutable.

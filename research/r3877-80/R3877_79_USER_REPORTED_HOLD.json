@@ -1,0 +1,38 @@
+{
+  "milestone": "R3877.79",
+  "origin": "user-provided Mac host-only KOReader ELF inventory",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "hold_category": "KO_READER_NATIVE_ENTRYPOINT_SELECTED_FOR_FUTURE_REVIEW",
+  "device_connected": false,
+  "device_execution_performed": false,
+  "stage_files_modified": false,
+  "koreader_device_runtime_verified": false,
+  "recovery_verified": false,
+  "candidate_elfs": [
+    {
+      "relative_path": "opt/koreader-compat/app/luajit",
+      "machine": "ARM",
+      "elf_type": "EXEC",
+      "arm_eabi5": true,
+      "arm_hard_float": false,
+      "dynamic_segment": true,
+      "interpreter_class": "GLIBC_ARM_LOADER",
+      "executable_entrypoint": true
+    }
+  ],
+  "inventory_counts": {
+    "arm_elf_seen": 83,
+    "elf_files_seen": 83,
+    "elf_errors": 0,
+    "regular_files_seen": 1446,
+    "symlinks_skipped": 335,
+    "candidate_elf_count": 1,
+    "candidate_symlink_names": 0,
+    "candidates_truncated": false
+  },
+  "historical_r26_regular_file_count": 1448,
+  "historical_stage_identity_reverified": false,
+  "note": "Absent ELF hard-float flag does not independently prove exact calling convention. Stage count difference does not demonstrate deletion. Live KOReader/glibc runtime remains unverified.",
+  "user_reported_exit_code": 2
+}

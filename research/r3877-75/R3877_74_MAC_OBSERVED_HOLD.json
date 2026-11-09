@@ -1,0 +1,22 @@
+{
+  "milestone": "R3877.74",
+  "source": "user-provided Mac UART adapter name inventory",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "hold_category": "NO_CANDIDATE_USB_SERIAL_NAME_DETECTED",
+  "candidate_port_count": 0,
+  "candidate_naming_counts": {},
+  "mac_device_name_inventory_performed": true,
+  "actual_logic_voltage_verified": false,
+  "adapter_model_verified": false,
+  "adapter_connected_to_kindle_verified": false,
+  "physical_uart_access_verified": false,
+  "uboot_console_access_verified": false,
+  "independent_restore_verified": false,
+  "serial_port_opened": false,
+  "serial_data_received": false,
+  "serial_data_sent": false,
+  "kindle_access_performed": false,
+  "firmware_write_performed": false,
+  "note": "Zero recognized macOS serial port names does not prove absence of a USB-UART adapter or missing Kindle UART. No electrical, physical or recovery access was verified."
+}

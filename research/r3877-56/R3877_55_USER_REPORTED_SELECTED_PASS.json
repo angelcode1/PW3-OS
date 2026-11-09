@@ -1,0 +1,26 @@
+{
+  "application_entropy_fallback_verified": false,
+  "ash_random_is_not_a_cryptographic_entropy_fallback": true,
+  "busyboxconfig_ash_random_support": true,
+  "busyboxconfig_extras_ash_random_support": false,
+  "evidence_origin": "User-reported Mac local pinned source fetch and audit",
+  "exit_code": 0,
+  "immutable_hold": "NOT_BOOTABLE",
+  "installed_busybox_exact_recipe_build_verified": false,
+  "kindle_ssh_sessions": 0,
+  "milestone": "R3877.55",
+  "pinned_source_git_blob_count": 5,
+  "prior_busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+  "prior_loader_sha256": "2acf3c82bc97b496c40e1d5007d4258570c8df0edc45793d6651a352fb778990",
+  "result": "PASS_PINNED_ALPINE_BUSYBOX_SEEDRNG_DISABLED_AND_UPSTREAM_FALLBACK_SOURCE_ONLY",
+  "source_git_blob_sha1_by_path": {
+    "alpine/APKBUILD": "8b0ce27e089dcabb2b16b78c556ecc65a7c292cb",
+    "alpine/busyboxconfig": "f94784573735b83ad7129c92ef37c170a676bf8e",
+    "alpine/busyboxconfig-extras": "2345ed1f3d651132d13c7b5b0df7008d0e5583ec",
+    "busybox/miscutils/seedrng.c": "7a2331cb18b96b00116de54a21ebbd401fa1e3f2",
+    "busybox/shell/random.c": "56c7c5a3c88f7fd539fd152c991f09cdc076d892"
+  },
+  "source_recipe_busybox_version": "1.37.0-r31",
+  "source_recipe_seedrng_disabled": true,
+  "upstream_seedrng_getrandom_enosys_to_urandom_fallback_in_source": true
+}

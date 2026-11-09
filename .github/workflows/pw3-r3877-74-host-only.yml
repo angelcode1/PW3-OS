@@ -1,0 +1,43 @@
+name: PW3 R3877.74 Mac UART name inventory host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-74/**'
+      - '.github/workflows/pw3-r3877-74-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-74/**'
+      - '.github/workflows/pw3-r3877-74-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-only:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: research/r3877-74
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run offline tests without querying devices
+        run: python3 -B -m unittest -q test_r3877_74.py
+      - name: No-opt-in must hold without port access
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_74_macos_uart_inventory.py > preflight.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          j=json.load(open('preflight.json'))
+          assert j['result']=='HOLD' and j['immutable_hold']=='NOT_BOOTABLE'
+          assert not j['mac_device_name_inventory_performed']
+          assert not j['serial_port_opened']
+          assert not j['recovery_verified']
+          PY

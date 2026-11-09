@@ -1,0 +1,50 @@
+name: PW3 R3877.60.4 host-only seccomp selftest regression
+on:
+  push:
+    paths:
+      - 'research/r3877-60-4/**'
+      - '.github/workflows/pw3-r3877-60-4-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-60-4/**'
+      - '.github/workflows/pw3-r3877-60-4-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-no-docker-no-kindle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore pinned ELF bytes and modes; run host-only tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/r3877-60-4
+          python3 - <<'PY_RESTORE'
+          import base64,hashlib
+          from pathlib import Path
+          pins={
+            'pw3_r3877_59_2_armv7_probe.elf':'b0b89626cd48482e99ea8515b4c808c378e1ff65b4ea4de05b16a4c373df18f4',
+            'pw3_r3877_60_aarch64_seccomp_launcher.elf':'66252ad8f424e8b902e8bb7c68021f9b367d962b02b926a818fda18af3fe49a4',
+            'pw3_r3877_60_4_aarch64_seccomp_selftest.elf':'b9a433e2397e27c4cbdd2aade7b57cc39af4e6f36b37a4f204833b282a987b02',
+          }
+          for name,expected in pins.items():
+              p=Path(name)
+              b=base64.b64decode(Path(name+'.b64').read_text().strip(),validate=True)
+              if hashlib.sha256(b).hexdigest()!=expected:raise SystemExit('SHA PIN:'+name)
+              p.write_bytes(b);p.chmod(0o755)
+          PY_RESTORE
+          sha256sum -c SHA256SUMS_R3877_60_4.txt
+          python3 -B -m unittest -q test_r3877_49_3.py test_r3877_60.py test_r3877_60_1.py test_r3877_60_2.py test_r3877_60_3.py test_r3877_60_4.py
+          set +e
+          python3 -B pw3_r3877_60_4_qemu_enosys.py > /tmp/pw3-r604-preflight.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY_CHECK'
+          import json
+          r=json.load(open('/tmp/pw3-r604-preflight.json'))
+          assert r['result']=='HOLD' and not r['docker_used'] and r['immutable_hold']=='NOT_BOOTABLE'
+          PY_CHECK

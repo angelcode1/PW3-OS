@@ -1,0 +1,31 @@
+{
+  "all_git_blob_ids_matched_expected": true,
+  "all_selected_semantic_source_patterns_present": true,
+  "arm_musl_set_tls_private_syscall_source": "0x0f0005",
+  "immutable_hold": "NOT_BOOTABLE",
+  "milestone": "R3877.52",
+  "musl_getentropy_internal_urandom_fallback_source_present": false,
+  "musl_pthread_create_legacy_clone_source_present": true,
+  "musl_time64_legacy_fallback_source_present": true,
+  "observed_public_pinned_source_blob_count": 13,
+  "origin": "GitHub connector public file reads in ChatGPT; NOT Mac execution, Kindle execution or CI network download",
+  "public_lab126_private_tls_handler_source_present": true,
+  "source_pins": {
+    "lab126/arch/arm/include/asm/unistd.h": "2c04ed5efeb50707ac3353958434d37691841839",
+    "lab126/arch/arm/kernel/entry-common.S": "b2a27b6b0046ee6c1e0f0928c3269ab5f6c63cd2",
+    "lab126/arch/arm/kernel/traps.c": "fcbf7c85bb1005091525f3417d202655d4727553",
+    "musl/arch/arm/pthread_arch.h": "157e2eae66d21203f13647cf12a3b556bbcd9642",
+    "musl/src/linux/getrandom.c": "6cc6f6b047c18c9c8c564b5ece3f80a2f2b1f65f",
+    "musl/src/misc/getentropy.c": "651ea95f14310cda867b88378a0aedf2225d4462",
+    "musl/src/stat/fstatat.c": "9eed063b26bcfb1a0d52b700d153ac3ad718774f",
+    "musl/src/thread/__timedwait.c": "666093be98516a1c84b2997f075a8dbfcb797b2c",
+    "musl/src/thread/arm/__set_thread_area.c": "09de65aab04aa8a225d62515d74b61740a4ba8b7",
+    "musl/src/thread/arm/clone.s": "4ff0c0e88b1d8892f914fc3b1703a1bf8a13239a",
+    "musl/src/thread/pthread_create.c": "087f6206d5d64165bc54ae741e77099994ae96e0",
+    "musl/src/time/clock_gettime.c": "4d2ec22f38a0012867632c7fcea763f090246174",
+    "musl/src/time/clock_nanosleep.c": "e195499cc0729ad4561e5244445f3e570b3aed1d"
+  },
+  "source_to_actual_binary_provenance_verified": false,
+  "unmodified_aports_patches_verified_in_this_audit": false,
+  "vendor_kernel_runtime_verified": false
+}

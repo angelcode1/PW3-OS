@@ -1,0 +1,79 @@
+{
+  "milestone": "R3877.63",
+  "record_type": "USER_REPORTED_MAC_BOUNDED_ARCHIVE_HEADER_INSPECTION_HOLD",
+  "result": "HOLD",
+  "exit_code_reported": 2,
+  "hold_category": "STOCK_RECOVERY_AUTHENTICITY_AND_INDEPENDENT_RESTORE_UNVERIFIED",
+  "review": {
+    "archive_candidates_reviewed": 4,
+    "archive_candidates": [
+      {
+        "candidate_id": "A01",
+        "byte_length": 23388160,
+        "format_detected_from_bytes": "tar_opaque",
+        "structural_review_status": "OPAQUE_FORMAT_NOT_DECOMPRESSED",
+        "matching_untrusted_sha256_manifest_file_count": 0
+      },
+      {
+        "candidate_id": "A02",
+        "byte_length": 42721280,
+        "format_detected_from_bytes": "tar_opaque",
+        "structural_review_status": "OPAQUE_FORMAT_NOT_DECOMPRESSED",
+        "matching_untrusted_sha256_manifest_file_count": 0
+      },
+      {
+        "candidate_id": "A03",
+        "byte_length": 9667,
+        "format_detected_from_bytes": "zip",
+        "structural_review_status": "ZIP_CENTRAL_DIRECTORY_PARSED_NOT_EXTRACTED",
+        "zip_entries": 6,
+        "image_named_member_count": 0,
+        "symlink_member_count": 0,
+        "suspicious_path_member_count": 0,
+        "matching_untrusted_sha256_manifest_file_count": 0
+      },
+      {
+        "candidate_id": "A04",
+        "byte_length": 3183009,
+        "format_detected_from_bytes": "gzip_opaque",
+        "structural_review_status": "OPAQUE_FORMAT_NOT_DECOMPRESSED",
+        "matching_untrusted_sha256_manifest_file_count": 1
+      }
+    ],
+    "manifest_files_reviewed": 62,
+    "checksum_records_parsed_from_untrusted_manifests": 685,
+    "archive_candidates_with_matching_untrusted_sha256_manifest": 1,
+    "recovery_docs_reviewed": 5,
+    "recovery_docs_plaintext_read": 5,
+    "recovery_doc_keyword_mentions_by_document": {
+      "mentions_kindle": 2
+    },
+    "scope": {
+      "bounded_scope_scan_complete": true,
+      "directory_entries_considered": 58093,
+      "candidate_count_total": 123,
+      "candidate_counts_by_category": {
+        "integrity_manifest_filename_candidate": 62,
+        "nonresearch_named_backup_archive_candidate": 4,
+        "recovery_document_candidate": 5,
+        "research_named_archive_candidate_not_authenticated_backup": 52
+      }
+    },
+    "candidate_file_contents_read": true,
+    "contents_extracted_or_executed": false,
+    "manifest_matching_is_not_authenticity": true,
+    "independent_restore_method_verified": false,
+    "stock_image_authenticated": false
+  },
+  "local_files_modified": false,
+  "physical_device_access_performed": false,
+  "kindle_ssh_sessions": 0,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "network_access_performed": false,
+  "arm_guest_execution_performed": false,
+  "docker_used": false,
+  "recovery_verified": false,
+  "actual_vendor_kernel_compatibility_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

@@ -1,0 +1,43 @@
+{
+  "milestone": "R3877.56",
+  "source": "USER_REPORTED_MAC_STOPPED_ONLY_DOCKER_AUDIT",
+  "exit_code": 0,
+  "result": "PASS_PINNED_BUSYBOX_APK_METADATA_AND_PACKAGE_GENERATED_APPLET_LIST_ONLY",
+  "installed_package": {
+    "name": "busybox",
+    "version": "1.37.0-r31",
+    "arch": "armv7"
+  },
+  "package_generated_applet_list": {
+    "source": "PACKAGE_GENERATED_ETC_BUSYBOX_PATHS_D_BUSYBOX",
+    "sha256": "ad43f2888aa6679930812faef33672c45e98021d3be0d0ed08d257c1d957a968",
+    "listed_paths_count": 304,
+    "unique_applet_basenames_count": 304,
+    "ash_listed": true,
+    "seedrng_listed": false
+  },
+  "binary": {
+    "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+    "loader_sha256": "2acf3c82bc97b496c40e1d5007d4258570c8df0edc45793d6651a352fb778990",
+    "musl_interp_matches_pinned_loader": true,
+    "direct_getentropy_dynamic_import_present": false,
+    "direct_getrandom_dynamic_import_present": false,
+    "generic_syscall_import_present": true,
+    "urandom_marker_present": true
+  },
+  "stopped_container_removed": true,
+  "original_image_unchanged": true,
+  "docker_used": true,
+  "docker_stopped_container_only": true,
+  "arm_executable_launched": false,
+  "kindle_ssh_sessions": 0,
+  "physical_device_access_performed": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "installed_recipe_binary_reproducibility_verified": false,
+  "actual_compiled_applet_table_verified": false,
+  "application_entropy_fallback_verified": false,
+  "target_musl_linux_3_0_35_compatibility_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

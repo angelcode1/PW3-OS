@@ -1,0 +1,52 @@
+name: PW3 R3877.61 host-only getentropy ENOSYS regression
+on:
+  push:
+    paths:
+      - 'research/r3877-61/**'
+      - '.github/workflows/pw3-r3877-61-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-61/**'
+      - '.github/workflows/pw3-r3877-61-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-no-docker-no-kindle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify restored ELF bytes and offline tests (never run ARM or Docker)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/r3877-61
+          # Reuse committed R60.4 helpers before decoding pinned binaries.
+          cp -a ../r3877-60-4/. .
+          python3 - <<'PY_RESTORE'
+          import base64,hashlib
+          from pathlib import Path
+          pins = {
+            'pw3_r3877_59_2_armv7_probe.elf':'b0b89626cd48482e99ea8515b4c808c378e1ff65b4ea4de05b16a4c373df18f4',
+            'pw3_r3877_60_aarch64_seccomp_launcher.elf':'66252ad8f424e8b902e8bb7c68021f9b367d962b02b926a818fda18af3fe49a4',
+            'pw3_r3877_60_4_aarch64_seccomp_selftest.elf':'b9a433e2397e27c4cbdd2aade7b57cc39af4e6f36b37a4f204833b282a987b02',
+            'pw3_r3877_61_armv7_getentropy_enosys.elf':'ee6b5b8d175618afc46a15cf4451e070c1e67f5da3213150d0882188354acfa2',
+          }
+          for name,digest in pins.items():
+              data=base64.b64decode(Path(name+'.b64').read_text().strip(),validate=True)
+              assert hashlib.sha256(data).hexdigest()==digest, name
+              p=Path(name);p.write_bytes(data);p.chmod(0o755)
+          PY_RESTORE
+          sha256sum -c SHA256SUMS_R3877_61.txt
+          python3 -B -m unittest -q test_r3877_49_3.py test_r3877_60.py test_r3877_60_1.py test_r3877_60_2.py test_r3877_60_3.py test_r3877_60_4.py test_r3877_61.py
+          set +e
+          python3 -B pw3_r3877_61_qemu_getentropy_enosys.py > /tmp/pw3-r61-preflight.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY_CHECK'
+          import json
+          r=json.load(open('/tmp/pw3-r61-preflight.json'))
+          assert r['result']=='HOLD' and not r['docker_used'] and r['immutable_hold']=='NOT_BOOTABLE'
+          PY_CHECK

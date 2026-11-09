@@ -1,0 +1,42 @@
+name: PW3 R3877.48 pinned musl interpreter ELF audit (host only)
+on:
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-48/**'
+      - '.github/workflows/pw3-r3877-48-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-48/**'
+      - '.github/workflows/pw3-r3877-48-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Host synthetic ELF parser and lifecycle tests
+        run: |
+          cd research/r3877-48
+          python3 -B -m unittest -q test_r3877_48.py
+      - name: Verify zero-Docker default HOLD
+        run: |
+          cd research/r3877-48
+          set +e
+          python3 -B pw3_r3877_48_musl_interp_audit.py > /tmp/r3877_48_preflight.json
+          rc=$?
+          test "$rc" -eq 2 || exit 1
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/r3877_48_preflight.json'))
+          assert d['result']=='HOLD'
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['stopped_image_access_authorized'] is False
+          assert d['arm_binary_execution_performed'] is False
+          assert d['physical_device_access_performed'] is False
+          print('R3877_48_NO_DOCKER_PREFLIGHT_HOLD_PASS')
+          PY

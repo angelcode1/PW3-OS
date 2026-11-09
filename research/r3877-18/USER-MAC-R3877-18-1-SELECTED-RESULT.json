@@ -1,0 +1,27 @@
+{
+  "record_type": "USER_REPORTED_R3877_18_1_MAC_STATIC_ELF_AUDIT",
+  "milestone": "R3877.18.1",
+  "ssh_probe_result": "PASS_SSH_HANDSHAKE_ONLY",
+  "archive_collection_successful": true,
+  "elf_files_parsed": 45,
+  "app_elf_count": 38,
+  "stock_provider_elf_count": 7,
+  "total_relocation_entries": 60482,
+  "strong_relocated_imports": 3389,
+  "strong_imports_with_export_candidates": 3222,
+  "strong_imports_without_export_candidates": 167,
+  "weak_imports_without_export_candidates": 163,
+  "result": "HOLD",
+  "hold_category": "RELOCATION_IMPORTS_WITHOUT_STATIC_EXPORT_CANDIDATES",
+  "notes": [
+    "Lua API imports from dynamically loaded KOReader modules may be resolved by main executable global symbols; not proven",
+    "clock_gettime@GLIBC_2.4 requires provider symbol/type/version inspection",
+    "Strict per-DSO DT_NEEDED graph does not model glibc global scope"
+  ],
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "device_files_written": false,
+  "original_r13_stage_accessed": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "runtime_bindings_verified": false
+}

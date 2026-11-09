@@ -1,0 +1,18 @@
+{
+  "milestone": "R3877.62.1",
+  "origin": "user_reported_mac_bounded_metadata_inventory",
+  "result": "HOLD",
+  "exit_code_reported": 2,
+  "regular_files_considered": 12000,
+  "file_budget_exhausted": true,
+  "candidate_counts_by_category": {"backup_archive_candidate": 54, "recovery_document_candidate": 5},
+  "candidate_total_sizes_bytes_by_category": {"backup_archive_candidate": 70804845, "recovery_document_candidate": 11828},
+  "unreadable_entries_count": 0,
+  "symlink_entries_skipped": 60,
+  "candidate_file_contents_read": false,
+  "file_hashes_verified": false,
+  "recovery_assets_authenticated": false,
+  "recovery_verified": false,
+  "no_physical_device_access": true,
+  "immutable_hold": "NOT_BOOTABLE"
+}

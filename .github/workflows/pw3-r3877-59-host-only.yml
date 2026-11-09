@@ -1,0 +1,47 @@
+name: PW3 R3877.59 ARMv7 musl pthread TLS host-only tests
+on:
+  push:
+    paths:
+      - 'research/r3877-59/**'
+      - '.github/workflows/pw3-r3877-59-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-59/**'
+      - '.github/workflows/pw3-r3877-59-host-only.yml'
+  workflow_dispatch:
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: research/r3877-59
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode pinned ELF bytes for offline *metadata-only* tests
+        run: |
+          python3 - <<'PY'
+          import base64,hashlib,pathlib
+          root=pathlib.Path('.')
+          source=(root/'pw3_r3877_59_armv7_probe.elf.b64').read_text().strip()
+          assert len(source)<12000
+          b=base64.b64decode(source,validate=True)
+          assert len(b)==4288
+          assert hashlib.sha256(b).hexdigest()=='5ce343387f982330965aa1d101daf15d1d53fd38de329d8e7c14a30d6cd37085'
+          (root/'pw3_r3877_59_armv7_probe.elf').write_bytes(b)
+          PY
+      - name: Verify release inputs
+        run: sha256sum -c SHA256SUMS_R3877_59.txt
+      - name: Host-only mocked tests (NO Docker or ARM execution)
+        run: python3 -B -m unittest -q test_r3877_49_3.py test_r3877_59.py
+      - name: Default HOLD / zero Docker preflight
+        run: |
+          set +e
+          python3 -B pw3_r3877_59_qemu_pthread_tls.py > preflight.json
+          code=$?
+          test "$code" -eq 2
+          python3 - <<'PY'
+          import json
+          d=json.load(open('preflight.json'))
+          assert d['result']=='HOLD' and d['docker_used'] is False
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          PY

@@ -1,0 +1,3 @@
+# R3877.59 user-reported QEMU HOLD
+
+User's Mac run with explicit disposable writable layer returned exit 2 / HOLD, `GUEST_PROBE_FAILED:r59_probe_control` at the first new ARM ELF test. QEMU ARM execution occurred, but no pthread/TLS/getrandom success was verified. The first read-only Docker copy was rejected as expected; temporary containers were removed and original parent image unchanged. **R59 lost its underlying failed-probe diagnostic**, so do not infer linker, TLS, pthread, permissions or another cause. A focused wrapper-level repair should surface only whitelisted probe markers, the process exit code and hashed output without weakening guest isolation. No Kindle access. `NOT_BOOTABLE` remains immutable.

@@ -1,0 +1,38 @@
+{
+  "milestone": "R3877.86",
+  "source": "User-provided host and real Kindle execution output",
+  "result": "PASS_KOREADER_EVENT_LUA_MODULE_SINGLE_PROCESS",
+  "immutable_hold": "NOT_BOOTABLE",
+  "host": {
+    "offline_validation_passed": true,
+    "pinned_event_module_sha1_verified": true,
+    "event_module_bytes": 858,
+    "host_bundle_bytes": 3596102,
+    "host_bundle_sha256_verified": true,
+    "host_reported_exit_code": 2,
+    "offline_hold_category": "HOST_PINNED_EVENT_MODULE_PASS_DEVICE_REQUIRE_UNVERIFIED"
+  },
+  "device": {
+    "device_execution_attempted": true,
+    "ssh_exit_code": 0,
+    "koreader_real_module_require_verified": true,
+    "glibc_loader_resolution_verified": true,
+    "lua_native_execution_verified": true,
+    "tmpfs_cleanup_reported_complete": true,
+    "reported_exit_code": 0
+  },
+  "safety": {
+    "firmware_write_performed": false,
+    "boot_hook_modified": false,
+    "chroot_performed": false,
+    "mount_performed": false,
+    "stage_files_modified": false,
+    "koreader_gui_started": false,
+    "complete_koreader_runtime_verified": false,
+    "independent_restore_verified": false,
+    "r26_stage_identity_revalidated": false,
+    "symbol_binding_fully_verified": false
+  },
+  "hold_category": "KO_READER_MODULE_DEPENDENCY_GRAPH_GUI_BOOT_RECOVERY_UNVERIFIED",
+  "scope": "Proves single pinned KOReader event.lua module import and event constructor through glibc LuaJIT in existing executable tmpfs; no KOReader GUI, full dependency closure, e-ink or independent boot demonstrated."
+}

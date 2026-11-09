@@ -1,0 +1,48 @@
+name: PW3 R3877.79 KOReader ELF discovery host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-79/**'
+      - '.github/workflows/pw3-r3877-79-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-79/**'
+      - '.github/workflows/pw3-r3877-79-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: research/r3877-79
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check locally tested source hashes
+        shell: bash
+        run: shasum -a 256 -c SHA256SUMS_R3877_79.txt
+      - name: Run host-only synthetic tests
+        run: python3 -B -m unittest -q test_r3877_79.py
+      - name: Ensure no-opt-in never scans or executes
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_79_koreader_entrypoint.py --stage /not/a/stage > default.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          x=json.load(open('default.json'))
+          assert x['immutable_hold']=='NOT_BOOTABLE'
+          assert x['result']=='HOLD'
+          assert x['hold_category']=='EXPLICIT_LOCAL_STAGE_INSPECTION_OPT_IN_REQUIRED'
+          assert x['device_connected'] is False
+          assert x['device_execution_performed'] is False
+          assert x['stage_files_modified'] is False
+          PY

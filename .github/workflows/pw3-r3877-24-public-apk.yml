@@ -1,0 +1,42 @@
+name: R3877.24 offline public APK loader comparison tests
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-24/**'
+      - '.github/workflows/pw3-r3877-24-public-apk.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-24/**'
+      - '.github/workflows/pw3-r3877-24-public-apk.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source manifest
+        working-directory: research/r3877-24
+        run: sha256sum -c SHA256SUMS_R3877_24.txt
+      - name: Synthetic-only APK regression tests (no network / no Kindle)
+        working-directory: research/r3877-24
+        run: python3 -B -m unittest -q test_r3877_24.py
+      - name: Fail closed without downloaded APK and candidate loader
+        working-directory: research/r3877-24
+        run: |
+          python3 - <<'PY'
+          import json, subprocess,sys
+          r=subprocess.run([sys.executable,"-B","pw3_r3877_24_public_apk_loader_match.py",
+            "--apk","missing.apk","--index","missing-index.tar.gz","--candidate-loader","missing-loader"],
+            capture_output=True,text=True)
+          assert r.returncode==2
+          data=json.loads(r.stdout)
+          assert data["result"]=="HOLD"
+          assert data["immutable_hold"]=="NOT_BOOTABLE"
+          assert data["kindle_ssh_sessions"]==0
+          print("R3877_24_NO_LIVE_ACCESS_PASS")
+          PY

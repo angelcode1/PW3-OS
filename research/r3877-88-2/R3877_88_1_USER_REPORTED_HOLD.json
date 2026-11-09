@@ -1,0 +1,33 @@
+{
+  "milestone": "R3877.88.1",
+  "source": "user-reported Mac-only source integrity audit",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "hold_category": "SOURCE_DRIFT_OR_SERPENT_PIN_UNRESOLVED_HOLD",
+  "geometry": {
+    "diagnosis": "ONE_BYTE_LONGER_BUT_NOT_SINGLE_INSERTION",
+    "expected_bytes": 10734,
+    "observed_bytes": 10735,
+    "upstream_git_blob_sha1_verified": false,
+    "local_stage_edit_performed": false
+  },
+  "serpent": {
+    "expected_bytes": 8979,
+    "observed_bytes": 8979,
+    "pinned_upstream_blob_verified": true,
+    "status": "PINNED_BASE_SUBMODULE_MATCH",
+    "submodule_commit": "6e4bc81af4e04f78d81677a323a780a71b29702a",
+    "upstream_git_blob_sha1": "812668de60aefeedfad1cbfca211a877a7dcaea0"
+  },
+  "original_eight_source_pins_all_match": false,
+  "source_pin_mismatch_still_active": true,
+  "reviewed_one_byte_explanation_available": false,
+  "device_execution_performed": false,
+  "kindle_access_performed": false,
+  "stage_files_modified": false,
+  "boot_hook_modified": false,
+  "independent_restore_verified": false,
+  "stage_identity_revalidated_against_R26": false,
+  "reported_exit_code": 2,
+  "next_evidence_gate": "R3877.88.2 host-only exact-file byte and line diff against Git-blob-verified KOReader v2026.07.2 geometry; do not mutate original stage or execute WidgetContainer"
+}

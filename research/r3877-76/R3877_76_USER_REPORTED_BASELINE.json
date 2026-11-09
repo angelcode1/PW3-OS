@@ -1,0 +1,27 @@
+{
+  "milestone": "R3877.76",
+  "source": "user-reported read-only PW3 Linux runtime inventory",
+  "device_kernel": "3.0.35-lab126",
+  "device_arch": "armv7l",
+  "memory_total_kib": 514760,
+  "free_user_storage_kib": 2393824,
+  "user_storage_mount_type": "fuse.fsp",
+  "user_storage_read_write": true,
+  "command_search_results": {
+    "chroot": "NOT_FOUND",
+    "mount": "NOT_FOUND",
+    "losetup": "NOT_FOUND",
+    "initctl": "NOT_FOUND"
+  },
+  "known_absolute_path_search_done": false,
+  "cpu_vfp_capabilities_verified": false,
+  "user_storage_native_exec_verified": false,
+  "custom_binary_executed": false,
+  "image_mount_performed": false,
+  "chroot_performed": false,
+  "boot_hook_modified": false,
+  "independent_recovery_verified": false,
+  "standalone_os_boot_verified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "recommended_next_gate": "READONLY_CPU_MOUNT_TOOL_PATH_PREFLIGHT"
+}

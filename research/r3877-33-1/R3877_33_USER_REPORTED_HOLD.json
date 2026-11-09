@@ -1,0 +1,9 @@
+{
+  "milestone": "R3877.33",
+  "result": "HOLD",
+  "hold_category": "NEXT_LINE_TOO_LONG",
+  "immutable_hold": "NOT_BOOTABLE",
+  "kindle_ssh_sessions": 0,
+  "source_to_binary_reproducibility_verified": false,
+  "historical_builder_complete_link_invocation_verified": false
+}

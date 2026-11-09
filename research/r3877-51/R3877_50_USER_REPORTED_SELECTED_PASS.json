@@ -1,0 +1,21 @@
+{
+  "milestone": "R3877.50",
+  "origin": "User-reported real Mac selected result; GitHub CI did not run public-source check",
+  "result": "PASS_PINNED_PUBLIC_LAB126_SOURCE_SYSCALL_CROSSWALK_ONLY",
+  "exit_code_reported": 0,
+  "distinct_observed_qemu_syscall_names": 14,
+  "observed_guest_qemu_trace_record_count": 55,
+  "observed_trace_enosys_count": 0,
+  "public_header_git_blob_sha1": "2c04ed5efeb50707ac3353958434d37691841839",
+  "public_calls_git_blob_sha1": "80f7896cc0164ad6f74469f1e777b90c1f306443",
+  "source_revision": "7ac2585f384573da8cbdcc987a3503e2e6ff1fb4",
+  "source_presence_not_actual_runtime_compatibility": true,
+  "actual_vendor_syscall_dispatch_verified": false,
+  "kernel_configuration_and_preprocessor_variants_verified": false,
+  "target_musl_linux_3_0_35_compatibility_verified": false,
+  "recovery_verified": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "physical_device_access_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

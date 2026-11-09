@@ -1,0 +1,62 @@
+{
+  "all_created_containers_removed": true,
+  "binfmt_registration_changed": false,
+  "boot_performed": false,
+  "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+  "busybox_true_trace": {
+    "exit_code": 0,
+    "expected_applet_output_matches": false,
+    "program_output_bytes": 669,
+    "program_output_sha256": "79f9a28fb562b9009f93f6551e738ff4a165179256408b967723f154585a989b",
+    "trace": {
+      "distinct_syscall_count": 9,
+      "nontrace_stderr_line_count": 0,
+      "nontrace_stdout_line_count": 48,
+      "raw_trace_sha256": "697f81a8e614aa608ba45c9237147ea468d233c67d9f3b25dc52914dca65cacf",
+      "syscall_names": [
+        "brk",
+        "dup2",
+        "exit_group",
+        "getuid32",
+        "ioctl",
+        "mmap2",
+        "mprotect",
+        "set_tid_address",
+        "write"
+      ],
+      "syscall_record_count": 655,
+      "trace_enosys_record_count": 0,
+      "trace_unknown_record_count": 0,
+      "unclassified_line_count": 51,
+      "unclassified_line_counts_by_channel": {
+        "stderr": 0,
+        "stdout": 51
+      }
+    }
+  },
+  "diagnostic": "R3877_49_1_EXPLICIT_DISPOSABLE_WRITABLE_GUEST_ATTEMPTED",
+  "error_category": "GUEST_PROBE_FAILED:busybox_true_trace",
+  "exit_code_reported": 2,
+  "firmware_write_performed": false,
+  "guest_containers_created": 3,
+  "host_mounts_or_guest_network_enabled": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "interpretation": "Recognition of 655 syscall records does not attribute the 51 unclassified stdout lines to either QEMU or BusyBox. The traced true program output verification remains HOLD and should not be retrospectively promoted to PASS.",
+  "milestone": "R3877.49.1",
+  "origin": "User-reported Mac Colima JSON and exit 2; not independently executed by GitHub CI",
+  "original_image_id_sha256": "sha256:c732b1bb478555ebb81e01632b519b712bd32b262d80af8bfbed2940602d397a",
+  "original_image_modified": false,
+  "original_image_unchanged": true,
+  "physical_device_access_performed": false,
+  "privileged_container_invoked": false,
+  "qemu_binary_sha256": "3347b95a4006c1eb19b93ba09469a2c42b04fe5d89a430ce96cbf2a2367cf5c1",
+  "qemu_version": {
+    "exit_code": 0,
+    "sha256": "b417a7edbe319288f25679c9f9cd7fb1393b5b0ee0ebe756ae554e3c86b45d12",
+    "status": "PASS"
+  },
+  "result": "HOLD",
+  "vendor_linux_3_0_35_syscalls_verified": false,
+  "writable_disposable_layer_authorized": true,
+  "writable_fallback_used": true
+}

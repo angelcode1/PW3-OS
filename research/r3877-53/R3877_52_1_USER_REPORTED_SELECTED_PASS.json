@@ -1,0 +1,22 @@
+{
+  "milestone": "R3877.52.1",
+  "source_report_milestone": "R3877.52",
+  "origin": "User-reported Mac-local R3877.52.1 pinned public source audit; supplied in chat, not independently executed here",
+  "result": "PASS_PINNED_UPSTREAM_MUSL_ARM_TLS_AND_OLDER_KERNEL_FALLBACK_SOURCE_ONLY",
+  "exit_code_reported": 0,
+  "verified_public_git_blob_count": 13,
+  "source_musl_version": "1.2.6",
+  "source_alpine_aports_package_version": "1.2.6-r3",
+  "selected_live_metadata": {
+    "architecture": "armv7l",
+    "kernel_release": "3.0.35-lab126",
+    "selected_config_count": 18,
+    "core_abi_config_flags_enabled": true
+  },
+  "actual_vendor_syscall_dispatch_verified": false,
+  "target_musl_linux_3_0_35_compatibility_verified": false,
+  "application_entropy_fallback_verified": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

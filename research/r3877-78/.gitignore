@@ -1,0 +1,8 @@
+alpine-minirootfs-*.tar.gz
+alpine-minirootfs-*.tar.gz.partial
+r3877_78_result.json
+*.img
+*.bin
+*.raw
+*.dump
+*.sha256

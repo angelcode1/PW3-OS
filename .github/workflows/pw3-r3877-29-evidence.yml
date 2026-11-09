@@ -1,0 +1,38 @@
+name: R3877.29 user evidence consistency (offline)
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-29/**'
+      - '.github/workflows/pw3-r3877-29-evidence.yml'
+  push:
+    branches:
+      - research/r3877-17-2-nobits-parser-fix
+      - main
+    paths:
+      - 'research/r3877-29/**'
+      - '.github/workflows/pw3-r3877-29-evidence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate reported result is explicitly metadata-only
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('research/r3877-29/USER-MAC-R3877-29-SELECTED-RESULT.json').read_text())
+          assert p['result']=='PASS_SIGNED_APK_DECLARED_COMMIT_SOURCE_BLOBS_ONLY'
+          assert p['exit_code']==0
+          assert p['immutable_hold']=='NOT_BOOTABLE'
+          assert p['kindle_ssh_sessions']==0
+          assert p['source_to_binary_reproducibility_verified'] is False
+          assert p['historical_builder_cflags_ldflags_verified'] is False
+          assert p['firmware_write_performed'] is False
+          assert p['boot_performed'] is False
+          assert p['verified_musl_recipe_patch_helper_blobs']+p['verified_selected_build_recipe_blobs']==17
+          print('R3877_29_USER_EVIDENCE_METADATA_ONLY_PASS')
+          PY

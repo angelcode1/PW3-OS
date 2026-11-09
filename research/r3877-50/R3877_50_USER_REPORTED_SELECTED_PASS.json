@@ -1,0 +1,126 @@
+{
+  "milestone": "R3877.50",
+  "origin": "User-reported successful Mac-local pinned-source R3877.50 crosswalk; raw execution not reproduced by GitHub CI",
+  "exit_code_reported": 0,
+  "result": "PASS_PINNED_PUBLIC_LAB126_SOURCE_SYSCALL_CROSSWALK_ONLY",
+  "distinct_observed_qemu_syscall_names": 14,
+  "observed_guest_qemu_trace_record_count": 55,
+  "observed_trace_enosys_count": 0,
+  "source_repo": "katadelos/linux-3.0.35-lab126",
+  "source_revision": "7ac2585f384573da8cbdcc987a3503e2e6ff1fb4",
+  "public_header_git_blob_sha1": "2c04ed5efeb50707ac3353958434d37691841839",
+  "public_calls_git_blob_sha1": "80f7896cc0164ad6f74469f1e777b90c1f306443",
+  "public_header_identical_to_upstream_linux_v3_header": true,
+  "source_crosswalk": [
+    {
+      "guest_qemu_syscall": "brk",
+      "source_arm_eabi_number": 45,
+      "public_calls_s_entry": "sys_brk",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "exit_group",
+      "source_arm_eabi_number": 248,
+      "public_calls_s_entry": "sys_exit_group",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "getgid32",
+      "source_arm_eabi_number": 200,
+      "public_calls_s_entry": "sys_getgid",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "getuid32",
+      "source_arm_eabi_number": 199,
+      "public_calls_s_entry": "sys_getuid",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "ioctl",
+      "source_arm_eabi_number": 54,
+      "public_calls_s_entry": "sys_ioctl",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "mmap2",
+      "source_arm_eabi_number": 192,
+      "public_calls_s_entry": "sys_mmap2",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "mprotect",
+      "source_arm_eabi_number": 125,
+      "public_calls_s_entry": "sys_mprotect",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "rt_sigprocmask",
+      "source_arm_eabi_number": 175,
+      "public_calls_s_entry": "sys_rt_sigprocmask",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "set_tid_address",
+      "source_arm_eabi_number": 256,
+      "public_calls_s_entry": "sys_set_tid_address",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "setgid32",
+      "source_arm_eabi_number": 214,
+      "public_calls_s_entry": "sys_setgid",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "setuid32",
+      "source_arm_eabi_number": 213,
+      "public_calls_s_entry": "sys_setuid",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "uname",
+      "source_arm_eabi_number": 122,
+      "public_calls_s_entry": "sys_newuname",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "write",
+      "source_arm_eabi_number": 4,
+      "public_calls_s_entry": "sys_write",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    },
+    {
+      "guest_qemu_syscall": "writev",
+      "source_arm_eabi_number": 146,
+      "public_calls_s_entry": "sys_writev",
+      "source_entry_found": true,
+      "physical_vendor_kernel_dispatch_verified": false
+    }
+  ],
+  "actual_vendor_syscall_dispatch_verified": false,
+  "kernel_configuration_and_preprocessor_variants_verified": false,
+  "source_to_running_kernel_binary_reproducibility_verified": false,
+  "target_musl_linux_3_0_35_compatibility_verified": false,
+  "trace_stream_output_attribution_verified": false,
+  "recovery_verified": false,
+  "arm_binary_execution_performed": false,
+  "kindle_ssh_sessions": 0,
+  "physical_device_access_performed": false,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

@@ -1,0 +1,20 @@
+{
+  "milestone": "R3877.58", 
+  "source": "user-reported Mac QEMU run; selected non-sensitive evidence only",
+  "first_readonly_attempt_result": "HOLD",
+  "first_readonly_error_category": "READONLY_COPY_REJECTED_WRITABLE_FALLBACK_NOT_AUTHORIZED",
+  "second_authorized_result": "PASS_PINNED_QEMU_BUSYBOX_ASH_STAT_DATE_URANDOM_RUNTIME_ONLY",
+  "exit_code_reported": 0,
+  "controls": ["musl_startup_busybox_true", "ash_builtin_printf", "stat_existing_busybox_file", "date_seconds", "od_dev_urandom_16_bytes"],
+  "observed_qemu_syscall_names_from_host_kernel": ["clock_gettime64", "statx"],
+  "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+  "qemu_binary_sha256": "3347b95a4006c1eb19b93ba09469a2c42b04fe5d89a430ce96cbf2a2367cf5c1",
+  "original_image_unchanged": true,
+  "all_created_containers_removed": true,
+  "arm_thread_clone_runtime_verified": false,
+  "runtime_getrandom_enosys_fallback_verified": false,
+  "vendor_kernel_syscall_dispatch_verified": false,
+  "target_musl_linux_3_0_35_compatibility_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

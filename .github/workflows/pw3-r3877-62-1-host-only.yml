@@ -1,0 +1,42 @@
+name: PW3 R3877.62.1 host-only macOS symlink alias regression
+on:
+  push:
+    paths:
+      - 'research/r3877-62-1/**'
+      - '.github/workflows/pw3-r3877-62-1-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-62-1/**'
+      - '.github/workflows/pw3-r3877-62-1-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check standalone package files and run read-only tests
+        working-directory: research/r3877-62-1
+        shell: bash
+        run: |
+          set -eu
+          shasum -a 256 -c SHA256SUMS_R3877_62_1.txt
+          python3 -B -m unittest -q test_r3877_62.py
+          set +e
+          python3 -B pw3_r3877_62_recovery_inventory.py > preflight.json
+          code=$?
+          set -e
+          test "$code" -eq 2
+          python3 - <<'PY'
+          import json
+          o=json.load(open('preflight.json'))
+          assert o['result']=='HOLD'
+          assert o['hold_category']=='EXPLICIT_LOCAL_DIRECTORY_REQUIRED'
+          assert o['immutable_hold']=='NOT_BOOTABLE'
+          assert o['physical_device_access_performed'] is False
+          PY

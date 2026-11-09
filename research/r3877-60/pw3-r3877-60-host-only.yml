@@ -1,0 +1,46 @@
+name: PW3 R3877.60 QEMU ENOSYS helper host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-60/**'
+      - '.github/workflows/pw3-r3877-60-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-60/**'
+      - '.github/workflows/pw3-r3877-60-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-docker-no-kindle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source payload SHA256 and no-Docker tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/r3877-60
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,base64
+          for name in ('pw3_r3877_59_2_armv7_probe.elf','pw3_r3877_60_aarch64_seccomp_launcher.elf'):
+              b64=Path(name+'.b64')
+              if not b64.is_file(): raise SystemExit('missing '+b64.name)
+              out=base64.b64decode(b64.read_bytes().strip(),validate=True)
+              if hashlib.sha256(out).hexdigest()!=({'pw3_r3877_59_2_armv7_probe.elf':'b0b89626cd48482e99ea8515b4c808c378e1ff65b4ea4de05b16a4c373df18f4','pw3_r3877_60_aarch64_seccomp_launcher.elf':'66252ad8f424e8b902e8bb7c68021f9b367d962b02b926a818fda18af3fe49a4'}[name]): raise SystemExit('bad sha')
+              if Path(name).is_file() and Path(name).read_bytes()!=out: raise SystemExit('binary mismatch')
+              Path(name).write_bytes(out)
+          PY
+          python3 -B -m unittest -q test_r3877_49_3.py test_r3877_60.py
+          set +e
+          python3 -B pw3_r3877_60_qemu_enosys.py > /tmp/r60-preflight.json
+          exitcode=$?
+          set -e
+          test "$exitcode" -eq 2
+          python3 - <<'PY'
+          import json
+          r=json.load(open('/tmp/r60-preflight.json'))
+          assert r['result']=='HOLD' and not r['docker_used'] and r['immutable_hold']=='NOT_BOOTABLE'
+          PY

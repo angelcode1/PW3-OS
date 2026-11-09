@@ -1,0 +1,38 @@
+name: R3877.40.1 reported local recovery evidence
+on:
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-40-1/**'
+      - '.github/workflows/pw3-r3877-40-1-selected-evidence.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-40-1/**'
+      - '.github/workflows/pw3-r3877-40-1-selected-evidence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  selected-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit selected reported result (no APK, SSH or guest execution)
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('research/r3877-40-1/R3877_40_1_USER_REPORTED_SELECTED_EVIDENCE.json').read_text())
+          assert d['result']=='PASS_VERIFIED_LOCAL_INPUT_RESOLUTION_AND_R3877_40_ONLY'
+          assert d['original_analyzer_result']=='PASS_PINNED_SIGNED_LOADER_STATIC_ELF_METADATA_ONLY'
+          assert d['original_analyzer_exit_code']==0
+          assert d['pinned_public_key_directories']==1
+          assert d['selected_index_matches_earlier_sha256'] is True
+          assert d['source_to_binary_reproducibility_verified'] is False
+          assert d['elf_metadata_values_in_selected_report'] is False
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['kindle_ssh_sessions']==0
+          print('SELECTED_EVIDENCE_ONLY_NOT_BOOTABLE')
+          PY

@@ -1,0 +1,29 @@
+{
+  "milestone": "R3877.54",
+  "origin": "User-reported Mac stopped-container ELF audit, not independently executed by this stage",
+  "result": "PASS_PINNED_BUSYBOX_DIRECT_ELF_ENTROPY_INDICATORS_ONLY",
+  "original_image_unchanged": true,
+  "stopped_container_removed": true,
+  "immutable_hold": "NOT_BOOTABLE",
+  "binary_audit": {
+    "dynamic_import_table_readable": true,
+    "direct_getrandom_dynamic_import_present": false,
+    "direct_getentropy_dynamic_import_present": false,
+    "interesting_undefined_imports": {
+      "syscall": true,
+      "open": true,
+      "fopen": true,
+      "read": true
+    },
+    "embedded_byte_marker_present": {
+      "/dev/urandom": true,
+      "/dev/random": false,
+      "getrandom": false,
+      "getentropy": false
+    },
+    "linkage": {
+      "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+      "loader_sha256": "2acf3c82bc97b496c40e1d5007d4258570c8df0edc45793d6651a352fb778990"
+    }
+  }
+}

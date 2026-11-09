@@ -1,0 +1,14 @@
+{
+  "milestone": "R3877.24",
+  "result": "PASS_INDEXED_PUBLIC_MUSL_LOADER_BYTES_MATCH_ONLY",
+  "candidate_image_id_expected": "sha256:c732b1bb478555ebb81e01632b519b712bd32b262d80af8bfbed2940602d397a",
+  "candidate_loader_sha256": "2acf3c82bc97b496c40e1d5007d4258570c8df0edc45793d6651a352fb778990",
+  "public_alpine_package_sha256": "9fca75b09538f9788b1ca800d56cd93dd4d584fac76a57c959666a9a0b93d397",
+  "public_alpine_index_sha256": "5a709ea29c02499f799f2e56a2af7fe95f4dd6859867bbe65a0aa597fe294140",
+  "loader_byte_for_byte_match": true,
+  "public_alpine_repository_signature_verified": false,
+  "source_to_binary_reproducibility_verified": false,
+  "target_musl_runtime_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

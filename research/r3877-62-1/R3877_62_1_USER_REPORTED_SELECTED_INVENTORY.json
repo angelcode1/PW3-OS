@@ -1,0 +1,44 @@
+{
+  "milestone": "R3877.62.1",
+  "origin": "USER_REPORTED_MAC_READ_ONLY_BOUNDED_DOWNLOADS_INVENTORY",
+  "result": "HOLD",
+  "exit_code_reported": 2,
+  "hold_category": "RECOVERY_AUTHENTICITY_AND_INDEPENDENT_RESTORE_UNVERIFIED",
+  "inventory": {
+    "regular_files_considered": 12000,
+    "max_relative_depth": 3,
+    "file_budget_exhausted": true,
+    "candidate_counts_by_category": {
+      "backup_archive_candidate": 54,
+      "recovery_document_candidate": 5
+    },
+    "candidate_total_sizes_bytes_by_category": {
+      "backup_archive_candidate": 70804845,
+      "recovery_document_candidate": 11828
+    },
+    "directory_entries_skipped": 204,
+    "symlink_entries_skipped": 60,
+    "unreadable_entries_count": 0,
+    "candidate_file_contents_read": false,
+    "file_hashes_verified": false,
+    "raw_names_or_paths_published": false,
+    "recovery_assets_authenticated": false,
+    "recovery_procedure_tested": false,
+    "inventory_status": "BOUNDED_CANDIDATE_INVENTORY_ONLY"
+  },
+  "physical_device_access_performed": false,
+  "kindle_ssh_sessions": 0,
+  "docker_used": false,
+  "network_access_performed": false,
+  "local_files_modified": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "vendor_kernel_compatibility_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "limitations": [
+    "Broad backup_archive_candidate category matches filenames containing pw3 and may count PW3-OS research ZIPs.",
+    "12,000 file budget exhausted; no complete absence/presence claims about remaining files.",
+    "File names/sizes only; cannot authenticate recovery assets or prove independent restore."
+  ]
+}

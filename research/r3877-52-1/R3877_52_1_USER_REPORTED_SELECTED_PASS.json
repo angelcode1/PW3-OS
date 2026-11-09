@@ -1,0 +1,44 @@
+{
+  "milestone": "R3877.52.1",
+  "source_milestone": "R3877.52",
+  "evidence_origin": "user-reported Mac-local run of R3877.52.1 after macOS symlink fixture correction; not GitHub Actions source fetch",
+  "exit_code": 0,
+  "result": "PASS_PINNED_UPSTREAM_MUSL_ARM_TLS_AND_OLDER_KERNEL_FALLBACK_SOURCE_ONLY",
+  "pinned_public_git_blob_count": 13,
+  "source_upstream_musl_version": "1.2.6",
+  "source_alpine_musl_version": "1.2.6-r3",
+  "source_lab126_revision": "7ac2585f384573da8cbdcc987a3503e2e6ff1fb4",
+  "selected_live_metadata": {
+    "kernel_release": "3.0.35-lab126",
+    "architecture": "armv7l",
+    "selected_config_count": 18,
+    "core_abi_config_flags_enabled": true
+  },
+  "source_checks": {
+    "arm_private_set_tls_call_and_public_handler_source_present": true,
+    "arm_private_set_tls_number": "0x0f0005",
+    "musl_pthread_create_uses_legacy_clone_and_clonettls": true,
+    "legacy_arm_clone_syscall_number": 120,
+    "musl_arm_thread_pointer_uses_cp15_source_path": true,
+    "clock_gettime_time64_to_legacy_fallback_source_present": true,
+    "clock_nanosleep_time64_to_legacy_fallback_source_present": true,
+    "futex_time64_to_legacy_fallback_source_present": true,
+    "fstatat_statx_to_legacy_fallback_source_present": true,
+    "getrandom_and_getentropy_no_internal_device_fallback_source": true
+  },
+  "not_verified": {
+    "application_getrandom_callers_and_entropy_source": true,
+    "actual_vendor_syscall_dispatch": true,
+    "multithreaded_runtime_on_kindle": true,
+    "conditional_compilation": true,
+    "original_patched_musl_binary_reproducibility": true,
+    "public_source_to_running_kernel_binary": true,
+    "recovery": true,
+    "target_musl_linux_3_0_35_compatibility": true
+  },
+  "kindle_ssh_sessions": 0,
+  "physical_device_access_performed": false,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

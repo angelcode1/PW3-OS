@@ -1,0 +1,19 @@
+{
+  "milestone": "R3877.26.1",
+  "source": "User-reported Mac read-only audit",
+  "result": "PASS_PINNED_APORTS_SOURCE_PATCH_MEMORY_APPLY_ONLY",
+  "immutable_hold": "NOT_BOOTABLE",
+  "source_git_snapshot": "35f5eb2864e50dd4448758d31f3e2a32f733ab84",
+  "source_version": "1.2.6-r3",
+  "verified_input_file_count": 13,
+  "in_memory_patch_application_verified": true,
+  "hunks_checked": 26,
+  "relocated_hunks": 13,
+  "max_absolute_line_offset": 7,
+  "changed_file_count": 7,
+  "patched_source_to_binary_reproducibility_verified": false,
+  "target_musl_runtime_verified": false,
+  "recovery_verified": false,
+  "kindle_ssh_sessions": 0,
+  "firmware_write_performed": false
+}

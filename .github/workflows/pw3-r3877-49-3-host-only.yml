@@ -1,0 +1,42 @@
+name: PW3 R3877.49.3 applet argv regression checks (host-only)
+on:
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-49-3/**'
+      - '.github/workflows/pw3-r3877-49-3-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-49-3/**'
+      - '.github/workflows/pw3-r3877-49-3-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python host-only regressions
+        run: |
+          cd research/r3877-49-3
+          python3 -B -m unittest -q test_r3877_49_3.py
+      - name: Verify preflight HOLD does not invoke Docker
+        run: |
+          cd research/r3877-49-3
+          set +e
+          python3 -B pw3_r3877_49_3_controlled_trace.py > /tmp/r493-preflight.json
+          rc=$?
+          test "$rc" -eq 2 || exit 1
+          python3 - <<'PY2'
+          import json
+          d=json.load(open('/tmp/r493-preflight.json'))
+          assert d['result']=='HOLD'
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['authorized_qemu_execution_performed'] is False
+          assert d['physical_device_access_performed'] is False
+          assert d['boot_performed'] is False
+          print('R3877_49_3_OFFLINE_PREFLIGHT_HOLD_PASS')
+          PY2

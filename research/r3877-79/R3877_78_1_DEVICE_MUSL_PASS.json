@@ -1,0 +1,26 @@
+{
+  "milestone": "R3877.78.1",
+  "origin": "user-reported real Kindle musl BusyBox smoke",
+  "archive_pinned_version": "Alpine_3.24.2_armv7",
+  "archive_sha256_verified": true,
+  "offline_armv7_elf_abi_verified": true,
+  "busybox_exact_needed_libraries": [
+    "libc.musl-armv7.so.1"
+  ],
+  "loader_and_busybox_staging_bytes": 1786532,
+  "offline_validation_passed": true,
+  "device_execution_attempted": true,
+  "single_process_musl_verified": true,
+  "ssh_exit_code": 0,
+  "tmpfs_cleanup_reported_complete": true,
+  "result": "PASS_ALPINE_3_24_2_MUSL_BUSYBOX_SINGLE_PROCESS",
+  "immutable_hold": "NOT_BOOTABLE",
+  "hold_category": "RECOVERY_AND_KOREADER_RUNTIME_STILL_UNVERIFIED",
+  "physical_restore_verified": false,
+  "stock_boot_modified": false,
+  "mount_performed": false,
+  "chroot_performed": false,
+  "firmware_write_performed": false,
+  "representative_runtime_scope": "single temporary loader invocation with BusyBox echo; does not prove complete Alpine or KOReader runtime",
+  "next_target": "Host-only identification of pinned R13 stage LuaJIT ELF for later device test"
+}

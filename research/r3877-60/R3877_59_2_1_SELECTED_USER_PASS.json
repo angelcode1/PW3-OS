@@ -1,0 +1,17 @@
+{
+  "milestone": "R3877.59.2.1",
+  "origin": "USER_REPORTED_MAC_QEMU_PASS",
+  "result": "PASS_PINNED_QEMU_ARMV7_MUSL_PTHREAD_TLS_WITH_LIBC_NEEDED_ONLY",
+  "exit_code_reported": 0,
+  "pthread_and_tls_runtime_under_qemu_verified": true,
+  "getrandom_and_getentropy_host_kernel_only_verified": true,
+  "arm_elf_sha256": "b0b89626cd48482e99ea8515b4c808c378e1ff65b4ea4de05b16a4c373df18f4",
+  "probe_output_sha256": "a7f1f05004a6d867365f1d249a40172a234493ec930140386a0821890224de62",
+  "guest_exit_code": 0,
+  "all_created_containers_removed": true,
+  "original_image_unchanged": true,
+  "runtime_getrandom_enosys_fallback_verified": false,
+  "actual_vendor_kernel_compatibility_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

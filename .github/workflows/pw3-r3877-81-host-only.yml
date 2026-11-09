@@ -1,0 +1,47 @@
+name: PW3 R3877.81 glibc LuaJIT closure host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-81/**'
+      - '.github/workflows/pw3-r3877-81-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-81/**'
+      - '.github/workflows/pw3-r3877-81-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-only:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: research/r3877-81
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify tested source manifests
+        shell: bash
+        run: shasum -a 256 -c SHA256SUMS_R3877_81.txt
+      - name: Run synthetic ELF dependency tests
+        run: python3 -B -m unittest -q test_r3877_81.py
+      - name: Default must refuse before opening any stage
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_81_glibc_closure.py --stage /does-not-exist > refusal.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          j=json.load(open('refusal.json'))
+          assert j['result']=='HOLD' and j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['hold_category']=='HOST_ONLY_DEPENDENCY_AUDIT_NOT_AUTHORIZED'
+          assert j['device_access_performed'] is False
+          assert j['device_execution_performed'] is False
+          assert j['stage_files_modified'] is False
+          PY

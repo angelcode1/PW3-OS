@@ -1,0 +1,40 @@
+{
+  "milestone": "R3877.48",
+  "origin": "User-reported Mac stopped-image audit; not reproduced in GitHub Actions",
+  "result": "PASS_PINNED_BUSYBOX_MUSL_PT_INTERP_LINKAGE_ONLY",
+  "exit_code_reported": 0,
+  "diagnostic": "R3877_48_STOPPED_IMAGE_ELF_AUDIT",
+  "error_category": null,
+  "linkage": {
+    "busybox": {
+      "e_flags": "0x05000400",
+      "machine": 40,
+      "pt_dynamic_present": true,
+      "pt_interp": "/lib/ld-musl-armhf.so.1",
+      "pt_load_count": 2,
+      "type": "ET_DYN"
+    },
+    "busybox_sha256": "df4dd71f89214032872e60328f3af03faf35e344f6fa5493656d8775d35e930c",
+    "interpreter_path_matches_pinned_loader": true,
+    "loader": {
+      "e_flags": "0x05000400",
+      "machine": 40,
+      "pt_dynamic_present": true,
+      "pt_interp": null,
+      "pt_load_count": 2,
+      "type": "ET_DYN"
+    },
+    "loader_sha256": "2acf3c82bc97b496c40e1d5007d4258570c8df0edc45793d6651a352fb778990"
+  },
+  "original_image_unchanged": true,
+  "stopped_container_removed": true,
+  "stopped_image_access_authorized": true,
+  "arm_binary_execution_performed": false,
+  "physical_device_access_performed": false,
+  "kindle_ssh_sessions": 0,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "kernel_3_0_35_compatibility_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

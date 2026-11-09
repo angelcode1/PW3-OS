@@ -1,0 +1,23 @@
+{
+  "milestone": "R3877.59.1",
+  "origin": "User-reported Mac QEMU execution, wrapper diagnostic",
+  "result": "HOLD",
+  "wrapper_exit_code": 2,
+  "guest_probe_exit_code": 127,
+  "guest_probe_output_bytes": 740,
+  "guest_probe_output_sha256": "c5a0eb0c4ac06bc5154e324411a4df0dbce3fd56402ec3b023367633d2971332",
+  "guest_probe_unrecognized_line_count": 9,
+  "guest_probe_allowlisted_markers": [],
+  "independent_reconstruction_exact_sha256_and_length_match": true,
+  "reconstructed_error_classification": "NINE_LIBC_SYMBOL_RELOCATION_ERRORS_NO_DT_NEEDED",
+  "arm_guest_execution_performed": true,
+  "original_image_unchanged": true,
+  "all_created_containers_removed": true,
+  "kindle_ssh_sessions": 0,
+  "physical_device_access_performed": false,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "runtime_pthread_tls_verified": false,
+  "recovery_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

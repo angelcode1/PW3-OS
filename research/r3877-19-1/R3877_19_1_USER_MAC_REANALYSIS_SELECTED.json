@@ -1,0 +1,89 @@
+{
+  "alpine_runtime_verified": false,
+  "bootloader_location_verified": false,
+  "bootloader_verified": false,
+  "device_files_written": false,
+  "emmc_boot_area_contents_read": false,
+  "firmware_write_performed": false,
+  "hold_category": "NOT_BOOTABLE",
+  "immutable_hold": "NOT_BOOTABLE",
+  "inventory": {
+    "block_readonly": [
+      {
+        "name": "mmcblk0",
+        "read_only": false
+      }
+    ],
+    "emmc_boot_area_names": [
+      "mmcblk0boot0",
+      "mmcblk0boot1"
+    ],
+    "kernel_release": "3.0.35-lab126",
+    "machine": "armv7l",
+    "mtd": [],
+    "mtd_status": "NOT_EXPOSED",
+    "partitions": [
+      {
+        "kind": "EMMC_USER_AREA_DEVICE",
+        "major": 179,
+        "minor": 0,
+        "name": "mmcblk0",
+        "size_1k_blocks": 3817472
+      },
+      {
+        "kind": "EMMC_BOOT_AREA",
+        "major": 179,
+        "minor": 8,
+        "name": "mmcblk0boot0",
+        "size_1k_blocks": 4096
+      },
+      {
+        "kind": "EMMC_BOOT_AREA",
+        "major": 179,
+        "minor": 16,
+        "name": "mmcblk0boot1",
+        "size_1k_blocks": 4096
+      },
+      {
+        "kind": "EMMC_USER_AREA_PARTITION",
+        "major": 179,
+        "minor": 1,
+        "name": "mmcblk0p1",
+        "size_1k_blocks": 460800
+      },
+      {
+        "kind": "EMMC_USER_AREA_PARTITION",
+        "major": 179,
+        "minor": 2,
+        "name": "mmcblk0p2",
+        "size_1k_blocks": 65536
+      },
+      {
+        "kind": "EMMC_USER_AREA_PARTITION",
+        "major": 179,
+        "minor": 3,
+        "name": "mmcblk0p3",
+        "size_1k_blocks": 65536
+      },
+      {
+        "kind": "EMMC_USER_AREA_PARTITION",
+        "major": 179,
+        "minor": 4,
+        "name": "mmcblk0p4",
+        "size_1k_blocks": 3192832
+      }
+    ],
+    "partitions_status": "AVAILABLE",
+    "root_block_device_not_identified_from_rootfs": true,
+    "root_device": "rootfs",
+    "root_fstype": "rootfs",
+    "root_mount_read_only": false
+  },
+  "kernel_syscall_compatibility_verified": false,
+  "milestone": "R3877.19.1",
+  "raw_block_or_mtd_data_read": false,
+  "recovery_verified": false,
+  "result": "PASS_STORAGE_METADATA_ONLY",
+  "root_backing_partition_verified": false,
+  "rootfs_backup_verified": false
+}

@@ -1,0 +1,27 @@
+{
+  "milestone": "R3877.37",
+  "reported_by": "User-reported Mac audit",
+  "exit_code": 0,
+  "result": "PASS_PINNED_FIVE_EXTRA_OBJECT_PRINTED_CONTEXTS_ONLY",
+  "log_sha256": "a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce",
+  "joined_link_candidate_sha256": "5bfd03a5a13d402b69eab716bd4374a2ee25c90496e6fc362284041489b3e9f0",
+  "compile_output_count": 1428,
+  "main_link_matched_object_count": 1423,
+  "extra_compile_output_count": 5,
+  "exact_printed_object_token_mentions": 5,
+  "extra_objects_with_any_exact_printed_mention": 5,
+  "nonmain_lines_scanned": 551,
+  "nonmain_lines_not_lexically_parsed": 1,
+  "printed_command_family_mention_counts": {
+    "copy": 5
+  },
+  "printed_argument_position_candidate_counts": {
+    "earlier_argument_candidate": 5
+  },
+  "public_build_log_signature_verified": false,
+  "source_to_binary_reproducibility_verified": false,
+  "historical_builder_toolchain_versions_verified": false,
+  "kindle_ssh_sessions": 0,
+  "binary_execution_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

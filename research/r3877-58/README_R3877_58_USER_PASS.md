@@ -1,0 +1,3 @@
+# R3877.58 Mac QEMU runtime evidence — user PASS
+
+The user first ran the read-only QEMU injection attempt: HOLD due to expected read-only copy refusal; no ARM guest execution. With explicit additional disposable writable-layer opt-in, exit 0 and `PASS_PINNED_QEMU_BUSYBOX_ASH_STAT_DATE_URANDOM_RUNTIME_ONLY`. Untraced BusyBox startup, ash, stat, date and 16-byte urandom read all passed. QEMU traced `clock_gettime64` and `statx` with zero ENOSYS records, **on Colima's host Linux kernel, not the Kindle's Linux 3.0.35**; trace stream attribution is still unverified where unclassified lines occurred. Containers removed, pinned image unchanged. No physical Kindle access. Threads, actual old-kernel ENOSYS fallbacks and recovery remain unknown. `NOT_BOOTABLE` remains immutable.

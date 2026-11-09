@@ -1,0 +1,14 @@
+--- a/r3877_17_version_parser.py
++++ b/r3877_17_version_parser.py
+@@ -40,7 +40,10 @@
+     for i in range(shnum):
+         vals=safe_unpack('<IIIIIIIIII',buf,shoff+i*shentsz,'SECTION_HEADER_TRUNCATED')
+         _name,typ,_flags,_addr,off,size,link,info,_align,entry=vals
+-        check(off<=len(buf) and size<=len(buf)-off,'SECTION_DATA_OUT_OF_BOUNDS')
++        # SHT_NOBITS (8) has no file-backed bytes (e.g. .bss).
++        # Continue checking every file-backed section.
++        if typ != 8:
++            check(off<=len(buf) and size<=len(buf)-off,'SECTION_DATA_OUT_OF_BOUNDS')
+         sections.append({'typ':typ,'off':off,'size':size,'link':link,'info':info})
+     req={}
+     defs=set()

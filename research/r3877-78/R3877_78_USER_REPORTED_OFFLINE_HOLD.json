@@ -1,0 +1,22 @@
+{
+  "milestone": "R3877.78",
+  "source": "user-provided Mac local/offline validation JSON",
+  "archive_pinned_version": "Alpine_3.24.2_armv7",
+  "first_preflight_hold": "DEVICE_MUSL_TEST_NOT_AUTHORIZED",
+  "archive_sha256_verified": true,
+  "second_preflight_hold": "PINNED_ARCHIVE_OR_ELF_VALIDATION_REFUSED",
+  "user_reported_exit_code": 2,
+  "device_execution_attempted": false,
+  "single_process_musl_verified": false,
+  "stock_boot_modified": false,
+  "chroot_performed": false,
+  "mount_performed": false,
+  "firmware_write_performed": false,
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "root_cause": "R3877.78 validator expected libc.musl-armhf.so.1 for an Alpine armv7 BusyBox; correct libc name is libc.musl-armv7.so.1 while loader remains ld-musl-armhf.so.1",
+  "root_cause_external_package_metadata_verified": true,
+  "fixed_version": "R3877.78.1",
+  "corrected_archive_execution_on_kindle_verified": false,
+  "recovered_archive_minirootfs_file_shared_with_assistant": false
+}

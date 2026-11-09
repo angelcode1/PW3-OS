@@ -1,0 +1,27 @@
+{
+  "milestone": "R3877.88",
+  "source": "user-provided host-only Mac JSON",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "hold_category": "KO_READER_UPSTREAM_SOURCE_PIN_MISMATCH_HOLD",
+  "expected_pinned_modules": 8,
+  "matched_pinned_modules": 7,
+  "mismatched_module": "ui/geometry",
+  "expected_bytes": 10734,
+  "observed_bytes": 10735,
+  "pinned_upstream_geometry_blob_sha1": "dc8362ae455d3fddce2513865d340b482a9bdc53",
+  "ffi_serpent_candidate": "opt/koreader-compat/app/ffi/serpent.lua",
+  "ffi_serpent_not_yet_authenticated": true,
+  "original_stage_identity_revalidated": false,
+  "device_execution_performed": false,
+  "stage_files_modified": false,
+  "user_reported_exit_code": 2,
+  "new_external_source_provenance": {
+    "upstream_koreader_tag": "v2026.07.2",
+    "pinned_base_submodule_sha": "6e4bc81af4e04f78d81677a323a780a71b29702a",
+    "base_serpent_blob_sha1": "812668de60aefeedfad1cbfca211a877a7dcaea0",
+    "base_serpent_size_bytes": 8979,
+    "stage_serpent_match_still_unverified": true
+  },
+  "next_action": "R3877.88.1 Mac-only single-byte source-drift diagnosis and pinned Serpent source check"
+}

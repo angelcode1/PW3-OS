@@ -1,0 +1,40 @@
+name: PW3 R3877.46 fail-closed read-only copy gate (offline)
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-46/**'
+      - '.github/workflows/pw3-r3877-46-host-only.yml'
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-46/**'
+      - '.github/workflows/pw3-r3877-46-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run synthetic and fail-closed checks (no Docker or Kindle)
+        run: |
+          cd research/r3877-46
+          python3 -B -m unittest -q test_r3877_46.py
+          set +e
+          python3 -B pw3_r3877_46_readonly_cp_gate.py > preflight.json
+          rc=$?
+          test "$rc" -eq 2 || exit 1
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path('preflight.json').read_text())
+          assert p['result'] == 'HOLD'
+          assert p['immutable_hold'] == 'NOT_BOOTABLE'
+          assert p['authorized_qemu_execution_performed'] is False
+          assert p['boot_performed'] is False
+          assert p['physical_device_access_performed'] is False
+          print('R3877_46_HOST_ONLY_EXPECTED_HOLD')
+          PY

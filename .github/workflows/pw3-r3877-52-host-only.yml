@@ -1,0 +1,34 @@
+name: PW3 R3877.52 host-only musl ARM TLS and fallback checks
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'research/r3877-52/**'
+      - '.github/workflows/pw3-r3877-52-host-only.yml'
+permissions:
+  contents: read
+jobs:
+  host-offline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate source-only audit (no device, network downloads or QEMU)
+        shell: bash
+        working-directory: research/r3877-52
+        run: |
+          set -euo pipefail
+          python3 -B -m unittest -q test_r3877_52.py
+          python3 -m py_compile pw3_r3877_52_musl_arm_tls_fallback_audit.py
+          sh -n FETCH_R3877_52_PUBLIC_SOURCES.sh
+          sha256sum -c SHA256SUMS_R3877_52.txt
+          set +e
+          python3 -B pw3_r3877_52_musl_arm_tls_fallback_audit.py > /tmp/r52-preflight.json
+          code=$?
+          set -e
+          test "$code" -eq 2
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/r52-preflight.json'))
+          assert x['result']=='HOLD' and x['immutable_hold']=='NOT_BOOTABLE'
+          assert x['kindle_ssh_sessions']==0
+          PY

@@ -1,0 +1,46 @@
+name: R3877.20.1 PW3 mount mapping offline verification
+on:
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-20/**'
+      - 'research/r3877-20-1/**'
+      - '.github/workflows/pw3-r3877-20-1-mount-mapping.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-20/**'
+      - 'research/r3877-20-1/**'
+      - '.github/workflows/pw3-r3877-20-1-mount-mapping.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-mount-regressions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run offline-only parser tests (no Kindle, SSH, or raw device)
+        working-directory: research/r3877-20-1
+        run: |
+          python3 -B -m unittest -q test_r3877_20.py test_r3877_20_1.py
+      - name: Validate selected user mount fixture remains NOT_BOOTABLE
+        working-directory: research/r3877-20-1
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from pw3_r3877_20_analyze import analyze
+          d=analyze(Path('R3877_20_USER_OBSERVED_MOUNT_METADATA.txt').read_text())
+          assert d['result']=='PASS_MOUNT_MAPPING_METADATA_ONLY'
+          assert d['inventory']['root_partition_supported_by_direct_live_mount_metadata']=='mmcblk0p1'
+          assert d['inventory']['root_metadata_ambiguous'] is False
+          assert d['root_backing_partition_verified'] is True
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['recovery_verified'] is False
+          assert d['rootfs_backup_verified'] is False
+          assert d['bootloader_verified'] is False
+          assert d['device_files_written'] is False
+          assert d['firmware_write_performed'] is False
+          print('R3877_20_1_OFFLINE_ROOT_MAPPING_PASS_NOT_BOOTABLE')
+          PY

@@ -1,0 +1,47 @@
+name: PW3 R3877.80 LuaJIT glibc ABI host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-80/**'
+      - '.github/workflows/pw3-r3877-80-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-80/**'
+      - '.github/workflows/pw3-r3877-80-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit-synthetic:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: research/r3877-80
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check packaged source hashes
+        shell: bash
+        run: shasum -a 256 -c SHA256SUMS_R3877_80.txt
+      - name: Test source parser and offline-only safety guards
+        run: python3 -B -m unittest -q test_r3877_80.py
+      - name: Confirm default refusal without stage access
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_80_luajit_abi_audit.py --stage /not-a-real-stage > output.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          j=json.load(open('output.json'))
+          assert j['result']=='HOLD'
+          assert j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['hold_category']=='HOST_ONLY_ELF_AUDIT_NOT_AUTHORIZED'
+          assert j['device_execution_performed']==False
+          assert j['local_files_modified']==False
+          PY

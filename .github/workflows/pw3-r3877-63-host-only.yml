@@ -1,0 +1,43 @@
+name: PW3 R3877.63 host-only recovery archive headers and checksum triage
+on:
+  push:
+    paths:
+      - 'research/r3877-63/**'
+      - '.github/workflows/pw3-r3877-63-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-63/**'
+      - '.github/workflows/pw3-r3877-63-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify pins, regressions and no-content default HOLD
+        working-directory: research/r3877-63
+        shell: bash
+        run: |
+          set -eu
+          shasum -a 256 -c SHA256SUMS_R3877_63.txt
+          python3 -B -m unittest -q test_r3877_62.py test_r3877_62_2.py test_r3877_63.py
+          set +e
+          python3 -B pw3_r3877_63_recovery_candidate_headers.py > r63_preflight.json
+          exitcode=$?
+          set -e
+          test "$exitcode" -eq 2
+          python3 - <<'PY'
+          import json
+          r=json.load(open('r63_preflight.json'))
+          assert r['result']=='HOLD'
+          assert r['immutable_hold']=='NOT_BOOTABLE'
+          assert r['physical_device_access_performed'] is False
+          assert r['docker_used'] is False
+          assert r['hold_category']=='EXPLICIT_SCAN_ROOT_REQUIRED'
+          PY

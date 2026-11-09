@@ -1,0 +1,20 @@
+{
+  "milestone": "R3877.77",
+  "source": "user-reported real Kindle execution and Mac parser result",
+  "result": "PASS_SINGLE_ARM_EABI_SYSCALL_ONLY",
+  "immutable_hold": "NOT_BOOTABLE",
+  "ssh_exit_code": 0,
+  "generated_elf_bytes": 312,
+  "elf_class": "ELF32_ARM_EABI5_STATIC_NO_INTERPRETER",
+  "elf_syscalls": ["write_stdout", "exit"],
+  "single_process_write_exit_verified": true,
+  "device_execution_performed": true,
+  "tmpfs_payload_removed_by_remote_script": true,
+  "boot_hook_modified": false,
+  "partition_mount_performed": false,
+  "chroot_performed": false,
+  "device_firmware_write_performed": false,
+  "kernel_glibc_musl_compatibility_verified": false,
+  "independent_restore_verified": false,
+  "hold_category": "INDEPENDENT_RESTORE_AND_DYNAMIC_ABI_UNVERIFIED"
+}

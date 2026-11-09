@@ -1,0 +1,45 @@
+{
+  "milestone": "R3877.53",
+  "origin": "User-reported Mac-local pinned-source audit; GitHub CI tests remain host-only synthetic",
+  "exit_code": 0,
+  "result": "PASS_PINNED_PUBLIC_LINUX3_ENTROPY_ABI_AND_MUSL_CALLPATH_SOURCE_ONLY",
+  "public_source_git_blob_sha1_by_path": {
+    "lab126/arch/arm/include/asm/unistd.h": "2c04ed5efeb50707ac3353958434d37691841839",
+    "lab126/arch/arm/kernel/calls.S": "80f7896cc0164ad6f74469f1e777b90c1f306443",
+    "musl/src/env/__libc_start_main.c": "c5b277bdcf2e6b927dd93090137ea66dcb1c76a4",
+    "musl/src/env/__stack_chk_fail.c": "e53526020f751d34542f07c6b30d94c5dc08bf72",
+    "musl/src/linux/getrandom.c": "6cc6f6b047c18c9c8c564b5ece3f80a2f2b1f65f",
+    "musl/src/misc/getentropy.c": "651ea95f14310cda867b88378a0aedf2225d4462"
+  },
+  "public_source_git_blob_count": 6,
+  "selected_prior_user_reported_R52_1_evidence": {
+    "result": "PASS_PINNED_UPSTREAM_MUSL_ARM_TLS_AND_OLDER_KERNEL_FALLBACK_SOURCE_ONLY",
+    "verified_public_git_blob_count": 13,
+    "kernel_release": "3.0.35-lab126",
+    "architecture": "armv7l"
+  },
+  "source_audit": {
+    "AT_RANDOM_not_the_getrandom_syscall": true,
+    "musl_getentropy_uses_getrandom_without_enosys_fallback_source": true,
+    "musl_getrandom_direct_syscall_wrapper_without_device_fallback_source": true,
+    "musl_stack_canary_seeded_from_kernel_auxv_AT_RANDOM_when_available_source": true,
+    "musl_stack_canary_missing_auxv_uses_nonrandom_address_fallback_source": true,
+    "public_linux3_arm_getrandom_dispatch_entry_present": false,
+    "public_linux3_arm_getrandom_syscall_definition_present": false,
+    "application_level_entropy_fallback_verified": false,
+    "musl_binary_equivalent_to_pinned_source_verified": false,
+    "running_vendor_kernel_AT_RANDOM_contents_verified": false,
+    "running_vendor_kernel_getrandom_availability_verified": false,
+    "stack_canary_randomness_quality_verified": false
+  },
+  "physical_device_access_performed": false,
+  "kindle_ssh_sessions": 0,
+  "arm_executable_launched": false,
+  "docker_used": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "recovery_verified": false,
+  "target_musl_linux_3_0_35_compatibility_verified": false,
+  "public_source_identical_to_running_vendor_binary_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

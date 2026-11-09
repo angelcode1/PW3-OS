@@ -1,0 +1,44 @@
+name: PW3 R3877.56 host-only metadata/parser tests
+on:
+  push:
+    branches: [research/r3877-17-2-nobits-parser-fix]
+    paths:
+      - 'research/r3877-56/**'
+      - '.github/workflows/pw3-r3877-56-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-56/**'
+      - '.github/workflows/pw3-r3877-56-host-only.yml'
+  workflow_dispatch:
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: research/r3877-56
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify immutable release input hashes
+        run: sha256sum -c SHA256SUMS_R3877_56.txt
+      - name: Check Python syntax and offline tests
+        run: |
+          python3 -B -m py_compile pw3_r3877_56_busybox_package_inventory.py test_r3877_56.py
+          python3 -B -m unittest -q test_r3877_56.py
+      - name: Ensure default preflight HOLD and no Docker
+        run: |
+          set +e
+          python3 -B pw3_r3877_56_busybox_package_inventory.py > /tmp/r56-preflight.json
+          status=$?
+          set -e
+          test "$status" -eq 2
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/r56-preflight.json'))
+          assert d['result']=='HOLD'
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['docker_used'] is False
+          assert d['physical_device_access_performed'] is False
+          assert d['arm_executable_launched'] is False
+          PY

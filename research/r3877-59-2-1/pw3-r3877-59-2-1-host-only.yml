@@ -1,0 +1,43 @@
+name: PW3 R3877.59.2.1 macOS portable ELF host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-59-2-1/**'
+      - '.github/workflows/pw3-r3877-59-2-1-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-59-2-1/**'
+      - '.github/workflows/pw3-r3877-59-2-1-host-only.yml'
+  workflow_dispatch:
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Materialize hash-pinned ARM ELF files without executing them
+        run: |
+          set -eu
+          cd research/r3877-59-2-1
+          python3 - <<'PY'
+          import pathlib,base64
+          for src,dst in [('pw3_r3877_59_armv7_probe.elf.b64','pw3_r3877_59_armv7_probe.elf'),('pw3_r3877_59_2_armv7_probe.elf.b64','pw3_r3877_59_2_armv7_probe.elf')]:
+              pathlib.Path(dst).write_bytes(base64.b64decode(pathlib.Path(src).read_text().strip(),validate=True))
+          PY
+          sha256sum -c SHA256SUMS_R3877_59_2_1.txt
+      - name: Run offline tests with no external readelf dependency
+        run: |
+          set -eu
+          cd research/r3877-59-2-1
+          python3 -B -m unittest -q test_r3877_49_3.py test_r3877_59.py test_r3877_59_1.py test_r3877_59_2.py
+          python3 -B pw3_r3877_59_2_musl_needed_runtime.py > preflight.json && exit 1 || rc=$?
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          r=json.load(open('preflight.json'))
+          assert r['result']=='HOLD' and r['docker_used'] is False and r['immutable_hold']=='NOT_BOOTABLE'
+          PY

@@ -1,0 +1,52 @@
+{
+  "milestone": "R3877.61",
+  "origin": "User-reported actual Mac Colima QEMU run, controlled host seccomp ENOSYS",
+  "exit_code_reported": 0,
+  "result": "PASS_QEMU_MUSL_GETENTROPY_ENOSYS_AND_GUEST_STATX_EMULATION_ONLY",
+  "host_getrandom_enosys_direct_verified": true,
+  "host_statx_enosys_direct_verified": true,
+  "host_seccomp_injection_performed": true,
+  "arm_guest_execution_performed": true,
+  "guest_getrandom_call_count": 2,
+  "guest_getrandom_enosys_count": 2,
+  "runtime_musl_getentropy_enosys_return_verified": true,
+  "qemu_pthread_tls_with_guest_getrandom_enosys_control_verified": true,
+  "qemu_guest_statx_enosys_observed": false,
+  "qemu_guest_statx_success_consistent_with_internal_fstatat_fallback": true,
+  "guest_trace_unclassified_lines_present": true,
+  "actual_vendor_kernel_compatibility_verified": false,
+  "application_secure_entropy_fallback_verified": false,
+  "target_kernel_getrandom_availability_verified": false,
+  "target_kernel_statx_availability_verified": false,
+  "target_musl_time64_fallback_verified": false,
+  "original_patched_musl_binary_reproducibility_verified": false,
+  "recovery_verified": false,
+  "all_created_containers_removed": true,
+  "anonymous_volume_cleanup_verified": true,
+  "original_image_unchanged": true,
+  "host_binfmt_registration_changed": false,
+  "host_mounts_enabled": false,
+  "guest_network_enabled": false,
+  "boot_performed": false,
+  "firmware_write_performed": false,
+  "kindle_ssh_sessions": 0,
+  "physical_device_access_performed": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "trace": {
+    "arm_trace": {
+      "syscall_record_count": 24,
+      "target_guest_syscall_name": "getrandom",
+      "call_count": 2,
+      "enosys_count": 2,
+      "unclassified_line_count": 5
+    },
+    "stat_trace": {
+      "syscall_record_count": 20,
+      "target_guest_syscall_name": "statx",
+      "call_count": 1,
+      "enosys_count": 0,
+      "unclassified_line_count": 1
+    }
+  },
+  "exact_probe_output_sha256": "8354a06cbb57d4bab07e56df673c7d4ba9904bbf6e87fdbd87fcb6beba1e2df7"
+}

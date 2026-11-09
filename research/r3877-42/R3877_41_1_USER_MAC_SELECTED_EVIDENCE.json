@@ -1,0 +1,27 @@
+{
+  "milestone": "R3877.41.1",
+  "source": "User-reported Mac output; not a signed attestation",
+  "result": "PASS_PINNED_R41_INPUT_RECOVERY_AND_ABI_CROSSCHECK_ONLY",
+  "original_analyzer_result": "PASS_PINNED_SIGNED_ELF_RECIPE_LOG_ABI_CROSSCHECK_ONLY",
+  "original_analyzer_exit_code": 0,
+  "verified_input_counts": {
+    "elf": 1,
+    "log": 1,
+    "recipe": 1
+  },
+  "public_build_log_sha256": "a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce",
+  "main_link_candidate_sha256": "5bfd03a5a13d402b69eab716bd4374a2ee25c90496e6fc362284041489b3e9f0",
+  "loader_elf_flags": "0x05000400",
+  "loader_abi_vfp_args": "vfp_registers",
+  "compiler_comment_present": false,
+  "explicit_printed_link_arm_float_abi_switch_count": 0,
+  "historical_builder_toolchain_versions_verified": false,
+  "historical_builder_machine_identity_verified": false,
+  "compiler_default_float_abi_verified": false,
+  "source_to_binary_reproducibility_verified": false,
+  "physical_device_access_performed": false,
+  "binary_execution_performed": false,
+  "firmware_write_performed": false,
+  "boot_performed": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

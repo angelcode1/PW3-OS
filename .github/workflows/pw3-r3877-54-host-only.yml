@@ -1,0 +1,36 @@
+name: PW3 R3877.54 offline BusyBox entropy ELF fixture checks
+on:
+  push:
+    paths:
+      - 'research/r3877-54/**'
+      - '.github/workflows/pw3-r3877-54-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-54/**'
+      - '.github/workflows/pw3-r3877-54-host-only.yml'
+  workflow_dispatch:
+jobs:
+  host-only:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify manifest and run all host-only tests (no Docker, no Kindle)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/r3877-54
+          sha256sum -c SHA256SUMS_R3877_54.txt
+          python3 -B -m unittest -q test_r3877_54.py
+      - name: Require unauthorised no-Docker preflight HOLD
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd research/r3877-54
+          set +e
+          python3 -B pw3_r3877_54_busybox_entropy_elf_audit.py > /tmp/pw3-r54-preflight.json
+          code=$?
+          set -e
+          test "$code" -eq 2
+          python3 -c 'import json; d=json.load(open("/tmp/pw3-r54-preflight.json")); assert d["result"] == "HOLD" and d["immutable_hold"] == "NOT_BOOTABLE" and d["docker_used"] is False and d["arm_executable_launched"] is False'

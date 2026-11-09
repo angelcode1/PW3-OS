@@ -1,0 +1,27 @@
+{
+  "milestone": "R3877.39",
+  "result": "PASS_PINNED_FIVE_COPY_DESTINATION_TEXT_CONSUMER_TRIAGE_ONLY",
+  "reported_exit_code": 0,
+  "evidence_source": "User-reported Mac result; selected aggregate fields only",
+  "log_sha256": "a8405a50c1849aebc0fefadcab4e4f7fa7da27d9c1296fa2ce46b73df56ca2ce",
+  "joined_link_candidate_sha256": "5bfd03a5a13d402b69eab716bd4374a2ee25c90496e6fc362284041489b3e9f0",
+  "printed_compile_outputs": 1428,
+  "main_link_exact_matches": 1423,
+  "distinct_extra_copy_sources": 5,
+  "distinct_extra_copy_destinations": 5,
+  "copy_destinations_with_later_full_token_mentions": 5,
+  "later_printed_command_family_mention_counts": {
+    "other_or_unresolved": 5
+  },
+  "copy_destinations_matching_main_link_object_input_text": 0,
+  "copy_destinations_matching_printed_compile_output_text": 0,
+  "other_unparsed_log_lines_for_destination_mentions": 1,
+  "public_build_log_signature_verified": false,
+  "printed_copy_commands_executed_verified": false,
+  "historical_builder_toolchain_versions_verified": false,
+  "source_to_binary_reproducibility_verified": false,
+  "immutable_hold": "NOT_BOOTABLE",
+  "kindle_ssh_sessions": 0,
+  "boot_performed": false,
+  "firmware_write_performed": false
+}

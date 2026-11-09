@@ -1,0 +1,39 @@
+name: R3877.21 offline ARM kernel ABI matrix
+on:
+  push:
+    branches:
+      - main
+      - research/r3877-17-2-nobits-parser-fix
+    paths:
+      - 'research/r3877-21/**'
+      - '.github/workflows/pw3-r3877-21-arm-kernel-abi.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-21/**'
+      - '.github/workflows/pw3-r3877-21-arm-kernel-abi.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run offline regression suite (no SSH)
+        working-directory: research/r3877-21
+        run: python3 -B -m unittest -q test_r3877_21.py
+      - name: Enforce no target runtime claims
+        working-directory: research/r3877-21
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, sys
+          p = subprocess.run([sys.executable, '-B', 'pw3_r3877_21_arm_syscall_matrix.py', 'R3877_21_USER_REPORTED_INPUT.json'], capture_output=True, text=True)
+          assert p.returncode == 0, p.stderr
+          v=json.loads(p.stdout)
+          assert v['result']=='PASS_VERSION_CONFIG_RISK_MATRIX_ONLY'
+          assert v['immutable_hold']=='NOT_BOOTABLE'
+          assert not v['runtime_syscall_execution_verified']
+          assert not v['physical_device_access_performed']
+          assert not v['recovery_verified']
+          print('R3877_21_HOST_ONLY_NOT_BOOTABLE')
+          PY

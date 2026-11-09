@@ -1,0 +1,63 @@
+{
+  "archive_candidates": [
+    {
+      "candidate_id": "A01",
+      "format": "tar_opaque",
+      "full_name_coverage_verified": false,
+      "headers_validated": 11,
+      "pax_or_sparse_headers": 5,
+      "regular_members": 6,
+      "stock_image_named_member_count": 0,
+      "termination": "TWO_ZERO_END_BLOCKS"
+    },
+    {
+      "candidate_id": "A02",
+      "format": "tar_opaque",
+      "full_name_coverage_verified": false,
+      "headers_validated": 15,
+      "pax_or_sparse_headers": 7,
+      "regular_members": 8,
+      "stock_image_named_member_count": 0,
+      "termination": "TWO_ZERO_END_BLOCKS"
+    },
+    {
+      "candidate_id": "A03",
+      "format": "zip",
+      "structural_review": "PRIOR_R63_CLASSIFICATION_RETAINED"
+    },
+    {
+      "candidate_id": "A04",
+      "compressed_prefix_consumed": 303104,
+      "decompressed_prefix_bytes": 524288,
+      "format": "gzip_opaque",
+      "gzip_stream_end_observed": false,
+      "gzip_tar_prefix_dir_count": 22,
+      "gzip_tar_prefix_full_name_coverage_verified": false,
+      "gzip_tar_prefix_header_count": 26,
+      "gzip_tar_prefix_regular_count": 3,
+      "gzip_tar_prefix_stock_image_named_member_count": 0,
+      "gzip_tar_prefix_symlink_count": 1,
+      "gzip_tar_prefix_termination": "PREFIX_LIMIT_REACHED",
+      "matching_untrusted_sha256_manifest_file_count": 1,
+      "signature": "ustar_header_candidate"
+    }
+  ],
+  "archive_count": 4,
+  "archive_member_contents_extracted_or_executed": false,
+  "boot_performed": false,
+  "candidate_authenticity_verified": false,
+  "docker_used": false,
+  "exit_code_reported": 2,
+  "firmware_write_performed": false,
+  "hold_category": "STOCK_RECOVERY_AUTHENTICITY_AND_INDEPENDENT_RESTORE_UNVERIFIED",
+  "immutable_hold": "NOT_BOOTABLE",
+  "kindle_ssh_sessions": 0,
+  "local_files_modified": false,
+  "milestone": "R3877.64",
+  "network_access_performed": false,
+  "origin": "user-reported macOS bounded TAR headers/gzip prefix inspection",
+  "physical_device_access_performed": false,
+  "recovery_verified": false,
+  "result": "HOLD",
+  "vendor_kernel_compatibility_verified": false
+}
