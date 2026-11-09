@@ -27,6 +27,7 @@ static const char *preview_date;
 static int chapter_book, chapter_num;
 #ifndef PW3_HOST
 static void audio_on_page(void);
+static void online_on_page(void);
 #endif
 
 static int read_u32(uint32_t *value) {
@@ -186,6 +187,7 @@ static int jump(Location place, int remember) {
     current = (Visit){place, 0};
 #ifndef PW3_HOST
     audio_on_page();
+    online_on_page();
 #endif
     return 1;
 }
@@ -198,6 +200,7 @@ static void back(void) {
             depth--;
 #ifndef PW3_HOST
             audio_on_page();
+            online_on_page();
 #endif
         }
     }
@@ -255,6 +258,7 @@ static Hit hits[128];
 static size_t hit_count;
 static int margin, grid_cols, px, page_end, passage;
 #include "audio_ui.h"
+#include "online_ui.h"
 
 static int add_line(const char *s, size_t size, int col, int span, int height, Location to) {
     if (line_count == capacity) {
@@ -283,6 +287,7 @@ static int make_lines(int seek_verse) {
     int col = 0;
     int ok = 1;
     int anchor = 0;
+    int online_inserted = 0;
     passage = 0;
     margin = W / 24;
     px = W / 30;
@@ -290,6 +295,25 @@ static int make_lines(int seek_verse) {
     for (size_t i = 1; i < row_count; i++) {
         Row row = rows[i];
         if (row.kind == 'A') continue;
+        if (row.kind == 'V' && online_valid) {
+            if (!online_inserted) {
+                online_inserted = 1;
+                for (int n = 1; n < ONLINE_VERSES; ++n) {
+                    if (!online_verses[n]) continue;
+                    passage = 1;
+                    if (n == current.place.verse) anchor = (int)line_count;
+                    size_t length = strlen(online_verses[n]) + 12;
+                    char *numbered = malloc(length);
+                    if (!numbered) return 0;
+                    snprintf(numbered, length, "%d  %s", n, online_verses[n]);
+                    text_wrap(&f_ui, px, numbered, W - 2 * margin - 8, add_text_line, &ok);
+                    free(numbered);
+                    if (ok) ok = add_line("", 0, 0, grid_cols, px / 3, (Location){-2, 0});
+                    if (!ok) return 0;
+                }
+            }
+            continue;
+        }
         if (row.kind == 'G') {
             ok = add_line(row.text, strlen(row.text), col, 1, px * 2, row.to);
             col = (col + 1) % grid_cols;
@@ -344,11 +368,25 @@ static void draw_word_bitmap(WordBitmap bitmap, int x, int y, int max_width) {
 }
 
 static void draw(void) {
-    int box = px * 2, top = box * 2 + margin / 2 +
-        (audio_visible && chapter_book ? 3 * px : 0), bottom = H - box - 8;
+    int box = px * 2;
+    int online_band = online_count && chapter_book ? 3 * px : 0;
+    int audio_band = audio_visible && chapter_book ? 3 * px : 0;
+    int top = box * 2 + margin / 2 + audio_band + online_band;
+    int bottom = H - box - 8;
     fill(0, 0, W, H, WHITE);
     char heading[220];
-    text_fit(&f_ui, px + 3, rows[0].text, W - 2 * margin - (passage ? px * 4 : 0), heading, sizeof heading);
+    const char *page_heading = rows[0].text;
+    char online_heading[220];
+    if (online_valid && online_selected >= 0) {
+        const char *suffix = strstr(page_heading, " • ");
+        if (suffix) {
+            snprintf(online_heading, sizeof online_heading, "%.*s • %s (online)",
+                     (int)(suffix - page_heading), page_heading,
+                     online_catalog[online_selected].code);
+            page_heading = online_heading;
+        }
+    }
+    text_fit(&f_ui, px + 3, page_heading, W - 2 * margin - (passage ? px * 4 : 0), heading, sizeof heading);
     text(&f_ui, px + 3, margin, margin / 3, heading, BLACK);
     if (passage) text_right(&f_ui, px - 2, W - margin, margin / 3, "Go to", BLACK);
     text(&f_ui, px - 2, margin, box, "Home", BLACK);
@@ -387,7 +425,8 @@ static void draw(void) {
     if (current.line) text(&f_ui, px - 2, margin, bottom + px / 3, "< Previous", BLACK);
     if ((size_t)page_end < line_count)
         text_right(&f_ui, px - 2, W - margin, bottom + px / 3, "Next >", BLACK);
-    audio_draw_controls(top, margin, px);
+    audio_draw_controls(top - online_band, margin, px);
+    online_draw_controls(top, margin, px);
 }
 
 static void turn(int step) {
@@ -416,6 +455,7 @@ static int kindle(void) {
         return 1;
     }
     audio_visible = audio_run("ready", 0, 0, 0);
+    online_init();
     if (!make_lines(1)) return 1;
     draw();
     refresh_all();
@@ -423,7 +463,10 @@ static int kindle(void) {
         event e = input_wait(-1);
         if (e.type == EV_POWER) break;
         if (e.type != EV_TAP) continue;
-        if (audio_handle_tap(e.ux, e.uy)) {
+        int online_action = online_handle_tap(e.ux, e.uy);
+        if (online_action) {
+            if (online_action == 2 && !make_lines(1)) return 1;
+        } else if (audio_handle_tap(e.ux, e.uy)) {
             /* Native audio selector or Play/Pause was handled. */
         } else if (abs(e.ux - e.x) > W / 7) {
             turn(e.ux < e.x ? 1 : -1);
