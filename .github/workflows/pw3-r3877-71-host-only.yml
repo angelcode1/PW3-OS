@@ -1,0 +1,44 @@
+name: PW3 R3877.71 device backup offline evidence
+on:
+  pull_request:
+    paths:
+      - 'research/r3877-71/**'
+      - '.github/workflows/pw3-r3877-71-host-only.yml'
+  push:
+    paths:
+      - 'research/r3877-71/**'
+      - '.github/workflows/pw3-r3877-71-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-host:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: research/r3877-71
+    steps:
+      - uses: actions/checkout@v4
+      - name: Offline synthetic unit tests
+        run: python3 -B -m unittest -q test_r3877_71.py
+      - name: No-opt-in means HOLD and no image scan
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_71_offline_verify.py > preflight.json
+          code=$?
+          set -e
+          test "$code" -eq 2
+          python3 - <<'PY'
+          import json
+          j=json.load(open('preflight.json'))
+          assert j['result']=='HOLD' and j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['independent_restore_verified'] is False
+          assert j['kindle_ssh_sessions']==0 and j['images_modified'] is False
+          PY
+      - name: Private firmware must never be committed
+        shell: bash
+        run: |
+          if find . -type f \( -iname '*.img' -o -iname '*.bin' -o -iname '*.dump' -o -iname '*.raw' \) | grep .; then
+            echo 'Refusing raw firmware artifact'; exit 1
+          fi
