@@ -1,0 +1,29 @@
+{
+  "milestone": "R3877.72",
+  "origin": "user-reported macOS offline boot-chain preflight",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "hold_category": "RECOVERY_CONSOLE_ACCESS_AND_INDEPENDENT_RESTORE_UNVERIFIED",
+  "offline_structural_status": "OFFLINE_BOOT_CHAIN_STRUCTURAL_EVIDENCE_ONLY",
+  "bootloader_commands_match_kernel_offsets": true,
+  "bootloader_version_marker": "2009.08-lab126",
+  "serial_baudrate_marker": 115200,
+  "bootdelay_values_observed": [
+    0,
+    1
+  ],
+  "runtime_bootdelay_verified": false,
+  "normal_kernel_offset_hex": "0x41000",
+  "normal_kernel_payload_bytes": 2919996,
+  "diagnostics_kernel_offset_hex": "0xe41000",
+  "diagnostics_kernel_payload_bytes": 2635252,
+  "kernel_header_and_payload_crc_valid": true,
+  "serial_hardware_present_verified": false,
+  "uboot_console_access_verified": false,
+  "diagnostics_boot_performed": false,
+  "recovery_restore_tested": false,
+  "stock_factory_provenance_verified": false,
+  "no_device_access_in_offline_probe": true,
+  "firmware_write_performed_in_offline_probe": false,
+  "raw_private_images_or_hashes_committed": false
+}
