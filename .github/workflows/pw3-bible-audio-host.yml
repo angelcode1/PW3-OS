@@ -29,6 +29,10 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_pw3_audio_archive.py' -v
           python3 -m unittest discover -s tests -p 'test_pw3_audio_catalog.py' -v
           python3 -m unittest discover -s tests -p 'test_pw3_audio_stream.py' -v
+      - name: Test public CDN verse stream without network
+        run: |
+          python3 -m py_compile apps/pw3-bible/online_verse.py
+          python3 -m unittest discover -s tests -p 'test_pw3_online_verse.py' -v
       - name: Compile host reader
         run: cc -O2 -Wall -Wextra -DPW3_HOST apps/pw3-bible/reader.c -o /tmp/pw3-reader-host
       - name: Syntax-check Kindle reader code
