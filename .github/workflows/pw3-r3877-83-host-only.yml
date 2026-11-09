@@ -25,7 +25,29 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate exact original published package hashes
         shell: bash
-        run: shasum -a 256 -c SHA256SUMS_R3877_83.txt
+        run: |
+          # The repository README is updated independently of the original ZIP README.
+          # Verify all original runnable source and evidence bytes against their pinned hashes.
+          grep -v '  README.md
+      - name: Synthetic Python regression tests
+        run: python3 -B -m unittest -q test_r3877_83.py
+      - name: Default blocks device execution
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_83_glibc_luajit_smoke.py --stage /nonexistent > refusal.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          j=json.load(open('refusal.json'))
+          assert j['result']=='HOLD'
+          assert j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['kindle_access_performed'] is False
+          assert j['device_execution_attempted'] is False
+          PY
+ SHA256SUMS_R3877_83.txt | shasum -a 256 -c -
       - name: Synthetic Python regression tests
         run: python3 -B -m unittest -q test_r3877_83.py
       - name: Default blocks device execution
