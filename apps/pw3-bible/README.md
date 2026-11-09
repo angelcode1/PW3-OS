@@ -196,9 +196,24 @@ It needs Python 3, working HTTPS/TLS CA trust, DNS and access to the public
 CDN. Streaming is synchronous at selection time with an 8-second request
 timeout. No hardware test is claimed; the existing Kindle boot hold applies.
 
-Host tests:
+Host tests on **macOS or Linux** (run from repository root):
 
 ```sh
 python3 -m unittest discover -s tests -p 'test_pw3_online_verse.py' -v
+cc -O2 -Wall -Wextra -DPW3_HOST -fsyntax-only apps/pw3-bible/reader.c
+```
+
+On macOS the `-DPW3_HOST` flag is **required**: Apple's SDK does not
+provide `linux/fb.h` or Linux input-event headers. This verifies only the
+host reader path and deliberately excludes the Linux framebuffer, touch
+and online e-ink popup code. On a Linux development machine with Linux
+userspace headers installed, the device-specific source can be
+syntax-checked separately (the CI Linux runner performs this):
+
+```sh
 cc -O2 -Wall -Wextra -fsyntax-only apps/pw3-bible/reader.c
 ```
+
+For a real Paperwhite ARMv7 binary use the documented Zig Linux target,
+not Apple's default macOS `cc`. The Linux/ARM build and physical Kindle
+operation remain separate validation steps.
