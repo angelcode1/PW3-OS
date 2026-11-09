@@ -20,9 +20,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
       - name: Check standalone package files and run read-only tests
         working-directory: research/r3877-62-1
         shell: bash
