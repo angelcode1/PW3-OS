@@ -102,7 +102,8 @@ class MacAliasRegression(unittest.TestCase):
             alias=base/'macos_alias';alias.symlink_to(real,target_is_directory=True)
             # Inject one approved alias for this test; actual implementation
             # still requires a real /var or /tmp -> /private mapping on macOS.
-            with patch.object(r,'approved_macos_system_alias',side_effect=lambda p:p==alias):
+            real_alias = r.approved_macos_system_alias
+            with patch.object(r,'approved_macos_system_alias',side_effect=lambda p:p==alias or real_alias(p)):
                 self.assertEqual(r.check_root(alias/'child'),child.resolve())
                 self.assertEqual(r.inventory(alias/'child')['regular_files_considered'],0)
 
@@ -114,7 +115,8 @@ class MacAliasRegression(unittest.TestCase):
             alias=base/'macos_alias';alias.symlink_to(real,target_is_directory=True)
             nested=real/'nested';nested.symlink_to(elsewhere,target_is_directory=True)
             child=elsewhere/'child';child.mkdir()
-            with patch.object(r,'approved_macos_system_alias',side_effect=lambda p:p==alias):
+            real_alias = r.approved_macos_system_alias
+            with patch.object(r,'approved_macos_system_alias',side_effect=lambda p:p==alias or real_alias(p)):
                 with self.assertRaisesRegex(r.Hold,'SYMLINK_IN_DIRECTORY_ANCESTRY'):
                     r.check_root(alias/'nested'/'child')
 
