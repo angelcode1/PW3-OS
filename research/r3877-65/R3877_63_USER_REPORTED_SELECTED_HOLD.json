@@ -1,0 +1,25 @@
+{
+  "milestone": "R3877.63",
+  "origin": "user-reported Mac bounded archive header review",
+  "result": "HOLD",
+  "exit_code": 2,
+  "hold_category": "STOCK_RECOVERY_AUTHENTICITY_AND_INDEPENDENT_RESTORE_UNVERIFIED",
+  "archive_candidates_reviewed": 4,
+  "archive_candidates": [
+    {"candidate_id":"A01","format":"tar_opaque","bytes":23388160,"untrusted_manifest_matches":0},
+    {"candidate_id":"A02","format":"tar_opaque","bytes":42721280,"untrusted_manifest_matches":0},
+    {"candidate_id":"A03","format":"zip","bytes":9667,"zip_entries":6,"image_named_members":0,"untrusted_manifest_matches":0},
+    {"candidate_id":"A04","format":"gzip_opaque","bytes":3183009,"untrusted_manifest_matches":1}
+  ],
+  "untrusted_manifest_files_reviewed": 62,
+  "checksum_records_in_untrusted_manifests": 685,
+  "recovery_documents_reviewed": 5,
+  "documents_with_kindle_keyword": 2,
+  "metadata_scope_scan_complete": true,
+  "contents_extracted_or_executed": false,
+  "stock_image_authenticated": false,
+  "independent_restore_method_verified": false,
+  "physical_device_access_performed": false,
+  "local_files_modified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

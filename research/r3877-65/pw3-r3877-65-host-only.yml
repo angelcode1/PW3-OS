@@ -1,0 +1,43 @@
+name: PW3 R3877.65 host-only TAR extended names and gzip bounded stream review
+on:
+  push:
+    paths:
+      - 'research/r3877-65/**'
+      - '.github/workflows/pw3-r3877-65-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-65/**'
+      - '.github/workflows/pw3-r3877-65-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify pinned local files, synthetic regressions, no-scan HOLD
+        working-directory: research/r3877-65
+        shell: bash
+        run: |
+          set -eu
+          shasum -a 256 -c SHA256SUMS_R3877_65.txt
+          python3 -B -m unittest -q test_r3877_62.py test_r3877_62_2.py test_r3877_63.py test_r3877_64.py test_r3877_65.py
+          set +e
+          python3 -B pw3_r3877_65_extended_tar_triage.py > preflight.json
+          exitcode=$?
+          set -e
+          test "$exitcode" -eq 2
+          python3 - <<'PY'
+          import json
+          j=json.load(open('preflight.json'))
+          assert j['result']=='HOLD'
+          assert j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['hold_category']=='EXPLICIT_SCAN_ROOT_REQUIRED'
+          assert j['physical_device_access_performed'] is False
+          assert j['docker_used'] is False
+          PY
