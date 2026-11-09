@@ -1,0 +1,49 @@
+name: PW3 R3877.85 native LuaJIT FFI host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-85/**'
+      - '.github/workflows/pw3-r3877-85-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-85/**'
+      - '.github/workflows/pw3-r3877-85-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-only:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: research/r3877-85
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check original executable source digests
+        shell: bash
+        run: |
+          # The published ZIP README and repository README are maintained separately;
+          # executable source and test SHA256 pins remain identical.
+          grep -v '  README.md$' SHA256SUMS_R3877_85.txt | shasum -a 256 -c -
+      - name: Run host-only Python tests
+        run: python3 -B -m unittest -q test_r3877_85.py
+      - name: Default invocation cannot access Kindle
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_85_luajit_ffi.py --stage /not-mounted > refusal.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          j=json.load(open('refusal.json'))
+          assert j['result']=='HOLD'
+          assert j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['kindle_access_performed'] is False
+          assert j['device_execution_attempted'] is False
+          PY
