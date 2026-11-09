@@ -1,0 +1,47 @@
+name: PW3 R3877.73 kernel UART metadata host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-73/**'
+      - '.github/workflows/pw3-r3877-73-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-73/**'
+      - '.github/workflows/pw3-r3877-73-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: research/r3877-73
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify committed checksums and test synthetic parser only
+        shell: bash
+        run: |
+          set -eu
+          shasum -a 256 -c SHA256SUMS_R3877_73.txt
+          python3 -B -m unittest -q test_r3877_73.py
+          sh -n pw3_r3877_73_readonly_serial_metadata.sh
+      - name: Verify mandatory no-input HOLD without contacting Kindle
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_73_analyze.py > preflight.json
+          code=$?
+          set -e
+          test "$code" -eq 2
+          python3 - <<'PY'
+          import json
+          j=json.load(open('preflight.json'))
+          assert j['result']=='HOLD' and j['immutable_hold']=='NOT_BOOTABLE'
+          assert not j['physical_serial_console_verified']
+          assert not j['independent_restore_verified']
+          PY
