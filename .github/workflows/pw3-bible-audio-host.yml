@@ -1,4 +1,4 @@
-name: PW3 Bible Bluetooth audio host checks
+name: PW3 Bible audio and public verse-stream host checks
 on:
   push:
     branches:
@@ -6,11 +6,13 @@ on:
     paths:
       - 'apps/pw3-bible/**'
       - 'tests/test_pw3_audio_*.py'
+      - 'tests/test_pw3_online_verse.py'
       - '.github/workflows/pw3-bible-audio-host.yml'
   pull_request:
     paths:
       - 'apps/pw3-bible/**'
       - 'tests/test_pw3_audio_*.py'
+      - 'tests/test_pw3_online_verse.py'
       - '.github/workflows/pw3-bible-audio-host.yml'
 jobs:
   offline-audio:
