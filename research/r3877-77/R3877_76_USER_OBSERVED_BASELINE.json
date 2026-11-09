@@ -1,0 +1,20 @@
+{
+  "milestone": "R3877.76",
+  "source": "user-reported direct read-only SSH output",
+  "ssh_exit_code": 0,
+  "kernel": "3.0.35-lab126",
+  "machine": "armv7l",
+  "cpu_features_present": ["vfp", "vfpv3", "neon", "thumb", "edsp"],
+  "cpu_features_absent_from_report": ["vfpv3d16", "tls"],
+  "negative_feature_evidence_is_complete_abi_proof": false,
+  "known_absolute_path_file_exists_and_executable": ["chroot", "mount", "losetup", "initctl", "busybox"],
+  "tools_executed_by_preflight": false,
+  "root_mounts": ["rootfs rootfs rw (pseudo mount)", "dev/root ext3 ro"],
+  "user_storage_mount": "fuse.fsp rw nosuid nodev noexec_false",
+  "native_ELF_executability_verified": false,
+  "stock_boot_configuration_changed": false,
+  "custom_ARM_binary_executed": false,
+  "independent_recovery_verified": false,
+  "standalone_os_boot_verified": false,
+  "immutable_hold": "NOT_BOOTABLE"
+}

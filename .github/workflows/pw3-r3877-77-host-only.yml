@@ -1,0 +1,43 @@
+name: PW3 R3877.77 one-shot EABI host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-77/**'
+      - '.github/workflows/pw3-r3877-77-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-77/**'
+      - '.github/workflows/pw3-r3877-77-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-only:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: research/r3877-77
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify generated ELF and host-only tests
+        run: python3 -B -m unittest -q test_r3877_77.py
+      - name: Ensure default never runs SSH
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_77_arm_syscall.py > default.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          d=json.load(open('default.json'))
+          assert d['result']=='HOLD'
+          assert d['immutable_hold']=='NOT_BOOTABLE'
+          assert d['hold_category']=='DEVICE_EXECUTION_NOT_AUTHORIZED'
+          assert not d['device_execution_performed']
+          PY
