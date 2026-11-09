@@ -1,0 +1,42 @@
+{
+  "milestone": "R3877.88.3",
+  "origin": "user-provided local Mac host-only audit result",
+  "result": "HOLD",
+  "hold_category": "ALL_NINE_GIT_BLOBS_MATCH_DEVICE_RUNTIME_STILL_UNVERIFIED",
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_reported_exit_code": 2,
+  "review": {
+    "all_nine_source_pins_match": true,
+    "all_upstream_source_pins_match": true,
+    "expected_pinned_modules": 8,
+    "matched_pinned_modules": 8,
+    "source_pin": "koreader_v2026.07.2",
+    "source_pin_correction": "UPSTREAM_GEOMETRY_UTF8_BYTE_COUNT_WAS_10735_NOT_10734",
+    "upstream_geometry_blob_sha1": "dc8362ae455d3fddce2513865d340b482a9bdc53",
+    "upstream_geometry_pin_corrected_bytes": 10735,
+    "serpent": {
+      "relative_path": "opt/koreader-compat/app/ffi/serpent.lua",
+      "expected_bytes": 8979,
+      "observed_bytes": 8979,
+      "pinned_upstream_blob_verified": true,
+      "submodule_commit": "6e4bc81af4e04f78d81677a323a780a71b29702a",
+      "upstream_git_blob_sha1": "812668de60aefeedfad1cbfca211a877a7dcaea0"
+    },
+    "external_dependencies": {
+      "bit": "LUAJIT_BUILTIN_REQUIRES_LIVE_CONFIRMATION",
+      "ffi/serpent": "PINNED_BASE_6E4BC81_RECHECKED"
+    },
+    "dependency_graph_complete": false,
+    "full_ko_reader_dependency_closure_verified": false,
+    "real_widgetcontainer_runtime_verified": false,
+    "widgetcontainer_device_execution_authorized": false,
+    "r26_stage_identity_revalidated": false,
+    "independent_restore_verified": false
+  },
+  "device_execution_performed": false,
+  "kindle_access_performed": false,
+  "firmware_write_performed": false,
+  "boot_hook_modified": false,
+  "stage_files_modified": false,
+  "scope": "Eight upstream KOReader Lua modules and one KOReader-base Serpent file exactly match Git blobs. Does not verify package runtime, side effects, hardware, restore, or independent boot."
+}
