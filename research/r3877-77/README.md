@@ -47,7 +47,7 @@ be investigated separately before retrying.
 ```zsh
 mkdir -p ~/Downloads/pw3-r3877-77
 unzip -oq ~/Downloads/pw3-r3877-77-one-shot-arm-eabi.zip \
-  -d ~/Downloads/pw3-r3877-77
+  -d ~/Downloads
 cd ~/Downloads/pw3-r3877-77
 
 shasum -a 256 -c SHA256SUMS_R3877_77.txt
