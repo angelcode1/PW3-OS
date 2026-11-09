@@ -6,10 +6,7 @@
   "ssh_exit_code": 0,
   "generated_elf_bytes": 312,
   "elf_class": "ELF32_ARM_EABI5_STATIC_NO_INTERPRETER",
-  "elf_syscalls": [
-    "write_stdout",
-    "exit"
-  ],
+  "elf_syscalls": ["write_stdout", "exit"],
   "single_process_write_exit_verified": true,
   "device_execution_performed": true,
   "tmpfs_payload_removed_by_remote_script": true,
