@@ -6,3 +6,7 @@
 /*.zip
 /audio-links.tsv
 /audio/
+
+# Never commit downloaded Bible content or API responses.
+/*_chapters.json
+/online-cache/
