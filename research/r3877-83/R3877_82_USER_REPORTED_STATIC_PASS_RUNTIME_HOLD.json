@@ -1,0 +1,41 @@
+{
+  "milestone": "R3877.82",
+  "origin": "user-reported Mac host-only ELF GNU symbol version audit",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "user_reported_exit_code": 2,
+  "kindle_access_performed": false,
+  "device_execution_performed": false,
+  "stage_files_modified": false,
+  "entrypoint": "opt/koreader-compat/app/luajit",
+  "loader": "/lib/ld-linux.so.3",
+  "needed": [
+    "libm.so.6",
+    "libdl.so.2",
+    "libgcc_s.so.1",
+    "libc.so.6"
+  ],
+  "provider_names_unique_regular": true,
+  "arm_eabi5_all": true,
+  "soft_float_e_flags_all_six": true,
+  "arm_vfp_warnings": [],
+  "arm_vfp_tag_status": "TAG_ABSENT_FOR_ALL_SIX",
+  "symbol_versions": {
+    "required": 13,
+    "matched_by_name": 13,
+    "missing": 0,
+    "missing_definition_tables": 0,
+    "actual_symbol_binding_verified": false
+  },
+  "rpath_resolution_categories": [
+    "UNSAFE_OR_UNKNOWN_RPATH",
+    "BUNDLE_DIRECTORY_PRESENT"
+  ],
+  "shared_provider_pt_interp_warning_is_not_by_itself_loader_failure": true,
+  "stage_regular_file_count": 1446,
+  "historical_r26_regular_file_count": 1448,
+  "same_stage_bytes_reverified_against_r26": false,
+  "device_glibc_luajit_runtime_verified": false,
+  "recovery_verified": false,
+  "next_gate": "Off-device source-pinned glibc bundle validation and explicitly authorized one-shot loader --list with RPATH inhibition, then non-graphical LuaJIT"
+}
