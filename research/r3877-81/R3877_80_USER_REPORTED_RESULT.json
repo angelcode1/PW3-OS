@@ -1,0 +1,36 @@
+{
+  "milestone": "R3877.80",
+  "source": "user-reported host-only KOReader LuaJIT ELF audit",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "hold_category": "GLIBC_LUAJIT_RUNTIME_AND_ABI_NEEDS_SEPARATE_VERIFICATION",
+  "user_reported_exit_code": 2,
+  "boot_hook_modified": false,
+  "device_execution_performed": false,
+  "kindle_access_performed": false,
+  "koreader_device_runtime_verified": false,
+  "local_files_modified": false,
+  "recovery_verified": false,
+  "luajit": {
+    "entrypoint": "opt/koreader-compat/app/luajit",
+    "elf_class": "ELF32_ARM_EABI5",
+    "elf_kind": "EXEC",
+    "arm_e_flags_hex": "0x05000200",
+    "arm_float_header_flag": "soft",
+    "arm_attributes_vfp_calling_convention_decoded": false,
+    "interpreter": "/lib/ld-linux.so.3",
+    "needed": ["libm.so.6", "libdl.so.2", "libgcc_s.so.1", "libc.so.6"],
+    "has_rpath": true,
+    "has_runpath": false,
+    "full_dependency_closure_verified": false
+  },
+  "provider_name_catalog": {
+    "regular_name_matches_each": 1,
+    "names": ["ld-linux.so.3", "libc.so.6", "libdl.so.2", "libgcc_s.so.1", "libm.so.6"],
+    "runtime_loader_resolution_verified": false,
+    "stage_regular_file_count": 1446,
+    "historical_r26_regular_file_count": 1448,
+    "same_stage_bytes_reverified_against_r26": false,
+    "symlinks_skipped": 335
+  }
+}
