@@ -1,0 +1,48 @@
+name: PW3 R3877.82 glibc version and ARM ABI host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-82/**'
+      - '.github/workflows/pw3-r3877-82-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-82/**'
+      - '.github/workflows/pw3-r3877-82-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: research/r3877-82
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify all package files
+        shell: bash
+        run: shasum -a 256 -c SHA256SUMS_R3877_82.txt
+      - name: Run synthetic ARM and GNU symbol-version tests
+        run: python3 -B -m unittest -q test_r3877_82.py
+      - name: Default refusal requires no stage and no device connection
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_82_version_abi_audit.py --stage /does-not-exist > refusal.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          r=json.load(open('refusal.json'))
+          assert r['result']=='HOLD'
+          assert r['immutable_hold']=='NOT_BOOTABLE'
+          assert r['hold_category']=='HOST_ONLY_REVIEW_NOT_AUTHORIZED'
+          assert r['kindle_access_performed'] is False
+          assert r['device_execution_performed'] is False
+          assert r['stage_files_modified'] is False
+          PY

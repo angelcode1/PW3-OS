@@ -1,0 +1,6 @@
+r3877_82_result.json
+*.raw
+*.bin
+*.img
+*.elf
+__pycache__/

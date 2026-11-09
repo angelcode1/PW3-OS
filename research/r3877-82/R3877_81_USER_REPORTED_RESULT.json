@@ -1,0 +1,42 @@
+{
+  "milestone": "R3877.81",
+  "source": "user-reported Mac-only staged KOReader ELF audit",
+  "result": "HOLD",
+  "immutable_hold": "NOT_BOOTABLE",
+  "hold_category": "GLIBC_DYNAMIC_LOADER_AND_VERSION_RUNTIME_UNVERIFIED",
+  "device_access_performed": false,
+  "device_execution_performed": false,
+  "stage_files_modified": false,
+  "boot_hook_modified": false,
+  "recovery_verified": false,
+  "user_reported_exit_code": 2,
+  "review": {
+    "entrypoint": "opt/koreader-compat/app/luajit",
+    "interpreter": "/lib/ld-linux.so.3",
+    "entrypoint_float_flag": "soft",
+    "entrypoint_direct_needed": ["libm.so.6", "libdl.so.2", "libgcc_s.so.1", "libc.so.6"],
+    "entrypoint_rpath_categories": ["VARIABLE_EXPANSION_REVIEW_NEEDED"],
+    "entrypoint_runpath_categories": [],
+    "all_needed_names_unique_regular": true,
+    "dynamic_loader_resolution_verified": false,
+    "symbol_version_compatibility_verified": false,
+    "arm_build_attributes_verified": false,
+    "stage_regular_file_count": 1446,
+    "r26_recorded_regular_files": 1448,
+    "stage_identity_revalidated_against_R26": false,
+    "stage_symlink_count": 335,
+    "provider_list": [
+      {"name":"ld-linux.so.3","stage_relative_path":"opt/koreader-compat/gnu/lib/ld-linux.so.3","float_flag":"soft","needed":[]},
+      {"name":"libc.so.6","stage_relative_path":"opt/koreader-compat/gnu/lib/libc.so.6","float_flag":"soft","needed":["ld-linux.so.3"]},
+      {"name":"libdl.so.2","stage_relative_path":"opt/koreader-compat/gnu/lib/libdl.so.2","float_flag":"soft","needed":["libc.so.6","ld-linux.so.3"]},
+      {"name":"libgcc_s.so.1","stage_relative_path":"opt/koreader-compat/gnu/lib/libgcc_s.so.1","float_flag":"soft","needed":["libc.so.6"]},
+      {"name":"libm.so.6","stage_relative_path":"opt/koreader-compat/gnu/lib/libm.so.6","float_flag":"soft","needed":["libc.so.6"]}
+    ],
+    "unresolved_or_ambiguous": [
+      {"name":"libm.so.6","category":"SHARED_PROVIDER_HAS_INTERPRETER"},
+      {"name":"libdl.so.2","category":"SHARED_PROVIDER_HAS_INTERPRETER"},
+      {"name":"libc.so.6","category":"SHARED_PROVIDER_HAS_INTERPRETER"}
+    ]
+  },
+  "interpretation": "The DSO PT_INTERP observation is not itself proof of incompatibility; exact GNU version names, ARM attributes, RPATH and device loader resolution remain unverified."
+}
