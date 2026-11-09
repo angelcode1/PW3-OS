@@ -1,0 +1,46 @@
+name: PW3 R3877.87 KOReader Widget dispatch host-only
+on:
+  push:
+    paths:
+      - 'research/r3877-87/**'
+      - '.github/workflows/pw3-r3877-87-host-only.yml'
+  pull_request:
+    paths:
+      - 'research/r3877-87/**'
+      - '.github/workflows/pw3-r3877-87-host-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: research/r3877-87
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate exact original runnable source and evidence
+        shell: bash
+        run: grep -v '  README.md$' SHA256SUMS_R3877_87.txt | shasum -a 256 -c -
+      - name: Run synthetic tests (no Kindle or network)
+        run: python3 -B -m unittest -q test_r3877_87.py
+      - name: Ensure default never connects or executes
+        shell: bash
+        run: |
+          set +e
+          python3 -B pw3_r3877_87_widget_dispatch.py --stage /nonexistent > refusal.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          python3 - <<'PY'
+          import json
+          j=json.load(open('refusal.json'))
+          assert j['immutable_hold']=='NOT_BOOTABLE'
+          assert j['result']=='HOLD'
+          assert not j['device_execution_attempted']
+          assert not j['kindle_access_performed']
+          PY
