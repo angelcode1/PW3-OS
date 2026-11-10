@@ -95,10 +95,12 @@ def install_pkgs(work,root,upstream):
     return packages
 
 
-def crosscompile(source,output,extra=(),target='arm-linux-musleabihf'):
+def crosscompile(source,output,extra=(),target='arm-linux-musleabihf',freestanding=False):
     output.parent.mkdir(parents=True,exist_ok=True)
-    run('zig','cc','-target',target,'-mcpu=cortex_a9','-static','-O2',
-        '-Wno-unused-function','-Wno-unused-variable',*extra,source,'-lm','-o',output)
+    flags=['-nostdlib','-Wl,-e,_start'] if freestanding else ['-static']
+    run('zig','cc','-target',target,'-mcpu=cortex_a9',*flags,'-O2',
+        '-Wno-unused-function','-Wno-unused-variable',*extra,source,
+        *([] if freestanding else ['-lm']),'-o',output)
     output.chmod(0o755)
     desc=subprocess.check_output(['file',str(output)],text=True)
     if 'ARM' not in desc or 'statically linked' not in desc:
@@ -257,7 +259,7 @@ def main():
         run('e2fsck','-fn',img,acceptable=(0,))
         assemble_runner(repo,out)
         shutil.copy2(repo/'build/pw3os/pw3_debugmount.c',out/'pw3_debugmount.c')
-        crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi')
+        crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi',freestanding=True)
         names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh']
         (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
         manifest={'project':'PW3-OS','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
