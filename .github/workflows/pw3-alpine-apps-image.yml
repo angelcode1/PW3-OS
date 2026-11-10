@@ -1,0 +1,48 @@
+name: PW3-OS Alpine 3.24.3 image with Bible, KOReader and puzzles
+on:
+  push:
+    branches:
+      - feature/pw3-bible-reader
+      - build/pw3-alpine-integrated
+    paths:
+      - 'build/pw3os/**'
+      - 'apps/pw3-bible/**'
+      - '.github/workflows/pw3-alpine-apps-image.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test image builder and puzzle logic
+        run: |
+          python3 -m unittest discover -s build/pw3os -p 'test_*.py' -v
+          cc -DPW3_HOST_TEST -Wall -Wextra -Werror build/pw3os/puzzles.c -o /tmp/pw3-puzzles-test
+          /tmp/pw3-puzzles-test --selftest
+      - name: Build builder container
+        run: docker build --platform linux/amd64 -t pw3os-builder -f build/pw3os/Dockerfile build/pw3os
+      - name: Build complete Alpine image and boot bundle
+        run: |
+          mkdir -p out/pw3os
+          docker run --rm --platform linux/amd64 \
+            -v "$PWD:/repo:ro" -v "$PWD/out/pw3os:/output" \
+            pw3os-builder --output /output
+      - name: Check images and bundle manifest
+        run: |
+          cd out/pw3os
+          sha256sum -c SHA256SUMS
+          test -s alpine-os.img
+          test -s pw3os-boot-once.sh
+          test -s pw3-debugmount
+          test -s BUILD-MANIFEST.json
+          test -s README-DEPLOY.txt
+      - name: Upload full image and boot files
+        uses: actions/upload-artifact@v4
+        with:
+          name: pw3os-alpine-3243-bible-koreader-puzzles
+          path: out/pw3os/
+          retention-days: 14
+          if-no-files-found: error

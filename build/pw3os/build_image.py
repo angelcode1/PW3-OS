@@ -1,0 +1,275 @@
+#!/usr/bin/env python3
+"""PW3-OS full Alpine 3.24.3 image builder. Runs in one pinned Docker environment on CI/Mac."""
+import argparse
+import hashlib
+import io
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import tarfile
+import tempfile
+import urllib.request
+import zipfile
+
+ALPINE = 'https://dl-cdn.alpinelinux.org/alpine/v3.24'
+MINI = 'alpine-minirootfs-3.24.3-armv7.tar.gz'
+INKWELL_REF = 'd1fc9d9ef911777fb5db14541fd5b841fd7c1f03'  # v1.2.0
+KOREADER_VER = 'v2026.07.1'
+KOREADER_ZIP = f'koreader-kindlepw2-{KOREADER_VER}.zip'
+KOREADER_SHA = 'ea1f575c54492a2c679d128b7f3210fd7d6a87e5f5a1ff1f7a7fe2080ff68f86'
+VPLS = {'web':'engwebp_vpl.zip', 'kjv':'eng-kjv_vpl.zip', 'asv':'eng-asv_vpl.zip'}
+PKGS = ['dropbear','dropbear-scp','dropbear-dbclient','busybox-extras',
+        'wpa_supplicant','tzdata','curl','ca-certificates','python3',
+        'python3-pyc','libstdc++','libgcc','gcompat']
+
+
+def run(*cmd, cwd=None, acceptable=(0,)):
+    print('+', ' '.join(map(str,cmd)), flush=True)
+    p = subprocess.run([str(x) for x in cmd],cwd=cwd)
+    if p.returncode not in acceptable:
+        raise RuntimeError(f'Command failed ({p.returncode}): {cmd}')
+    return p
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with Path(path).open('rb') as f:
+        for chunk in iter(lambda: f.read(1024*1024), b''): h.update(chunk)
+    return h.hexdigest()
+
+
+def download(url, path, expected=None):
+    path=Path(path)
+    if not path.is_file():
+        print('DOWNLOAD',url,flush=True)
+        path.parent.mkdir(parents=True,exist_ok=True)
+        request=urllib.request.Request(url,headers={'User-Agent':'PW3-OS-builder/1'})
+        with urllib.request.urlopen(request,timeout=120) as src, path.with_suffix(path.suffix+'.tmp').open('wb') as dest:
+            shutil.copyfileobj(src,dest)
+        path.with_suffix(path.suffix+'.tmp').replace(path)
+    if expected and sha256(path).lower()!=expected.lower():
+        raise RuntimeError(f'Checksum mismatch for {path.name}')
+    return path
+
+
+def official_hash(url):
+    with urllib.request.urlopen(url+'.sha256',timeout=30) as src:
+        text=src.read(2048).decode('ascii')
+    match=re.search(r'\b([a-fA-F0-9]{64})\b',text)
+    if not match: raise RuntimeError('Missing official Alpine checksum')
+    return match.group(1)
+
+
+def safe_zip_extract(archive, target):
+    target=Path(target)
+    with zipfile.ZipFile(archive) as z:
+        for item in z.infolist():
+            p=Path(item.filename)
+            if p.is_absolute() or '..' in p.parts or not p.parts:
+                raise RuntimeError('Unsafe ZIP member: '+item.filename)
+            if (item.external_attr>>16)&0o170000==0o120000:
+                raise RuntimeError('ZIP symlink not accepted: '+item.filename)
+        z.extractall(target)
+
+
+def install_pkgs(work,root,upstream):
+    idx=[]
+    for repo in ('main','community'):
+        archive=download(f'{ALPINE}/{repo}/armv7/APKINDEX.tar.gz',work/f'APKINDEX-{repo}.tar.gz')
+        with tarfile.open(archive,'r:gz') as tar:
+            raw=tar.extractfile('APKINDEX').read()
+        fn=work/f'APKINDEX.{repo}'
+        fn.write_bytes(raw)
+        idx.append(fn)
+    res=subprocess.check_output(['python3',str(upstream/'tools/apkdeps.py'),','.join(map(str,idx)),*PKGS],text=True)
+    packages=[x for x in res.splitlines() if x.strip()]
+    if len(packages)<len(PKGS)//2: raise RuntimeError('Suspiciously small APK dependency closure')
+    for rp in packages:
+        repo,name=rp.split('/',1)
+        pkg=download(f'{ALPINE}/{repo}/armv7/{name}.apk',work/'apks'/f'{name}.apk')
+        run('tar','-xpzf',pkg,'-C',root,'--exclude=.SIGN*','--exclude=.PKGINFO',
+            '--exclude=.pre-*','--exclude=.post-*','--exclude=.trigger')
+    return packages
+
+
+def crosscompile(source,output,extra=(),target='arm-linux-musleabihf'):
+    output.parent.mkdir(parents=True,exist_ok=True)
+    run('zig','cc','-target',target,'-mcpu=cortex_a9','-static','-O2',
+        '-Wno-unused-function','-Wno-unused-variable',*extra,source,'-lm','-o',output)
+    output.chmod(0o755)
+    desc=subprocess.check_output(['file',str(output)],text=True)
+    if 'ARM' not in desc or 'statically linked' not in desc:
+        raise RuntimeError('Not a static ARM binary: '+desc)
+    print('CROSS_COMPILED',output.name,desc.strip())
+
+
+def install_koreader(work,root,stage):
+    dest=root/'opt/koreader'
+    release=download('https://github.com/koreader/koreader/releases/download/'
+                     +KOREADER_VER+'/'+KOREADER_ZIP,work/KOREADER_ZIP,KOREADER_SHA)
+    unpack=work/'koreader-unpack'
+    safe_zip_extract(release,unpack)
+    matches=list(unpack.rglob('koreader.sh'))
+    if not matches: raise RuntimeError('KOReader release does not contain koreader.sh')
+    app=sorted(matches,key=lambda p:len(p.parts))[0].parent
+    shutil.copytree(app,dest,dirs_exist_ok=True,symlinks=True)
+    compat=False
+    if stage:
+        compat_src=stage/'opt/koreader-compat'
+        if compat_src.is_dir():
+            shutil.copytree(compat_src,root/'opt/koreader-compat',dirs_exist_ok=True,symlinks=True)
+            compat=True
+    launcher=root/'usr/local/bin/pw3-koreader'
+    launcher.write_text('''#!/bin/sh
+# KOReader kindlepw2 upstream package. Kindle-specific GNU ABI may need the R13 compat layer.
+export HOME=/root
+if [ -x /opt/koreader-compat/app/koreader.sh ]; then
+  export LD_LIBRARY_PATH=/opt/koreader-compat/gnu/lib:/opt/koreader-compat/app/ffi
+  cd /opt/koreader-compat/app
+  exec /bin/sh ./koreader.sh
+fi
+cd /opt/koreader
+exec /bin/sh ./koreader.sh
+''')
+    launcher.chmod(0o755)
+    return compat
+
+
+def install_bible(repo,work,root,life_apk):
+    app=repo/'apps/pw3-bible'
+    dest=root/'opt/pw3-bible'
+    dest.mkdir(parents=True,exist_ok=True)
+    for path in ('run-kindle.sh','online_verse.py','audio_stream.py','audio_control.py',
+                 'audio_catalog.py','online-translations.tsv'):
+        src=app/path
+        if src.is_file(): shutil.copy2(src,dest/path)
+    # Preserve font and third-party attribution.
+    shutil.copytree(app/'fonts',dest/'fonts',dirs_exist_ok=True)
+    shutil.copytree(app/'vendor',dest/'vendor',dirs_exist_ok=True)
+    crosscompile(app/'reader.c',dest/'pw3-bible-arm',extra=('-Wno-unused-variable',
+                 '-Wno-unused-function'),target='arm-linux.3.0.35-musleabi')
+    vpls={}
+    for key,filename in VPLS.items():
+        vpls[key]=download(f'https://ebible.org/Scriptures/{filename}',work/filename)
+    if life_apk:
+        cmd=['python3',app/'build.py','--apk',life_apk,'--web',vpls['web'],
+             '--kjv',vpls['kjv'],'--asv',vpls['asv'],'--output',dest/'bible.pw3']
+        run(*cmd)
+        return 'full-local-life-bible'
+    run('python3',repo/'build/pw3os/public_bible.py','--repo',repo,
+        '--web',vpls['web'],'--kjv',vpls['kjv'],'--asv',vpls['asv'],
+        '--output',dest/'bible.pw3')
+    return 'public-domain-WEB-KJV-ASV'
+
+
+def install_inkwell_core(repo,work,root):
+    upstream=work/'Inkwell'
+    run('git','clone','-q','--no-checkout','https://github.com/pragyaangaur/Inkwell.git',upstream)
+    run('git','checkout','-q',INKWELL_REF,cwd=upstream)
+    apps=('home','wifi','settings','notes','term','splash')  # NEVER build upstream games
+    bindir=root/'usr/local/bin';bindir.mkdir(parents=True,exist_ok=True)
+    for name in apps:
+        source=upstream/'src/ui'/f'{name}.c'
+        patched=work/f'{name}-pw3os.c'
+        patched.write_text(source.read_text().replace('/mnt/us/linux','/mnt/us/pw3os').replace('\"INKWELL\"','\"PW3 OS\"'))
+        source=patched
+        crosscompile(source,bindir/name,extra=('-I'+str(upstream/'src/ui'),
+                     '-I'+str(upstream/'third_party/stb')))
+    crosscompile(repo/'build/pw3os/puzzles.c',bindir/'pw3-puzzles',
+                 extra=('-I'+str(upstream/'src/ui'),'-I'+str(upstream/'third_party/stb')))
+    fonts=root/'usr/share/fonts/inkwell';fonts.mkdir(parents=True,exist_ok=True)
+    for f in (upstream/'fonts').glob('*.ttf'):shutil.copy2(f,fonts/f.name)
+    for f in (upstream/'fonts').glob('*.txt'):shutil.copy2(f,fonts/f.name)
+    license_dir=root/'usr/share/licenses/pw3os';license_dir.mkdir(parents=True,exist_ok=True)
+    shutil.copy2(upstream/'LICENSE',license_dir/'Inkwell-MIT.txt')
+    config=root/'etc/own';config.mkdir(parents=True,exist_ok=True)
+    shutil.copy2(upstream/'src/rootfs/etc/own/udhcpd.conf',config/'udhcpd.conf')
+    (config/'name').write_text('PW3-OS\n')
+    (config/'apps').write_text('''# PW3-OS apps. No upstream Inkwell games or Quill.
+Bible|book|/opt/pw3-bible/run-kindle.sh
+KOReader|book|/usr/local/bin/pw3-koreader
+Memory Match|cube|/usr/local/bin/pw3-puzzles match
+Sudoku|page|/usr/local/bin/pw3-puzzles sudoku
+Notes|page|/usr/local/bin/notes
+Terminal|terminal|/usr/local/bin/term
+Wi-Fi|wifi|/usr/local/bin/wifi
+Settings|gear|/usr/local/bin/settings
+''')
+    # These utility apps expect Inkwell paths; adapt app paths to PW3-OS.
+    # Source-level path replacements can be added later without importing games.
+    return upstream
+
+
+def assemble_runner(repo,output):
+    src=(repo/'build/pw3os/pw3os-boot-once.sh').read_text()
+    assert 'alpine-debug.img' in src and 'timeout -t 330' in src
+    src=src.replace('alpine-debug.img','alpine-os.img')
+    src=src.replace('"$BB" timeout -t 330 "$BB" chroot "$R" /bin/sh /mnt/us/pw3os/PW3-DEBUG-INIT-WIFI42.sh --run',
+                    '"$BB" chroot "$R" /sbin/own-init')
+    if 'timeout -t 330' in src:raise RuntimeError('Still a short-lived trial, not primary Alpine')
+    src=src.replace('RESULT: ALPINE_SSH_DEBUG_SESSION_PASS_STOCK_CONTINUES',
+                    'RESULT: PW3OS_PRIMARY_SESSION_CLEANLY_RELEASED')
+    src=src.replace('RESULT: ALPINE_SSH_DEBUG_SESSION_ERROR_RC=',
+                    'RESULT: PW3OS_PRIMARY_SESSION_ERROR_RC=')
+    (output/'pw3os-boot-once.sh').write_text(src)
+
+
+def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--output',type=Path,required=True)
+    args=parser.parse_args()
+    repo=Path('/repo')
+    out=args.output
+    out.mkdir(parents=True,exist_ok=True)
+    if list(out.iterdir()):
+        raise RuntimeError('Output directory must be empty (protect earlier builds)')
+    stage=Path('/private-stage') if Path('/private-stage').is_dir() else None
+    life_apk=Path('/private/LifeBible.apk') if Path('/private/LifeBible.apk').is_file() else None
+    size=int(os.environ.get('PW3_IMAGE_MIB','768'))
+    if not 512<=size<=2048:raise RuntimeError('Image size outside 512-2048 MiB')
+    with tempfile.TemporaryDirectory(prefix='pw3os-build-') as tmp:
+        work=Path(tmp)
+        root=work/'rootfs';root.mkdir()
+        mini_url=f'{ALPINE}/releases/armv7/{MINI}'
+        minirootfs=download(mini_url,work/MINI,official_hash(mini_url))
+        run('tar','-xpzf',minirootfs,'-C',root)
+        if (root/'etc/alpine-release').read_text().strip()!='3.24.3':
+            raise RuntimeError('Alpine 3.24.3 minirootfs version mismatch')
+        upstream=install_inkwell_core(repo,work,root)
+        packages=install_pkgs(work,root,upstream)
+        compat=install_koreader(work,root,stage)
+        bible_type=install_bible(repo,work,root,life_apk)
+        (root/'sbin').mkdir(exist_ok=True)
+        shutil.copy2(repo/'build/pw3os/pw3-init.sh',root/'sbin/own-init')
+        (root/'sbin/own-init').chmod(0o755)
+        for p in ['dev','dev/pts','proc','sys','mnt/us','run','tmp','var/log','root/.ssh']:
+            (root/p).mkdir(parents=True,exist_ok=True)
+        (root/'tmp').chmod(0o1777)
+        (root/'root/.ssh').chmod(0o700)
+        (root/'etc/hostname').write_text('pw3os\n')
+        (root/'etc/resolv.conf').write_text('nameserver 1.1.1.1\n')
+        img=out/'alpine-os.img'
+        run('mke2fs','-q','-F','-t','ext3','-L','pw3os',
+            '-E','root_owner=0:0','-d',root,img,f'{size}M')
+        run('e2fsck','-fn',img,acceptable=(0,))
+        assemble_runner(repo,out)
+        shutil.copy2(repo/'build/pw3os/pw3_debugmount.c',out/'pw3_debugmount.c')
+        crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi')
+        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh']
+        (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
+        manifest={'project':'PW3-OS','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
+                  'inkwell_upstream_commit':INKWELL_REF,'inkwell_apps_included':list(('home','wifi','settings','notes','term','splash')),
+                  'inkwell_games_included':[],'pw3_games':['Memory Match','Sudoku'],
+                  'bible':bible_type,'koreader':KOREADER_VER,'koreader_stage_compat_included':compat,
+                  'koreader_runtime_verified':False,'display_runtime_verified':False,
+                  'image_mib':size,'alpine_packages':packages}
+        (out/'BUILD-MANIFEST.json').write_text(json.dumps(manifest,indent=2)+'\n')
+        shutil.copy2(repo/'build/pw3os/README-DEPLOY.txt',out/'README-DEPLOY.txt')
+    print('RESULT: PW3OS_ALPINE_3243_FULL_IMAGE_BUILT_NOT_INSTALLED')
+    print('OUTPUT',out)
+
+
+if __name__=='__main__':main()
