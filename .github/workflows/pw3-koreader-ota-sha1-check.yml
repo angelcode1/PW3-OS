@@ -19,6 +19,8 @@ jobs:
           curl -fsSL --retry 3 "$base/koreader-kindlepw2-latest-stable.zsync" -o index.zsync
           curl -fsSL --retry 3 "$base/$file" -o "$file"
           sha1sum "$file"
+          echo "=== Uncompressed tar SHA-1 ==="
+          gzip -dc "$file" | sha1sum
           echo "=== OTA metadata ==="
           head -n 9 index.zsync
           echo "=== compressed archive ==="
