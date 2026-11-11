@@ -43,7 +43,11 @@ class UpdaterTests(unittest.TestCase):
                 member.mode = mode
                 t.addfile(member, io.BytesIO(content))
             for name in upd.NEEDED:
-                add("koreader/" + name, b"v2099.01" if name == "git-rev" else b"ok")
+                body = b"v2099.01" if name == "git-rev" else b"ok"
+                if name == "reader.lua": body = b"userpatch.applyPatches(userpatch.late)"
+                if name == "frontend/userpatch.lua": body = b"function userpatch.applyPatches(priority) end"
+                if name == "frontend/ui/otamanager.lua": body = b"getOTAMenuTable"
+                add("koreader/" + name, body)
             add("koreader/fbink", mode=0o755)
             if extra:
                 add(extra, b"unsafe")
@@ -91,6 +95,17 @@ class UpdaterTests(unittest.TestCase):
         self.assertFalse(upd.finish(True))
         self.assertEqual(upd.get_json(upd.STATE)["phase"], "healthy")
         self.assertEqual((upd.CURRENT / "reader.lua").read_text(), "candidate")
+    def test_healthy_cleanup_retains_rollback_and_frees_old_releases(self):
+        self.make_legacy()
+        old = upd.RELEASES / "v2090.01"
+        old.mkdir()
+        (old / "reader.lua").write_text("obsolete")
+        with patch.object(upd, "smoke"):
+            upd.activate()
+        self.assertFalse(upd.finish(True))
+        self.assertFalse(old.exists())
+        self.assertTrue(upd.CURRENT.is_symlink())
+        self.assertTrue(Path(upd.get_json(upd.STATE)["previous"]).is_dir())
     def test_no_rollback_when_not_first_run(self):
         self.assertFalse(upd.finish(False))
     def test_userpatch_outside_app(self):

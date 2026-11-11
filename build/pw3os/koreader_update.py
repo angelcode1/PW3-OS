@@ -187,6 +187,16 @@ def unpack(tarball, dest):
         for name in NEEDED:
             if not (dest / name).is_file():
                 hold("MISSING_UPDATE_RUNTIME " + name)
+        # Fail closed if an upstream release changes the official
+        # persistent-patch API or the menu method our adapter uses.
+        contracts = (
+            ("reader.lua", "userpatch.applyPatches(userpatch.late)"),
+            ("frontend/userpatch.lua", "function userpatch.applyPatches"),
+            ("frontend/ui/otamanager.lua", "getOTAMenuTable"),
+        )
+        for file, token in contracts:
+            if token not in (dest / file).read_text(errors="replace"):
+                hold("KO_READER_EXTENSION_API_CHANGED " + file)
         for name in ("luajit", "fbink"):
             file = dest / name
             if not file.is_file():
@@ -227,6 +237,11 @@ def stage():
     if meta["revision"] == installed_revision():
         record("KOREADER_ALREADY_CURRENT")
         return
+    state = get_json(STATE)
+    if state.get("phase") in ("first-launch", "installing"):
+        hold("PREVIOUS_UPDATE_AWAITING_FIRST_LAUNCH")
+    if state.get("phase") == "rolled-back" and Path(state.get("failed", "")).name == meta["revision"]:
+        hold("PREVIOUSLY_FAILED_RELEASE_RETAINED")
     target = RELEASES / meta["revision"]
     if not REV_RE.fullmatch(meta["revision"]):
         hold("UNSAFE_RELEASE_NAME")
@@ -301,6 +316,19 @@ def recover():
         return
     hold("CURRENT_MISSING_NO_SAFE_RECOVERY")
 
+def cleanup_after_healthy(active, previous):
+    # Keep the active release and one rollback generation. Anything more
+    # would eventually fill the Kindle's 768-MiB Alpine filesystem.
+    keep = {str(active.resolve()), str(previous.resolve())}
+    if RELEASES.is_dir():
+        for item in RELEASES.iterdir():
+            if item.is_dir() and not item.is_symlink() and str(item.resolve()) not in keep:
+                if item.name.startswith((".stage-", "original-", "v")):
+                    shutil.rmtree(item)
+    for item in CACHE.glob("koreader-kindlepw2-*.targz"):
+        item.unlink(missing_ok=True)
+    record("KOREADER_OLD_RELEASES_CLEANED")
+
 def finish(success):
     state = get_json(STATE)
     if state.get("phase") != "first-launch":
@@ -319,6 +347,7 @@ def finish(success):
     atomic_json(STATE, {"phase": "healthy", "previous": str(previous),
                         "active": state["candidate"]})
     record("KOREADER_UPDATE_ACCEPTED")
+    cleanup_after_healthy(Path(state["candidate"]), previous)
     return False
 
 def manual_rollback():
