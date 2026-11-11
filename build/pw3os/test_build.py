@@ -42,6 +42,12 @@ class TestBuild(unittest.TestCase):
         self.assertNotIn('Memory Match|cube|/usr/local/bin/pw3-puzzles match',s)
         self.assertIn("games-menu.c",s)
         self.assertIn("exec ./luajit ./reader.lua",s)
+    def test_cleanup_keeps_current_image(self):
+        s=(BUILD/'REMOVE-LEGACY-IMAGES.sh').read_text()
+        self.assertIn('--remove-legacy-after-stock',s)
+        self.assertIn('ACTIVE_RUNNER_NOT_POINTING_TO_ALPINE_OS',s)
+        self.assertIn('RESULT: LEGACY_ALPINE_IMAGES_REMOVED_CURRENT_ALPINE_OS_PRESERVED',s)
+        self.assertNotIn('rm "$D/alpine-os.img"',s)
     def test_hash(self):
         spec=importlib.util.spec_from_file_location('b',BUILD/'build_image.py')
         b=importlib.util.module_from_spec(spec)
