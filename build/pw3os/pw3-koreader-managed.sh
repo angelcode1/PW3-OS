@@ -16,10 +16,11 @@ fi
 mkdir -p "$KO_HOME/patches" "$KO_HOME/ota" /var/tmp
 
 # Move user-specific data out of the app release on first managed launch.
+# Do not copy bundled data/plugins/cache; they are application resources.
 # The shared Kindle userstore persists across future Alpine image updates.
 if [ ! -e "$KO_HOME/.pw3os-migrated" ]; then
     for item in settings.reader.lua settings history docsettings hashdocsettings \
-                data plugins screenshots styletweaks cache; do
+                screenshots styletweaks; do
         if [ -e "/opt/koreader/$item" ] && [ ! -e "$KO_HOME/$item" ]; then
             cp -r "/opt/koreader/$item" "$KO_HOME/$item" || exit 3
         fi
