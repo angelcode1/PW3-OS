@@ -1,0 +1,35 @@
+name: Inspect pinned KOReader Kindle package layout
+on:
+  push:
+    branches:
+      - build/pw3-alpine-integrated
+    paths:
+      - .github/workflows/pw3-koreader-layout.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Download and inspect package without installing
+        run: |
+          curl -fsSL --retry 3 -o /tmp/koreader.zip \
+            https://github.com/koreader/koreader/releases/download/v2026.07.1/koreader-kindlepw2-v2026.07.1.zip
+          echo 'ea1f575c54492a2c679d128b7f3210fd7d6a87e5f5a1ff1f7a7fe2080ff68f86  /tmp/koreader.zip' | sha256sum -c
+          python3 - <<'PY'
+          from zipfile import ZipFile
+          from pathlib import PurePosixPath
+          with ZipFile('/tmp/koreader.zip') as z:
+              names=z.namelist()
+              candidates=[n for n in names if n.endswith(('/koreader.sh','/luajit','/reader.lua','/fbink','/libkohelper.sh'))]
+              print('TOTAL_ARCHIVE_MEMBERS',len(names))
+              for n in candidates: print('PATH',n)
+              scripts=sorted((n for n in names if n.endswith('/koreader.sh')),key=lambda n:len(PurePosixPath(n).parts))
+              for name in scripts:
+                  p=str(PurePosixPath(name).parent)
+                  found=[n for n in names if n.startswith(p+'/') and n[len(p)+1:] in ('luajit','reader.lua','fbink','libkohelper.sh')]
+                  print('SCRIPT_DIR',p,'CORE_FILES',found)
+              print('ROOTS',sorted(set(n.split('/')[0] for n in names))[:20])
+          PY
