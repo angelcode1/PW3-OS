@@ -52,9 +52,9 @@ DEVICE STAGING — ATTENDED AND REVERSIBLE
 RUNTIME
 -------
 PW3-OS graphical menu, ordered in three columns:
-Bible | KOReader | Notes
-Games | Terminal | Wi-Fi
-Settings
+Bible | KOReader | Games
+Wi-Fi | Settings
+Terminal is inside Settings. Notes removed.
 Games opens our Memory Match and Sudoku applications. The current userstore wifi.conf and authorized_keys
 are loaded at boot. Dropbear listens on wlan0:2223 (public-key-only).
 Persistent init logs: /mnt/base-us/pw3os/logs/alpine-own-init.log

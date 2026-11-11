@@ -13,6 +13,7 @@ import tarfile
 import tempfile
 import urllib.request
 import zipfile
+from settings_integration import patch_settings
 
 ALPINE = 'https://dl-cdn.alpinelinux.org/alpine/v3.24'
 MINI = 'alpine-minirootfs-3.24.3-armv7.tar.gz'
@@ -181,12 +182,15 @@ def install_inkwell_core(repo,work,root):
     upstream=work/'Inkwell'
     run('git','clone','-q','--no-checkout','https://github.com/pragyaangaur/Inkwell.git',upstream)
     run('git','checkout','-q',INKWELL_REF,cwd=upstream)
-    apps=('home','wifi','settings','notes','term','splash')  # NEVER build upstream games
+    apps=('home','wifi','settings','term','splash')  # No Notes or upstream games
     bindir=root/'usr/local/bin';bindir.mkdir(parents=True,exist_ok=True)
     for name in apps:
         source=upstream/'src/ui'/f'{name}.c'
         patched=work/f'{name}-pw3os.c'
-        patched.write_text(source.read_text().replace('/mnt/us/linux','/mnt/us/pw3os').replace('\"INKWELL\"','\"PW3 OS\"'))
+        content = source.read_text().replace('/mnt/us/linux','/mnt/us/pw3os').replace('\"INKWELL\"','\"PW3 OS\"')
+        if name == 'settings':
+            content = patch_settings(content)
+        patched.write_text(content)
         source=patched
         crosscompile(source,bindir/name,extra=('-I'+str(upstream/'src/ui'),
                      '-I'+str(upstream/'third_party/stb')))
@@ -202,7 +206,7 @@ def install_inkwell_core(repo,work,root):
     config=root/'etc/own';config.mkdir(parents=True,exist_ok=True)
     shutil.copy2(upstream/'src/rootfs/etc/own/udhcpd.conf',config/'udhcpd.conf')
     (config/'name').write_text('PW3-OS\n')
-    (config/'apps').write_text("# PW3-OS home — 3-column row-major layout; no upstream games\nBible|book|/opt/pw3-bible/run-kindle.sh\nKOReader|book|/usr/local/bin/pw3-koreader\nNotes|page|/usr/local/bin/notes\nGames|cube|/usr/local/bin/pw3-games\nTerminal|terminal|/usr/local/bin/term\nWi-Fi|wifi|/usr/local/bin/wifi\nSettings|gear|/usr/local/bin/settings\n")
+    (config/'apps').write_text("# PW3-OS home — Terminal is in Settings; no Notes or upstream games.\nBible|book|/opt/pw3-bible/run-kindle.sh\nKOReader|book|/usr/local/bin/pw3-koreader\nGames|cube|/usr/local/bin/pw3-games\nWi-Fi|wifi|/usr/local/bin/wifi\nSettings|gear|/usr/local/bin/settings\n")
     # These utility apps expect Inkwell paths; adapt app paths to PW3-OS.
     # Source-level path replacements can be added later without importing games.
     return upstream
@@ -263,17 +267,19 @@ def main():
         # Small on-device overlay: deploy via Alpine SSH without replacing the 768-MiB image.
         for source,destination in ((root/'etc/own/apps',out/'apps'),
                                    (root/'usr/local/bin/pw3-games',out/'pw3-games'),
-                                   (root/'usr/local/bin/pw3-koreader',out/'pw3-koreader')):
+                                   (root/'usr/local/bin/pw3-koreader',out/'pw3-koreader'),
+                                   (root/'usr/local/bin/settings',out/'settings')):
             shutil.copy2(source,destination)
         assemble_runner(repo,out)
         shutil.copy2(repo/'build/pw3os/pw3_debugmount.c',out/'pw3_debugmount.c')
         crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi',freestanding=True)
-        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','pw3-games','pw3-koreader']
+        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','pw3-games','pw3-koreader','settings']
         (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
         manifest={'project':'PW3-OS','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
-                  'inkwell_upstream_commit':INKWELL_REF,'inkwell_apps_included':list(('home','wifi','settings','notes','term','splash')),
+                  'inkwell_upstream_commit':INKWELL_REF,'inkwell_apps_included':list(('home','wifi','settings','term','splash')),
                   'inkwell_games_included':[],'pw3_games':['Memory Match','Sudoku'],
-                  'home_menu':['Bible','KOReader','Notes','Games','Terminal','Wi-Fi','Settings'],
+                  'home_menu':['Bible','KOReader','Games','Wi-Fi','Settings'],
+                  'settings_submenu':['Terminal','Restart','Power off','Stock Kindle UI','Battery','About'],
                   'bible':bible_type,'koreader':KOREADER_VER,'koreader_stage_compat_included':compat,
                   'koreader_runtime_verified':False,'display_runtime_verified':False,
                   'image_mib':size,'alpine_packages':packages}

@@ -37,8 +37,11 @@ class TestBuild(unittest.TestCase):
         self.assertIn('same(source,"/dev/pts")',helper)
     def test_requested_home_menu_and_games_chooser(self):
         s=(BUILD/'build_image.py').read_text()
-        self.assertIn("'home_menu':['Bible','KOReader','Notes','Games','Terminal','Wi-Fi','Settings']",s)
+        self.assertIn("'home_menu':['Bible','KOReader','Games','Wi-Fi','Settings']",s)
         self.assertIn('Games|cube|/usr/local/bin/pw3-games',s)
+        self.assertNotIn('Notes|page|/usr/local/bin/notes',s)
+        self.assertNotIn('Terminal|terminal|/usr/local/bin/term',s)
+        self.assertIn("'settings_submenu':['Terminal'",s)
         self.assertNotIn('Memory Match|cube|/usr/local/bin/pw3-puzzles match',s)
         self.assertIn("games-menu.c",s)
         self.assertIn("exec ./luajit ./reader.lua",s)
@@ -48,6 +51,25 @@ class TestBuild(unittest.TestCase):
         self.assertIn('ACTIVE_RUNNER_NOT_POINTING_TO_ALPINE_OS',s)
         self.assertIn('RESULT: LEGACY_ALPINE_IMAGES_REMOVED_CURRENT_ALPINE_OS_PRESERVED',s)
         self.assertNotIn('rm "$D/alpine-os.img"',s)
+    def test_terminal_is_inside_settings(self):
+        import sys
+        sys.path.insert(0, str(BUILD))
+        from settings_integration import patch_settings
+        src = '''#include "ui.h"
+static rect restart_btn, off_btn, kindle_btn;
+int bw = (W - 2 * MARGIN - 40) / 2;
+off_btn = (rect){MARGIN + bw + 40, 210, bw, 110};
+pill(off_btn, "Power off", 0);
+else if (hit(off_btn, e.x, e.y)) press_on(off_btn);
+if (hit(off_btn, e.x, e.y)) return 12;
+int main(void) {
+Inkwell on Alpine %s
+'''
+        adjusted = patch_settings(src)
+        for phrase in ('terminal_btn', 'launch_terminal()', 'execl("/usr/local/bin/term"',
+                       'input_drain();', 'PW3-OS on Alpine %s'):
+            self.assertIn(phrase, adjusted)
+        self.assertRaises(ValueError, patch_settings, 'broken upstream')
     def test_hash(self):
         spec=importlib.util.spec_from_file_location('b',BUILD/'build_image.py')
         b=importlib.util.module_from_spec(spec)
