@@ -9,6 +9,21 @@ export KOREADER_DIR=/opt/koreader
 LOADER=/opt/koreader-compat/gnu/lib/ld-linux.so.3
 LIB=/opt/koreader-compat/gnu/lib:/opt/koreader-compat/app/ffi:/opt/koreader/libs:/opt/koreader/ffi
 
+# If an Alpine image was replaced, restore the private R13 GNU runtime
+# from its checksummed userstore backup, never from an untrusted download.
+if [ ! -f "$LOADER" ]; then
+    R13=/mnt/us/pw3os/koreader-compat-r13-private.tar.gz
+    if [ -s "$R13" ] && [ -s "$R13.sha256" ]; then
+        if ( cd /mnt/us/pw3os && sha256sum -c koreader-compat-r13-private.tar.gz.sha256 ); then
+            mkdir -p /opt
+            tar -xzf "$R13" -C /opt || exit 2
+        else
+            echo "HOLD: PRIVATE_R13_BACKUP_CHECKSUM_MISMATCH" >&2
+            exit 2
+        fi
+    fi
+fi
+
 if [ ! -r "$MANAGER" ] || [ ! -r "$PATCH" ] || [ ! -f "$LOADER" ]; then
     echo "HOLD: PW3OS_KOREADER_RUNTIME_COMPONENTS_MISSING" >&2
     exit 2

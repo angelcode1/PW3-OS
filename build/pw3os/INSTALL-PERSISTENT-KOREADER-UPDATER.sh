@@ -33,6 +33,17 @@ mv "$D/koreader_update.py.new" "$D/koreader_update.py"
 mv "$D/2-pw3os-autoupdate.lua.new" "$D/2-pw3os-autoupdate.lua"
 mv "$L.new" "$L"
 rm -rf "$S"
+# The R13 GNU runtime is private and cannot be included in public CI images.
+# Preserve a checksum-verified local bundle for future OS image replacements.
+B=/mnt/us/pw3os/koreader-compat-r13-private.tar.gz
+if [ ! -e "$B" ]; then
+    tar -czf "$B.new" -C /opt koreader-compat
+    gzip -t "$B.new"
+    mv "$B.new" "$B"
+    (cd /mnt/us/pw3os && sha256sum koreader-compat-r13-private.tar.gz > koreader-compat-r13-private.tar.gz.sha256)
+fi
+(cd /mnt/us/pw3os && sha256sum -c koreader-compat-r13-private.tar.gz.sha256)
+echo "RESULT: PRIVATE_R13_BACKUP_VERIFIED_ON_USERSTORE"
 echo "RESULT: PW3OS_PERSISTENT_KOREADER_UPDATER_INSTALLED"
 echo "NEXT: Quit KOReader fully and reopen."
 SH
