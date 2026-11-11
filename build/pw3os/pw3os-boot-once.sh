@@ -18,6 +18,7 @@ ATTACH_UNCERTAIN=0
 ASSOCIATED=0
 MOUNTED=0
 B_DEV=0
+B_PTS=0
 B_PROC=0
 B_SYS=0
 B_US=0
@@ -77,6 +78,9 @@ cleanup() {
     fi
     if [ "$B_PROC" -eq 1 ]; then
         "$BIN" umount "$R/proc" || { echo 'HOLD: PROC_BIND_UNMOUNT_UNSAFE' >&2; exit 7; }
+    fi
+    if [ "$B_PTS" -eq 1 ]; then
+        "$BIN" umount "$R/dev/pts" || { echo 'HOLD: PTS_BIND_UNMOUNT_UNSAFE' >&2; exit 7; }
     fi
     if [ "$B_DEV" -eq 1 ]; then
         "$BIN" umount "$R/dev" || { echo 'HOLD: DEV_BIND_UNMOUNT_UNSAFE' >&2; exit 7; }
@@ -162,11 +166,14 @@ ASSOCIATED=1
 ATTACH_UNCERTAIN=0
 "$BIN" mount-rw "$LOOPDEV" "$R" || trial_fail 'EXT3_RW_MOUNT_FAILED'
 MOUNTED=1
-for child in dev proc sys mnt/us; do
+for child in dev dev/pts proc sys mnt/us; do
     [ -d "$R/$child" ] && [ ! -L "$R/$child" ] || trial_fail "BIND_TARGET_UNSAFE_$child"
 done
 "$BIN" bind /dev "$R/dev" || trial_fail 'DEV_BIND_FAILED'
 B_DEV=1
+"$BIN" bind /dev/pts "$R/dev/pts" || trial_fail 'PTS_BIND_FAILED'
+B_PTS=1
+echo 'RESULT: ALPINE_DEVPTS_BIND_READY'
 "$BIN" bind /proc "$R/proc" || trial_fail 'PROC_BIND_FAILED'
 B_PROC=1
 "$BIN" bind /sys "$R/sys" || trial_fail 'SYS_BIND_FAILED'

@@ -21,7 +21,8 @@ def build(repo: Path, web: Path, kjv: Path, asv: Path, output: Path) -> int:
     ])
     module.add_bibles(pages, translations)
     output.parent.mkdir(parents=True, exist_ok=True)
-    pages.write(output, 0)
+    # The reader requires day_start >= 1; public-only archives contain no today links.
+    pages.write(output, 1)
     print(f'PUBLIC_BIBLE_ARCHIVE_PAGES={len(pages.ids)}')
     return len(pages.ids)
 

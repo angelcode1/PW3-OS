@@ -140,6 +140,13 @@ exec /bin/sh ./koreader.sh
     return compat
 
 
+def verify_bible_archive(app,work,archive):
+    # Catch structural mismatches (including invalid day_start) before publishing any image.
+    validator=work/'pw3-bible-host-validator'
+    run('cc','-O2','-DPW3_HOST',app/'reader.c','-lm','-o',validator)
+    run(validator,archive,'--verify')
+
+
 def install_bible(repo,work,root,life_apk):
     app=repo/'apps/pw3-bible'
     dest=root/'opt/pw3-bible'
@@ -160,10 +167,12 @@ def install_bible(repo,work,root,life_apk):
         cmd=['python3',app/'build.py','--apk',life_apk,'--web',vpls['web'],
              '--kjv',vpls['kjv'],'--asv',vpls['asv'],'--output',dest/'bible.pw3']
         run(*cmd)
+        verify_bible_archive(app,work,dest/'bible.pw3')
         return 'full-local-life-bible'
     run('python3',repo/'build/pw3os/public_bible.py','--repo',repo,
         '--web',vpls['web'],'--kjv',vpls['kjv'],'--asv',vpls['asv'],
         '--output',dest/'bible.pw3')
+    verify_bible_archive(app,work,dest/'bible.pw3')
     return 'public-domain-WEB-KJV-ASV'
 
 

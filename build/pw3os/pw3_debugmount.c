@@ -34,6 +34,8 @@ static int valid_bind(const char *source, const char *target) {
             same(target,"/mnt/base-us/pw3os/.pw3os-alpine-live-root/mnt/us")) ||
            (same(source,"/dev") &&
             same(target,"/mnt/base-us/pw3os/.pw3os-alpine-live-root/dev")) ||
+           (same(source,"/dev/pts") &&
+            same(target,"/mnt/base-us/pw3os/.pw3os-alpine-live-root/dev/pts")) ||
            (same(source,"/proc") &&
             same(target,"/mnt/base-us/pw3os/.pw3os-alpine-live-root/proc")) ||
            (same(source,"/sys") &&
@@ -42,6 +44,7 @@ static int valid_bind(const char *source, const char *target) {
 static int valid_bind_target(const char *p) {
     return same(p,"/mnt/base-us/pw3os/.pw3os-alpine-live-root/mnt/us") ||
            same(p,"/mnt/base-us/pw3os/.pw3os-alpine-live-root/dev") ||
+           same(p,"/mnt/base-us/pw3os/.pw3os-alpine-live-root/dev/pts") ||
            same(p,"/mnt/base-us/pw3os/.pw3os-alpine-live-root/proc") ||
            same(p,"/mnt/base-us/pw3os/.pw3os-alpine-live-root/sys");
 }
@@ -102,7 +105,7 @@ int pw3_main(long *stack) {
         return 0;
     }
     say("Usage: pw3-debugmount mount-rw /dev/loop/{1..16} /mnt/base-us/pw3os/.pw3os-alpine-live-root\n");
-    say("       pw3-debugmount bind /dev|/proc|/sys|/mnt/base-us <exact corresponding Alpine path>\n");
+    say("       pw3-debugmount bind /dev|/dev/pts|/proc|/sys|/mnt/base-us <exact corresponding Alpine path>\n");
     say("       pw3-debugmount umount <exact root or bound target>\n");
     return 2;
 }

@@ -25,6 +25,16 @@ class TestBuild(unittest.TestCase):
         self.assertIn('"$BB" chroot "$R" /sbin/own-init',s)
         self.assertIn("timeout -t 330",s) # match removal before final script output
         self.assertIn('One-shot', (BUILD/'README.md').read_text().replace('one-shot','One-shot'))
+    def test_public_archive_header_is_valid_for_reader(self):
+        self.assertIn('pages.write(output, 1)',(BUILD/'public_bible.py').read_text())
+        self.assertIn("verify_bible_archive(app,work,dest/'bible.pw3')",(BUILD/'build_image.py').read_text())
+    def test_pts_mount_and_cleanup_both_present(self):
+        s=(BUILD/'pw3os-boot-once.sh').read_text()
+        helper=(BUILD/'pw3_debugmount.c').read_text()
+        self.assertIn('B_PTS=1',s)
+        self.assertIn('umount "$R/dev/pts"',s)
+        self.assertIn('bind /dev/pts "$R/dev/pts"',s)
+        self.assertIn('same(source,"/dev/pts")',helper)
     def test_hash(self):
         spec=importlib.util.spec_from_file_location('b',BUILD/'build_image.py')
         b=importlib.util.module_from_spec(spec)
