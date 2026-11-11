@@ -164,6 +164,15 @@ if [ ! -f "$LOADER" ]; then
 fi
 export LD_LIBRARY_PATH=/opt/koreader-compat/gnu/lib:/opt/koreader-compat/app/ffi:/opt/koreader/libs:/opt/koreader/ffi
 cd /opt/koreader
+# KOReader Kindle device.lua checks the MD5 of /var/tmp/koreader.sh against
+# ./koreader.sh. The stock wrapper normally creates that copy before LuaJIT;
+# our Alpine direct launcher deliberately bypasses the Amazon framework.
+# Keep the expected copy in sync without executing the Amazon wrapper.
+[ -r ./koreader.sh ] || { echo 'HOLD: KOREADER_SCRIPT_MISSING' >&2; exit 4; }
+mkdir -p /var/tmp
+cp -p ./koreader.sh /var/tmp/koreader.sh
+cmp -s ./koreader.sh /var/tmp/koreader.sh ||
+  { echo 'HOLD: KOREADER_STARTUP_SCRIPT_SYNC_FAILED' >&2; exit 4; }
 exec "$LOADER" --library-path "$LD_LIBRARY_PATH" /opt/koreader/luajit ./reader.lua "$@"
 ''')
     launcher.chmod(0o755)

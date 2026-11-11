@@ -46,6 +46,8 @@ class TestBuild(unittest.TestCase):
         self.assertIn("games-menu.c",s)
         self.assertIn('KOREADER_GNU_SOFTFLOAT_LOADER_MISSING',s)
         self.assertIn('exec "$LOADER" --library-path',s)
+        self.assertIn('cp -p ./koreader.sh /var/tmp/koreader.sh',s)
+        self.assertIn('KOREADER_STARTUP_SCRIPT_SYNC_FAILED',s)
     def test_cleanup_keeps_current_image(self):
         s=(BUILD/'REMOVE-LEGACY-IMAGES.sh').read_text()
         self.assertIn('--remove-legacy-after-stock',s)
