@@ -48,8 +48,8 @@ jobs:
             out/pw3os/pw3-games
             out/pw3os/pw3-koreader
             out/pw3os/settings
-            out/pw3os/koreader-kindle-device.lua
-            out/pw3os/koreader-otamanager.lua
+            out/pw3os/koreader_update.py
+            out/pw3os/2-pw3os-autoupdate.lua
           retention-days: 14
           if-no-files-found: error
       - name: Upload small boot and PTY fix bundle (without 768 MiB image)

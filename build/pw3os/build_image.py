@@ -15,8 +15,6 @@ import tempfile
 import urllib.request
 import zipfile
 from settings_integration import patch_settings
-from koreader_network import patch_koreader_network
-from koreader_ota import patch_koreader_ota
 
 ALPINE = 'https://dl-cdn.alpinelinux.org/alpine/v3.24'
 MINI = 'alpine-minirootfs-3.24.3-armv7.tar.gz'
@@ -143,14 +141,8 @@ def install_koreader(work,root,stage):
             raise RuntimeError(f'KOReader {name} is not executable after extraction')
     if not (dest/'reader.lua').is_file():
         raise RuntimeError('KOReader release lacks reader.lua in selected app root')
-    kindle_backend = dest/'frontend/device/kindle/device.lua'
-    if not kindle_backend.is_file():
-        raise RuntimeError('KOReader Kindle network backend absent from release')
-    kindle_backend.write_text(patch_koreader_network(kindle_backend.read_text()))
-    ota_manager = dest/'frontend/ui/otamanager.lua'
-    if not ota_manager.is_file():
-        raise RuntimeError('KOReader OTA manager absent from pinned release')
-    ota_manager.write_text(patch_koreader_ota(ota_manager.read_text()))
+    # Do not patch KOReader release sources: all PW3-OS adaptations are
+    # persistent userpatch modules in KO_HOME and an external launcher.
     compat=False
     if stage:
         compat_src=stage/'opt/koreader-compat'
@@ -158,34 +150,15 @@ def install_koreader(work,root,stage):
             shutil.copytree(compat_src,root/'opt/koreader-compat',dirs_exist_ok=True,symlinks=True)
             compat=True
     launcher=root/'usr/local/bin/pw3-koreader'
-    launcher.write_text('''#!/bin/sh
-# PW3-OS GNU/soft-float KOReader. Never run the Amazon-specific cvm/msg wrapper.
-# The kindlepw2 ABI requires /lib/ld-linux.so.3 (NOT Alpine musl's loader).
-set -eu
-export HOME=/root LC_ALL=C KOREADER_DIR=/opt/koreader
-LOADER=/opt/koreader-compat/gnu/lib/ld-linux.so.3
-if [ ! -x /opt/koreader/luajit ] || [ ! -r /opt/koreader/reader.lua ]; then
-  echo 'HOLD: KOREADER_RUNTIME_FILES_MISSING' >&2
-  exit 2
-fi
-if [ ! -f "$LOADER" ]; then
-  echo 'HOLD: KOREADER_GNU_SOFTFLOAT_LOADER_MISSING; install private R13 compat stage' >&2
-  exit 3
-fi
-export LD_LIBRARY_PATH=/opt/koreader-compat/gnu/lib:/opt/koreader-compat/app/ffi:/opt/koreader/libs:/opt/koreader/ffi
-cd /opt/koreader
-# KOReader Kindle device.lua checks the MD5 of /var/tmp/koreader.sh against
-# ./koreader.sh. The stock wrapper normally creates that copy before LuaJIT;
-# our Alpine direct launcher deliberately bypasses the Amazon framework.
-# Keep the expected copy in sync without executing the Amazon wrapper.
-[ -r ./koreader.sh ] || { echo 'HOLD: KOREADER_SCRIPT_MISSING' >&2; exit 4; }
-mkdir -p /var/tmp
-cp -p ./koreader.sh /var/tmp/koreader.sh
-cmp -s ./koreader.sh /var/tmp/koreader.sh ||
-  { echo 'HOLD: KOREADER_STARTUP_SCRIPT_SYNC_FAILED' >&2; exit 4; }
-exec "$LOADER" --library-path "$LD_LIBRARY_PATH" /opt/koreader/luajit ./reader.lua "$@"
-''')
+    project=Path(__file__).resolve().parent
+    shutil.copy2(project/'pw3-koreader-managed.sh',launcher)
     launcher.chmod(0o755)
+    tools=root/'usr/local/lib/pw3os'
+    tools.mkdir(parents=True,exist_ok=True)
+    for name,output in (('koreader_update.py','koreader_update.py'),
+                        ('2-pw3os-autoupdate.lua','2-pw3os-autoupdate.lua')):
+        shutil.copy2(project/name,tools/output)
+    (tools/'koreader_update.py').chmod(0o755)
     return compat
 
 
@@ -316,13 +289,13 @@ def main():
                                    (root/'usr/local/bin/pw3-games',out/'pw3-games'),
                                    (root/'usr/local/bin/pw3-koreader',out/'pw3-koreader'),
                                    (root/'usr/local/bin/settings',out/'settings'),
-                                   (root/'opt/koreader/frontend/device/kindle/device.lua',out/'koreader-kindle-device.lua'),
-                                   (root/'opt/koreader/frontend/ui/otamanager.lua',out/'koreader-otamanager.lua')):
+                                   (root/'usr/local/lib/pw3os/koreader_update.py',out/'koreader_update.py'),
+                                   (root/'usr/local/lib/pw3os/2-pw3os-autoupdate.lua',out/'2-pw3os-autoupdate.lua')):
             shutil.copy2(source,destination)
         assemble_runner(repo,out)
         shutil.copy2(repo/'build/pw3os/pw3_debugmount.c',out/'pw3_debugmount.c')
         crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi',freestanding=True)
-        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','pw3-games','pw3-koreader','settings','koreader-kindle-device.lua','koreader-otamanager.lua']
+        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','pw3-games','pw3-koreader','settings','koreader_update.py','2-pw3os-autoupdate.lua']
         (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
         manifest={'project':'PW3-OS','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
                   'inkwell_upstream_commit':INKWELL_REF,'inkwell_apps_included':list(('home','wifi','settings','term','splash')),
