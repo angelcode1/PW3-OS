@@ -1,0 +1,25 @@
+name: PW3OS durable KOReader updater tests
+on:
+  push:
+    branches: [build/pw3-alpine-integrated]
+    paths:
+      - 'build/pw3os/koreader_update.py'
+      - 'build/pw3os/2-pw3os-autoupdate.lua'
+      - 'build/pw3os/pw3-koreader-managed.sh'
+      - 'build/pw3os/test_koreader_update.py'
+      - 'build/pw3os/INSTALL-PERSISTENT-KOREADER-UPDATER.sh'
+      - '.github/workflows/pw3-koreader-updater-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  safe-updates:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python safe update, rollback, and archive tests
+        run: python3 -m unittest -v build/pw3os/test_koreader_update.py
+      - name: Check launcher and live installer
+        run: |
+          sh -n build/pw3os/pw3-koreader-managed.sh
+          bash -n build/pw3os/INSTALL-PERSISTENT-KOREADER-UPDATER.sh
