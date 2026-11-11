@@ -61,3 +61,7 @@ The official kindlepw2 LuaJIT binary is an ARM soft-float EABI executable that n
 ## KOReader updates on standalone Alpine
 
 The pinned Kindle build checks Internet connectivity using a DNS-specific heuristic and normally uses the Amazon LIPC Wi-Fi backend. PW3-OS uses its own `wpa_supplicant`/`udhcpc`, so the build patches just the Kindle backend's online check when `/etc/own/name` is `PW3-OS`. A default route on wlan0 permits the actual HTTPS update attempt; real HTTPS errors remain visible. The patch also prevents KOReader toggling Alpine's Wi-Fi through unavailable Amazon services. The full image and small overlay include `koreader-kindle-device.lua`. Deploy this file to `/opt/koreader/frontend/device/kindle/device.lua` after a backup, and fully quit/reopen KOReader. It does not affect ordinary Kindle installations.
+
+## KOReader GNU DNS and OTA metadata (PW3-OS only)
+
+The relocated R13 GNU glibc 2.20 lacks `libnss_dns.so.2`/`libnss_files.so.2`, so GNU LuaSocket DNS fails even though Alpine's musl-based `curl` works. `koreader_ota.py` patches the exact pinned KOReader OTA source so **Check for updates** uses Alpine `curl` in PW3-OS only. It also disables official automatic OTA installation on PW3-OS to prevent removal of custom loader and Wi-Fi modifications. This is an OTA-specific workaround; it does **not** repair GNU name resolution in other KOReader features. For a live image, patch `/opt/koreader/frontend/ui/otamanager.lua` via the script after quitting KOReader; use the small `koreader-otamanager.lua` overlay for subsequent releases.

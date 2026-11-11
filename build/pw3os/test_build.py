@@ -109,6 +109,17 @@ Inkwell on Alpine %s
         self.assertIn('PW3-OS: KOReader cannot disable Alpine Wi-Fi', result)
         self.assertEqual(result, patch_koreader_network(result))
         self.assertRaises(ValueError, patch_koreader_network, 'different backend')
+    def test_ota_safe_alpine_curl_bridge(self):
+        import sys
+        sys.path.insert(0, str(BUILD))
+        from koreader_ota import patch_koreader_ota, FETCH_OLD, INSTALL_OLD
+        raw = 'KOReader OTA manager\\n' + FETCH_OLD + '\\n' + INSTALL_OLD
+        adjusted = patch_koreader_ota(raw)
+        self.assertIn('PW3-OS: Alpine curl unable to fetch OTA metadata', adjusted)
+        self.assertIn('Automatic installation is disabled on PW3-OS Alpine', adjusted)
+        self.assertIn('util.shell_escape', adjusted)
+        self.assertEqual(adjusted, patch_koreader_ota(adjusted))
+        self.assertRaises(ValueError, patch_koreader_ota, 'unexpected')
     def test_hash(self):
         spec=importlib.util.spec_from_file_location('b',BUILD/'build_image.py')
         b=importlib.util.module_from_spec(spec)
