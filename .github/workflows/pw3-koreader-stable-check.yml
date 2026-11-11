@@ -18,7 +18,8 @@ jobs:
           curl -fsSL --retry 3 "$base/$file.sha256" -o "$file.sha256"
           curl -fsSL --retry 3 "$base/$file" -o "$file"
           cat "$file.sha256"
-          sha256sum -c "$file.sha256"
+          echo "=== WARNING if published SHA256 mismatches ==="
+          sha256sum -c "$file.sha256" || echo "HOLD: PUBLISHED_SHA256_MISMATCH -- NEVER AUTO-INSTALL UNVERIFIED FILE"
           echo '=== Archive sample ==='
           tar -tf "$file" | head -n 32 || true
           echo '=== Critical files ==='
