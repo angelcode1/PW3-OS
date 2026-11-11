@@ -33,8 +33,8 @@ On `feature/pw3-bible-reader`, push changes to this directory to trigger CI. Aft
 
 - PW3-OS BibleReader: repository C app, public offline WEB/KJV/ASV, optional richer local Life Bible content
 - KOReader: official KindlePW2 bundle, plus optional local dual-libc runtime
-- **Our** Memory Match: 4×4 matching pairs, touch-based game
-- **Our** Sudoku: 9×9 touch keypad and check, starter puzzle (more puzzles/KenKen planned)
+- **Games folder** with our Memory Match and Sudoku; future games can be added to this chooser
+- Home order: Bible, KOReader, Notes / Games, Terminal, Wi-Fi / Settings
 - Inkwell-derived essential utilities: home launcher, Wi-Fi, settings, notes, terminal, splash (MIT attribution)
 - Alpine Wi-Fi (`wpa_supplicant`), Dropbear SSH on 2223, persistent logs in userstore
 
@@ -45,3 +45,7 @@ On `feature/pw3-bible-reader`, push changes to this directory to trigger CI. Aft
 Reuse the **existing verified one-shot Upstart hook** on the Kindle. Do not overwrite Amazon bootloader/kernel/partitions. The image is a new separate file (`alpine-os.img`). Do not switch it in until the earlier Batch 4.4 cleanup and stock fallback are confirmed. See `README-DEPLOY.txt` in the generated artifact. The graphical and KOReader integration remain unverified on physical hardware.
 
 Upstream references: [Inkwell v1.2.0](https://github.com/pragyaangaur/Inkwell/tree/v1.2.0) (MIT); [KOReader v2026.07.1](https://github.com/koreader/koreader/releases/tag/v2026.07.1); [Alpine Linux 3.24.3](https://dl-cdn.alpinelinux.org/alpine/v3.24/releases/armv7/).
+
+## Live application overlay
+
+GitHub Actions publishes `pw3os-apps-overlay` with just `apps`, `pw3-games` and `pw3-koreader`. Deploy to the **running** Alpine system over SSH (port 2223) after backing up `/etc/own/apps` and `/usr/local/bin/pw3-koreader`. Change the menu by restarting home, or at next boot. The Games chooser returns to itself when either puzzle exits. The KOReader launcher now executes its Lua runtime directly rather than Amazon's cvm/msg startup wrapper; runtime ABI support still needs device evidence. Never deploy this overlay over stock SSH into an unmounted Alpine image.

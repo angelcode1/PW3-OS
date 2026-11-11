@@ -126,15 +126,16 @@ def install_koreader(work,root,stage):
             compat=True
     launcher=root/'usr/local/bin/pw3-koreader'
     launcher.write_text('''#!/bin/sh
-# KOReader kindlepw2 upstream package. Kindle-specific GNU ABI may need the R13 compat layer.
+# PW3-OS: launch KOReader directly, not via Kindle's Amazon-framework wrapper.
+# Running the stock script would attempt msg/cvm and /proc/keypad in Alpine.
+set -eu
 export HOME=/root
-if [ -x /opt/koreader-compat/app/koreader.sh ]; then
-  export LD_LIBRARY_PATH=/opt/koreader-compat/gnu/lib:/opt/koreader-compat/app/ffi
-  cd /opt/koreader-compat/app
-  exec /bin/sh ./koreader.sh
-fi
+export LC_ALL=C
+export KOREADER_DIR=/opt/koreader
+export LD_LIBRARY_PATH=/opt/koreader/libs:/opt/koreader/ffi:/opt/koreader
 cd /opt/koreader
-exec /bin/sh ./koreader.sh
+[ -x ./luajit ] && [ -r ./reader.lua ] || { echo 'HOLD: KOREADER_RUNTIME_FILES_MISSING' >&2; exit 2; }
+exec ./luajit ./reader.lua
 ''')
     launcher.chmod(0o755)
     return compat
@@ -191,6 +192,8 @@ def install_inkwell_core(repo,work,root):
                      '-I'+str(upstream/'third_party/stb')))
     crosscompile(repo/'build/pw3os/puzzles.c',bindir/'pw3-puzzles',
                  extra=('-I'+str(upstream/'src/ui'),'-I'+str(upstream/'third_party/stb')))
+    crosscompile(repo/'build/pw3os/games-menu.c',bindir/'pw3-games',
+                 extra=('-I'+str(upstream/'src/ui'),'-I'+str(upstream/'third_party/stb')))
     fonts=root/'usr/share/fonts/inkwell';fonts.mkdir(parents=True,exist_ok=True)
     for f in (upstream/'fonts').glob('*.ttf'):shutil.copy2(f,fonts/f.name)
     for f in (upstream/'fonts').glob('*.txt'):shutil.copy2(f,fonts/f.name)
@@ -199,16 +202,7 @@ def install_inkwell_core(repo,work,root):
     config=root/'etc/own';config.mkdir(parents=True,exist_ok=True)
     shutil.copy2(upstream/'src/rootfs/etc/own/udhcpd.conf',config/'udhcpd.conf')
     (config/'name').write_text('PW3-OS\n')
-    (config/'apps').write_text('''# PW3-OS apps. No upstream Inkwell games or Quill.
-Bible|book|/opt/pw3-bible/run-kindle.sh
-KOReader|book|/usr/local/bin/pw3-koreader
-Memory Match|cube|/usr/local/bin/pw3-puzzles match
-Sudoku|page|/usr/local/bin/pw3-puzzles sudoku
-Notes|page|/usr/local/bin/notes
-Terminal|terminal|/usr/local/bin/term
-Wi-Fi|wifi|/usr/local/bin/wifi
-Settings|gear|/usr/local/bin/settings
-''')
+    (config/'apps').write_text("# PW3-OS home — 3-column row-major layout; no upstream games\nBible|book|/opt/pw3-bible/run-kindle.sh\nKOReader|book|/usr/local/bin/pw3-koreader\nNotes|page|/usr/local/bin/notes\nGames|cube|/usr/local/bin/pw3-games\nTerminal|terminal|/usr/local/bin/term\nWi-Fi|wifi|/usr/local/bin/wifi\nSettings|gear|/usr/local/bin/settings\n")
     # These utility apps expect Inkwell paths; adapt app paths to PW3-OS.
     # Source-level path replacements can be added later without importing games.
     return upstream
@@ -266,14 +260,20 @@ def main():
         run('mke2fs','-q','-F','-t','ext3','-L','pw3os',
             '-E','root_owner=0:0','-d',root,img,f'{size}M')
         run('e2fsck','-fn',img,acceptable=(0,))
+        # Small on-device overlay: deploy via Alpine SSH without replacing the 768-MiB image.
+        for source,destination in ((root/'etc/own/apps',out/'apps'),
+                                   (root/'usr/local/bin/pw3-games',out/'pw3-games'),
+                                   (root/'usr/local/bin/pw3-koreader',out/'pw3-koreader')):
+            shutil.copy2(source,destination)
         assemble_runner(repo,out)
         shutil.copy2(repo/'build/pw3os/pw3_debugmount.c',out/'pw3_debugmount.c')
         crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi',freestanding=True)
-        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh']
+        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','pw3-games','pw3-koreader']
         (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
         manifest={'project':'PW3-OS','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
                   'inkwell_upstream_commit':INKWELL_REF,'inkwell_apps_included':list(('home','wifi','settings','notes','term','splash')),
                   'inkwell_games_included':[],'pw3_games':['Memory Match','Sudoku'],
+                  'home_menu':['Bible','KOReader','Notes','Games','Terminal','Wi-Fi','Settings'],
                   'bible':bible_type,'koreader':KOREADER_VER,'koreader_stage_compat_included':compat,
                   'koreader_runtime_verified':False,'display_runtime_verified':False,
                   'image_mib':size,'alpine_packages':packages}

@@ -35,6 +35,13 @@ class TestBuild(unittest.TestCase):
         self.assertIn('umount "$R/dev/pts"',s)
         self.assertIn('bind /dev/pts "$R/dev/pts"',s)
         self.assertIn('same(source,"/dev/pts")',helper)
+    def test_requested_home_menu_and_games_chooser(self):
+        s=(BUILD/'build_image.py').read_text()
+        self.assertIn("'home_menu':['Bible','KOReader','Notes','Games','Terminal','Wi-Fi','Settings']",s)
+        self.assertIn('Games|cube|/usr/local/bin/pw3-games',s)
+        self.assertNotIn('Memory Match|cube|/usr/local/bin/pw3-puzzles match',s)
+        self.assertIn("games-menu.c",s)
+        self.assertIn("exec ./luajit ./reader.lua",s)
     def test_hash(self):
         spec=importlib.util.spec_from_file_location('b',BUILD/'build_image.py')
         b=importlib.util.module_from_spec(spec)

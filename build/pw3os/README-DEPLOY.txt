@@ -51,8 +51,11 @@ DEVICE STAGING — ATTENDED AND REVERSIBLE
 
 RUNTIME
 -------
-PW3-OS graphical menu: Bible, KOReader, Memory Match, Sudoku, Notes,
-Terminal, Wi-Fi, Settings. The current userstore wifi.conf and authorized_keys
+PW3-OS graphical menu, ordered in three columns:
+Bible | KOReader | Notes
+Games | Terminal | Wi-Fi
+Settings
+Games opens our Memory Match and Sudoku applications. The current userstore wifi.conf and authorized_keys
 are loaded at boot. Dropbear listens on wlan0:2223 (public-key-only).
 Persistent init logs: /mnt/base-us/pw3os/logs/alpine-own-init.log
 Heartbeats: /mnt/base-us/pw3os/logs/heartbeat.log
@@ -63,3 +66,11 @@ short SSH sessions but is now unbounded and starts a graphical application.
 The ability to resume stock after LONG-RUNNING Alpine and USB operations
 has not been independently verified. This archive is not an automatic
 firmware installer and does not replace an independent rescue mechanism.
+
+LEGACY IMAGE CLEANUP
+--------------------
+Legacy `alpine.img` and `alpine-debug.img` are not used by this boot runner.
+Remove them only after a successful stock reboot and verified release of the
+new Alpine image, loop mount and temporary SSH firewall rule. Do not remove
+any image that is still referenced by an installed fallback/Upstart script.
+The original Amazon root/kernel and recovery must remain intact.
