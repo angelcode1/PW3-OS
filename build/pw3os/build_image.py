@@ -149,16 +149,22 @@ def install_koreader(work,root,stage):
             compat=True
     launcher=root/'usr/local/bin/pw3-koreader'
     launcher.write_text('''#!/bin/sh
-# PW3-OS: launch KOReader directly, not via Kindle's Amazon-framework wrapper.
-# Running the stock script would attempt msg/cvm and /proc/keypad in Alpine.
+# PW3-OS GNU/soft-float KOReader. Never run the Amazon-specific cvm/msg wrapper.
+# The kindlepw2 ABI requires /lib/ld-linux.so.3 (NOT Alpine musl's loader).
 set -eu
-export HOME=/root
-export LC_ALL=C
-export KOREADER_DIR=/opt/koreader
-export LD_LIBRARY_PATH=/opt/koreader/libs:/opt/koreader/ffi:/opt/koreader
+export HOME=/root LC_ALL=C KOREADER_DIR=/opt/koreader
+LOADER=/opt/koreader-compat/gnu/lib/ld-linux.so.3
+if [ ! -x /opt/koreader/luajit ] || [ ! -r /opt/koreader/reader.lua ]; then
+  echo 'HOLD: KOREADER_RUNTIME_FILES_MISSING' >&2
+  exit 2
+fi
+if [ ! -f "$LOADER" ]; then
+  echo 'HOLD: KOREADER_GNU_SOFTFLOAT_LOADER_MISSING; install private R13 compat stage' >&2
+  exit 3
+fi
+export LD_LIBRARY_PATH=/opt/koreader-compat/gnu/lib:/opt/koreader-compat/app/ffi:/opt/koreader/libs:/opt/koreader/ffi
 cd /opt/koreader
-[ -x ./luajit ] && [ -r ./reader.lua ] || { echo 'HOLD: KOREADER_RUNTIME_FILES_MISSING' >&2; exit 2; }
-exec ./luajit ./reader.lua
+exec "$LOADER" --library-path "$LD_LIBRARY_PATH" /opt/koreader/luajit ./reader.lua "$@"
 ''')
     launcher.chmod(0o755)
     return compat

@@ -44,7 +44,8 @@ class TestBuild(unittest.TestCase):
         self.assertIn("'settings_submenu':['Terminal'",s)
         self.assertNotIn('Memory Match|cube|/usr/local/bin/pw3-puzzles match',s)
         self.assertIn("games-menu.c",s)
-        self.assertIn("exec ./luajit ./reader.lua",s)
+        self.assertIn('KOREADER_GNU_SOFTFLOAT_LOADER_MISSING',s)
+        self.assertIn('exec "$LOADER" --library-path',s)
     def test_cleanup_keeps_current_image(self):
         s=(BUILD/'REMOVE-LEGACY-IMAGES.sh').read_text()
         self.assertIn('--remove-legacy-after-stock',s)

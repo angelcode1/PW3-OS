@@ -53,3 +53,7 @@ GitHub Actions publishes `pw3os-apps-overlay` with `apps`, `pw3-games`, `pw3-kor
 ## Menu simplification
 
 The home screen shows Bible, KOReader, Games, Wi-Fi, Settings (five items). The Settings screen has a Terminal button next to Restart and Power off; it preserves stock Kindle recovery and Battery/About. Notes is not built. Deploy the overlay files to running Alpine over SSH without replacing the 768-MiB image.
+
+## GNU soft-float KOReader ABI
+
+The official kindlepw2 LuaJIT binary is an ARM soft-float EABI executable that needs `/lib/ld-linux.so.3`, not Alpine's musl loader. A default public GitHub Actions build **does not include this GNU runtime** and KOReader cannot run until it is provided. The existing local R13 stage at `$HOME/Downloads/pw3-os-r13-alpine-dual-libc-fix/stage-r13-fixed/rootfs/opt/koreader-compat` includes a tested relocated GNU loader. The KOReader launcher runs that loader explicitly from `/opt/koreader-compat/gnu/lib/ld-linux.so.3` with `--library-path`, rather than altering `/lib` or starting Amazon's framework. Deploy R13 privately to Alpine over SSH and verify `luajit -v` first. Do not commit proprietary Kindle files into this repo.
