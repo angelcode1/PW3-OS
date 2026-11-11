@@ -97,6 +97,18 @@ Inkwell on Alpine %s
             builder.safe_zip_extract(archive, root)
             self.assertTrue(access(root/'koreader/luajit', X_OK))
             self.assertFalse(access(root/'koreader/reader.lua', X_OK))
+    def test_koreader_alpine_wifi_integration(self):
+        import sys
+        sys.path.insert(0, str(BUILD))
+        from koreader_network import patch_koreader_network, ANCHOR
+        source = 'local Kindle = {}\\n' + ANCHOR
+        result = patch_koreader_network(source)
+        self.assertIn('function NetworkMgr:isOnline()', result)
+        self.assertIn('wlanHasDefaultRoute()', result)
+        self.assertIn('PW3-OS: use the PW3-OS Wi-Fi app', result)
+        self.assertIn('PW3-OS: KOReader cannot disable Alpine Wi-Fi', result)
+        self.assertEqual(result, patch_koreader_network(result))
+        self.assertRaises(ValueError, patch_koreader_network, 'different backend')
     def test_hash(self):
         spec=importlib.util.spec_from_file_location('b',BUILD/'build_image.py')
         b=importlib.util.module_from_spec(spec)
