@@ -350,7 +350,8 @@ def main():
     elif op == "first-launch-ok":
         finish(True)
     elif op == "first-launch-failed":
-        finish(False)
+        if not finish(False):
+            raise SystemExit(4)
     elif op == "rollback":
         manual_rollback()
     elif op == "status":
