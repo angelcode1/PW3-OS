@@ -70,6 +70,30 @@ Inkwell on Alpine %s
                        'input_drain();', 'PW3-OS on Alpine %s'):
             self.assertIn(phrase, adjusted)
         self.assertRaises(ValueError, patch_settings, 'broken upstream')
+    def test_archive_executable_modes_preserved(self):
+        import tempfile
+        import stat
+        import zipfile
+        from os import access, X_OK
+        from importlib.util import spec_from_file_location, module_from_spec
+        spec = spec_from_file_location('builder', BUILD/'build_image.py')
+        builder = module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        with tempfile.TemporaryDirectory() as temp:
+            archive = Path(temp)/'x.zip'
+            root = Path(temp)/'root'
+            with zipfile.ZipFile(archive, 'w') as z:
+                executable = zipfile.ZipInfo('koreader/luajit')
+                executable.create_system = 3
+                executable.external_attr = (stat.S_IFREG | 0o755) << 16
+                z.writestr(executable, b'ELF-test')
+                normal = zipfile.ZipInfo('koreader/reader.lua')
+                normal.create_system = 3
+                normal.external_attr = (stat.S_IFREG | 0o644) << 16
+                z.writestr(normal, b'print(1)')
+            builder.safe_zip_extract(archive, root)
+            self.assertTrue(access(root/'koreader/luajit', X_OK))
+            self.assertFalse(access(root/'koreader/reader.lua', X_OK))
     def test_hash(self):
         spec=importlib.util.spec_from_file_location('b',BUILD/'build_image.py')
         b=importlib.util.module_from_spec(spec)

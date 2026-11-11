@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import stat
 import subprocess
 import tarfile
 import tempfile
@@ -74,6 +75,16 @@ def safe_zip_extract(archive, target):
             if (item.external_attr>>16)&0o170000==0o120000:
                 raise RuntimeError('ZIP symlink not accepted: '+item.filename)
         z.extractall(target)
+        # Python ZIP extraction drops the source executable bits: LuaJIT needs
+        # its x bit restored or KOReader rejects its own runtime.
+        for item in z.infolist():
+            if item.is_dir():
+                continue
+            path = target / item.filename
+            perms = (item.external_attr >> 16) & 0o777
+            if perms & 0o111:
+                current = stat.S_IMODE(path.stat().st_mode)
+                path.chmod(current | (perms & 0o111))
 
 
 def install_pkgs(work,root,upstream):
@@ -119,6 +130,17 @@ def install_koreader(work,root,stage):
     if not matches: raise RuntimeError('KOReader release does not contain koreader.sh')
     app=sorted(matches,key=lambda p:len(p.parts))[0].parent
     shutil.copytree(app,dest,dirs_exist_ok=True,symlinks=True)
+    # Early build failure if the package is unusable; avoid deployment of a
+    # KOReader launcher that fails before even executing LuaJIT.
+    for name in ('luajit', 'fbink'):
+        p = dest/name
+        if not p.is_file():
+            raise RuntimeError(f'KOReader release missing {name}: {dest}')
+        p.chmod(p.stat().st_mode | 0o111)
+        if not os.access(p, os.X_OK):
+            raise RuntimeError(f'KOReader {name} is not executable after extraction')
+    if not (dest/'reader.lua').is_file():
+        raise RuntimeError('KOReader release lacks reader.lua in selected app root')
     compat=False
     if stage:
         compat_src=stage/'opt/koreader-compat'
