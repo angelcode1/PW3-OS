@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
+      - uses: actions/checkout@v4
       - name: Check official OTA SHA1 against published compressed archive
         run: |
           set -euo pipefail
@@ -39,4 +40,27 @@ jobs:
               a=t.getmembers()
               print('MEMBERS',len(a))
               print('ROOTS',sorted({x.name.split('/')[0] for x in a})[:12])
+          PY
+          echo "=== Verify actual stable update is compatible with persistent userpatch ==="
+          tar -xOf "$file" koreader/reader.lua | grep -F 'userpatch.applyPatches(userpatch.late)'
+          tar -xOf "$file" koreader/frontend/userpatch.lua | grep -F 'function userpatch.applyPatches'
+          tar -xOf "$file" koreader/frontend/ui/otamanager.lua | grep -F 'getOTAMenuTable'
+          echo "=== Verify updater can inspect real stable archive ==="
+          python3 - <<'PY'
+          import importlib.util, tempfile, pathlib, hashlib, gzip
+          script=pathlib.Path('build/pw3os/koreader_update.py')
+          spec=importlib.util.spec_from_file_location('updater',script)
+          mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
+          with tempfile.TemporaryDirectory() as work:
+              wd=pathlib.Path(work)
+              mod.CACHE=wd/'cache';mod.LOG=mod.CACHE/'log'
+              archive=pathlib.Path('koreader-kindlepw2-v2026.07.2.targz')
+              with gzip.open(archive,'rb') as f: raw=f.read()
+              expected='eb224da4b213b56766c9988e97d3de285ce004cd'
+              assert hashlib.sha1(raw).hexdigest()==expected,'Official OTA tar digest changed'
+              meta={'tar_sha1':expected,'tar_size':len(raw)}
+              mod.verified_tar(archive,meta)
+              mod.unpack(archive,wd/'ko')
+              assert (wd/'ko/git-rev').read_text().strip().startswith('v2026.07.2')
+              print('RESULT: REAL_STABLE_OTA_UPDATER_VALIDATION_PASS')
           PY
