@@ -1,0 +1,37 @@
+name: Verify official KOReader stable update package
+on:
+  push:
+    branches: [build/pw3-alpine-integrated]
+    paths: [.github/workflows/pw3-koreader-stable-check.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check official SHA-256 and archive layout
+        run: |
+          set -euo pipefail
+          base=https://build.koreader.rocks/download/stable/2026.07.2
+          file=koreader-kindlepw2-v2026.07.2.tar.xz
+          curl -fsSL --retry 3 "$base/$file.sha256" -o "$file.sha256"
+          curl -fsSL --retry 3 "$base/$file" -o "$file"
+          cat "$file.sha256"
+          sha256sum -c "$file.sha256"
+          echo '=== Archive sample ==='
+          tar -tf "$file" | head -n 32 || true
+          echo '=== Critical files ==='
+          tar -tf "$file" | grep -E '(^|/)(luajit|reader.lua|koreader.sh|setupkoenv.lua|frontend/userpatch.lua|frontend/ui/otamanager.lua)$' | head -n 30
+          python3 - <<'PY'
+          import tarfile
+          f='koreader-kindlepw2-v2026.07.2.tar.xz'
+          with tarfile.open(f) as t:
+              ms=t.getmembers()
+              print('members',len(ms),'total_file_bytes',sum(m.size for m in ms if m.isfile()))
+              print('top-level', sorted({m.name.split('/')[0] for m in ms})[:15])
+              links=[m for m in ms if m.issym() or m.islnk()]
+              print('links',len(links))
+              for m in links[:30]:
+                  print('LINK', m.name,'=>',m.linkname)
+          PY
