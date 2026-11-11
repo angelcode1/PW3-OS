@@ -1,0 +1,40 @@
+name: KOReader OTA zsync archive digest validation
+on:
+  push:
+    branches: [build/pw3-alpine-integrated]
+    paths: [.github/workflows/pw3-koreader-ota-sha1-check.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check official OTA SHA1 against published compressed archive
+        run: |
+          set -euo pipefail
+          base=https://ota.koreader.rocks
+          file=koreader-kindlepw2-v2026.07.2.targz
+          curl -fsSL --retry 3 "$base/koreader-kindlepw2-latest-stable.zsync" -o index.zsync
+          curl -fsSL --retry 3 "$base/$file" -o "$file"
+          sha1sum "$file"
+          echo "=== OTA metadata ==="
+          head -n 9 index.zsync
+          echo "=== compressed archive ==="
+          ls -lh "$file"
+          file "$file"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,re,tarfile
+          m=Path('index.zsync').read_bytes().split(b'\n\n',1)[0]
+          d=dict(line.decode().split(': ',1) for line in m.splitlines() if b': ' in line)
+          p=Path('koreader-kindlepw2-v2026.07.2.targz')
+          actual=hashlib.sha1(p.read_bytes()).hexdigest()
+          expected=d.get('SHA-1','')
+          print('SHA1_CHECK',actual,expected,'MATCH' if actual==expected else 'MISMATCH')
+          with tarfile.open(p) as t:
+              a=t.getmembers()
+              print('MEMBERS',len(a))
+              print('ROOTS',sorted({x.name.split('/')[0] for x in a})[:12])
+          PY
