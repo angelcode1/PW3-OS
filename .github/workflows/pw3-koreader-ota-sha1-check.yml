@@ -58,7 +58,7 @@ jobs:
               with gzip.open(archive,'rb') as f: raw=f.read()
               expected='eb224da4b213b56766c9988e97d3de285ce004cd'
               assert hashlib.sha1(raw).hexdigest()==expected,'Official OTA tar digest changed'
-              meta={'tar_sha1':expected,'tar_size':len(raw)}
+              meta={'revision':'v2026.07.2','tar_sha1':expected,'tar_size':len(raw)}
               mod.verified_tar(archive,meta)
               mod.unpack(archive,wd/'ko')
               assert (wd/'ko/git-rev').read_text().strip().startswith('v2026.07.2')
