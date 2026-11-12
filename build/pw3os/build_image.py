@@ -17,6 +17,7 @@ import zipfile
 from settings_integration import patch_settings
 from codex_home import patch_codex_home
 from codex_frontpage import patch_codex_frontpage
+from codex_sleep import patch_codex_sleep
 from browser_package import require_netsurf, verify_netsurf_closure, verify_browser_staged, NETSURF_PACKAGE
 
 ALPINE = 'https://dl-cdn.alpinelinux.org/alpine/v3.24'
@@ -220,6 +221,11 @@ def install_codex_core(repo,work,root):
     upstream=work/'codex-ui-upstream'
     run('git','clone','-q','--no-checkout','https://github.com/pragyaangaur/Inkwell.git',upstream)
     run('git','checkout','-q',CODEX_UI_UPSTREAM_REF,cwd=upstream)
+    # ui.h includes "sleep.h" from its own directory. Patch the pinned
+    # checkout header directly so Home and every other screen share the same
+    # Codex sleep wording; never alter the actual suspend/wake implementation.
+    sleep_header=upstream/'src/ui/sleep.h'
+    sleep_header.write_text(patch_codex_sleep(sleep_header.read_text()))
     apps=('home','wifi','settings','term','splash')  # No Notes or upstream games
     bindir=root/'usr/local/bin';bindir.mkdir(parents=True,exist_ok=True)
     for name in apps:
