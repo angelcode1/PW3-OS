@@ -43,6 +43,9 @@ jobs:
           test -s home
           test -s codex-browser
           test -s codex-display-probe
+          test -s codex-netsurf-test-bundle.tar.gz
+          tar -tzf codex-netsurf-test-bundle.tar.gz | grep -Fx usr/bin/netsurf-framebuffer
+          tar -tzf codex-netsurf-test-bundle.tar.gz | grep -Fx codex-browser-trial.sh
           python3 - <<'PY'
           import json
           with open('BUILD-MANIFEST.json') as f:
@@ -77,6 +80,16 @@ jobs:
           path: |
             out/pw3os/pw3-debugmount
             out/pw3os/pw3os-boot-once.sh
+          retention-days: 14
+          if-no-files-found: error
+      - name: Upload isolated NetSurf ARMv7 RAM trial bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-netsurf-armv7-trial
+          path: |
+            out/pw3os/codex-netsurf-test-bundle.tar.gz
+            out/pw3os/BUILD-MANIFEST.json
+            out/pw3os/SHA256SUMS
           retention-days: 14
           if-no-files-found: error
       - name: Upload full image and boot files
