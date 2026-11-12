@@ -61,25 +61,23 @@ done
 # Both the page and supporting CSS are loaded strictly from local files.
 "$BIN" -f sdl -w 600 -h 800 -b 32 "file://$FIXTURE" > "$REPORT_DIR/browser.log" 2>&1 &
 browser_pid=$!
-# ARM emulation / font initialization may need some warmup.
-alive=0
-for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
-    sleep 1
-    if ! kill -0 "$browser_pid" 2>/dev/null; then
-        echo "NetSurf terminated during visual test" >&2
-        cat "$REPORT_DIR/browser.log" >&2 || :
-        exit 1
-    fi
-    if scrot -z "$REPORT_DIR/netsurf-sdl.png" > "$REPORT_DIR/scrot.log" 2>&1 &&
-       ! cmp -s "$REPORT_DIR/baseline.png" "$REPORT_DIR/netsurf-sdl.png"; then
-        alive=1
-        break
-    fi
-done
-[ "$alive" -eq 1 ] || {
-    echo "No changed visual output from NetSurf SDL" >&2
+# Give NetSurf enough time under QEMU to parse the page and apply CSS.
+# An earlier screenshot could show only a blank SDL window.
+sleep 28
+if ! kill -0 "$browser_pid" 2>/dev/null; then
+    echo "NetSurf terminated during visual test" >&2
     cat "$REPORT_DIR/browser.log" >&2 || :
     exit 1
-}
+fi
+if ! scrot -z "$REPORT_DIR/netsurf-sdl.png" > "$REPORT_DIR/scrot.log" 2>&1; then
+    echo "Failed to capture browser Xvfb pixels" >&2
+    cat "$REPORT_DIR/scrot.log" >&2 || :
+    exit 1
+fi
+if cmp -s "$REPORT_DIR/baseline.png" "$REPORT_DIR/netsurf-sdl.png"; then
+    echo "No changed pixels from browser SDL window" >&2
+    cat "$REPORT_DIR/browser.log" >&2 || :
+    exit 1
+fi
 # PNG correctness is also verified by the host-side pixel validator in CI.
 echo "CODEX_NETSURF_SDL_VISUAL_CAPTURED_NEEDS_PIXEL_VALIDATION" | tee "$REPORT_DIR/result.txt"
