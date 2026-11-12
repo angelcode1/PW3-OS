@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <linux/fb.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/ioctl.h>
@@ -23,7 +24,7 @@ static int report(const struct fb_var_screeninfo *v,
                 (v->bits_per_pixel == 8 || v->bits_per_pixel == 16 ||
                  v->bits_per_pixel == 32) &&
                 f->line_length >= (v->xres * v->bits_per_pixel+7)/8 &&
-                f->smem_len >= f->line_length * v->yres;
+                (uint64_t)f->smem_len >= (uint64_t)f->line_length * v->yres;
     printf("CODEX_FB_PROBE=READ_ONLY\n");
     printf("xres=%u yres=%u xvirt=%u yvirt=%u bpp=%u "
            "grayscale=%u rotation=%u stride=%u fb_bytes=%u\n",
