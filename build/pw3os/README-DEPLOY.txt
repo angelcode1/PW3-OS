@@ -91,3 +91,22 @@ codex-display-probe is a read-only framebuffer capability helper. Do not run
 against stock firmware or assume it enables screen writes. Its optional
 --read-only /dev/fb0 mode is for a later explicitly attended test. No automatic
 display tests or physical firmware writes are required by this bundle.
+
+NETSURF TESTING BEFORE ANY FURTHER GAMES WORK
+---------------------------------------------
+The GitHub Actions workflow codex-netsurf-offscreen.yml produces Xvfb screenshots
+of ARMv7 NetSurf actually rendering local HTML/CSS. Its screenshot artifact is
+codex-netsurf-armv7-offscreen-visual. Open the PNG and review browser.log,
+and verify the image-pixel test passed before claiming the browser can render.
+
+The full Alpine image build separately publishes codex-netsurf-armv7-trial,
+containing codex-netsurf-test-bundle.tar.gz. Unpack it into a NEW private
+directory INSIDE an existing Alpine installation (never the stock filesystem).
+Run 'sh codex-browser-trial.sh --diagnose' and then '--offscreen-test' to test
+dependencies and process startup with the actual old Kindle kernel. The latter
+has NO VISIBLE DISPLAY OUTPUT; see the included README-NETSURF-TRIAL.txt.
+
+The standalone test bundle does not install a Browser tile. Physical Kindle
+EPDC refresh, touch, navigation, suspend and exit-to-Home are still blocked
+pending attended tests. Do not interpret a passing QEMU screenshot as on-device
+browser support or start adding games changes on that basis.
