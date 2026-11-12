@@ -74,3 +74,20 @@ Remove them only after a successful stock reboot and verified release of the
 new Alpine image, loop mount and temporary SSH firewall rule. Do not remove
 any image that is still referenced by an installed fallback/Upstart script.
 The original Amazon root/kernel and recovery must remain intact.
+
+CODEX HOME AND NETSURF OPTIONAL STAGE
+-------------------------------------
+The small app overlay includes the rebuilt Codex 'home' binary containing the
+five user-supplied locally rotating wisdom verses. It may be deployed into
+running Alpine after backing up the previous /usr/local/bin/home and checking
+its ELF ABI and checksum; it is NOT a stock-firmware installer.
+
+NetSurf framebuffer is staged inside the Alpine image and a codex-browser
+launcher is included in the overlay, but the physical PW3 EPDC/input backend
+has NOT been implemented or verified. The launcher only allows --diagnose
+and RAM-only --offscreen-test; there is no Browser home icon yet.
+
+codex-display-probe is a read-only framebuffer capability helper. Do not run
+against stock firmware or assume it enables screen writes. Its optional
+--read-only /dev/fb0 mode is for a later explicitly attended test. No automatic
+display tests or physical firmware writes are required by this bundle.
