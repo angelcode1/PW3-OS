@@ -15,10 +15,12 @@ import tempfile
 import urllib.request
 import zipfile
 from settings_integration import patch_settings
+from codex_home import patch_codex_home
+from browser_package import find_package
 
 ALPINE = 'https://dl-cdn.alpinelinux.org/alpine/v3.24'
 MINI = 'alpine-minirootfs-3.24.3-armv7.tar.gz'
-INKWELL_REF = 'd1fc9d9ef911777fb5db14541fd5b841fd7c1f03'  # v1.2.0
+CODEX_UI_UPSTREAM_REF = 'd1fc9d9ef911777fb5db14541fd5b841fd7c1f03'  # v1.2.0
 KOREADER_VER = 'v2026.07.1'
 KOREADER_ZIP = f'koreader-kindlepw2-{KOREADER_VER}.zip'
 KOREADER_SHA = 'ea1f575c54492a2c679d128b7f3210fd7d6a87e5f5a1ff1f7a7fe2080ff68f86'
@@ -198,16 +200,18 @@ def install_bible(repo,work,root,life_apk):
     return 'public-domain-WEB-KJV-ASV'
 
 
-def install_inkwell_core(repo,work,root):
-    upstream=work/'Inkwell'
+def install_codex_core(repo,work,root):
+    upstream=work/'codex-ui-upstream'
     run('git','clone','-q','--no-checkout','https://github.com/pragyaangaur/Inkwell.git',upstream)
-    run('git','checkout','-q',INKWELL_REF,cwd=upstream)
+    run('git','checkout','-q',CODEX_UI_UPSTREAM_REF,cwd=upstream)
     apps=('home','wifi','settings','term','splash')  # No Notes or upstream games
     bindir=root/'usr/local/bin';bindir.mkdir(parents=True,exist_ok=True)
     for name in apps:
         source=upstream/'src/ui'/f'{name}.c'
         patched=work/f'{name}-pw3os.c'
         content = source.read_text().replace('/mnt/us/linux','/mnt/us/pw3os').replace('\"INKWELL\"','\"PW3 OS\"')
+        if name == 'home':
+            content = patch_codex_home(content)
         if name == 'settings':
             content = patch_settings(content)
         patched.write_text(content)
@@ -218,14 +222,14 @@ def install_inkwell_core(repo,work,root):
                  extra=('-I'+str(upstream/'src/ui'),'-I'+str(upstream/'third_party/stb')))
     crosscompile(repo/'build/pw3os/games-menu.c',bindir/'pw3-games',
                  extra=('-I'+str(upstream/'src/ui'),'-I'+str(upstream/'third_party/stb')))
-    fonts=root/'usr/share/fonts/inkwell';fonts.mkdir(parents=True,exist_ok=True)
+    fonts=root/'usr/share/fonts/codex';fonts.mkdir(parents=True,exist_ok=True)
     for f in (upstream/'fonts').glob('*.ttf'):shutil.copy2(f,fonts/f.name)
     for f in (upstream/'fonts').glob('*.txt'):shutil.copy2(f,fonts/f.name)
     license_dir=root/'usr/share/licenses/pw3os';license_dir.mkdir(parents=True,exist_ok=True)
-    shutil.copy2(upstream/'LICENSE',license_dir/'Inkwell-MIT.txt')
+    shutil.copy2(upstream/'LICENSE',license_dir/'Codex-UI-Upstream-MIT.txt')
     config=root/'etc/own';config.mkdir(parents=True,exist_ok=True)
     shutil.copy2(upstream/'src/rootfs/etc/own/udhcpd.conf',config/'udhcpd.conf')
-    (config/'name').write_text('PW3-OS\n')
+    (config/'name').write_text('Codex\n')
     (config/'apps').write_text("# PW3-OS home — Terminal is in Settings; no Notes or upstream games.\nBible|book|/opt/pw3-bible/run-kindle.sh\nKOReader|book|/usr/local/bin/pw3-koreader\nGames|cube|/usr/local/bin/pw3-games\nWi-Fi|wifi|/usr/local/bin/wifi\nSettings|gear|/usr/local/bin/settings\n")
     # These utility apps expect Inkwell paths; adapt app paths to PW3-OS.
     # Source-level path replacements can be added later without importing games.
@@ -267,8 +271,9 @@ def main():
         run('tar','-xpzf',minirootfs,'-C',root)
         if (root/'etc/alpine-release').read_text().strip()!='3.24.3':
             raise RuntimeError('Alpine 3.24.3 minirootfs version mismatch')
-        upstream=install_inkwell_core(repo,work,root)
+        upstream=install_codex_core(repo,work,root)
         packages=install_pkgs(work,root,upstream)
+        browser_candidate=find_package([work/'APKINDEX.main',work/'APKINDEX.community'],'netsurf-framebuffer')
         compat=install_koreader(work,root,stage)
         bible_type=install_bible(repo,work,root,life_apk)
         (root/'sbin').mkdir(exist_ok=True)
@@ -297,14 +302,14 @@ def main():
         crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi',freestanding=True)
         names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','pw3-games','pw3-koreader','settings','koreader_update.py','2-pw3os-autoupdate.lua']
         (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
-        manifest={'project':'PW3-OS','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
-                  'inkwell_upstream_commit':INKWELL_REF,'inkwell_apps_included':list(('home','wifi','settings','term','splash')),
-                  'inkwell_games_included':[],'pw3_games':['Memory Match','Sudoku'],
+        manifest={'project':'Codex','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
+                  'codex_ui_upstream_commit':CODEX_UI_UPSTREAM_REF,'codex_ui_apps_included':list(('home','wifi','settings','term','splash')),
+                  'codex_ui_games_included':[],'pw3_games':['Memory Match','Sudoku'],
                   'home_menu':['Bible','KOReader','Games','Wi-Fi','Settings'],
                   'settings_submenu':['Terminal','Restart','Power off','Stock Kindle UI','Battery','About'],
                   'bible':bible_type,'koreader':KOREADER_VER,'koreader_stage_compat_included':compat,
                   'koreader_runtime_verified':False,'display_runtime_verified':False,
-                  'image_mib':size,'alpine_packages':packages}
+                  'image_mib':size,'alpine_packages':packages,'browser_candidate':browser_candidate or 'unavailable','browser_hardware_verified':False}
         (out/'BUILD-MANIFEST.json').write_text(json.dumps(manifest,indent=2)+'\n')
         shutil.copy2(repo/'build/pw3os/README-DEPLOY.txt',out/'README-DEPLOY.txt')
     print('RESULT: PW3OS_ALPINE_3243_FULL_IMAGE_BUILT_NOT_INSTALLED')
