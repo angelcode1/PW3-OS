@@ -357,6 +357,11 @@ def main():
         crosscompile(repo/'build/pw3os/codex-browser-panel-preview.c',
                      root/'usr/local/bin/codex-browser-panel-preview',
                      target='arm-linux.3.0.35-musleabi')
+        # Independent opt-in presenter: the proven GC16-only binary above
+        # stays unchanged, and fast mode has no boot-time entry point.
+        crosscompile(repo/'build/pw3os/codex-browser-panel-fast.c',
+                     root/'usr/local/bin/codex-browser-panel-fast',
+                     target='arm-linux.3.0.35-musleabi')
         crosscompile(repo/'build/pw3os/codex-browser-touch-probe.c',
                      root/'usr/local/bin/codex-browser-touch-probe',
                      extra=(str(repo/'build/pw3os/codex-touch-bridge.c'),),
@@ -408,6 +413,8 @@ def main():
                                    (root/'usr/local/bin/codex-display-probe',out/'codex-display-probe'),
                                    (root/'usr/local/bin/codex-browser-panel-preview',
                                     out/'codex-browser-panel-preview'),
+                                   (root/'usr/local/bin/codex-browser-panel-fast',
+                                    out/'codex-browser-panel-fast'),
                                    (root/'usr/local/bin/codex-browser-touch-probe',
                                     out/'codex-browser-touch-probe'),
                                    (root/'usr/local/lib/pw3os/koreader_update.py',out/'koreader_update.py'),
@@ -416,7 +423,7 @@ def main():
         assemble_runner(repo,out)
         shutil.copy2(repo/'build/pw3os/pw3_debugmount.c',out/'pw3_debugmount.c')
         crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi',freestanding=True)
-        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','home','pw3-games','pw3-koreader','settings','codex-browser','libcodex-sdl-capture.so','verify_direct_sdl.py','libcodex-sdl-touch-input.so','codex-browser-live-frames.py','codex-browser-live-trial','codex-browser-home-preview','codex-browser-fast-frames','browser-interactive.html','codex-display-probe','codex-browser-panel-preview','codex-browser-touch-probe','codex-netsurf-test-bundle.tar.gz','koreader_update.py','2-pw3os-autoupdate.lua']
+        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','home','pw3-games','pw3-koreader','settings','codex-browser','libcodex-sdl-capture.so','verify_direct_sdl.py','libcodex-sdl-touch-input.so','codex-browser-live-frames.py','codex-browser-live-trial','codex-browser-home-preview','codex-browser-fast-frames','browser-interactive.html','codex-display-probe','codex-browser-panel-preview','codex-browser-panel-fast','codex-browser-touch-probe','codex-netsurf-test-bundle.tar.gz','koreader_update.py','2-pw3os-autoupdate.lua']
         (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
         manifest={'project':'Codex','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
                   'codex_ui_upstream_commit':CODEX_UI_UPSTREAM_REF,'codex_ui_apps_included':list(('home','wifi','settings','term','splash')),
