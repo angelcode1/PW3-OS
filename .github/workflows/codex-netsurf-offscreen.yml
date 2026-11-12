@@ -21,6 +21,10 @@ jobs:
       - name: Codex browser and builder regressions
         run: |
           python3 -m unittest discover -s build/pw3os -p 'test_*.py' -v
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-eink-compositor.c build/pw3os/test_codex_eink.c \
+            -o /tmp/codex-eink-compositor-test
+          /tmp/codex-eink-compositor-test
 
   armv7-offscreen:
     runs-on: ubuntu-24.04
