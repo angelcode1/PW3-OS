@@ -12,6 +12,18 @@ int main(void) {
     assert(gray[0]==54 && gray[1]==182);
     assert(codex_rgba_to_gray(NULL,8,gray,2,1)<0);
     assert(codex_rgba_to_gray(pixel,7,gray,2,1)<0);
+    /* libnsfb ABGR8888 integer pixels are RGBA bytes on little-endian ARM. */
+    assert(codex_nsfb32_to_gray(pixel,8,gray,2,1,CODEX_FMT_ABGR8888_LE)==0);
+    assert(gray[0]==54 && gray[1]==182);
+    unsigned char argb[8]={0,0,255,255,0,255,0,255};
+    assert(codex_nsfb32_to_gray(argb,8,gray,2,1,CODEX_FMT_ARGB8888_LE)==0);
+    assert(gray[0]==54 && gray[1]==182);
+    assert(codex_nsfb32_to_gray(pixel,8,gray,2,1,(codex_pixfmt)99)<0);
+    /* Avoid treating padding after the right edge as another pixel. */
+    unsigned char padded[16]={255,0,0,255,0,255,0,255,42,42,42,42,0,0,0,0};
+    assert(codex_nsfb32_to_gray(padded,12,gray,2,1,CODEX_FMT_ABGR8888_LE)==0);
+    assert(gray[0]==54 && gray[1]==182);
+
 
     enum { W=1072, H=1448, N=W*H };
     unsigned char *old=malloc(N), *next=malloc(N);
