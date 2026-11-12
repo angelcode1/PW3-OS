@@ -33,6 +33,24 @@ class TestNetSurf(unittest.TestCase):
             with self.assertRaises(FileNotFoundError):
                 browser.require_netsurf([a,b])
 
+    def test_runtime_dependency_closure_fail_closed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            a=Path(folder)/"APKINDEX.main"
+            b=Path(folder)/"APKINDEX.community"
+            a.write_text("P:musl\nV:1.2\np:so:libc.musl-armv7.so.1\n\n")
+            b.write_text(index())
+            result=browser.verify_netsurf_closure(
+                [a,b], ["community/netsurf-framebuffer-3.11-r1"])
+            self.assertIn("musl",result)
+            self.assertIn("netsurf-framebuffer",result)
+            b.write_text(index().replace(
+                "so:libc.musl-armv7.so.1", "so:libmissing.so.9"))
+            with self.assertRaises(RuntimeError):
+                browser.verify_netsurf_closure(
+                    [a,b],["community/netsurf-framebuffer-3.11-r1"])
+            with self.assertRaises(RuntimeError):
+                browser.verify_netsurf_closure([a,b],[])
+
     def test_elf_staging_checks(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder)
