@@ -44,7 +44,7 @@ jobs:
           test -s codex-browser
           test -s libcodex-sdl-capture.so
           test -s verify_direct_sdl.py
-          file libcodex-sdl-capture.so | grep -E 'ELF 32-bit.*ARM.*shared object'
+          file libcodex-sdl-capture.so | grep -E 'ELF 32-bit.*shared object, ARM'
           test -s codex-display-probe
           test -s codex-browser-panel-preview
           test -s codex-browser-touch-probe
