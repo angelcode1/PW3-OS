@@ -65,3 +65,13 @@ The pinned Kindle build checks Internet connectivity using a DNS-specific heuris
 ## KOReader GNU DNS and OTA metadata (PW3-OS only)
 
 The relocated R13 GNU glibc 2.20 lacks `libnss_dns.so.2`/`libnss_files.so.2`, so GNU LuaSocket DNS fails even though Alpine's musl-based `curl` works. `koreader_ota.py` patches the exact pinned KOReader OTA source so **Check for updates** uses Alpine `curl` in PW3-OS only. It also disables official automatic OTA installation on PW3-OS to prevent removal of custom loader and Wi-Fi modifications. This is an OTA-specific workaround; it does **not** repair GNU name resolution in other KOReader features. For a live image, patch `/opt/koreader/frontend/ui/otamanager.lua` via the script after quitting KOReader; use the small `koreader-otamanager.lua` overlay for subsequent releases.
+
+## Codex Home + NetSurf stage (draft)
+
+The active Codex feature branch builds a replacement home executable in the
+small overlay; this contains five locally rotating wisdom verses and wraps
+long lines. It bundles the pinned Alpine ARMv7 NetSurf framebuffer package
+and its dependency closure inside the **full** image, but only permits a
+RAM-surface offscreen test until a physical PW3 EPDC/input adapter is verified.
+The optional read-only framebuffer probe is not launched automatically.
+See [Codex browser implementation](../../docs/CODEX-BROWSER-IMPLEMENTATION.md).
