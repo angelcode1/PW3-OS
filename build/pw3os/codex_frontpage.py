@@ -9,7 +9,7 @@ DATE_HERO = r"""static void draw_date_hero(void) {
     time_t now = time(0);
     struct tm *today = localtime(&now);
     if (!today) return;
-    strftime(day_number, sizeof day_number, "%d", today);
+    snprintf(day_number, sizeof day_number, "%d", today->tm_mday);
     strftime(weekday, sizeof weekday, "%A", today);
     strftime(month_year, sizeof month_year, "%B %Y", today);
     fill(0, CLOCK_Y, W, RULE_Y - CLOCK_Y - 20, WHITE);
