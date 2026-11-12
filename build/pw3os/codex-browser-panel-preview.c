@@ -103,6 +103,31 @@ static void save_rows(unsigned char *dst, const unsigned char *src, size_t strid
         memcpy(dst + y * PW3_W, src + y * stride, PW3_W);
 }
 
+/*
+ * On the physical PW3, FBIOGET_VSCREENINFO reports rotate=3
+ * (FB_ROTATE_CCW) *while xres=1072 and yres=1448 are already portrait*.
+ * KOReader's Kindle framebuffer backend treats this as canonical portrait.
+ * The EPDC consumes visible rows in its own framebuffer orientation;
+ * do NOT software-rotate the 1072x1448 PGM or set FBIOPUT_VSCREENINFO.
+ *
+ * Match the observed framebuffer ABI exactly; this is NOT a generic
+ * rotation override for other Kindle models or arbitrary modes.
+ */
+static int pw3_supported_fb(const struct fb_var_screeninfo *v,
+                            const struct fb_fix_screeninfo *f) {
+    return v && f &&
+        v->xres == PW3_W && v->yres == PW3_H &&
+        v->bits_per_pixel == 8u && v->grayscale == 1u &&
+        v->rotate == FB_ROTATE_CCW &&
+        v->xoffset == 0u && v->yoffset == 0u &&
+        v->xres_virtual >= PW3_W && v->yres_virtual >= PW3_H &&
+        f->type == FB_TYPE_PACKED_PIXELS &&
+        f->visual == FB_VISUAL_STATIC_PSEUDOCOLOR &&
+        f->line_length >= PW3_W &&
+        f->smem_len != 0u && f->smem_len <= MAX_FB_MAP &&
+        (uint64_t)f->line_length * PW3_H <= f->smem_len;
+}
+
 /* For dry tests only: no device fd, mmap, ioctl or touchscreen input. */
 static int selftest(void) {
     if (sizeof(struct pw3_update) != 72u ||
@@ -125,6 +150,27 @@ static int selftest(void) {
         for (size_t x = PW3_W; x < stride; x++)
             if (mapped[y * stride + x] != 0xff) ok = 0;
     free(mapped); free(before); free(after);
+    struct fb_var_screeninfo v = {0};
+    struct fb_fix_screeninfo f = {0};
+    v.xres=PW3_W; v.yres=PW3_H;
+    v.xres_virtual=1088; v.yres_virtual=6144;
+    v.bits_per_pixel=8; v.grayscale=1;
+    v.rotate=FB_ROTATE_CCW;
+    f.type=FB_TYPE_PACKED_PIXELS;
+    f.visual=FB_VISUAL_STATIC_PSEUDOCOLOR;
+    f.line_length=1088; f.smem_len=6782976;
+    if (!pw3_supported_fb(&v, &f)) ok=0;
+    v.rotate=FB_ROTATE_UR;
+    if (pw3_supported_fb(&v, &f)) ok=0;
+    v.rotate=FB_ROTATE_CCW;
+    v.yoffset=1448;
+    if (pw3_supported_fb(&v, &f)) ok=0;
+    v.yoffset=0;
+    f.line_length=1071;
+    if (pw3_supported_fb(&v, &f)) ok=0;
+    f.line_length=1088;
+    f.smem_len=1088*1447;
+    if (pw3_supported_fb(&v, &f)) ok=0;
     if (ok) puts("CODEX_PW3_BROWSER_PANEL_PREVIEW_RAM_SELFTEST_PASS");
     return ok ? 0 : 1;
 }
@@ -163,13 +209,8 @@ static int preview(const unsigned char *gray) {
         fputs("PW3 framebuffer capability queries failed\n", stderr);
         close(fd); return 1;
     }
-    if (v.xres != PW3_W || v.yres != PW3_H ||
-        v.bits_per_pixel != 8 || v.rotate != 0 || v.yoffset != 0 ||
-        v.xoffset != 0 || v.xres_virtual < PW3_W ||
-        v.yres_virtual < PW3_H || f.line_length < PW3_W ||
-        f.smem_len == 0 || f.smem_len > MAX_FB_MAP ||
-        (uint64_t)f.line_length * PW3_H > f.smem_len) {
-        fputs("Framebuffer geometry does not match supported PW3; no write\n", stderr);
+    if (!pw3_supported_fb(&v, &f)) {
+        fputs("Unsupported PW3 framebuffer rotation/geometry/format; no write\n", stderr);
         close(fd); return 1;
     }
     unsigned char *mapped = mmap(NULL, f.smem_len, PROT_READ | PROT_WRITE,
