@@ -161,24 +161,49 @@ static void handle_event(const struct input_event *ev) {
     started=ended=moved=0;
     fflush(stdout);
 }
+/* EVIOCGNAME returns a positive length when a name was copied.
+ * A previous version tested !=0 and rejected successful PW3 devices.
+ * Other ioctl calls can also return nonnegative success values. */
+static int evdev_ioctl_failed(int rc) { return rc < 0; }
+static void touch_open_failure(const char *reason, int code) {
+    fprintf(stderr, "CODEX_BROWSER_SDL_TOUCH_UNAVAILABLE reason=%s errno=%d\n",
+            reason, code);
+    fflush(stderr);
+    if (fd>=0) close(fd);
+    fd=-1;  /* fail closed for this attended session */
+}
 static void open_touch(void) {
     if (fd!=-2 || !active_gate()) return;
     fd=open(TOUCH_NODE,O_RDONLY|O_CLOEXEC|O_NONBLOCK|O_NOFOLLOW);
-    if (fd<0) return;
+    if (fd<0) {
+        touch_open_failure("OPEN",errno);
+        return;
+    }
     struct stat st;
     struct input_absinfo ax={0},ay={0};
     char name[64]={0};
-    if (fstat(fd,&st)!=0 || !S_ISCHR(st.st_mode) ||
-        ioctl(fd,EVIOCGNAME(sizeof(name)),name)!=0 ||
-        strcmp(name,EXPECTED_NAME)!=0 ||
-        ioctl(fd,EVIOCGABS(ABS_MT_POSITION_X),&ax)!=0 ||
-        ioctl(fd,EVIOCGABS(ABS_MT_POSITION_Y),&ay)!=0 ||
-        ax.minimum!=0 || ax.maximum!=PW3_WIDTH-1 ||
+    if (fstat(fd,&st)<0 || !S_ISCHR(st.st_mode)) {
+        touch_open_failure("NOT_CHAR_DEVICE",errno);return;
+    }
+    errno=0;
+    int name_rc=ioctl(fd,EVIOCGNAME(sizeof(name)),name);
+    if (evdev_ioctl_failed(name_rc) || name_rc==0 || !name[0]) {
+        touch_open_failure("NAME_IOCTL",errno);return;
+    }
+    if (strcmp(name,EXPECTED_NAME)!=0) {
+        touch_open_failure("UNEXPECTED_DEVICE_NAME",0);return;
+    }
+    if (evdev_ioctl_failed(ioctl(fd,EVIOCGABS(ABS_MT_POSITION_X),&ax)) ||
+        evdev_ioctl_failed(ioctl(fd,EVIOCGABS(ABS_MT_POSITION_Y),&ay))) {
+        touch_open_failure("ABS_IOCTL",errno);return;
+    }
+    if (ax.minimum!=0 || ax.maximum!=PW3_WIDTH-1 ||
         ay.minimum!=0 || ay.maximum!=PW3_HEIGHT-1) {
-        close(fd);fd=-1;return;
+        touch_open_failure("UNEXPECTED_AXIS_RANGE",0);return;
     }
     ax_min=ax.minimum; ay_min=ay.minimum;
-    printf("CODEX_BROWSER_SDL_TOUCH_CONNECTED %s\n",TOUCH_NODE);
+    printf("CODEX_BROWSER_SDL_TOUCH_CONNECTED %s name=%s name_rc=%d\n",
+           TOUCH_NODE,name,name_rc);
     fflush(stdout);
 }
 static void pump_touch(void) {
