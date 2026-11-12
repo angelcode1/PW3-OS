@@ -274,6 +274,107 @@ static int preview(const unsigned char *gray) {
     return shown == 0 ? 0 : 1;
 }
 
+
+/* Experimental live bridge: follow atomic 1072x1448 PGM frames for at most
+ * 30 seconds, issue bounded GC16 updates, and restore original framebuffer.
+ * No NetSurf, evdev, system services or network access in this utility.
+ * This is intentionally NOT a general-purpose daemon or boot service. */
+#define LIVE_SECONDS 30
+#define LIVE_MIN_INTERVAL_MS 1800
+
+static int64_t mono_milliseconds(void) {
+    struct timespec t;
+    if (clock_gettime(CLOCK_MONOTONIC, &t)) return -1;
+    return (int64_t)t.tv_sec * 1000 + t.tv_nsec / 1000000;
+}
+
+static int follow_pgm(const char *source) {
+    int fd = open("/dev/fb0", O_RDWR | O_CLOEXEC | O_NOFOLLOW);
+    if (fd < 0) { perror("PW3 live fb0 open"); return 1; }
+    struct stat fbstat;
+    struct fb_var_screeninfo v = {0};
+    struct fb_fix_screeninfo f = {0};
+    if (fstat(fd, &fbstat) || !S_ISCHR(fbstat.st_mode) ||
+        ioctl(fd, FBIOGET_VSCREENINFO, &v) ||
+        ioctl(fd, FBIOGET_FSCREENINFO, &f) || !pw3_supported_fb(&v, &f)) {
+        fputs("CODEX_BROWSER_LIVE_FB_UNSUPPORTED_NO_WRITE\n", stderr);
+        close(fd); return 1;
+    }
+    unsigned char *mapped = mmap(NULL, f.smem_len, PROT_READ | PROT_WRITE,
+                                 MAP_SHARED, fd, 0);
+    if (mapped == MAP_FAILED) { perror("live mmap"); close(fd); return 1; }
+    unsigned char *saved = malloc(SCREEN_BYTES);
+    if (!saved) { munmap(mapped, f.smem_len); close(fd); return 1; }
+    save_rows(saved, mapped, f.line_length);
+    struct sigaction sa = {0};
+    sa.sa_handler = stop_handler;
+    sigemptyset(&sa.sa_mask);
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
+    sigaction(SIGHUP, &sa, NULL);
+    int64_t start = mono_milliseconds();
+    int64_t last_draw = start - LIVE_MIN_INTERVAL_MS;
+    uint32_t previous_hash = 0;
+    ino_t previous_inode = 0;
+    int count = 0, failed = start < 0;
+    while (!stopped && !failed) {
+        int64_t now = mono_milliseconds();
+        if (now < 0) { failed = 1; break; }
+        if (now - start >= LIVE_SECONDS * 1000) break;
+        struct stat image_stat;
+        if (now - last_draw >= LIVE_MIN_INTERVAL_MS &&
+            stat(source, &image_stat) == 0 &&
+            S_ISREG(image_stat.st_mode) &&
+            image_stat.st_size == (off_t)(sizeof(pgm_header)-1u + SCREEN_BYTES) &&
+            (image_stat.st_ino != previous_inode || !previous_inode)) {
+            previous_inode = image_stat.st_ino;
+            unsigned char *frame = NULL;
+            if (load_pgm(source, &frame) == 0) {
+                uint32_t checksum = pixel_checksum(frame);
+                if (!count || checksum != previous_hash) {
+                    copy_rows(mapped, f.line_length, frame, PW3_W);
+                    uint32_t mark = 0xc0de1100u + (uint32_t)count;
+                    if (pw3_refresh(fd, mark) != 0) failed = 1;
+                    else {
+                        ++count;
+                        previous_hash = checksum;
+                        last_draw = now;
+                        printf("CODEX_BROWSER_LIVE_FRAME_DISPLAYED frame=%d hash=%08x\n",
+                               count, checksum);
+                        fflush(stdout);
+                    }
+                }
+                free(frame);
+            }
+        }
+        if (failed) break;
+        struct timespec tick = {0, 200000000};
+        while (nanosleep(&tick, &tick) && errno == EINTR && !stopped) { }
+    }
+    /* Ensure a full refresh even if an EPDC update failed. This is a
+     * best-effort restore, not a hard crash/power-loss watchdog. */
+    if (count || failed) {
+        copy_rows(mapped, f.line_length, saved, PW3_W);
+        int restored = pw3_refresh(fd, 0xc0de1fffu);
+        if (restored != 0) {
+            fputs("CODEX_BROWSER_LIVE_RESTORE_FAILED\n", stderr);
+            failed = 1;
+        } else {
+            puts("CODEX_BROWSER_LIVE_SCREEN_RESTORED");
+        }
+    }
+    free(saved);
+    munmap(mapped, f.smem_len);
+    close(fd);
+    if (!count) {
+        fputs("CODEX_BROWSER_LIVE_NO_FRAME\n", stderr);
+        return 1;
+    }
+    printf("CODEX_BROWSER_LIVE_SESSION_END frames=%d seconds=%d\n",
+           count, LIVE_SECONDS);
+    return failed ? 1 : 0;
+}
+
 int main(int argc, char **argv) {
     if (argc == 2 && strcmp(argv[1], "--selftest") == 0) return selftest();
     if (argc == 3 && strcmp(argv[1], "--inspect") == 0) {
@@ -283,6 +384,15 @@ int main(int argc, char **argv) {
                PW3_W, PW3_H, SCREEN_BYTES, pixel_checksum(pgm));
         free(pgm);
         return 0;
+    }
+    if (argc == 4 && strcmp(argv[1], "--follow-pgm") == 0 &&
+        strcmp(argv[3], "--confirm-pw3") == 0) {
+        const char *gate = getenv("CODEX_BROWSER_PANEL_TRIAL");
+        if (!gate || strcmp(gate, "EXPLICIT") != 0 || !isatty(STDIN_FILENO)) {
+            fputs("Live browser output requires interactive tty + explicit gate\n", stderr);
+            return 78;
+        }
+        return follow_pgm(argv[2]);
     }
     if (argc == 4 && strcmp(argv[1], "--display-once") == 0 &&
         strcmp(argv[3], "--confirm-pw3") == 0) {
@@ -300,6 +410,7 @@ int main(int argc, char **argv) {
         return result;
     }
     fputs("Usage: codex-browser-panel-preview --selftest | --inspect image.pgm\n"
-          "  --display-once image.pgm --confirm-pw3 (tty + trial env required)\n", stderr);
+          "  --display-once image.pgm --confirm-pw3 (tty + trial env required)\n"
+          "  --follow-pgm image.pgm --confirm-pw3 (bounded 30s, tty + gate)\n", stderr);
     return 64;
 }
