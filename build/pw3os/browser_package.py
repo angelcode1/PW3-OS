@@ -41,6 +41,57 @@ def require_netsurf(index_paths):
     return entry
 
 
+
+# This matches the minirootfs package assumptions made by upstream apkdeps.py.
+ROOTFS_BASE = frozenset(
+    "alpine-baselayout alpine-baselayout-data alpine-keys alpine-release "
+    "apk-tools busybox busybox-binsh ca-certificates-bundle libapk "
+    "libcrypto3 libssl3 musl musl-utils scanelf ssl_client zlib".split()
+)
+
+
+def verify_netsurf_closure(index_paths, selected):
+    """Reject unresolved runtime APK dependencies that apkdeps.py would skip.
+
+    This validates package metadata closure, NOT ELF transitive runtime ABI.
+    """
+    entries = list(_packages(index_paths))
+    by_name = {entry["P"]: entry for entry in entries}
+    providers = {}
+    for entry in entries:
+        name = entry["P"]
+        providers.setdefault(name, name)
+        for p in entry.get("p", "").split():
+            providers.setdefault(p.split("=")[0], name)
+    installed = set(ROOTFS_BASE)
+    for name, entry in by_name.items():
+        # apkdeps emits repo/package-version; never infer names by splitting '-'.
+        if any(item.endswith("/" + name + "-" + entry["V"]) for item in selected):
+            installed.add(name)
+    queue = [NETSURF_PACKAGE]
+    visited = set()
+    while queue:
+        name = queue.pop()
+        if name in visited:
+            continue
+        visited.add(name)
+        if name not in by_name:
+            raise RuntimeError("Missing APKINDEX package: " + name)
+        if name not in installed:
+            raise RuntimeError("Missing NetSurf dependency package: " + name)
+        for dep in by_name[name].get("D", "").split():
+            if dep.startswith("!"):
+                continue
+            dep = dep.split("=")[0].split(">")[0].split("<")[0].split("~")[0]
+            provider = providers.get(dep)
+            if provider is None:
+                raise RuntimeError("Unresolved NetSurf dependency: " + dep)
+            if provider not in installed:
+                raise RuntimeError("Uninstalled NetSurf dependency: " + dep)
+            queue.append(provider)
+    return sorted(visited)
+
+
 def verify_browser_staged(root, packages):
     """Check installed ARM ELF, resource directory, and package manifest.
 
