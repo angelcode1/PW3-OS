@@ -30,6 +30,11 @@ jobs:
             -o /tmp/codex-touch-test
           /tmp/codex-touch-test
           cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-viewport.c \
+            build/pw3os/test_codex_browser_viewport.c \
+            -o /tmp/codex-browser-viewport-test
+          /tmp/codex-browser-viewport-test
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
             build/pw3os/codex-display-probe.c -o /tmp/codex-display-probe-test
           /tmp/codex-display-probe-test --selftest
           cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
