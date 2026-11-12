@@ -1,0 +1,54 @@
+name: Codex NetSurf ARMv7 offscreen integration
+
+on:
+  push:
+    branches:
+      - feature/codex-branding-browser
+    paths:
+      - 'build/pw3os/**'
+      - '.github/workflows/codex-netsurf-offscreen.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-regressions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Codex browser and builder regressions
+        run: |
+          python3 -m unittest discover -s build/pw3os -p 'test_*.py' -v
+
+  armv7-offscreen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm
+      - name: NetSurf 3.11 Alpine ARMv7 RAM surface smoke
+        run: |
+          docker run --rm --platform linux/arm/v7 \
+            -v "$PWD/build/pw3os:/project:ro" alpine:3.24 sh -ec '
+              apk add --no-cache netsurf-framebuffer font-dejavu
+              mkdir -p /usr/share/codex
+              cp /project/browser-smoke.html /usr/share/codex/browser-smoke.html
+              /bin/sh /project/codex-browser.sh --diagnose
+              /bin/sh /project/codex-browser.sh --offscreen-test > /tmp/browser.log 2>&1 &
+              browser_pid=$!
+              sleep 7
+              if ! kill -0 "$browser_pid" 2>/dev/null; then
+                echo "NetSurf exited before offscreen smoke duration"
+                cat /tmp/browser.log
+                wait "$browser_pid" || :
+                exit 1
+              fi
+              kill "$browser_pid" || :
+              wait "$browser_pid" || :
+              echo "OFFSCREEN_NETSURF_ARMV7_PROCESS_ALIVE_PASS"
+              cat /tmp/browser.log
+            '
