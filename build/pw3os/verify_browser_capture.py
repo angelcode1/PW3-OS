@@ -86,6 +86,7 @@ def compare(baseline, rendered):
     changed = 0
     bright = 0
     dark = 0
+    proof_magenta = 0
     for i in range(aw * ah):
         ar, ag, ab = a[i * ac:i * ac + 3]
         br, bg, bb = b[i * bc:i * bc + 3]
@@ -95,12 +96,18 @@ def compare(baseline, rendered):
             bright += 1
         if max(br, bg, bb) <= 50:
             dark += 1
+        # The local fixture contains a large #cc2a77 CSS panel. This proves
+        # page content and stylesheet rendering, not just an SDL window.
+        if br >= 145 and 20 <= bg <= 105 and 80 <= bb <= 185:
+            proof_magenta += 1
     # A cursor flash can only change dozens of pixels; reject false pass.
-    if changed < 15000 or bright < 10000 or dark < 1000:
+    if changed < 15000 or bright < 10000 or dark < 1000 or proof_magenta < 2000:
         raise ValueError(
-            f"Insufficient browser pixels: changed={changed}, bright={bright}, dark={dark}")
+            f"Insufficient browser page pixels: changed={changed}, "
+            f"bright={bright}, dark={dark}, proof_magenta={proof_magenta}")
     print(f"CODEX_BROWSER_VISUAL_PIXEL_PASS {aw}x{ah} "
-          f"changed={changed} bright={bright} dark={dark}")
+          f"changed={changed} bright={bright} dark={dark} "
+          f"proof_magenta={proof_magenta}")
 
 
 if __name__ == "__main__":
