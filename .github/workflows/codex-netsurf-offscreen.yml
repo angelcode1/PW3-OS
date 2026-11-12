@@ -67,6 +67,7 @@ jobs:
         run: |
           mkdir -p out/netsurf-visual
           docker run --rm --platform linux/arm/v7 --shm-size=128m \
+            -e CODEX_CI_HOST_UID="$(id -u)" -e CODEX_CI_HOST_GID="$(id -g)" \
             -v "$PWD/build/pw3os:/project:ro" \
             -v "$PWD/out/netsurf-visual:/reports" \
             alpine:3.24 sh -ec '
