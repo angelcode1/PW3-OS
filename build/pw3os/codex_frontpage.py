@@ -18,23 +18,26 @@ DATE_HEADER = r"""static void draw_date_header(void) {
     fill(0, CLOCK_Y, W, RULE_Y - 20 - CLOCK_Y, WHITE);
     const int max_w = W - 2 * MARGIN;
 
-    /* Keep the original large time font for the weekday and calendar date. */
-    int weekday_px = 142;
+    /* The DAY inherits the former 290px clock's Cormorant Bold font.
+     * Fit long names such as Wednesday without horizontal clipping. */
+    int weekday_px = 178;
     while (weekday_px > 70 &&
            text_width(&f_serif_bold, weekday_px, weekday) > max_w)
         weekday_px -= 4;
-    text(&f_serif_bold, weekday_px, MARGIN - 8, CLOCK_Y + 8,
+    text(&f_serif_bold, weekday_px, MARGIN - 8, CLOCK_Y + 4,
          weekday, BLACK);
 
-    int date_px = 130;
+    /* Retain the original date's Cormorant Italic, enlarged to occupy
+     * the lower half of the former clock header. */
+    int date_px = 118;
     while (date_px > 68 &&
-           text_width(&f_serif_bold, date_px, date_line) > max_w)
+           text_width(&f_serif_italic, date_px, date_line) > max_w)
         date_px -= 4;
-    text(&f_serif_bold, date_px, MARGIN - 8, CLOCK_Y + 151,
-         date_line, BLACK);
+    text(&f_serif_italic, date_px, MARGIN - 8, CLOCK_Y + 186,
+         date_line, 0x30);
 
-    /* Smaller italic year closes the original clock's vertical space. */
-    text(&f_serif_italic, 58, MARGIN, CLOCK_Y + 283, year, 0x30);
+    /* Static year closes the existing rectangle without moving anything. */
+    text(&f_serif_italic, 48, MARGIN, CLOCK_Y + 301, year, 0x40);
 }
 
 """
