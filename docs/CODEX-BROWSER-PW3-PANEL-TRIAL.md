@@ -132,3 +132,39 @@ The output of the first trial should record \`CODEX_BROWSER_LIVE_FRAME_DISPLAYED
 \`CODEX_BROWSER_SDL_SCROLL\`, \`CODEX_BROWSER_LIVE_SCREEN_RESTORED\`,
 and an awake Codex Home screen. If the presenter reports a negative EPDC
 ioctl or the screen does not restore, stop; do not repeat blindly.
+
+## Optional Home menu preview (not default-enabled)
+
+The latest attended SSH test on the actual PW3 reported two completed EPDC
+frames, complete screen restoration, NetSurf SDL input-hook attachment to
+`/dev/input/event1`, many `SDL_TAP` and `SDL_SCROLL` events, and a
+`CODEX_BROWSER_TOUCH_LINK_CONFIRMED` script marker. This confirms that
+the basic display and input plumbing is alive. It does **not** yet prove
+that the page visually scrolled to a new section or that arbitrary URLs,
+HTTPS, a usable keyboard, browser chrome, history, or downloads work.
+
+For the next test, the optional `Browser Test` Home tile runs a 30-second
+session on the local `browser-interactive.html` fixture. It includes
+a prominent anchor link to PAGE FOUR and four large, contrasting panels
+to make visual movement obvious. No network URL is accepted here.
+
+Home's existing `run_app()` waits for child completion and redraws Home;
+the separate `codex-browser-home-preview` script must therefore NEVER
+SIGSTOP, kill, or restart Home (unlike the SSH attended trial). The app
+does not require an SSH TTY. Both the framebuffer presenter and SDL touch
+hook verify an actual `/usr/local/bin/home` ancestor via Linux /proc,
+and use separate `HOME_PREVIEW` modes. The menu entry remains absent from
+the image's default `/etc/own/apps` until the user explicitly opts in.
+
+Enable only the trial row `Browser Test|globe|/usr/local/bin/codex-browser-home-preview`
+after installing the compiled presenter, touch hook, fixture and launcher
+from the verified ARMv7 app overlay. Back up `/etc/own/apps` before
+editing it, and restart Home at most once to reload the list (the own-init
+supervisor tracks repeated Home exits). The Browser Test tile is deliberately
+limited to one offline page and 30 seconds. The automatic return to Home
+is expected at the end, subject to successful EPDC refresh and process
+cleanup. Keep a rollback to remove the menu entry.
+
+**Not production readiness**: Keyboard, navigation to remote URLs,
+proper link/scroll on-screen confirmation, memory consumption, session
+duration, suspend handling, and watchdog behavior need later tests.
