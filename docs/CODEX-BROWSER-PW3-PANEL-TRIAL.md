@@ -8,7 +8,7 @@ Status: TEST BUILD. This does not add a live interactive browser or Home tile.
 2. The screenshot is converted to a fixed 1072 × 1448 8-bit grayscale P5 PGM. It is letterboxed rather than cropped.
 3. The standalone ARMv7 tool **codex-browser-panel-preview** can inspect this file without device writes, self-test framebuffer stride/restore in RAM, or show it briefly on an actual PW3 when explicitly permitted.
 
-The display tool inherits the pinned upstream Home's **72-byte Kindle EPDC update ABI** and ioctl number 0x4048462E. It enforces PW3 1072 × 1448, 8bpp, unrotated framebuffer geometry before attempting any hardware change. It snapshots the existing screen bytes, sends a GC16 full refresh, holds the screenshot for five seconds, restores the previous pixels and requests a second full refresh.
+The display tool inherits the pinned upstream Home's **72-byte Kindle EPDC update ABI** and ioctl number 0x4048462E. It enforces the physical PW3's observed 1072 × 1448, 8bpp grayscale, stride >= 1072, hardware rotate=3 (FB_ROTATE_CCW), zero visible offsets, packed/static-pseudocolor mode, and bounded framebuffer size before attempting any hardware change. No software rotation or FBIOPUT_VSCREENINFO occurs; the driver reports portrait xres/yres with rotate=3. Other rotation values fail closed. This configuration is based on real PW3 read-only diagnostics and matching KOReader Kindle framebuffer handling; physical panel output remains unverified. It snapshots the existing screen bytes, sends a GC16 full refresh, holds the screenshot for five seconds, restores the previous pixels and requests a second full refresh.
 
 Neither tool calls NetSurf's live libnsfb framebuffer backend. This is a deliberately reversible intermediate test, not proof that tapping, navigation, scroll, HTTPS or the keyboard work on the Kindle.
 
@@ -61,11 +61,11 @@ First, from that directory:
     ./codex-browser-panel-preview --inspect codex-browser-pw3-preview.pgm
     ./codex-display-probe --read-only /dev/fb0
 
-Only if the read-only probe confirms 1072 × 1448, bpp=8, rotation=0, the selftest/PGM inspection succeed, and the operator chooses to test the panel, run the following in an INTERACTIVE SSH terminal:
+Only if the read-only probe confirms 1072 × 1448, bpp=8, grayscale=1, rotation=3, stride=1088, x/yoffset=0, the selftest/PGM inspection succeed, the screen is awake and no other app is actively refreshing, and the operator chooses to test the panel, run the following in an INTERACTIVE SSH terminal:
 
     CODEX_BROWSER_PANEL_TRIAL=EXPLICIT ./codex-browser-panel-preview --display-once codex-browser-pw3-preview.pgm --confirm-pw3
 
-The screenshot should appear for about five seconds and the previous screen should return. Record orientation, legibility, ghosting and refresh behaviour. On successful completion it prints CODEX_PW3_BROWSER_SCREEN_RESTORED.
+The screenshot should appear for about five seconds and the previous screen should return. Press the Kindle power button briefly to wake before the trial; do not try while it is actively asleep or while another application is drawing. The preview maps the already-portrait 1072x1448 PGM directly into visible 1088-byte-stride rows; `rotate=3` is checked but not modified. If it displays sideways, do not try flipping the image blindly. Record orientation, legibility, ghosting and refresh behaviour. On successful completion it prints CODEX_PW3_BROWSER_SCREEN_RESTORED.
 
 **Limitations:** Restore is best-effort, not a crash-proof watchdog. SIGKILL, power loss or an EPDC ioctl failure can leave the screen showing the test image even if pixel memory was restored. If that happens, STOP testing and use only the known-good Home/KOReader refresh or established rollback method; do not loop refresh commands blindly.
 
