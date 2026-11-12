@@ -21,7 +21,8 @@
 
 #define OUTPUT "/reports/codex-live-sdl.bmp"
 #define ENABLE "CI_ONLY"
-#define MAX_FRAMES 100u
+#define MAX_FRAMES 120u
+#define UNTHROTTLED_BOOT_FRAMES 32u
 #define MIN_NS 220000000L
 
 typedef void (*update_fn)(void *, int32_t, int32_t, uint32_t, uint32_t);
@@ -85,7 +86,12 @@ void SDL_UpdateRect(void *surface, int32_t x, int32_t y,
     if (!gate || strcmp(gate,ENABLE)) return;
     struct timespec now;
     if (clock_gettime(CLOCK_MONOTONIC,&now)) return;
-    if (captured) {
+    /* NetSurf completes its HTML/CSS layout during a burst of redraws.
+     * Rate limiting that burst captured only the black first framebuffer
+     * while Xvfb later showed the finished page. Preserve the initial 32
+     * updates, then throttle steady-state changes.
+     */
+    if (captured>=UNTHROTTLED_BOOT_FRAMES) {
         long delta=(now.tv_sec-last.tv_sec)*1000000000L+
                    now.tv_nsec-last.tv_nsec;
         if (delta>=0 && delta<MIN_NS) return;
