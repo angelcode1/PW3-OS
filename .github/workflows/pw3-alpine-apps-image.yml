@@ -63,6 +63,58 @@ jobs:
           assert browser['headless_capture_staged'] and not browser['headless_on_device_verified'],browser
           print('CODEX_NETSURF_PACKAGE_STAGED_UNVERIFIED_PASS')
           PY
+      - uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm
+      - name: Run exact cross-compiled NetSurf capture library in Alpine ARMv7
+        run: |
+          mkdir -p out/browser-bridge-runtime
+          docker run --rm --platform linux/arm/v7 \
+            -e CODEX_CI_HOST_UID="$(id -u)" -e CODEX_CI_HOST_GID="$(id -g)" \
+            -v "$PWD/out/pw3os:/payload:ro" \
+            -v "$PWD/out/browser-bridge-runtime:/proof" \
+            -v "$PWD/build/pw3os/browser-smoke.html:/fixture.html:ro" \
+            alpine:3.24 sh -ec '
+              apk add --no-cache netsurf-framebuffer font-dejavu
+              mkdir -p /usr/share/codex /run/codex-browser
+              cp /fixture.html /usr/share/codex/browser-smoke.html
+              cleanup() {
+                if [ -n "${pid:-}" ]; then
+                  kill "$pid" 2>/dev/null || :
+                  wait "$pid" 2>/dev/null || :
+                fi
+                cp /run/codex-browser/codex-live-sdl.bmp /proof/actual-crosscompiled.bmp 2>/dev/null || :
+                cp /tmp/codex-browser-bridge.log /proof/browser.log 2>/dev/null || :
+                chown -R "$CODEX_CI_HOST_UID:$CODEX_CI_HOST_GID" /proof || :
+              }
+              trap cleanup EXIT
+              CODEX_SDL_CAPTURE_ENABLE=PW3_ATTENDED SDL_VIDEODRIVER=dummy DISPLAY= \
+                LD_PRELOAD=/payload/libcodex-sdl-capture.so \
+                /usr/bin/netsurf-framebuffer -f sdl -w 600 -h 800 -b 32 \
+                file:///usr/share/codex/browser-smoke.html \
+                > /tmp/codex-browser-bridge.log 2>&1 &
+              pid=$!
+              sleep 18
+              kill -0 "$pid" 2>/dev/null || {
+                cat /tmp/codex-browser-bridge.log >&2; exit 1;
+              }
+              test -s /run/codex-browser/codex-live-sdl.bmp || {
+                cat /tmp/codex-browser-bridge.log >&2; exit 1;
+              }
+              grep -q CODEX_NETSURF_DIRECT_SDL_FRAME /tmp/codex-browser-bridge.log
+            '
+          python3 build/pw3os/verify_direct_sdl.py \
+            out/browser-bridge-runtime/actual-crosscompiled.bmp \
+            out/browser-bridge-runtime/browser-headless-pw3.pgm
+          echo CODEX_EXACT_CROSS_COMPILED_NETSURF_BRIDGE_PASS
+      - name: Upload NetSurf ARMv7 runtime integration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-browser-exact-armv7-bridge-proof
+          path: out/browser-bridge-runtime/
+          retention-days: 14
+          if-no-files-found: warn
       - name: Upload small live-app overlay (no Alpine image)
         uses: actions/upload-artifact@v4
         with:
