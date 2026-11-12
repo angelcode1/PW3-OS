@@ -99,7 +99,9 @@ jobs:
           python3 build/pw3os/verify_browser_capture.py \
             out/netsurf-visual/baseline.png out/netsurf-visual/netsurf-sdl.png
           python3 build/pw3os/verify_direct_sdl.py \
-            out/netsurf-visual/codex-live-sdl.bmp out/netsurf-visual/codex-browser-live-pw3.pgm
+            out/netsurf-visual/codex-live-sdl-x11.bmp out/netsurf-visual/codex-browser-live-x11-pw3.pgm
+          python3 build/pw3os/verify_direct_sdl.py \
+            out/netsurf-visual/codex-live-sdl-dummy.bmp out/netsurf-visual/codex-browser-live-headless-pw3.pgm
           python3 build/pw3os/browser_capture_to_pw3.py \
             out/netsurf-visual/netsurf-sdl.png out/netsurf-visual/codex-browser-pw3-preview.pgm
           cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
