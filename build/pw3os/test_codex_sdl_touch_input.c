@@ -14,6 +14,11 @@ static void feed(int type,int code,int value) {
     handle_event(&ev);
 }
 int main(void) {
+    /* Linux EVIOCGNAME success returns bytes copied (positive), not 0.
+     * This exact ABI mistake prevented touch attachment on physical PW3. */
+    assert(evdev_ioctl_failed(-1));
+    assert(!evdev_ioctl_failed(0));
+    assert(!evdev_ioctl_failed(10));
     ax_min=ay_min=0;
     feed(EV_ABS,ABS_MT_TRACKING_ID,2);
     feed(EV_ABS,ABS_MT_POSITION_X,234);
