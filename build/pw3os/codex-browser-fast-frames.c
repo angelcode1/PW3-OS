@@ -97,7 +97,7 @@ static int publish(const unsigned char *frame) {
     if(rc!=0) unlink(tmp);
     return rc;
 }
-static int follow(void) {
+static int follow(int min_publish_ms) {
     unsigned char *bmp=malloc(MAX_BMP), *gray=malloc(FRAME_BYTES),
                   *previous=malloc(FRAME_BYTES);
     if(!bmp || !gray || !previous) {
@@ -111,7 +111,7 @@ static int follow(void) {
     unlink(DST);
     while(ticks_ms()-start < 33000) {
         int64_t now=ticks_ms();
-        if(now-last_publish>=1900) {
+        if(now-last_publish>=min_publish_ms) {
             struct stat st;
             if(stat(SRC,&st)==0 && S_ISREG(st.st_mode) &&
                st.st_size>=54 && st.st_size<=(off_t)MAX_BMP &&
@@ -183,11 +183,15 @@ static int test(void) {
 }
 int main(int argc,char **argv) {
     if(argc==2 && strcmp(argv[1],"--selftest")==0) return test();
-    if(argc==3 && strcmp(argv[1],"--follow-seconds")==0 &&
-       strcmp(argv[2],"33")==0 &&
+    if(argc==3 && strcmp(argv[2],"33")==0 &&
        getenv("CODEX_BROWSER_LIVE_TRIAL") &&
-       strcmp(getenv("CODEX_BROWSER_LIVE_TRIAL"),"EXPLICIT")==0)
-        return follow();
-    fputs("Usage: --selftest | CODEX_BROWSER_LIVE_TRIAL=EXPLICIT --follow-seconds 33\n",stderr);
+       strcmp(getenv("CODEX_BROWSER_LIVE_TRIAL"),"EXPLICIT")==0) {
+        if(strcmp(argv[1],"--follow-seconds")==0)return follow(1900);
+        if(strcmp(argv[1],"--fast-follow-seconds")==0 &&
+           getenv("CODEX_BROWSER_FAST_REFRESH") &&
+           strcmp(getenv("CODEX_BROWSER_FAST_REFRESH"),"PW3_ONESHOT")==0)
+            return follow(650);
+    }
+    fputs("Usage: --selftest | --follow-seconds 33 | gated --fast-follow-seconds 33\n",stderr);
     return 78;
 }
