@@ -19,8 +19,10 @@
 #include <time.h>
 #include <unistd.h>
 
-#define OUTPUT "/reports/codex-live-sdl.bmp"
-#define ENABLE "CI_ONLY"
+#define OUTPUT_CI "/reports/codex-live-sdl.bmp"
+#define OUTPUT_PW3 "/run/codex-browser/codex-live-sdl.bmp"
+#define ENABLE_CI "CI_ONLY"
+#define ENABLE_PW3 "PW3_ATTENDED"
 #define MAX_FRAMES 120u
 #define UNTHROTTLED_BOOT_FRAMES 32u
 #define MIN_NS 220000000L
@@ -56,9 +58,16 @@ static int resolve(void) {
     }
     return 0;
 }
-static int capture(void *surface) {
-    /* /reports is the CI bind mount; no caller-controllable path is used. */
-    char temp[]="/reports/.codex-live-sdl-XXXXXX";
+static int capture(void *surface, int pw3_trial) {
+    /* Fixed absolute destinations only, never a caller-controllable path.
+     * The PW3 path is a private ephemeral /run directory created by the
+     * attended launcher; this library never accesses a physical device.
+     */
+    const char *output=pw3_trial?OUTPUT_PW3:OUTPUT_CI;
+    char temp[90];
+    snprintf(temp,sizeof(temp),"%s",pw3_trial?
+             "/run/codex-browser/.codex-sdl-XXXXXX":
+             "/reports/.codex-live-sdl-XXXXXX");
     int fd=mkstemp(temp);
     if (fd<0) return -1;
     close(fd);
@@ -66,7 +75,7 @@ static int capture(void *surface) {
     if (!rw) { unlink(temp); return -1; }
     /* freedst=1 delegates RWops close to SDL. */
     int ok=save_bmp(surface,rw,1);
-    if (ok || rename(temp,OUTPUT)) {
+    if (ok || rename(temp,output)) {
         unlink(temp);
         return -1;
     }
@@ -83,7 +92,9 @@ void SDL_UpdateRect(void *surface, int32_t x, int32_t y,
     next_update(surface,x,y,w,h);
     if (active || !surface || captured>=MAX_FRAMES) return;
     const char *gate=getenv("CODEX_SDL_CAPTURE_ENABLE");
-    if (!gate || strcmp(gate,ENABLE)) return;
+    if (!gate) return;
+    int pw3_trial=strcmp(gate,ENABLE_PW3)==0;
+    if (!pw3_trial && strcmp(gate,ENABLE_CI)!=0) return;
     struct timespec now;
     if (clock_gettime(CLOCK_MONOTONIC,&now)) return;
     /* NetSurf completes its HTML/CSS layout during a burst of redraws.
@@ -97,6 +108,6 @@ void SDL_UpdateRect(void *surface, int32_t x, int32_t y,
         if (delta>=0 && delta<MIN_NS) return;
     }
     active=1;
-    if (!capture(surface)) last=now;
+    if (!capture(surface,pw3_trial)) last=now;
     active=0;
 }
