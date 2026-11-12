@@ -22,7 +22,7 @@ The separate full Alpine build publishes codex-browser-panel-preview in the **pw
 
 Do not run on stock Kindle OS or while another app is refreshing the screen. This test changes the visible screen temporarily. Require a confirmed framebuffer preflight before enabling it.
 
-Download the two CI artifacts, extract locally, transfer **codex-browser-panel-preview**, **codex-display-probe**, and **codex-browser-pw3-preview.pgm** to a private temporary directory on the existing Alpine system. Do not overwrite the installed Home or boot image.
+Download the two CI artifacts, extract locally, transfer **codex-browser-panel-preview**, **codex-display-probe**, **codex-browser-touch-probe**, and **codex-browser-pw3-preview.pgm** to a private temporary directory on the existing Alpine system. Do not overwrite the installed Home or boot image.
 
 First, from that directory:
 
@@ -38,6 +38,26 @@ Only if the read-only probe confirms 1072 × 1448, bpp=8, rotation=0, the selfte
 The screenshot should appear for about five seconds and the previous screen should return. Record orientation, legibility, ghosting and refresh behaviour. On successful completion it prints CODEX_PW3_BROWSER_SCREEN_RESTORED.
 
 **Limitations:** Restore is best-effort, not a crash-proof watchdog. SIGKILL, power loss or an EPDC ioctl failure can leave the screen showing the test image even if pixel memory was restored. If that happens, STOP testing and use only the known-good Home/KOReader refresh or established rollback method; do not loop refresh commands blindly.
+
+## Read-only touch capability test
+
+The separate ARMv7 `codex-browser-touch-probe` executable is also included
+in the app overlay. Its default `--read-only` probe enumerates event0..15,
+identifies a device with ABS_MT X/Y and tracking-id capabilities, and prints
+actual axis ranges. It uses only O_RDONLY and ioctl GET queries; never
+EVIOCGRAB, event injection, framebuffer writes, or system configuration.
+
+    ./codex-browser-touch-probe --selftest
+    ./codex-browser-touch-probe --read-only
+
+For an **attended** eight-second touch-only sample, use a true SSH terminal:
+
+    CODEX_BROWSER_TOUCH_TRIAL=EXPLICIT ./codex-browser-touch-probe --sample-seconds 8
+
+It prints normalized pointer DOWN/MOVE/UP positions for later comparison
+with live NetSurf. This is observational only: it neither controls the
+browser nor takes exclusive touch ownership. Do not claim touchscreen
+integration until actual input evidence and a connected libnsfb surface pass.
 
 ## Next milestone
 
