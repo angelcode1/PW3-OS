@@ -32,6 +32,16 @@ jobs:
           cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
             build/pw3os/codex-display-probe.c -o /tmp/codex-display-probe-test
           /tmp/codex-display-probe-test --selftest
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-panel-preview.c \
+            -o /tmp/codex-browser-panel-preview-test
+          /tmp/codex-browser-panel-preview-test --selftest
+          # Physical display writes must be rejected without explicit gate.
+          if /tmp/codex-browser-panel-preview-test \
+              --display-once /tmp/does-not-exist.pgm --confirm-pw3; then
+            echo "Panel write was not gated" >&2
+            exit 1
+          fi
 
   armv7-offscreen:
     runs-on: ubuntu-24.04
@@ -79,6 +89,12 @@ jobs:
             '
           python3 build/pw3os/verify_browser_capture.py \
             out/netsurf-visual/baseline.png out/netsurf-visual/netsurf-sdl.png
+          python3 build/pw3os/browser_capture_to_pw3.py \
+            out/netsurf-visual/netsurf-sdl.png out/netsurf-visual/codex-browser-pw3-preview.pgm
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-panel-preview.c -o /tmp/codex-browser-pw3-preview
+          /tmp/codex-browser-pw3-preview --inspect \
+            out/netsurf-visual/codex-browser-pw3-preview.pgm
       - name: Upload browser screenshots and logs even on failure
         if: always()
         uses: actions/upload-artifact@v4
