@@ -27,7 +27,7 @@ The source also includes `codex-eink-compositor.c/.h`: pure offscreen RGBA-byte 
 
 **No device writes, firmware updates, or Kindle display access were performed for this milestone.** Preserve the original upstream MIT code attribution and NetSurf's GPL-2.0-or-later obligations; distributing a full browser image entails source/licence compliance.
 
-The upstream six footer phrases have been replaced with the user's **five local wisdom verses**. The Codex home build rotates them by UTC day, uses `text_wrap` for long verses, and does not perform any network request. The rebuilt `home` executable is included in the small live-app overlay for attended deployment.
+The upstream six footer phrases have been replaced with the user's **five local wisdom verses**. The Codex home build rotates them by local calendar day, uses `text_wrap` for long verses, and does not perform any network request. The rebuilt `home` executable is included in the small live-app overlay for attended deployment.
 
 ## Sources
 
