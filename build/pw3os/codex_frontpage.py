@@ -19,7 +19,7 @@ DATE_HERO = r"""static void draw_date_hero(void) {
     text_center(&f_serif_italic, 62, W / 2, CLOCK_Y + 46, fitted, 0x35);
     text_center(&f_serif_bold, 185, W / 2, CLOCK_Y + 94, day_number, BLACK);
     text_fit(&f_serif_italic, 50, month_year, W - 2 * MARGIN, fitted, sizeof fitted);
-    text_center(&f_serif_italic, 50, W / 2, CLOCK_Y + 283, fitted, 0x35);
+    text_center(&f_serif_italic, 50, W / 2, CLOCK_Y + 288, fitted, 0x35);
 }
 
 """
