@@ -82,6 +82,23 @@ class TestNetSurf(unittest.TestCase):
         self.assertNotIn("browser-backend-verified",shell)
         self.assertIn("exit 78",shell)
 
+    def test_pw3_browser_preview_and_touch_probe_are_explicitly_gated(self):
+        panel=(HERE/"codex-browser-panel-preview.c").read_text()
+        touch=(HERE/"codex-browser-touch-probe.c").read_text()
+        builder=(HERE/"build_image.py").read_text()
+        self.assertIn("CODEX_BROWSER_PANEL_TRIAL",panel)
+        self.assertIn('isatty(STDIN_FILENO)',panel)
+        self.assertIn("CODEX_PW3_BROWSER_SCREEN_RESTORED",panel)
+        self.assertIn("MXCFB_SEND_UPDATE_PW3 0x4048462eu",panel)
+        self.assertIn("_Static_assert(sizeof(struct pw3_update) == 72",panel)
+        self.assertIn("CODEX_BROWSER_TOUCH_TRIAL",touch)
+        self.assertIn('O_RDONLY|O_CLOEXEC|O_NONBLOCK|O_NOFOLLOW',touch)
+        self.assertNotIn("EVIOCGRAB",touch.split("#define PANEL_W")[1])
+        self.assertIn("ABS_MT_TRACKING_ID",touch)
+        self.assertIn("codex_touch_translate",touch)
+        self.assertIn("codex-browser-touch-probe",builder)
+        self.assertIn("codex-browser-panel-preview",builder)
+
     def test_isolated_armv7_trial_does_not_open_display(self):
         trial=(HERE/"codex-browser-trial.sh").read_text()
         self.assertIn("--offscreen-test",trial)
