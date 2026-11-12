@@ -43,6 +43,7 @@ jobs:
           test -s home
           test -s codex-browser
           test -s codex-display-probe
+          test -s codex-browser-panel-preview
           test -s codex-netsurf-test-bundle.tar.gz
           tar -tzf codex-netsurf-test-bundle.tar.gz | grep -Fx usr/bin/netsurf-framebuffer
           tar -tzf codex-netsurf-test-bundle.tar.gz | grep -Fx codex-browser-trial.sh
@@ -65,6 +66,7 @@ jobs:
             out/pw3os/apps
             out/pw3os/home
             out/pw3os/codex-display-probe
+            out/pw3os/codex-browser-panel-preview
             out/pw3os/pw3-games
             out/pw3os/pw3-koreader
             out/pw3os/settings
