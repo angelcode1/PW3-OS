@@ -7,7 +7,7 @@ import struct
 
 NETSURF_PACKAGE = "netsurf-framebuffer"
 NETSURF_VERSION = "3.11-r1"
-NETSURF_EXECUTABLE = "usr/bin/netsurf-fb"
+NETSURF_EXECUTABLE = "usr/bin/netsurf-framebuffer"
 
 
 def _packages(index_paths):
