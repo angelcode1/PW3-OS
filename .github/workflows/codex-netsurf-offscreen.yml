@@ -25,6 +25,10 @@ jobs:
             build/pw3os/codex-eink-compositor.c build/pw3os/test_codex_eink.c \
             -o /tmp/codex-eink-compositor-test
           /tmp/codex-eink-compositor-test
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-touch-bridge.c build/pw3os/test_codex_touch.c \
+            -o /tmp/codex-touch-test
+          /tmp/codex-touch-test
 
   armv7-offscreen:
     runs-on: ubuntu-24.04
