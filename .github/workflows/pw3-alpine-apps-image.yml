@@ -4,6 +4,7 @@ on:
     branches:
       - feature/pw3-bible-reader
       - build/pw3-alpine-integrated
+      - feature/codex-branding-browser
     paths:
       - 'build/pw3os/**'
       - 'apps/pw3-bible/**'
@@ -39,6 +40,18 @@ jobs:
           test -s pw3-debugmount
           test -s BUILD-MANIFEST.json
           test -s README-DEPLOY.txt
+          test -s codex-browser
+          python3 - <<'PY'
+          import json
+          with open('BUILD-MANIFEST.json') as f:
+              manifest=json.load(f)
+          browser=manifest['browser']
+          assert browser['name']=='netsurf-framebuffer',browser
+          assert browser['version']=='3.11-r1',browser
+          assert browser['state']=='staged-unverified',browser
+          assert browser['arm_elf_verified'] and not browser['epdc_verified'],browser
+          print('CODEX_NETSURF_PACKAGE_STAGED_UNVERIFIED_PASS')
+          PY
       - name: Upload small live-app overlay (no Alpine image)
         uses: actions/upload-artifact@v4
         with:
@@ -48,6 +61,7 @@ jobs:
             out/pw3os/pw3-games
             out/pw3os/pw3-koreader
             out/pw3os/settings
+            out/pw3os/codex-browser
             out/pw3os/koreader_update.py
             out/pw3os/2-pw3os-autoupdate.lua
           retention-days: 14
