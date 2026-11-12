@@ -2,7 +2,7 @@
 # Codex NetSurf launcher. Only the RAM backend is enabled for offline testing.
 # No physical framebuffer, Kindle EPDC or touch device is accessed here.
 set -eu
-BIN=/usr/bin/netsurf-fb
+BIN=/usr/bin/netsurf-framebuffer
 RES=/usr/share/netsurf
 [ -x "$BIN" ] || { echo "Codex Browser: NetSurf ARM binary missing" >&2; exit 69; }
 [ -d "$RES" ] || { echo "Codex Browser: NetSurf resources missing" >&2; exit 69; }
