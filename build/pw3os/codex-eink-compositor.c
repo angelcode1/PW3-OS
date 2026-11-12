@@ -5,21 +5,32 @@
 #define MAX_PIXELS (1072u * 1448u)
 static unsigned min_u(unsigned a, unsigned b) { return a < b ? a : b; }
 
+int codex_nsfb32_to_gray(const uint8_t *src, size_t stride,
+                         uint8_t *gray, unsigned w, unsigned h,
+                         codex_pixfmt format)
+{
+    if (!src || !gray || !w || !h || (uint64_t)w*h > MAX_PIXELS ||
+        (uint64_t)w*4u > (uint64_t)SIZE_MAX || stride < (size_t)w*4u ||
+        (format != CODEX_FMT_ABGR8888_LE && format != CODEX_FMT_ARGB8888_LE))
+        return -1;
+    for (unsigned y=0; y<h; y++) {
+        for (unsigned x=0; x<w; x++) {
+            const uint8_t *p=src + (size_t)y*stride + (size_t)x*4u;
+            uint32_t red=(format == CODEX_FMT_ABGR8888_LE) ? p[0] : p[2];
+            uint32_t green=p[1];
+            uint32_t blue=(format == CODEX_FMT_ABGR8888_LE) ? p[2] : p[0];
+            /* Encoded RGB luma approximation, not linear-light gamma correction. */
+            gray[(size_t)y*w+x]=(uint8_t)((2126u*red+7152u*green+
+                                           722u*blue+5000u)/10000u);
+        }
+    }
+    return 0;
+}
+
 int codex_rgba_to_gray(const uint8_t *src, size_t stride,
                        uint8_t *gray, unsigned w, unsigned h)
 {
-    if (!src || !gray || !w || !h || (uint64_t)w * h > MAX_PIXELS ||
-        (uint64_t)w * 4u > (uint64_t)SIZE_MAX || stride < (size_t)w * 4u)
-        return -1;
-    for (unsigned y = 0; y < h; y++)
-        for (unsigned x = 0; x < w; x++) {
-            const uint8_t *p = src + (size_t)y * stride + 4u * x;
-            /* Approximate Rec.709 luma on encoded RGB; gamma/dithering remain future work. */
-            gray[(size_t)y * w + x] =
-                (uint8_t)((2126u * p[0] + 7152u * p[1] +
-                           722u * p[2] + 5000u) / 10000u);
-        }
-    return 0;
+    return codex_nsfb32_to_gray(src,stride,gray,w,h,CODEX_FMT_ABGR8888_LE);
 }
 
 int codex_eink_plan(const uint8_t *old_gray, const uint8_t *new_gray,
