@@ -278,6 +278,9 @@ def main():
         browser_launcher=root/'usr/local/bin/codex-browser'
         shutil.copy2(repo/'build/pw3os/codex-browser.sh',browser_launcher)
         browser_launcher.chmod(0o755)
+        smoke_dir=root/'usr/share/codex'
+        smoke_dir.mkdir(parents=True,exist_ok=True)
+        shutil.copy2(repo/'build/pw3os/browser-smoke.html',smoke_dir/'browser-smoke.html')
         compat=install_koreader(work,root,stage)
         bible_type=install_bible(repo,work,root,life_apk)
         (root/'sbin').mkdir(exist_ok=True)
