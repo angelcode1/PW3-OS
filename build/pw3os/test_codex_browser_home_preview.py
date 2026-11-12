@@ -22,6 +22,13 @@ class HomeBrowserPreview(unittest.TestCase):
         self.assertNotIn(" /dev/tty ",s)
         self.assertNotIn("https://",s)
         self.assertNotIn("alpine-os.img",s)
+        self.assertIn('FAST_ONCE="$R/.fast-refresh-once"',s)
+        self.assertIn('rm -f "$FAST_ONCE"',s)
+        self.assertIn('--fast-follow-seconds 33',s)
+        self.assertIn('CODEX_BROWSER_PANEL_TRIAL=HOME_FAST_PREVIEW',s)
+        self.assertIn('--confirm-home-fast',s)
+        self.assertIn('home-panel.log',s)
+        self.assertIn('if [ "$mode" = fast ]; then',s)
 
     def test_interactive_fixture_has_link_and_visible_scroll_targets(self):
         s=(HERE/"browser-interactive.html").read_text()
@@ -42,6 +49,8 @@ class HomeBrowserPreview(unittest.TestCase):
         self.assertNotIn("Browser Test|globe|",s)
         self.assertIn("out/'codex-browser-home-preview'",s)
         self.assertIn("out/'browser-interactive.html'",s)
+        self.assertIn("codex-browser-panel-fast.c",s)
+        self.assertIn("out/'codex-browser-panel-fast'",s)
 
     def test_panel_gates_home_and_ssh_separately(self):
         s=(HERE/"codex-browser-panel-preview.c").read_text()
@@ -50,6 +59,19 @@ class HomeBrowserPreview(unittest.TestCase):
         self.assertIn('strcmp(gate, "HOME_PREVIEW")',s)
         self.assertIn('codex_browser_from_home()',s)
         self.assertIn('strcmp(gate, "EXPLICIT")',s)
+
+    def test_fast_presenter_is_independent_and_hardware_gated(self):
+        s=(HERE/"codex-browser-panel-fast.c").read_text()
+        self.assertIn('strcmp(argv[3],"--confirm-home-fast")',s)
+        self.assertIn('"HOME_FAST_PREVIEW"',s)
+        self.assertIn('codex_browser_from_home()',s)
+        self.assertIn('UPDATE_PARTIAL 0u',s)
+        self.assertIn('WF_DU 1u',s)
+        self.assertIn('WF_GC16 2u',s)
+        self.assertIn('CODEX_BROWSER_FAST_SCREEN_RESTORED',s)
+        self.assertNotIn('alpine-os.img',s)
+        self.assertNotIn('kill -TERM',s)
+        self.assertNotIn('BOOT_ALPINE_ONCE',s)
 
     def test_touch_hook_validates_home_parent(self):
         s=(HERE/"codex-sdl-touch-input.c").read_text()
