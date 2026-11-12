@@ -16,7 +16,7 @@ import urllib.request
 import zipfile
 from settings_integration import patch_settings
 from codex_home import patch_codex_home
-from browser_package import require_netsurf, verify_browser_staged, NETSURF_PACKAGE
+from browser_package import require_netsurf, verify_netsurf_closure, verify_browser_staged, NETSURF_PACKAGE
 
 ALPINE = 'https://dl-cdn.alpinelinux.org/alpine/v3.24'
 MINI = 'alpine-minirootfs-3.24.3-armv7.tar.gz'
@@ -102,6 +102,7 @@ def install_pkgs(work,root,upstream):
     res=subprocess.check_output(['python3',str(upstream/'tools/apkdeps.py'),','.join(map(str,idx)),*PKGS],text=True)
     packages=[x for x in res.splitlines() if x.strip()]
     if len(packages)<len(PKGS)//2: raise RuntimeError('Suspiciously small APK dependency closure')
+    verify_netsurf_closure(idx,packages)
     for rp in packages:
         repo,name=rp.split('/',1)
         pkg=download(f'{ALPINE}/{repo}/armv7/{name}.apk',work/'apks'/f'{name}.apk')
