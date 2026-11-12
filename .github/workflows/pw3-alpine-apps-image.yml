@@ -53,6 +53,8 @@ jobs:
           test -s codex-browser-live-trial
           test -s codex-browser-home-preview
           test -s codex-browser-fast-frames
+          test -s codex-browser-panel-fast
+          file codex-browser-panel-fast | grep 'ARM'
           file codex-browser-fast-frames | grep 'ARM'
           test -s browser-interactive.html
           file libcodex-sdl-touch-input.so | grep -E 'ELF 32-bit.*shared object, ARM'
@@ -144,6 +146,7 @@ jobs:
             out/pw3os/codex-browser-live-trial
             out/pw3os/codex-browser-home-preview
             out/pw3os/codex-browser-fast-frames
+            out/pw3os/codex-browser-panel-fast
             out/pw3os/browser-interactive.html
             out/pw3os/koreader_update.py
             out/pw3os/2-pw3os-autoupdate.lua
