@@ -1,7 +1,25 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><title>Codex NetSurf Offline Check</title>
-<style>body{font-family:sans-serif;background:#fff;color:#000;margin:2em} h1{font-size:2em} a{color:#000;text-decoration:underline} input{border:2px solid #000}</style></head>
-<body><h1>Codex Browser</h1><p>Local HTML/CSS page for offscreen NetSurf tests.</p>
-<p><a href="#test">Local link</a></p><form><label>Text<input name="test" value="offline"></label></form>
-<p id="test">No internet or device framebuffer is necessary for this fixture.</p></body></html>
+<head>
+<meta charset="utf-8">
+<title>Codex NetSurf Offline Visual Test</title>
+<style>
+  body { font: 26px sans-serif; color:#000; background:#fff; margin:24px; }
+  h1 { font-size:40px; margin:10px 0 18px; }
+  .proof { background:#cc2a77; color:#fff; height:190px; padding:14px;
+           border:4px solid #000; }
+  .proof p { margin:20px 0; font-weight:bold; }
+  .checker { background:#222; color:#fff; padding:12px; margin-top:20px; }
+  a { color:#000; text-decoration:underline; }
+  input { border:2px solid black; padding:6px; }
+</style>
+</head>
+<body>
+<h1>Codex NetSurf</h1>
+<p>OFFLINE HTML + CSS visual smoke check</p>
+<div class="proof"><p>MAGENTA VISUAL PROOF</p><p>Local page rendering</p></div>
+<p><a href="#test">Jump to test section</a></p>
+<form><label>Local form <input name="test" value="offline"></label></form>
+<p class="checker" id="test">No remote network connection needed.</p>
+</body>
+</html>
