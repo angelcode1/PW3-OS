@@ -8,9 +8,13 @@ The `/usr/local/bin/codex-browser` launcher supports `--diagnose` and `--offscre
 
 The source also includes `codex-eink-compositor.c/.h`: pure offscreen RGBA-byte to grayscale conversion, bounded 64x64 dirty tile grouping, a 45% full-refresh threshold, and a 12-partial-refresh full refresh rule. The host C regression covers color quantization, changed tiles, edge clipping, and refresh choice. **It does not drive any Kindle EPDC ioctl** and does not assert that libnsfb's pixel layout is RGBA bytes. Pixel format matching and gamma/dithering require evidence before the interface is connected.
 
+## Synthetic touch adapter
+
+`codex-touch-bridge.c/.h` now translates bounded raw touchscreen coordinates to logical absolute pointer motion, press, release and cancel events, with optional axis swap and inversion. Its host test covers tap, drag, overlapping-touch rejection, cancellation, rotation and malformed calibration. This is **not** the real Cypress evdev reader, and no NetSurf `nsfb_event_t` hook or Kindle device node is opened by this code. The future NetSurf surface must explicitly map pointer motion to `NSFB_EVENT_MOVE_ABSOLUTE` and press/release to the mouse-button key events using the exact pinned libnsfb ABI.
+
 ## CI
 
-`.github/workflows/codex-netsurf-offscreen.yml` runs Python builder tests, the host C compositor test and an Alpine ARMv7/QEMU Docker smoke test with the browser's `-f ram` surface. The smoke test asserts the NetSurf process stays alive long enough for a bounded offline startup check; this is **not proof of rendered pixel correctness or successful navigation**. Do not claim PASS until Actions reports a passing run.
+`.github/workflows/codex-netsurf-offscreen.yml` runs Python builder tests, the host C compositor and touch-bridge tests and an Alpine ARMv7/QEMU Docker smoke test with the browser's `-f ram` surface. The smoke test asserts the NetSurf process stays alive long enough for a bounded offline startup check; this is **not proof of rendered pixel correctness or successful navigation**. Do not claim PASS until Actions reports a passing run.
 
 ## Missing before device browser can be enabled
 
