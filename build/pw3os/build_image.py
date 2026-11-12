@@ -16,7 +16,7 @@ import urllib.request
 import zipfile
 from settings_integration import patch_settings
 from codex_home import patch_codex_home
-from browser_package import find_package
+from browser_package import require_netsurf, verify_browser_staged, NETSURF_PACKAGE
 
 ALPINE = 'https://dl-cdn.alpinelinux.org/alpine/v3.24'
 MINI = 'alpine-minirootfs-3.24.3-armv7.tar.gz'
@@ -27,7 +27,7 @@ KOREADER_SHA = 'ea1f575c54492a2c679d128b7f3210fd7d6a87e5f5a1ff1f7a7fe2080ff68f86
 VPLS = {'web':'engwebp_vpl.zip', 'kjv':'eng-kjv_vpl.zip', 'asv':'eng-asv_vpl.zip'}
 PKGS = ['dropbear','dropbear-scp','dropbear-dbclient','busybox-extras',
         'wpa_supplicant','tzdata','curl','ca-certificates','python3',
-        'python3-pyc','libstdc++','libgcc','gcompat']
+        'python3-pyc','libstdc++','libgcc','gcompat',NETSURF_PACKAGE]
 
 
 def run(*cmd, cwd=None, acceptable=(0,)):
@@ -98,6 +98,7 @@ def install_pkgs(work,root,upstream):
         fn=work/f'APKINDEX.{repo}'
         fn.write_bytes(raw)
         idx.append(fn)
+    require_netsurf(idx)
     res=subprocess.check_output(['python3',str(upstream/'tools/apkdeps.py'),','.join(map(str,idx)),*PKGS],text=True)
     packages=[x for x in res.splitlines() if x.strip()]
     if len(packages)<len(PKGS)//2: raise RuntimeError('Suspiciously small APK dependency closure')
@@ -273,7 +274,10 @@ def main():
             raise RuntimeError('Alpine 3.24.3 minirootfs version mismatch')
         upstream=install_codex_core(repo,work,root)
         packages=install_pkgs(work,root,upstream)
-        browser_candidate=find_package([work/'APKINDEX.main',work/'APKINDEX.community'],'netsurf-framebuffer')
+        browser=verify_browser_staged(root,packages)
+        browser_launcher=root/'usr/local/bin/codex-browser'
+        shutil.copy2(repo/'build/pw3os/codex-browser.sh',browser_launcher)
+        browser_launcher.chmod(0o755)
         compat=install_koreader(work,root,stage)
         bible_type=install_bible(repo,work,root,life_apk)
         (root/'sbin').mkdir(exist_ok=True)
@@ -294,13 +298,14 @@ def main():
                                    (root/'usr/local/bin/pw3-games',out/'pw3-games'),
                                    (root/'usr/local/bin/pw3-koreader',out/'pw3-koreader'),
                                    (root/'usr/local/bin/settings',out/'settings'),
+                                   (root/'usr/local/bin/codex-browser',out/'codex-browser'),
                                    (root/'usr/local/lib/pw3os/koreader_update.py',out/'koreader_update.py'),
                                    (root/'usr/local/lib/pw3os/2-pw3os-autoupdate.lua',out/'2-pw3os-autoupdate.lua')):
             shutil.copy2(source,destination)
         assemble_runner(repo,out)
         shutil.copy2(repo/'build/pw3os/pw3_debugmount.c',out/'pw3_debugmount.c')
         crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi',freestanding=True)
-        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','pw3-games','pw3-koreader','settings','koreader_update.py','2-pw3os-autoupdate.lua']
+        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','pw3-games','pw3-koreader','settings','codex-browser','koreader_update.py','2-pw3os-autoupdate.lua']
         (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
         manifest={'project':'Codex','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
                   'codex_ui_upstream_commit':CODEX_UI_UPSTREAM_REF,'codex_ui_apps_included':list(('home','wifi','settings','term','splash')),
@@ -309,7 +314,7 @@ def main():
                   'settings_submenu':['Terminal','Restart','Power off','Stock Kindle UI','Battery','About'],
                   'bible':bible_type,'koreader':KOREADER_VER,'koreader_stage_compat_included':compat,
                   'koreader_runtime_verified':False,'display_runtime_verified':False,
-                  'image_mib':size,'alpine_packages':packages,'browser_candidate':browser_candidate or 'unavailable','browser_hardware_verified':False}
+                  'image_mib':size,'alpine_packages':packages,'browser':browser}
         (out/'BUILD-MANIFEST.json').write_text(json.dumps(manifest,indent=2)+'\n')
         shutil.copy2(repo/'build/pw3os/README-DEPLOY.txt',out/'README-DEPLOY.txt')
     print('RESULT: PW3OS_ALPINE_3243_FULL_IMAGE_BUILT_NOT_INSTALLED')
