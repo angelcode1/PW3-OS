@@ -29,7 +29,10 @@ static void codex_footer_line(const char *part, int len, void *arg) {
 
 static void codex_draw_footer(void) {
     time_t now = time(0);
-    const char *verse = footers[((unsigned long)(now / 86400)) %
+    struct tm *today = localtime(&now);
+    unsigned day_index = today ? (unsigned)today->tm_yday
+                               : (unsigned long)(now / 86400);
+    const char *verse = footers[day_index %
                                 (sizeof footers / sizeof footers[0])];
     const int max_w = W - 2 * MARGIN;
     int px = 38;
