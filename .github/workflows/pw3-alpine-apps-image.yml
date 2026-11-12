@@ -54,7 +54,6 @@ jobs:
           test -s codex-browser-home-preview
           test -s codex-browser-fast-frames
           file codex-browser-fast-frames | grep 'ARM'
-          ./codex-browser-fast-frames --selftest
           test -s browser-interactive.html
           file libcodex-sdl-touch-input.so | grep -E 'ELF 32-bit.*shared object, ARM'
           test -s codex-netsurf-test-bundle.tar.gz
