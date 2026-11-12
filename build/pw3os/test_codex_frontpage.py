@@ -56,7 +56,7 @@ class TestCodexFrontpage(unittest.TestCase):
         self.assertIn('snprintf(day_number, sizeof day_number, "%d", today->tm_mday)', s)
         self.assertIn('strftime(weekday, sizeof weekday, "%A"', s)
         self.assertIn('strftime(month_year, sizeof month_year, "%B %Y"', s)
-        self.assertIn('text_center(&f_serif_bold, 205, W / 2', s)
+        self.assertIn('text_center(&f_serif_bold, 185, W / 2', s)
         self.assertIn('text_center(&f_serif_italic, 62, W / 2', s)
         self.assertNotIn('strftime(hm', s)
         self.assertNotIn('draw_clock', s)
