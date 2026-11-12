@@ -86,6 +86,7 @@ jobs:
             -v "$PWD/build/pw3os/browser-smoke.html:/fixture.html:ro" \
             alpine:3.24 sh -ec '
               apk add --no-cache netsurf-framebuffer font-dejavu
+              /payload/codex-browser-panel-fast --selftest
               mkdir -p /usr/share/codex /run/codex-browser
               cp /fixture.html /usr/share/codex/browser-smoke.html
               cleanup() {

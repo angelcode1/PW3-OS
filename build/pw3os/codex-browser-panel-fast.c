@@ -6,8 +6,10 @@
  *
  * Hardware ABI copied from the already tested PW3 GC16 presenter:
  * 1072x1448 8-bit grayscale, Amazon kernel 3.0.35, 72-byte update struct.
- * DU waveform=1, partial update=0 are deliberately experimental and can
- * ghost; a full GC16 is used for first frame, periodic cleaning, restore.
+ * All browser updates use grayscale-capable GC16: the DU waveform tested
+ * on the PW3 made large regions of the actual grayscale page appear blank.
+ * Partial GC16 is used only for small dirty regions, full GC16 for large
+ * changes and periodic resynchronisation. No boot-time changes.
  */
 #define _GNU_SOURCE
 #include "codex-browser-home-origin.h"
@@ -38,8 +40,8 @@
 #define TEMP_AMBIENT 0x1000
 #define SESSION_MS 30000
 #define MIN_UPDATE_MS 600
-#define MAX_DU_BURST 6
-#define CLEAN_ON_IDLE_MS 1600
+#define MAX_PARTIAL_BURST 6
+#define FULL_AREA_PERCENT 45u
 #define HDR "P5\n1072 1448\n255\n"
 
 struct pw3_rect { uint32_t top,left,width,height; };
@@ -105,9 +107,9 @@ static void copy_to_fb(unsigned char *fb,size_t pitch,const unsigned char *gray)
 static void copy_from_fb(unsigned char *dst,const unsigned char *fb,size_t pitch) {
     for(unsigned y=0;y<PH;y++)memcpy(dst+(size_t)y*PW,fb+y*pitch,PW);
 }
-/* Align changes outward to an 8px boundary. A full changing page remains
- * a DU partial update: full GC16 is reserved for first frame, hygiene,
- * and snapshot restoration.
+/* Align changes outward to an 8px boundary. Bounding rectangles that
+ * cover most of the page are promoted to a full GC16 refresh, avoiding
+ * the missing-gray / blank-region behavior observed in fast DU trials.
  */
 static int changed_rect(const unsigned char *previous,const unsigned char *now,
                         struct pw3_rect *rect) {
@@ -129,6 +131,15 @@ static int changed_rect(const unsigned char *previous,const unsigned char *now,
     if(bottom>PH)bottom=PH;
     *rect=(struct pw3_rect){top,left,right-left,bottom-top};
     return rect->width>0 && rect->height>0;
+}
+/* This policy preserves grayscale even when a small region changes. It
+ * also resynchronises the panel after six smaller GC16 updates. A DU
+ * waveform is never used for the browser's 8-bit grayscale content. */
+static int should_full_refresh(int have_frame,int partial_burst,
+                               struct pw3_rect changed) {
+    return !have_frame || partial_burst>=MAX_PARTIAL_BURST ||
+        (uint64_t)changed.width*changed.height*100u >=
+        (uint64_t)PW*PH*FULL_AREA_PERCENT;
 }
 static int same_identity(const struct stat *a,const struct stat *b) {
     return a->st_dev==b->st_dev && a->st_ino==b->st_ino &&
@@ -182,6 +193,16 @@ static int selftest(void) {
        r.width!=PW || r.height!=PH)ok=0;
     memcpy(b,a,PIXELS);
     if(changed_rect(a,b,&r))ok=0;
+    /* Grayscale pixels are real browser content, not binary DU input. */
+    for(unsigned y=31;y<=37;y++)
+        for(unsigned x=13;x<=21;x++)b[(size_t)y*PW+x]=160;
+    if(!changed_rect(a,b,&r) || r.left!=8 || r.top!=24 ||
+       r.width!=16 || r.height!=16)ok=0;
+    struct pw3_rect small={24,8,16,16},large={0,0,PW,PH};
+    if(!should_full_refresh(0,0,small) ||
+       should_full_refresh(1,0,small) ||
+       !should_full_refresh(1,MAX_PARTIAL_BURST,small) ||
+       !should_full_refresh(1,0,large))ok=0;
     free(a);free(b);
     if(ok)puts("CODEX_BROWSER_FAST_PANEL_SELFTEST_PASS");
     return ok?0:1;
@@ -214,25 +235,15 @@ static int follow(const char *source) {
     sigaction(SIGHUP,&sa,NULL);
     const struct pw3_rect full={0,0,PW,PH};
     struct stat previous={0};
-    int have_previous=0,have_frame=0,du_burst=0,dirty=0;
+    int have_previous=0,have_frame=0,partial_burst=0;
     unsigned count=0;
     int wrote=0,failed=0;
-    int64_t started=millis(),last_draw=started-MIN_UPDATE_MS,
-            last_change=started;
+    int64_t started=millis(),last_draw=started-MIN_UPDATE_MS;
     if(started<0)failed=1;
     while(!failed && !stop_requested) {
         int64_t now=millis();
         if(now<0){failed=1;break;}
         if(now-started>=SESSION_MS)break;
-        /* Clean DU ghosting once scrolling settles, even without a new
-         * browser frame. Limit repetitive cleaning to one per dirty burst. */
-        if(dirty && now-last_change>=CLEAN_ON_IDLE_MS) {
-            wrote=1;
-            if(epdc_update(fd,0xc0df3000u+count,full,WF_GC16,UPDATE_FULL)<0){
-                failed=1;break;
-            }
-            du_burst=0;dirty=0;last_draw=millis();
-        }
         if(now-last_draw>=MIN_UPDATE_MS) {
             struct stat st;
             if(stat(source,&st)==0 && S_ISREG(st.st_mode) &&
@@ -245,19 +256,18 @@ static int follow(const char *source) {
                     struct pw3_rect changed=full;
                     int differs=!have_frame || changed_rect(last,candidate,&changed);
                     if(differs) {
-                        int do_full=(!have_frame || du_burst>=MAX_DU_BURST);
+                        int do_full=should_full_refresh(have_frame,partial_burst,changed);
                         copy_to_fb(mapped,f.line_length,candidate);
                         wrote=1;
                         if(epdc_update(fd,0xc0df1000u+count,do_full?full:changed,
-                                       do_full?WF_GC16:WF_DU,
+                                       WF_GC16,
                                        do_full?UPDATE_FULL:UPDATE_PARTIAL)<0){
                             failed=1;break;
                         }
                         memcpy(last,candidate,PIXELS);
                         have_frame=1;count++;last_draw=millis();
-                        last_change=last_draw;
-                        if(do_full){du_burst=0;dirty=0;}
-                        else{du_burst++;dirty=1;}
+                        if(do_full)partial_burst=0;
+                        else partial_burst++;
                         printf("CODEX_BROWSER_FAST_FRAME_DISPLAYED frame=%u mode=%s\n",
                                count,do_full?"GC16":"DU");
                         fflush(stdout);
