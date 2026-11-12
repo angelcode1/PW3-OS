@@ -42,6 +42,9 @@ jobs:
           test -s README-DEPLOY.txt
           test -s home
           test -s codex-browser
+          test -s libcodex-sdl-capture.so
+          test -s verify_direct_sdl.py
+          file libcodex-sdl-capture.so | grep -E 'ELF 32-bit.*ARM.*shared object'
           test -s codex-display-probe
           test -s codex-browser-panel-preview
           test -s codex-browser-touch-probe
@@ -57,6 +60,7 @@ jobs:
           assert browser['version']=='3.11-r1',browser
           assert browser['state']=='staged-unverified',browser
           assert browser['arm_elf_verified'] and not browser['epdc_verified'],browser
+          assert browser['headless_capture_staged'] and not browser['headless_on_device_verified'],browser
           print('CODEX_NETSURF_PACKAGE_STAGED_UNVERIFIED_PASS')
           PY
       - name: Upload small live-app overlay (no Alpine image)
@@ -73,6 +77,8 @@ jobs:
             out/pw3os/pw3-koreader
             out/pw3os/settings
             out/pw3os/codex-browser
+            out/pw3os/libcodex-sdl-capture.so
+            out/pw3os/verify_direct_sdl.py
             out/pw3os/koreader_update.py
             out/pw3os/2-pw3os-autoupdate.lua
           retention-days: 14
