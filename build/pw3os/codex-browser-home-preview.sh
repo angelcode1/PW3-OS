@@ -6,6 +6,7 @@ set -eu
 [ "$#" -eq 0 ] || { echo "Home browser preview takes no arguments" >&2; exit 64; }
 R=/run/codex-browser
 PANEL=/usr/local/bin/codex-browser-panel-preview
+FAST_PANEL=/usr/local/bin/codex-browser-panel-fast
 PROBE=/usr/local/bin/codex-display-probe
 BIN=/usr/bin/netsurf-framebuffer
 CAP=/usr/local/lib/codex/libcodex-sdl-capture.so
@@ -54,6 +55,17 @@ trap 'exit 130' INT
 trap 'exit 143' TERM
 trap 'exit 129' HUP
 
+# Only a deliberately armed RAM marker selects experimental DU updates.
+# Consume it before starting any processes; normal launches remain GC16.
+FAST_ONCE="$R/.fast-refresh-once"
+mode=normal
+if [ -f "$FAST_ONCE" ]; then
+  rm -f "$FAST_ONCE"
+  [ -x "$FAST_PANEL" ] || { echo "CODEX_BROWSER_FAST_PANEL_MISSING" >&2; exit 69; }
+  "$FAST_PANEL" --selftest || exit 69
+  mode=fast
+  echo CODEX_BROWSER_FAST_PREVIEW_ONESHOT_SELECTED
+fi
 rm -f "$R/codex-live-sdl.bmp" "$R/codex-browser-live-stream.pgm"
 export NETSURFRES="$RES"
 export HOME=/tmp/codex-browser-home-preview
@@ -65,9 +77,22 @@ SDL_VIDEODRIVER=dummy DISPLAY= LD_PRELOAD="$CAP:$INPUT" \
 "$BIN" -f sdl -w 600 -h 800 -b 32 "file://$HTML" \
   < /dev/null > "$R/home-netsurf.log" 2>&1 &
 browser_pid=$!
-CODEX_BROWSER_LIVE_TRIAL=EXPLICIT "$FAST" --follow-seconds 33 \
-  < /dev/null > "$R/home-converter.log" 2>&1 &
+if [ "$mode" = fast ]; then
+  CODEX_BROWSER_LIVE_TRIAL=EXPLICIT CODEX_BROWSER_FAST_REFRESH=PW3_ONESHOT \
+    "$FAST" --fast-follow-seconds 33 \
+    < /dev/null > "$R/home-converter.log" 2>&1 &
+else
+  CODEX_BROWSER_LIVE_TRIAL=EXPLICIT "$FAST" --follow-seconds 33 \
+    < /dev/null > "$R/home-converter.log" 2>&1 &
+fi
 converter_pid=$!
-CODEX_BROWSER_PANEL_TRIAL=HOME_PREVIEW \
-"$PANEL" --follow-pgm "$R/codex-browser-live-stream.pgm" --confirm-home
-echo CODEX_BROWSER_HOME_PREVIEW_COMPLETED
+if [ "$mode" = fast ]; then
+  CODEX_BROWSER_PANEL_TRIAL=HOME_FAST_PREVIEW \
+    "$FAST_PANEL" --follow-pgm "$R/codex-browser-live-stream.pgm" \
+      --confirm-home-fast > "$R/home-panel.log" 2>&1
+  echo CODEX_BROWSER_FAST_PREVIEW_COMPLETED
+else
+  CODEX_BROWSER_PANEL_TRIAL=HOME_PREVIEW \
+    "$PANEL" --follow-pgm "$R/codex-browser-live-stream.pgm" --confirm-home
+  echo CODEX_BROWSER_HOME_PREVIEW_COMPLETED
+fi
