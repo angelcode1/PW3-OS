@@ -240,6 +240,25 @@ def install_codex_core(repo,work,root):
     return upstream
 
 
+def package_netsurf_trial(repo, root, destination):
+    """Isolated RAM-only NetSurf trial: no system paths overwritten on extraction."""
+    # Keep the current Alpine runtime's existing binaries/boot path untouched.
+    selected = ('lib', 'usr/lib', 'usr/bin/netsurf-framebuffer',
+                'usr/share/netsurf', 'usr/share/fonts', 'usr/share/codex')
+    with tarfile.open(destination, 'w:gz', compresslevel=6, dereference=False) as tar:
+        for relative in selected:
+            path = root / relative
+            if not path.exists():
+                raise RuntimeError('Standalone NetSurf trial missing: ' + relative)
+            tar.add(path, arcname=relative, recursive=True)
+        for name, dest in (('codex-browser-trial.sh', 'codex-browser-trial.sh'),
+                           ('README-NETSURF-TRIAL.txt', 'README-NETSURF-TRIAL.txt')):
+            tar.add(repo / 'build/pw3os' / name, arcname=dest)
+    if destination.stat().st_size < 500000:
+        raise RuntimeError('NetSurf trial tar unexpectedly small')
+    return destination
+
+
 def assemble_runner(repo,output):
     src=(repo/'build/pw3os/pw3os-boot-once.sh').read_text()
     assert 'alpine-debug.img' in src and 'timeout -t 330' in src
@@ -287,6 +306,7 @@ def main():
         smoke_dir=root/'usr/share/codex'
         smoke_dir.mkdir(parents=True,exist_ok=True)
         shutil.copy2(repo/'build/pw3os/browser-smoke.html',smoke_dir/'browser-smoke.html')
+        package_netsurf_trial(repo,root,out/'codex-netsurf-test-bundle.tar.gz')
         compat=install_koreader(work,root,stage)
         bible_type=install_bible(repo,work,root,life_apk)
         (root/'sbin').mkdir(exist_ok=True)
@@ -316,7 +336,7 @@ def main():
         assemble_runner(repo,out)
         shutil.copy2(repo/'build/pw3os/pw3_debugmount.c',out/'pw3_debugmount.c')
         crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi',freestanding=True)
-        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','home','pw3-games','pw3-koreader','settings','codex-browser','codex-display-probe','koreader_update.py','2-pw3os-autoupdate.lua']
+        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','home','pw3-games','pw3-koreader','settings','codex-browser','codex-display-probe','codex-netsurf-test-bundle.tar.gz','koreader_update.py','2-pw3os-autoupdate.lua']
         (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
         manifest={'project':'Codex','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
                   'codex_ui_upstream_commit':CODEX_UI_UPSTREAM_REF,'codex_ui_apps_included':list(('home','wifi','settings','term','splash')),
