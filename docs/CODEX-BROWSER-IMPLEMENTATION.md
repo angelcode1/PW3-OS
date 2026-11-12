@@ -27,7 +27,7 @@ The source also includes `codex-eink-compositor.c/.h`: pure offscreen RGBA-byte 
 
 **No device writes, firmware updates, or Kindle display access were performed for this milestone.** Preserve the original upstream MIT code attribution and NetSurf's GPL-2.0-or-later obligations; distributing a full browser image entails source/licence compliance.
 
-The six original footer phrases remain unchanged until the user's replacement list arrives.
+The upstream six footer phrases have been replaced with the user's **five local wisdom verses**. The Codex home build rotates them by UTC day, uses `text_wrap` for long verses, and does not perform any network request. The rebuilt `home` executable is included in the small live-app overlay for attended deployment.
 
 ## Sources
 
@@ -35,3 +35,7 @@ The six original footer phrases remain unchanged until the user's replacement li
 - [Alpine NetSurf package recipe](https://github.com/alpinelinux/aports/blob/master/community/netsurf/APKBUILD)
 - [NetSurf framebuffer guide](https://github.com/netsurf-browser/netsurf/blob/master/docs/building-Framebuffer.md)
 - [NetSurf framebuffer usage](https://github.com/netsurf-browser/netsurf/blob/master/docs/using-framebuffer.md)
+
+## Read-only framebuffer evidence helper
+
+`codex-display-probe` is compiled for the ARM target and staged in the Alpine image and small overlay. It has a no-device `--selftest`, and only an explicitly invoked `--read-only /dev/fb0` path (O_RDONLY and framebuffer GET VSCREENINFO/FSCREENINFO queries) for a later attended session. It never maps, writes, triggers refresh, or opens touchscreen input. A successful query is **not** EPDC compatibility proof. 
