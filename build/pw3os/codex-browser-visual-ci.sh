@@ -116,4 +116,30 @@ if [ ! -s "$REPORT_DIR/codex-live-sdl.bmp" ] ||
     exit 1
 fi
 echo "CODEX_NETSURF_DIRECT_SDL_CAPTURED_NEEDS_PIXEL_VALIDATION"
-echo "CODEX_NETSURF_XVFB_AND_DIRECT_SURFACE_CAPTURED" | tee "$REPORT_DIR/result.txt"
+# The first direct capture still uses an X server. Now prove the SAME
+# SDL_UpdateRect interception works under the headless SDL dummy driver.
+# This is the candidate architecture for the PW3 without a desktop server.
+kill "$browser_pid" 2>/dev/null || :
+wait "$browser_pid" 2>/dev/null || :
+browser_pid=
+mv "$REPORT_DIR/codex-live-sdl.bmp" "$REPORT_DIR/codex-live-sdl-x11.bmp"
+CODEX_SDL_CAPTURE_ENABLE=CI_ONLY SDL_VIDEODRIVER=dummy DISPLAY= \
+    LD_PRELOAD=/tmp/libcodex-sdl-live-capture.so \
+    "$BIN" -f sdl -w 600 -h 800 -b 32 "file://$FIXTURE" \
+    > "$REPORT_DIR/direct-sdl-dummy.log" 2>&1 &
+browser_pid=$!
+sleep 19
+if ! kill -0 "$browser_pid" 2>/dev/null; then
+    echo "NetSurf headless SDL dummy process exited" >&2
+    cat "$REPORT_DIR/direct-sdl-dummy.log" >&2 || :
+    exit 1
+fi
+if [ ! -s "$REPORT_DIR/codex-live-sdl.bmp" ] ||
+   ! grep -q CODEX_NETSURF_DIRECT_SDL_FRAME "$REPORT_DIR/direct-sdl-dummy.log"; then
+    echo "No NetSurf SDL dummy framebuffer updates captured" >&2
+    cat "$REPORT_DIR/direct-sdl-dummy.log" >&2 || :
+    exit 1
+fi
+mv "$REPORT_DIR/codex-live-sdl.bmp" "$REPORT_DIR/codex-live-sdl-dummy.bmp"
+echo "CODEX_NETSURF_HEADLESS_SDL_DUMMY_CAPTURED_NEEDS_PIXEL_VALIDATION"
+echo "CODEX_NETSURF_XVFB_DIRECT_AND_HEADLESS_CAPTURED" | tee "$REPORT_DIR/result.txt"
