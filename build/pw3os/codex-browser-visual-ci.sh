@@ -26,6 +26,13 @@ done
     echo "DISPLAY is already set; refusing to attach to a real display" >&2
     exit 78
 }
+# The runner owns the bind-mounted report directory but container commands
+# execute as root. Return ownership on EVERY exit, including failed tests.
+: "${CODEX_CI_HOST_UID:?Missing GitHub runner UID}"
+: "${CODEX_CI_HOST_GID:?Missing GitHub runner GID}"
+case "$CODEX_CI_HOST_UID:$CODEX_CI_HOST_GID" in
+    *[!0-9:]*|:*|*:) echo "Invalid report owner" >&2; exit 64 ;;
+esac
 mkdir -p "$REPORT_DIR"
 chmod 700 "$REPORT_DIR"
 export HOME=/tmp/codex-netsurf-test-home
@@ -40,6 +47,9 @@ cleanup() {
     [ -z "$server_pid" ] || kill "$server_pid" 2>/dev/null || :
     [ -z "$browser_pid" ] || wait "$browser_pid" 2>/dev/null || :
     [ -z "$server_pid" ] || wait "$server_pid" 2>/dev/null || :
+    # scrot/browser logs are created under umask 077 by container root.
+    # Make the reports readable by the runner for PNG validation and upload.
+    chown -R "$CODEX_CI_HOST_UID:$CODEX_CI_HOST_GID" "$REPORT_DIR" || :
 }
 trap cleanup EXIT INT TERM
 Xvfb :117 -screen 0 800x1000x24 -nolisten tcp > "$REPORT_DIR/xvfb.log" 2>&1 &
