@@ -222,7 +222,7 @@ def install_codex_core(repo,work,root):
                  extra=('-I'+str(upstream/'src/ui'),'-I'+str(upstream/'third_party/stb')))
     crosscompile(repo/'build/pw3os/games-menu.c',bindir/'pw3-games',
                  extra=('-I'+str(upstream/'src/ui'),'-I'+str(upstream/'third_party/stb')))
-    fonts=root/'usr/share/fonts/codex';fonts.mkdir(parents=True,exist_ok=True)
+    fonts=root/'usr/share/fonts/inkwell';fonts.mkdir(parents=True,exist_ok=True)
     for f in (upstream/'fonts').glob('*.ttf'):shutil.copy2(f,fonts/f.name)
     for f in (upstream/'fonts').glob('*.txt'):shutil.copy2(f,fonts/f.name)
     license_dir=root/'usr/share/licenses/pw3os';license_dir.mkdir(parents=True,exist_ok=True)
