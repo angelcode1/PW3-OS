@@ -89,5 +89,32 @@ if cmp -s "$REPORT_DIR/baseline.png" "$REPORT_DIR/netsurf-sdl.png"; then
     cat "$REPORT_DIR/browser.log" >&2 || :
     exit 1
 fi
-# PNG correctness is also verified by the host-side pixel validator in CI.
-echo "CODEX_NETSURF_SDL_VISUAL_CAPTURED_NEEDS_PIXEL_VALIDATION" | tee "$REPORT_DIR/result.txt"
+# Freeze the SDL visual proof, then start a SECOND actual NetSurf instance
+# on its libnsfb RAM backend. Capture real framebuffer redraws by interposing
+# nsfb_update; this is not a screenshot of another program's X11 window.
+kill "$browser_pid" 2>/dev/null || :
+wait "$browser_pid" 2>/dev/null || :
+browser_pid=
+cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic -shared -fPIC \
+    /project/codex-nsfb-live-capture.c \
+    -o /tmp/libcodex-nsfb-live-capture.so -ldl -lnsfb
+CODEX_NSFB_CAPTURE_ENABLE=CI_ONLY \
+    LD_PRELOAD=/tmp/libcodex-nsfb-live-capture.so \
+    "$BIN" -f ram -w 600 -h 800 -b 32 "file://$FIXTURE" \
+    > "$REPORT_DIR/live-nsfb.log" 2>&1 &
+browser_pid=$!
+sleep 19
+if ! kill -0 "$browser_pid" 2>/dev/null; then
+    echo "NetSurf RAM process exited during live framebuffer capture" >&2
+    cat "$REPORT_DIR/live-nsfb.log" >&2 || :
+    exit 1
+fi
+if [ ! -s "$REPORT_DIR/codex-live-nsfb.pgm" ] ||
+   ! grep -q CODEX_NSFB_ACTUAL_FRAME_CAPTURED "$REPORT_DIR/live-nsfb.log"; then
+    echo "No real NetSurf libnsfb framebuffer update was captured" >&2
+    cat "$REPORT_DIR/live-nsfb.log" >&2 || :
+    exit 1
+fi
+echo "CODEX_NSFB_LIVE_BUFFER_CAPTURED_NEEDS_PIXEL_VALIDATION"
+# PNG and PGM correctness are independently verified by host-side validators.
+echo "CODEX_NETSURF_SDL_AND_LIVE_BUFFER_CAPTURED" | tee "$REPORT_DIR/result.txt"
