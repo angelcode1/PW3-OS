@@ -82,6 +82,32 @@ class TestNetSurf(unittest.TestCase):
         self.assertNotIn("browser-backend-verified",shell)
         self.assertIn("exit 78",shell)
 
+    def test_isolated_armv7_trial_does_not_open_display(self):
+        trial=(HERE/"codex-browser-trial.sh").read_text()
+        self.assertIn("--offscreen-test",trial)
+        self.assertIn(" -f ram ",trial)
+        self.assertIn("LD_LIBRARY_PATH",trial)
+        self.assertNotIn("/dev/fb",trial)
+        self.assertNotIn("ioctl",trial)
+        self.assertIn("exit 78",trial)
+        builder=(HERE/"build_image.py").read_text()
+        self.assertIn("package_netsurf_trial(",builder)
+        self.assertIn("codex-netsurf-test-bundle.tar.gz",builder)
+        self.assertIn("README-NETSURF-TRIAL.txt",builder)
+
+    def test_sdl_visual_ci_uses_isolated_xvfb(self):
+        script=(HERE/"codex-browser-visual-ci.sh").read_text()
+        fixture=(HERE/"browser-smoke.html").read_text()
+        verifier=(HERE/"verify_browser_capture.py").read_text()
+        self.assertIn("Xvfb :117",script)
+        self.assertIn(" -f sdl ",script)
+        self.assertIn("CODEX_BROWSER_VISUAL_CI",script)
+        self.assertIn("-nolisten tcp",script)
+        self.assertNotIn("/dev/fb",script)
+        self.assertIn("#cc2a77",fixture)
+        self.assertIn("proof_magenta",verifier)
+        self.assertIn("2000",verifier)
+
     def test_builder_bundles_netsurf_without_menu_exposure(self):
         code=(HERE/"build_image.py").read_text()
         self.assertIn("NETSURF_PACKAGE",code)
