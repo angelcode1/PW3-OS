@@ -94,3 +94,41 @@ integration until actual input evidence and a connected libnsfb surface pass.
 ## Next milestone
 
 After a successful on-device preview, connect NetSurf's actual libnsfb surface to the grayscale compositor and PW3 refresh adapter, then connect Cypress touch input and on-screen keyboard with a reliable exit-to-Home lifecycle. Browser menu exposure and further games integration are gated on those tests. Keep NetSurf GPL and upstream MIT attributions.
+
+## Experimental 30-second live SDL-to-e-ink + touch bridge
+
+The bounded live test is now compiled and distributed as an *optional small
+app overlay*, with no change to boot hooks, image checksums or the Home menu.
+It is **not** yet verified as a live interactive browser on the physical PW3.
+The offscreen NetSurf renderer, one-shot panel refresh/restore, Cypress
+read-only movement and host-side coordinate/event ABI tests have passed.
+
+- \`codex-browser-live-trial\` requires \`CODEX_BROWSER_LIVE_TRIAL=EXPLICIT\`,
+  exactly \`--run\`, and a true interactive TTY. It explicitly opens only
+  \`file:///usr/share/codex/browser-smoke.html\`, not remote URLs.
+- The standard verified \`libcodex-sdl-capture.so\` atomically exports live
+  SDL BMP frames to private RAM. \`codex-browser-live-frames.py\` validates
+  each 600x800 BMP and atomically publishes 1072x1448 PGM frames.
+- \`codex-browser-panel-preview --follow-pgm ... --confirm-pw3\` is the
+  sole framebuffer owner in this trial. It snapshots visible pixels,
+  accepts exactly the previously measured PW3 geometry and EPDC ABI,
+  refreshes at most every 1.8s using GC16, stops after 30 seconds and
+  attempts a full restore. No \`FBIOPUT_VSCREENINFO\` is used.
+- \`libcodex-sdl-touch-input.so\` is an optional LD_PRELOAD hook on SDL 1.2
+  \`SDL_PollEvent\` and \`SDL_WaitEvent\`. It opens read-only Cypress
+  \`/dev/input/event1\`, ignores other slots, injects tap as SDL left-click,
+  and swipe as SDL wheel events. It does **not** grab or reconfigure evdev.
+  Its mouse ABI, coordinates and viewport mapping are host-tested, but
+  physical browser interaction still requires attended validation.
+- The launcher temporarily stops the Home process to avoid competing
+  panel updates, then resumes and terminates that process on exit; the
+  existing init supervisor restarts Home and redraws the front page.
+- This is intentionally not an unattended daemon, a public browsing
+  implementation, an onscreen keyboard or a Home tile. The physical
+  e-ink panel may be slow, ghost, or fail to restore on power loss.
+
+The output of the first trial should record \`CODEX_BROWSER_LIVE_FRAME_DISPLAYED\`,
+\`CODEX_BROWSER_SDL_POLL_HOOK_ACTIVE\`, \`CODEX_BROWSER_SDL_TAP\` /
+\`CODEX_BROWSER_SDL_SCROLL\`, \`CODEX_BROWSER_LIVE_SCREEN_RESTORED\`,
+and an awake Codex Home screen. If the presenter reports a negative EPDC
+ioctl or the screen does not restore, stop; do not repeat blindly.
