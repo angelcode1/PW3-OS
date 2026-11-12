@@ -78,6 +78,10 @@ class TestNetSurf(unittest.TestCase):
         shell=(HERE/"codex-browser.sh").read_text()
         self.assertIn(" -f ram ",shell)
         self.assertIn("--offscreen-test",shell)
+        self.assertIn("--capture-offscreen",shell)
+        self.assertIn('CODEX_BROWSER_ATTENDED',shell)
+        self.assertIn('SDL_VIDEODRIVER=dummy',shell)
+        self.assertIn('CODEX_SDL_CAPTURE_ENABLE=PW3_ATTENDED',shell)
         self.assertNotIn("/dev/fb",shell)
         self.assertNotIn("browser-backend-verified",shell)
         self.assertIn("exit 78",shell)
@@ -111,6 +115,22 @@ class TestNetSurf(unittest.TestCase):
         self.assertIn("package_netsurf_trial(",builder)
         self.assertIn("codex-netsurf-test-bundle.tar.gz",builder)
         self.assertIn("README-NETSURF-TRIAL.txt",builder)
+
+    def test_headless_bridge_is_staged_without_boot_hooks(self):
+        src=(HERE/"codex-sdl-live-capture.c").read_text()
+        builder=(HERE/"build_image.py").read_text()
+        launcher=(HERE/"codex-browser.sh").read_text()
+        self.assertIn('OUTPUT_PW3 "/run/codex-browser/codex-live-sdl.bmp"',src)
+        self.assertIn('ENABLE_PW3 "PW3_ATTENDED"',src)
+        self.assertIn('void SDL_UpdateRect',src)
+        self.assertNotIn('"/dev/fb0"',src)
+        self.assertNotIn("MXCFB_SEND_UPDATE",src)
+        self.assertIn('crosscompile_browser_shared(',builder)
+        self.assertIn("libcodex-sdl-capture.so",builder)
+        self.assertIn("verify_direct_sdl.py",builder)
+        self.assertIn('CODEX_BROWSER_ATTENDED',launcher)
+        self.assertIn('SDL_VIDEODRIVER=dummy',launcher)
+        self.assertNotIn('LD_PRELOAD=',launcher.split('--offscreen-test)')[1].split('--capture-offscreen)')[0])
 
     def test_sdl_visual_ci_uses_isolated_xvfb(self):
         script=(HERE/"codex-browser-visual-ci.sh").read_text()
