@@ -1,6 +1,7 @@
 /* Host unit test: exercise actual SDL1.2 event layout and evdev parser.
  * Does not open /dev/input, use SDL, or access a framebuffer.
  */
+#define _GNU_SOURCE
 #include <assert.h>
 #include <stdio.h>
 #include "codex-sdl-touch-input.c"
