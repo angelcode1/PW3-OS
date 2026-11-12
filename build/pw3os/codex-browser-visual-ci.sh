@@ -1,0 +1,145 @@
+#!/bin/sh
+# Alpine ARMv7/QEMU ONLY. Visual NetSurf smoke test; NEVER opens PW3 framebuffer.
+# The caller must explicitly install netsurf-framebuffer, xvfb and scrot.
+# Produces baseline.png, netsurf-sdl.png and logs under /reports.
+set -eu
+umask 077
+REPORT_DIR=${CODEX_REPORT_DIR:-/reports}
+FIXTURE=/usr/share/codex/browser-smoke.html
+BIN=/usr/bin/netsurf-framebuffer
+if [ ! -x "$BIN" ] || [ ! -s "$FIXTURE" ]; then
+    echo "NetSurf or local fixture missing" >&2
+    exit 69
+fi
+for cmd in Xvfb scrot cmp; do
+    command -v "$cmd" >/dev/null 2>&1 || {
+        echo "Missing visual test prerequisite: $cmd" >&2
+        exit 69
+    }
+done
+# Avoid accidental launch against any physical or host X display.
+[ "${CODEX_BROWSER_VISUAL_CI:-0}" = 1 ] || {
+    echo "Refusing visual mode without explicit CI gate" >&2
+    exit 78
+}
+[ "${DISPLAY:-}" = "" ] || {
+    echo "DISPLAY is already set; refusing to attach to a real display" >&2
+    exit 78
+}
+# The runner owns the bind-mounted report directory but container commands
+# execute as root. Return ownership on EVERY exit, including failed tests.
+: "${CODEX_CI_HOST_UID:?Missing GitHub runner UID}"
+: "${CODEX_CI_HOST_GID:?Missing GitHub runner GID}"
+case "$CODEX_CI_HOST_UID:$CODEX_CI_HOST_GID" in
+    *[!0-9:]*|:*|*:) echo "Invalid report owner" >&2; exit 64 ;;
+esac
+mkdir -p "$REPORT_DIR"
+chmod 700 "$REPORT_DIR"
+export HOME=/tmp/codex-netsurf-test-home
+mkdir -p "$HOME"
+export NETSURFRES=/usr/share/netsurf
+export SDL_VIDEODRIVER=x11
+export DISPLAY=:117
+server_pid=
+browser_pid=
+cleanup() {
+    [ -z "$browser_pid" ] || kill "$browser_pid" 2>/dev/null || :
+    [ -z "$server_pid" ] || kill "$server_pid" 2>/dev/null || :
+    [ -z "$browser_pid" ] || wait "$browser_pid" 2>/dev/null || :
+    [ -z "$server_pid" ] || wait "$server_pid" 2>/dev/null || :
+    # scrot/browser logs are created under umask 077 by container root.
+    # Make the reports readable by the runner for PNG validation and upload.
+    chown -R "$CODEX_CI_HOST_UID:$CODEX_CI_HOST_GID" "$REPORT_DIR" || :
+}
+trap cleanup EXIT INT TERM
+Xvfb :117 -screen 0 800x1000x24 -nolisten tcp > "$REPORT_DIR/xvfb.log" 2>&1 &
+server_pid=$!
+ready=0
+for i in 1 2 3 4 5 6 7 8 9 10; do
+    if scrot -z "$REPORT_DIR/baseline.png" > "$REPORT_DIR/scrot.log" 2>&1; then
+        ready=1
+        break
+    fi
+    sleep 1
+done
+[ "$ready" -eq 1 ] || {
+    echo "Virtual display failed" >&2
+    cat "$REPORT_DIR/xvfb.log" >&2 || :
+    exit 1
+}
+# NetSurf's SDL surface provides a real visual renderer under virtual X11.
+# Both the page and supporting CSS are loaded strictly from local files.
+"$BIN" -f sdl -w 600 -h 800 -b 32 "file://$FIXTURE" > "$REPORT_DIR/browser.log" 2>&1 &
+browser_pid=$!
+# Give NetSurf enough time under QEMU to parse the page and apply CSS.
+# An earlier screenshot could show only a blank SDL window.
+sleep 28
+if ! kill -0 "$browser_pid" 2>/dev/null; then
+    echo "NetSurf terminated during visual test" >&2
+    cat "$REPORT_DIR/browser.log" >&2 || :
+    exit 1
+fi
+if ! scrot -z "$REPORT_DIR/netsurf-sdl.png" > "$REPORT_DIR/scrot.log" 2>&1; then
+    echo "Failed to capture browser Xvfb pixels" >&2
+    cat "$REPORT_DIR/scrot.log" >&2 || :
+    exit 1
+fi
+if cmp -s "$REPORT_DIR/baseline.png" "$REPORT_DIR/netsurf-sdl.png"; then
+    echo "No changed pixels from browser SDL window" >&2
+    cat "$REPORT_DIR/browser.log" >&2 || :
+    exit 1
+fi
+# Freeze the Xvfb screenshot and start NetSurf again, instrumenting its
+# ACTUAL SDL_Surface via the dynamically linked SDL12-compat API. Alpine
+# links libnsfb into the browser, so no libnsfb-dev exists to interpose.
+kill "$browser_pid" 2>/dev/null || :
+wait "$browser_pid" 2>/dev/null || :
+browser_pid=
+cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic -shared -fPIC \
+    /project/codex-sdl-live-capture.c \
+    -o /tmp/libcodex-sdl-live-capture.so -ldl
+CODEX_SDL_CAPTURE_ENABLE=CI_ONLY \
+    LD_PRELOAD=/tmp/libcodex-sdl-live-capture.so \
+    "$BIN" -f sdl -w 600 -h 800 -b 32 "file://$FIXTURE" \
+    > "$REPORT_DIR/direct-sdl.log" 2>&1 &
+browser_pid=$!
+sleep 19
+if ! kill -0 "$browser_pid" 2>/dev/null; then
+    echo "NetSurf SDL process exited during direct surface capture" >&2
+    cat "$REPORT_DIR/direct-sdl.log" >&2 || :
+    exit 1
+fi
+if [ ! -s "$REPORT_DIR/codex-live-sdl.bmp" ] ||
+   ! grep -q CODEX_NETSURF_DIRECT_SDL_FRAME "$REPORT_DIR/direct-sdl.log"; then
+    echo "No direct SDL_Surface pixel capture was generated" >&2
+    cat "$REPORT_DIR/direct-sdl.log" >&2 || :
+    exit 1
+fi
+echo "CODEX_NETSURF_DIRECT_SDL_CAPTURED_NEEDS_PIXEL_VALIDATION"
+# The first direct capture still uses an X server. Now prove the SAME
+# SDL_UpdateRect interception works under the headless SDL dummy driver.
+# This is the candidate architecture for the PW3 without a desktop server.
+kill "$browser_pid" 2>/dev/null || :
+wait "$browser_pid" 2>/dev/null || :
+browser_pid=
+mv "$REPORT_DIR/codex-live-sdl.bmp" "$REPORT_DIR/codex-live-sdl-x11.bmp"
+CODEX_SDL_CAPTURE_ENABLE=CI_ONLY SDL_VIDEODRIVER=dummy DISPLAY= \
+    LD_PRELOAD=/tmp/libcodex-sdl-live-capture.so \
+    "$BIN" -f sdl -w 600 -h 800 -b 32 "file://$FIXTURE" \
+    > "$REPORT_DIR/direct-sdl-dummy.log" 2>&1 &
+browser_pid=$!
+sleep 19
+if ! kill -0 "$browser_pid" 2>/dev/null; then
+    echo "NetSurf headless SDL dummy process exited" >&2
+    cat "$REPORT_DIR/direct-sdl-dummy.log" >&2 || :
+    exit 1
+fi
+if [ ! -s "$REPORT_DIR/codex-live-sdl.bmp" ] ||
+   ! grep -q CODEX_NETSURF_DIRECT_SDL_FRAME "$REPORT_DIR/direct-sdl-dummy.log"; then
+    echo "No NetSurf SDL dummy framebuffer updates captured" >&2
+    cat "$REPORT_DIR/direct-sdl-dummy.log" >&2 || :
+    exit 1
+fi
+mv "$REPORT_DIR/codex-live-sdl.bmp" "$REPORT_DIR/codex-live-sdl-dummy.bmp"
+echo "CODEX_NETSURF_HEADLESS_SDL_DUMMY_CAPTURED_NEEDS_PIXEL_VALIDATION"
+echo "CODEX_NETSURF_XVFB_DIRECT_AND_HEADLESS_CAPTURED" | tee "$REPORT_DIR/result.txt"

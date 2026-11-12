@@ -74,7 +74,7 @@ Inkwell on Alpine %s
 '''
         adjusted = patch_settings(src)
         for phrase in ('terminal_btn', 'launch_terminal()', 'execl("/usr/local/bin/term"',
-                       'input_drain();', 'PW3-OS on Alpine %s'):
+                       'input_drain();', 'Codex on Alpine %s'):
             self.assertIn(phrase, adjusted)
         self.assertRaises(ValueError, patch_settings, 'broken upstream')
     def test_archive_executable_modes_preserved(self):
@@ -129,6 +129,6 @@ Inkwell on Alpine %s
         b=importlib.util.module_from_spec(spec)
         spec.loader.exec_module(b)
         self.assertEqual(len(b.KOREADER_SHA),64)
-        self.assertEqual(b.INKWELL_REF,'d1fc9d9ef911777fb5db14541fd5b841fd7c1f03')
+        self.assertEqual(b.CODEX_UI_UPSTREAM_REF,'d1fc9d9ef911777fb5db14541fd5b841fd7c1f03')
 
 if __name__=='__main__':unittest.main()

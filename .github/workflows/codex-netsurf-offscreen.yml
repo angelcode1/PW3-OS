@@ -1,0 +1,169 @@
+name: Codex NetSurf ARMv7 offscreen integration
+
+on:
+  push:
+    branches:
+      - feature/codex-branding-browser
+    paths:
+      - 'build/pw3os/**'
+      - '.github/workflows/codex-netsurf-offscreen.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-regressions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Codex browser and builder regressions
+        run: |
+          python3 -m unittest discover -s build/pw3os -p 'test_*.py' -v
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-eink-compositor.c build/pw3os/test_codex_eink.c \
+            -o /tmp/codex-eink-compositor-test
+          /tmp/codex-eink-compositor-test
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-touch-bridge.c build/pw3os/test_codex_touch.c \
+            -o /tmp/codex-touch-test
+          /tmp/codex-touch-test
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-viewport.c \
+            build/pw3os/test_codex_browser_viewport.c \
+            -o /tmp/codex-browser-viewport-test
+          /tmp/codex-browser-viewport-test
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/test_codex_sdl_touch_input.c \
+            build/pw3os/codex-browser-viewport.c -ldl \
+            -o /tmp/codex-sdl-touch-input-test
+          /tmp/codex-sdl-touch-input-test
+          bash -n build/pw3os/codex-browser-live-trial.sh
+          sh -n build/pw3os/codex-browser-home-preview.sh
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-fast-frames.c \
+            -o /tmp/codex-browser-fast-frames-host-test
+          /tmp/codex-browser-fast-frames-host-test --selftest
+          python3 -m py_compile build/pw3os/codex-browser-live-frames.py
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-display-probe.c -o /tmp/codex-display-probe-test
+          /tmp/codex-display-probe-test --selftest
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-panel-preview.c \
+            -o /tmp/codex-browser-panel-preview-test
+          /tmp/codex-browser-panel-preview-test --selftest
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-panel-fast.c \
+            -o /tmp/codex-browser-panel-fast-host-test
+          /tmp/codex-browser-panel-fast-host-test --selftest
+          if CODEX_BROWSER_PANEL_TRIAL=HOME_FAST_PREVIEW \
+              /tmp/codex-browser-panel-fast-host-test \
+              --follow-pgm /tmp/does-not-exist.pgm --confirm-home-fast; then
+            echo "Fast presenter bypassed Home ancestry gate" >&2
+            exit 1
+          fi
+          if CODEX_BROWSER_LIVE_TRIAL=EXPLICIT \
+              /tmp/codex-browser-fast-frames-host-test \
+              --fast-follow-seconds 33; then
+            echo "Fast converter bypassed one-shot gate" >&2
+            exit 1
+          fi
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-touch-probe.c \
+            build/pw3os/codex-touch-bridge.c \
+            -o /tmp/codex-browser-touch-probe-test
+          /tmp/codex-browser-touch-probe-test --selftest
+          if /tmp/codex-browser-touch-probe-test --sample-seconds 8; then
+            echo "Unattended touch sample was not gated" >&2
+            exit 1
+          fi
+          # Physical display writes must be rejected without explicit gate.
+          if /tmp/codex-browser-panel-preview-test \
+              --display-once /tmp/does-not-exist.pgm --confirm-pw3; then
+            echo "Panel write was not gated" >&2
+            exit 1
+          fi
+          if /tmp/codex-browser-panel-preview-test \
+              --follow-pgm /tmp/does-not-exist.pgm --confirm-pw3; then
+            echo "Live browser display was not explicitly gated" >&2
+            exit 1
+          fi
+          # A noninteractive Home tile is allowed ONLY with actual Home
+          # ancestry and a dedicated mode; CI has no such parent process.
+          if /tmp/codex-browser-panel-preview-test --home-origin-check; then
+            echo "Non-Home parent passed ancestry validation" >&2
+            exit 1
+          fi
+          if CODEX_BROWSER_PANEL_TRIAL=HOME_PREVIEW \
+              /tmp/codex-browser-panel-preview-test \
+              --follow-pgm /tmp/does-not-exist.pgm --confirm-home; then
+            echo "Non-Home parent bypassed Home-only gate" >&2
+            exit 1
+          fi
+
+  armv7-offscreen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm
+      - name: NetSurf 3.11 Alpine ARMv7 RAM surface smoke
+        run: |
+          docker run --rm --platform linux/arm/v7 \
+            -v "$PWD/build/pw3os:/project:ro" alpine:3.24 sh -ec '
+              apk add --no-cache netsurf-framebuffer font-dejavu
+              mkdir -p /usr/share/codex
+              cp /project/browser-smoke.html /usr/share/codex/browser-smoke.html
+              /bin/sh /project/codex-browser.sh --diagnose
+              /bin/sh /project/codex-browser.sh --offscreen-test > /tmp/browser.log 2>&1 &
+              browser_pid=$!
+              sleep 7
+              if ! kill -0 "$browser_pid" 2>/dev/null; then
+                echo "NetSurf exited before offscreen smoke duration"
+                cat /tmp/browser.log
+                wait "$browser_pid" || :
+                exit 1
+              fi
+              kill "$browser_pid" || :
+              wait "$browser_pid" || :
+              echo "OFFSCREEN_NETSURF_ARMV7_PROCESS_ALIVE_PASS"
+              cat /tmp/browser.log
+            '
+      - name: Render NetSurf in virtual portrait X11 and capture screenshot
+        run: |
+          mkdir -p out/netsurf-visual
+          docker run --rm --platform linux/arm/v7 --shm-size=128m \
+            -e CODEX_CI_HOST_UID="$(id -u)" -e CODEX_CI_HOST_GID="$(id -g)" \
+            -v "$PWD/build/pw3os:/project:ro" \
+            -v "$PWD/out/netsurf-visual:/reports" \
+            alpine:3.24 sh -ec '
+              apk add --no-cache netsurf-framebuffer font-dejavu xvfb scrot build-base
+              mkdir -p /usr/share/codex
+              cp /project/browser-smoke.html /usr/share/codex/browser-smoke.html
+              CODEX_BROWSER_VISUAL_CI=1 \
+                /bin/sh /project/codex-browser-visual-ci.sh
+            '
+          python3 build/pw3os/verify_browser_capture.py \
+            out/netsurf-visual/baseline.png out/netsurf-visual/netsurf-sdl.png
+          # The earlier X11 live surface can be an intermediate frame:
+          # Xvfb's settled screenshot is already independently validated.
+          # The actual headless dummy buffer is the required browser proof.
+          python3 build/pw3os/verify_direct_sdl.py \
+            out/netsurf-visual/codex-live-sdl-dummy.bmp out/netsurf-visual/codex-browser-live-headless-pw3.pgm
+          python3 build/pw3os/browser_capture_to_pw3.py \
+            out/netsurf-visual/netsurf-sdl.png out/netsurf-visual/codex-browser-pw3-preview.pgm
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-panel-preview.c -o /tmp/codex-browser-pw3-preview
+          /tmp/codex-browser-pw3-preview --inspect \
+            out/netsurf-visual/codex-browser-pw3-preview.pgm
+      - name: Upload browser screenshots and logs even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-netsurf-armv7-offscreen-visual
+          path: out/netsurf-visual/
+          retention-days: 14
+          if-no-files-found: warn

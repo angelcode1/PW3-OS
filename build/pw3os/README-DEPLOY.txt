@@ -74,3 +74,39 @@ Remove them only after a successful stock reboot and verified release of the
 new Alpine image, loop mount and temporary SSH firewall rule. Do not remove
 any image that is still referenced by an installed fallback/Upstart script.
 The original Amazon root/kernel and recovery must remain intact.
+
+CODEX HOME AND NETSURF OPTIONAL STAGE
+-------------------------------------
+The small app overlay includes the rebuilt Codex 'home' binary containing the
+five user-supplied locally rotating wisdom verses. It may be deployed into
+running Alpine after backing up the previous /usr/local/bin/home and checking
+its ELF ABI and checksum; it is NOT a stock-firmware installer.
+
+NetSurf framebuffer is staged inside the Alpine image and a codex-browser
+launcher is included in the overlay, but the physical PW3 EPDC/input backend
+has NOT been implemented or verified. The launcher only allows --diagnose
+and RAM-only --offscreen-test; there is no Browser home icon yet.
+
+codex-display-probe is a read-only framebuffer capability helper. Do not run
+against stock firmware or assume it enables screen writes. Its optional
+--read-only /dev/fb0 mode is for a later explicitly attended test. No automatic
+display tests or physical firmware writes are required by this bundle.
+
+NETSURF TESTING BEFORE ANY FURTHER GAMES WORK
+---------------------------------------------
+The GitHub Actions workflow codex-netsurf-offscreen.yml produces Xvfb screenshots
+of ARMv7 NetSurf actually rendering local HTML/CSS. Its screenshot artifact is
+codex-netsurf-armv7-offscreen-visual. Open the PNG and review browser.log,
+and verify the image-pixel test passed before claiming the browser can render.
+
+The full Alpine image build separately publishes codex-netsurf-armv7-trial,
+containing codex-netsurf-test-bundle.tar.gz. Unpack it into a NEW private
+directory INSIDE an existing Alpine installation (never the stock filesystem).
+Run 'sh codex-browser-trial.sh --diagnose' and then '--offscreen-test' to test
+dependencies and process startup with the actual old Kindle kernel. The latter
+has NO VISIBLE DISPLAY OUTPUT; see the included README-NETSURF-TRIAL.txt.
+
+The standalone test bundle does not install a Browser tile. Physical Kindle
+EPDC refresh, touch, navigation, suspend and exit-to-Home are still blocked
+pending attended tests. Do not interpret a passing QEMU screenshot as on-device
+browser support or start adding games changes on that basis.
