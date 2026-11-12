@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PW3-OS full Alpine 3.24.3 image builder. Runs in one pinned Docker environment on CI/Mac."""
+"""Codex full Alpine 3.24.3 image builder. Runs in one pinned Docker environment on CI/Mac."""
 import argparse
 import hashlib
 import io
@@ -50,7 +50,7 @@ def download(url, path, expected=None):
     if not path.is_file():
         print('DOWNLOAD',url,flush=True)
         path.parent.mkdir(parents=True,exist_ok=True)
-        request=urllib.request.Request(url,headers={'User-Agent':'PW3-OS-builder/1'})
+        request=urllib.request.Request(url,headers={'User-Agent':'Codex-builder/1'})
         with urllib.request.urlopen(request,timeout=120) as src, path.with_suffix(path.suffix+'.tmp').open('wb') as dest:
             shutil.copyfileobj(src,dest)
         path.with_suffix(path.suffix+'.tmp').replace(path)
@@ -143,7 +143,7 @@ def install_koreader(work,root,stage):
             raise RuntimeError(f'KOReader {name} is not executable after extraction')
     if not (dest/'reader.lua').is_file():
         raise RuntimeError('KOReader release lacks reader.lua in selected app root')
-    # Do not patch KOReader release sources: all PW3-OS adaptations are
+    # Do not patch KOReader release sources: all Codex adaptations are
     # persistent userpatch modules in KO_HOME and an external launcher.
     compat=False
     if stage:
@@ -209,7 +209,7 @@ def install_codex_core(repo,work,root):
     for name in apps:
         source=upstream/'src/ui'/f'{name}.c'
         patched=work/f'{name}-pw3os.c'
-        content = source.read_text().replace('/mnt/us/linux','/mnt/us/pw3os').replace('\"INKWELL\"','\"PW3 OS\"')
+        content = re.sub(r'(?i)inkwell', 'Codex', source.read_text().replace('/mnt/us/linux','/mnt/us/pw3os'))
         if name == 'home':
             content = patch_codex_home(content)
         if name == 'settings':
@@ -230,8 +230,8 @@ def install_codex_core(repo,work,root):
     config=root/'etc/own';config.mkdir(parents=True,exist_ok=True)
     shutil.copy2(upstream/'src/rootfs/etc/own/udhcpd.conf',config/'udhcpd.conf')
     (config/'name').write_text('Codex\n')
-    (config/'apps').write_text("# PW3-OS home — Terminal is in Settings; no Notes or upstream games.\nBible|book|/opt/pw3-bible/run-kindle.sh\nKOReader|book|/usr/local/bin/pw3-koreader\nGames|cube|/usr/local/bin/pw3-games\nWi-Fi|wifi|/usr/local/bin/wifi\nSettings|gear|/usr/local/bin/settings\n")
-    # These utility apps expect Inkwell paths; adapt app paths to PW3-OS.
+    (config/'apps').write_text("# Codex home — Terminal is in Settings; no Notes or upstream games.\nBible|book|/opt/pw3-bible/run-kindle.sh\nKOReader|book|/usr/local/bin/pw3-koreader\nGames|cube|/usr/local/bin/pw3-games\nWi-Fi|wifi|/usr/local/bin/wifi\nSettings|gear|/usr/local/bin/settings\n")
+    # Keep upstream license and source provenance while branding the built UI.
     # Source-level path replacements can be added later without importing games.
     return upstream
 
