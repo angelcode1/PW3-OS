@@ -16,6 +16,7 @@ import urllib.request
 import zipfile
 from settings_integration import patch_settings
 from codex_home import patch_codex_home
+from codex_frontpage import patch_codex_frontpage
 from browser_package import require_netsurf, verify_netsurf_closure, verify_browser_staged, NETSURF_PACKAGE
 
 ALPINE = 'https://dl-cdn.alpinelinux.org/alpine/v3.24'
@@ -214,6 +215,7 @@ def install_codex_core(repo,work,root):
         content = re.sub(r'(?i)inkwell', 'Codex', source.read_text().replace('/mnt/us/linux','/mnt/us/pw3os'))
         if name == 'home':
             content = patch_codex_home(content)
+            content = patch_codex_frontpage(content)
         if name == 'settings':
             content = patch_settings(content)
         patched.write_text(content)
