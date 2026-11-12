@@ -128,10 +128,21 @@ static int pw3_supported_fb(const struct fb_var_screeninfo *v,
         (uint64_t)f->line_length * PW3_H <= f->smem_len;
 }
 
+/* EPDC WAIT may return *positive remaining jiffies* on success.
+ * Linux's completion timeout API returns a positive result if the
+ * completion was reached before the timeout. ioctl failure is rc < 0,
+ * not rc != 0. Keeping this as a separate predicate makes the observed
+ * PW3 positive-return behaviour testable without hardware. */
+static int epdc_ioctl_failed(int rc) { return rc < 0; }
+
 /* For dry tests only: no device fd, mmap, ioctl or touchscreen input. */
 static int selftest(void) {
     if (sizeof(struct pw3_update) != 72u ||
         MXCFB_SEND_UPDATE_PW3 != 0x4048462eu) return 1;
+    /* Successful EPDC waits may return a positive completion timeout
+     * remainder. This exact bug shortened the physical test to a flash. */
+    if (epdc_ioctl_failed(0) || epdc_ioctl_failed(1) ||
+        epdc_ioctl_failed(3200) || !epdc_ioctl_failed(-1)) return 1;
     size_t stride = PW3_W + 23u;
     unsigned char *mapped = malloc(stride * PW3_H);
     unsigned char *before = malloc(SCREEN_BYTES);
@@ -185,13 +196,28 @@ static int pw3_refresh(int fd, uint32_t marker) {
     u.hist_bw = WF_DU;
     u.hist_gray = WF_GC16;
     u.temp = TEMP_AMBIENT;
-    if (ioctl(fd, MXCFB_SEND_UPDATE_PW3, &u) != 0) {
-        perror("PW3 EPDC SEND_UPDATE"); return -1;
+    errno = 0;
+    int sent = ioctl(fd, MXCFB_SEND_UPDATE_PW3, &u);
+    int send_errno = errno;
+    if (epdc_ioctl_failed(sent)) {
+        fprintf(stderr, "PW3 EPDC SEND_UPDATE_FAILED marker=%u rc=%d errno=%d (%s)\\n",
+                marker, sent, send_errno, strerror(send_errno));
+        return -1;
     }
     uint32_t wait_marker[2] = {marker, 0};
-    if (ioctl(fd, MXCFB_WAIT_FOR_UPDATE_COMPLETE_PW3, wait_marker) != 0) {
-        perror("PW3 EPDC WAIT_FOR_UPDATE_COMPLETE"); return -1;
+    errno = 0;
+    int waited = ioctl(fd, MXCFB_WAIT_FOR_UPDATE_COMPLETE_PW3, wait_marker);
+    int wait_errno = errno;
+    if (epdc_ioctl_failed(waited)) {
+        fprintf(stderr, "PW3 EPDC WAIT_FAILED marker=%u rc=%d errno=%d (%s)\\n",
+                marker, waited, wait_errno, strerror(wait_errno));
+        return -1;
     }
+    /* Positive wait return indicates successful EPDC completion, not a
+     * syscall error. The second word is collision_test output only. */
+    printf("CODEX_PW3_EPDC_UPDATE_COMPLETE marker=%u send_rc=%d wait_rc=%d collision=%u\\n",
+           marker, sent, waited, wait_marker[1]);
+    fflush(stdout);
     return 0;
 }
 
