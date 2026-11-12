@@ -29,6 +29,9 @@ jobs:
             build/pw3os/codex-touch-bridge.c build/pw3os/test_codex_touch.c \
             -o /tmp/codex-touch-test
           /tmp/codex-touch-test
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-display-probe.c -o /tmp/codex-display-probe-test
+          /tmp/codex-display-probe-test --selftest
 
   armv7-offscreen:
     runs-on: ubuntu-24.04
