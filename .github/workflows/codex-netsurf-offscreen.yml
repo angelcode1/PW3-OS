@@ -36,6 +36,15 @@ jobs:
             build/pw3os/codex-browser-panel-preview.c \
             -o /tmp/codex-browser-panel-preview-test
           /tmp/codex-browser-panel-preview-test --selftest
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-touch-probe.c \
+            build/pw3os/codex-touch-bridge.c \
+            -o /tmp/codex-browser-touch-probe-test
+          /tmp/codex-browser-touch-probe-test --selftest
+          if /tmp/codex-browser-touch-probe-test --sample-seconds 8; then
+            echo "Unattended touch sample was not gated" >&2
+            exit 1
+          fi
           # Physical display writes must be rejected without explicit gate.
           if /tmp/codex-browser-panel-preview-test \
               --display-once /tmp/does-not-exist.pgm --confirm-pw3; then
