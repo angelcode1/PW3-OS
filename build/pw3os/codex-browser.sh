@@ -19,7 +19,7 @@ case "${1:-}" in
         exec "$BIN" -f ram -w 320 -h 480 -b 32 file:///usr/share/codex/browser-smoke.html
         ;;
     --capture-offscreen)
-        # Attended local-page test only: no EPDC, /dev/fb0, input or URL.
+        # Attended local-page test only: no physical framebuffer, input or URL.
         [ "$#" -eq 1 ] || exit 64
         [ "${CODEX_BROWSER_ATTENDED:-}" = "EXPLICIT" ] && [ -t 0 ] || {
             echo "An interactive terminal and CODEX_BROWSER_ATTENDED=EXPLICIT are required" >&2
