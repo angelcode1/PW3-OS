@@ -50,6 +50,21 @@ with an interactive browser, full webpage functionality, or EPDC support.
 There is still no Browser tile in Home. Browser tests are the gating focus;
 no new games feature work is included in these changes.
 
+## PW3 panel / touchscreen integration test staging
+
+The CI visual job now outputs a 1072×1448 gray8 PGM derived from NetSurf's
+validated SDL screenshot. The image-build job stages a manually gated ARMv7
+`codex-browser-panel-preview` executable that can inspect this PGM, selftest
+copy/restore in RAM, or show it on PW3 for five seconds with a 72-byte
+Lab126 EPDC ioctl and restoration. **Hardware writing is never automatic**.
+The separate `codex-browser-touch-probe` executable enumerates Cypress-style
+ABS_MT devices with read-only queries and can (only when manually gated and
+attended) sample pointer coordinates for eight seconds without grabbing
+the device. Refer to `docs/CODEX-BROWSER-PW3-PANEL-TRIAL.md`.
+
+These diagnostics materially reduce the unknowns, but they are not live
+NetSurf EPDC or touch backend connections.
+
 ## Missing before device browser can be enabled
 
 1. Confirm the full Alpine package dependency closure, dynamic linker and old Linux 3.0.35 syscall compatibility in ARM execution against the *built* rootfs, not only a separate Alpine container.
