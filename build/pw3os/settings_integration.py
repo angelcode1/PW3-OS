@@ -18,11 +18,11 @@ def patch_settings(source: str) -> str:
     ]
     for before, after in edits:
         if source.count(before) != 1:
-            raise ValueError("Inkwell Settings upstream layout changed: " + before[:90])
+            raise ValueError("Upstream Settings layout changed: " + before[:90])
         source = source.replace(before, after, 1)
     marker = 'int main(void) {'
     if source.count(marker) != 1:
-        raise ValueError("Inkwell Settings main() changed")
+        raise ValueError("Upstream Settings main() changed")
     source = source.replace(marker, """/* Terminal lives inside Settings, preserving Home's recovery return codes. */
 static void launch_terminal(void) {
     pid_t pid = fork();
@@ -40,4 +40,4 @@ static void launch_terminal(void) {
 }
 
 """ + marker, 1)
-    return source.replace('Inkwell on Alpine %s', 'PW3-OS on Alpine %s')
+    return source.replace('Inkwell on Alpine %s', 'Codex on Alpine %s')
