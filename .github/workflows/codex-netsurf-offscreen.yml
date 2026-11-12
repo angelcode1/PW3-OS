@@ -54,6 +54,22 @@ jobs:
             -o /tmp/codex-browser-panel-preview-test
           /tmp/codex-browser-panel-preview-test --selftest
           cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-panel-fast.c \
+            -o /tmp/codex-browser-panel-fast-host-test
+          /tmp/codex-browser-panel-fast-host-test --selftest
+          if CODEX_BROWSER_PANEL_TRIAL=HOME_FAST_PREVIEW \
+              /tmp/codex-browser-panel-fast-host-test \
+              --follow-pgm /tmp/does-not-exist.pgm --confirm-home-fast; then
+            echo "Fast presenter bypassed Home ancestry gate" >&2
+            exit 1
+          fi
+          if CODEX_BROWSER_LIVE_TRIAL=EXPLICIT \
+              /tmp/codex-browser-fast-frames-host-test \
+              --fast-follow-seconds 33; then
+            echo "Fast converter bypassed one-shot gate" >&2
+            exit 1
+          fi
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
             build/pw3os/codex-browser-touch-probe.c \
             build/pw3os/codex-touch-bridge.c \
             -o /tmp/codex-browser-touch-probe-test
