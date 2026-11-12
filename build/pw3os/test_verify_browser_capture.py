@@ -16,8 +16,11 @@ def png(width, height, white_rectangle=False):
     for y in range(height):
         row = bytearray()
         for x in range(width):
-            white = white_rectangle and x < width - 20
-            row.extend((255, 255, 255) if white else (0, 0, 0))
+            if white_rectangle and x < width - 20 and 20 <= y < 60:
+                row.extend((204, 42, 119))
+            else:
+                white = white_rectangle and x < width - 20
+                row.extend((255, 255, 255) if white else (0, 0, 0))
         rows.append(b"\x00" + bytes(row))
     def chunk(tag, data):
         crc = binascii.crc32(tag + data) & 0xFFFFFFFF
