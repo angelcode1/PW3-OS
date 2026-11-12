@@ -342,6 +342,11 @@ def main():
         shutil.copy2(repo/'build/pw3os/codex-browser-home-preview.sh',
                      home_preview)
         home_preview.chmod(0o755)
+        # Native grayscale conversion avoids the 1.55-million-pixel
+        # Python loop that only published three frames in 30 seconds.
+        crosscompile(repo/'build/pw3os/codex-browser-fast-frames.c',
+                     root/'usr/local/bin/codex-browser-fast-frames',
+                     target='arm-linux.3.0.35-musleabi')
         browser['home_preview_staged']=True
         browser['home_preview_enabled_by_default']=False
         browser['headless_capture_staged']=True
@@ -396,6 +401,8 @@ def main():
                                     out/'codex-browser-live-trial'),
                                    (root/'usr/local/bin/codex-browser-home-preview',
                                     out/'codex-browser-home-preview'),
+                                   (root/'usr/local/bin/codex-browser-fast-frames',
+                                    out/'codex-browser-fast-frames'),
                                    (root/'usr/share/codex/browser-interactive.html',
                                     out/'browser-interactive.html'),
                                    (root/'usr/local/bin/codex-display-probe',out/'codex-display-probe'),
