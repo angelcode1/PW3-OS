@@ -336,6 +336,14 @@ def main():
         live_launcher=root/'usr/local/bin/codex-browser-live-trial'
         shutil.copy2(repo/'build/pw3os/codex-browser-live-trial.sh',live_launcher)
         live_launcher.chmod(0o755)
+        # Home tile preview is a *different* lifecycle: Home waits for the
+        # child and redraws itself, so never stop or restart Home here.
+        home_preview=root/'usr/local/bin/codex-browser-home-preview'
+        shutil.copy2(repo/'build/pw3os/codex-browser-home-preview.sh',
+                     home_preview)
+        home_preview.chmod(0o755)
+        browser['home_preview_staged']=True
+        browser['home_preview_enabled_by_default']=False
         browser['headless_capture_staged']=True
         browser['headless_on_device_verified']=False
         crosscompile(repo/'build/pw3os/codex-display-probe.c',
@@ -351,6 +359,8 @@ def main():
         smoke_dir=root/'usr/share/codex'
         smoke_dir.mkdir(parents=True,exist_ok=True)
         shutil.copy2(repo/'build/pw3os/browser-smoke.html',smoke_dir/'browser-smoke.html')
+        shutil.copy2(repo/'build/pw3os/browser-interactive.html',
+                     smoke_dir/'browser-interactive.html')
         package_netsurf_trial(repo,root,out/'codex-netsurf-test-bundle.tar.gz')
         compat=install_koreader(work,root,stage)
         bible_type=install_bible(repo,work,root,life_apk)
@@ -384,6 +394,10 @@ def main():
                                     out/'codex-browser-live-frames.py'),
                                    (root/'usr/local/bin/codex-browser-live-trial',
                                     out/'codex-browser-live-trial'),
+                                   (root/'usr/local/bin/codex-browser-home-preview',
+                                    out/'codex-browser-home-preview'),
+                                   (root/'usr/share/codex/browser-interactive.html',
+                                    out/'browser-interactive.html'),
                                    (root/'usr/local/bin/codex-display-probe',out/'codex-display-probe'),
                                    (root/'usr/local/bin/codex-browser-panel-preview',
                                     out/'codex-browser-panel-preview'),
@@ -395,7 +409,7 @@ def main():
         assemble_runner(repo,out)
         shutil.copy2(repo/'build/pw3os/pw3_debugmount.c',out/'pw3_debugmount.c')
         crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi',freestanding=True)
-        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','home','pw3-games','pw3-koreader','settings','codex-browser','libcodex-sdl-capture.so','verify_direct_sdl.py','libcodex-sdl-touch-input.so','codex-browser-live-frames.py','codex-browser-live-trial','codex-display-probe','codex-browser-panel-preview','codex-browser-touch-probe','codex-netsurf-test-bundle.tar.gz','koreader_update.py','2-pw3os-autoupdate.lua']
+        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','home','pw3-games','pw3-koreader','settings','codex-browser','libcodex-sdl-capture.so','verify_direct_sdl.py','libcodex-sdl-touch-input.so','codex-browser-live-frames.py','codex-browser-live-trial','codex-browser-home-preview','browser-interactive.html','codex-display-probe','codex-browser-panel-preview','codex-browser-touch-probe','codex-netsurf-test-bundle.tar.gz','koreader_update.py','2-pw3os-autoupdate.lua']
         (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
         manifest={'project':'Codex','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
                   'codex_ui_upstream_commit':CODEX_UI_UPSTREAM_REF,'codex_ui_apps_included':list(('home','wifi','settings','term','splash')),
