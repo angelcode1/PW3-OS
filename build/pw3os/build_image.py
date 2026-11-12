@@ -302,6 +302,7 @@ def main():
         run('e2fsck','-fn',img,acceptable=(0,))
         # Small on-device overlay: deploy via Alpine SSH without replacing the 768-MiB image.
         for source,destination in ((root/'etc/own/apps',out/'apps'),
+                                   (root/'usr/local/bin/home',out/'home'),
                                    (root/'usr/local/bin/pw3-games',out/'pw3-games'),
                                    (root/'usr/local/bin/pw3-koreader',out/'pw3-koreader'),
                                    (root/'usr/local/bin/settings',out/'settings'),
@@ -313,7 +314,7 @@ def main():
         assemble_runner(repo,out)
         shutil.copy2(repo/'build/pw3os/pw3_debugmount.c',out/'pw3_debugmount.c')
         crosscompile(out/'pw3_debugmount.c',out/'pw3-debugmount',target='arm-linux.3.0.35-musleabi',freestanding=True)
-        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','pw3-games','pw3-koreader','settings','codex-browser','codex-display-probe','koreader_update.py','2-pw3os-autoupdate.lua']
+        names=['alpine-os.img','pw3-debugmount','pw3os-boot-once.sh','apps','home','pw3-games','pw3-koreader','settings','codex-browser','codex-display-probe','koreader_update.py','2-pw3os-autoupdate.lua']
         (out/'SHA256SUMS').write_text(''.join(f'{sha256(out/n)}  {n}\n' for n in names))
         manifest={'project':'Codex','alpine':'3.24.3','kernel':'Amazon 3.0.35-lab126',
                   'codex_ui_upstream_commit':CODEX_UI_UPSTREAM_REF,'codex_ui_apps_included':list(('home','wifi','settings','term','splash')),
