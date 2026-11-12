@@ -10,6 +10,7 @@ PROBE=/usr/local/bin/codex-display-probe
 BIN=/usr/bin/netsurf-framebuffer
 CAP=/usr/local/lib/codex/libcodex-sdl-capture.so
 INPUT=/usr/local/lib/codex/libcodex-sdl-touch-input.so
+FAST=/usr/local/bin/codex-browser-fast-frames
 PY=/usr/local/lib/codex/codex-browser-live-frames.py
 VERIFY=/usr/local/lib/codex/verify_direct_sdl.py
 HTML=/usr/share/codex/browser-interactive.html
@@ -18,7 +19,7 @@ RES=/usr/share/netsurf
 # A real /usr/local/bin/home process must be our ancestor. This prevents
 # accidentally launching a physical panel session from a detached service.
 "$PANEL" --home-origin-check || exit 78
-for p in "$PANEL" "$PROBE" "$BIN" "$CAP" "$INPUT"; do
+for p in "$PANEL" "$PROBE" "$BIN" "$CAP" "$INPUT" "$FAST"; do
   [ -x "$p" ] || { echo "CODEX_BROWSER_HOME_MISSING_BINARY=$p" >&2; exit 69; }
 done
 for p in "$PY" "$VERIFY" "$HTML"; do
@@ -64,7 +65,7 @@ SDL_VIDEODRIVER=dummy DISPLAY= LD_PRELOAD="$CAP:$INPUT" \
 "$BIN" -f sdl -w 600 -h 800 -b 32 "file://$HTML" \
   < /dev/null > "$R/home-netsurf.log" 2>&1 &
 browser_pid=$!
-CODEX_BROWSER_LIVE_TRIAL=EXPLICIT python3 "$PY" --follow-seconds 33 \
+CODEX_BROWSER_LIVE_TRIAL=EXPLICIT "$FAST" --follow-seconds 33 \
   < /dev/null > "$R/home-converter.log" 2>&1 &
 converter_pid=$!
 CODEX_BROWSER_PANEL_TRIAL=HOME_PREVIEW \
