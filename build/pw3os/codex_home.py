@@ -38,9 +38,10 @@ static void codex_draw_footer(void) {
         px -= 2;
         lines = text_wrap(&f_hand, px, verse, max_w, NULL, NULL);
     }
-    /* Screen bottom has room for two complete wrapped lines. */
+    /* Align the complete verse above a fixed bottom margin, even if it
+     * needs three lines at the smallest permitted font size. */
     codex_footer_context context = {
-        px, H - (lines > 1 ? 2 * (px + 2) + 6 : px + 28)
+        px, H - 28 - lines * (px + 3)
     };
     text_wrap(&f_hand, px, verse, max_w, codex_footer_line, &context);
 }
