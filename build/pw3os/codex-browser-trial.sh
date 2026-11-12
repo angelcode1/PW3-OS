@@ -16,7 +16,27 @@ export HOME="${TMPDIR:-/tmp}/codex-netsurf-trial-home"
 mkdir -p "$HOME"
 case "${1:-}" in
     --diagnose)
-        echo "CODEX_NETSURF_ARMV7_TRIAL_STAGED_NOT_DEVICE_VERIFIED"
+        if command -v ldd >/dev/null 2>&1; then
+            ldd "$BIN" > "$HOME/dependencies.txt" 2>&1 || {
+                echo "NetSurf dynamic loader check failed" >&2
+                cat "$HOME/dependencies.txt" >&2
+                exit 1
+            }
+            if grep -q "not found" "$HOME/dependencies.txt"; then
+                echo "NetSurf shared library not found" >&2
+                cat "$HOME/dependencies.txt" >&2
+                exit 1
+            fi
+        fi
+        # -f ? enumerates supported libnsfb surfaces without opening one.
+        "$BIN" -f '?' > "$HOME/surfaces.txt" 2>&1 || :
+        if ! grep -q 'ram' "$HOME/surfaces.txt"; then
+            echo "NetSurf did not enumerate a RAM surface" >&2
+            cat "$HOME/surfaces.txt" >&2
+            exit 1
+        fi
+        echo "CODEX_NETSURF_ARMV7_TRIAL_LOADER_AND_RAM_SURFACE_PASS"
+        echo "Renderer, kernel compatibility under load, EPDC and input remain unverified"
         exit 0
         ;;
     --offscreen-test)
