@@ -200,7 +200,7 @@ static int pw3_refresh(int fd, uint32_t marker) {
     int sent = ioctl(fd, MXCFB_SEND_UPDATE_PW3, &u);
     int send_errno = errno;
     if (epdc_ioctl_failed(sent)) {
-        fprintf(stderr, "PW3 EPDC SEND_UPDATE_FAILED marker=%u rc=%d errno=%d (%s)\\n",
+        fprintf(stderr, "PW3 EPDC SEND_UPDATE_FAILED marker=%u rc=%d errno=%d (%s)\n",
                 marker, sent, send_errno, strerror(send_errno));
         return -1;
     }
@@ -209,13 +209,13 @@ static int pw3_refresh(int fd, uint32_t marker) {
     int waited = ioctl(fd, MXCFB_WAIT_FOR_UPDATE_COMPLETE_PW3, wait_marker);
     int wait_errno = errno;
     if (epdc_ioctl_failed(waited)) {
-        fprintf(stderr, "PW3 EPDC WAIT_FAILED marker=%u rc=%d errno=%d (%s)\\n",
+        fprintf(stderr, "PW3 EPDC WAIT_FAILED marker=%u rc=%d errno=%d (%s)\n",
                 marker, waited, wait_errno, strerror(wait_errno));
         return -1;
     }
     /* Positive wait return indicates successful EPDC completion, not a
      * syscall error. The second word is collision_test output only. */
-    printf("CODEX_PW3_EPDC_UPDATE_COMPLETE marker=%u send_rc=%d wait_rc=%d collision=%u\\n",
+    printf("CODEX_PW3_EPDC_UPDATE_COMPLETE marker=%u send_rc=%d wait_rc=%d collision=%u\n",
            marker, sent, waited, wait_marker[1]);
     fflush(stdout);
     return 0;
