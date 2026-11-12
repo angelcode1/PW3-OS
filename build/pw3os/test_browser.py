@@ -91,15 +91,33 @@ class TestNetSurf(unittest.TestCase):
         self.assertNotIn("Browser|",code)
         self.assertIn("'browser':browser",code)
 
-    def test_home_quote_list_unchanged_pending_user_replacements(self):
+    def test_home_footer_is_local_and_contains_five_passages(self):
         from sys import path
         path.insert(0,str(HERE))
-        from codex_home import patch_codex_home
-        sample='static const char *const footers[] = {"turn the page"};\n'+\
-            'for (const char *p = "INKWELL"; *p; p++) {}'
-        patched=patch_codex_home(sample)
+        from codex_home import patch_codex_home, VERSES
+        sample = ('static const char *const footers[] = {\n'
+                  '    "turn the page",\n'
+                  '    "ink on glass, linux underneath"\n'
+                  '};\n'
+                  'static void draw_home(int flash) {\n'
+                  '    time_t now = time(0);\n'
+                  '    text_center(&f_hand, 46, W / 2, H - 82, '
+                  'footers[(now / 86400) % (sizeof footers / sizeof *footers)], 0x50);\n'
+                  '}\n'
+                  'for (const char *p = "INKWELL"; *p; p++) {}')
+        patched = patch_codex_home(sample)
+        self.assertEqual(len(VERSES),5)
         self.assertIn('"Codex"',patched)
-        self.assertIn('"turn the page"',patched)
+        for passage in VERSES:
+            self.assertEqual(patched.count('"' + passage + '"'),1)
+        self.assertNotIn('"turn the page"',patched)
+        self.assertNotIn('ink on glass, linux underneath',patched)
+        self.assertIn('codex_draw_footer();',patched)
+        self.assertIn('text_wrap(&f_hand',patched)
+        self.assertIn('sizeof footers / sizeof footers[0]',patched)
+        self.assertNotIn('fopen(',patched)
+        with self.assertRaises(ValueError):
+            patch_codex_home('upstream footer removed')
 
 
 if __name__ == "__main__":
