@@ -7,7 +7,7 @@ mkdir -p /run /tmp /var/log "$D/logs" /root/.ssh
 chmod 1777 /tmp
 chmod 700 /root/.ssh
 exec >>"$D/logs/alpine-own-init.log" 2>&1
-echo "=== PW3-OS Alpine boot $(date) ==="
+echo "=== Codex Alpine boot $(date) ==="
 uname -a
 cat /etc/alpine-release
 # Avoid boot-time APK upgrades and nested tmpfs mounts: the image was assembled offline.
