@@ -41,6 +41,10 @@ jobs:
           /tmp/codex-sdl-touch-input-test
           bash -n build/pw3os/codex-browser-live-trial.sh
           sh -n build/pw3os/codex-browser-home-preview.sh
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/codex-browser-fast-frames.c \
+            -o /tmp/codex-browser-fast-frames-host-test
+          /tmp/codex-browser-fast-frames-host-test --selftest
           python3 -m py_compile build/pw3os/codex-browser-live-frames.py
           cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
             build/pw3os/codex-display-probe.c -o /tmp/codex-display-probe-test
