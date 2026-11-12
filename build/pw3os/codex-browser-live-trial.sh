@@ -14,10 +14,11 @@ BIN=/usr/bin/netsurf-framebuffer
 SHARE=/usr/share/netsurf
 HTML=/usr/share/codex/browser-smoke.html
 CAP=/usr/local/lib/codex/libcodex-sdl-capture.so
+INPUT=/usr/local/lib/codex/libcodex-sdl-touch-input.so
 PY=/usr/local/lib/codex/codex-browser-live-frames.py
 VP=/usr/local/lib/codex/verify_direct_sdl.py
 PANEL=/usr/local/bin/codex-browser-panel-preview
-for f in "$BIN" "$CAP" "$PANEL"; do [ -x "$f" ] || {
+for f in "$BIN" "$CAP" "$INPUT" "$PANEL"; do [ -x "$f" ] || {
   echo "MISSING_BROWSER_BINARY=$f" >&2; exit 69;
 }; done
 for f in "$PY" "$VP" "$HTML"; do [ -f "$f" ] || {
@@ -65,9 +66,10 @@ export NETSURFRES="$SHARE"
 export HOME=/tmp/codex-browser-live-home
 mkdir -p "$HOME"
 echo CODEX_BROWSER_LIVE_TRIAL_STARTED
-CODEX_SDL_CAPTURE_ENABLE=PW3_ATTENDED SDL_VIDEODRIVER=dummy DISPLAY= \
-LD_PRELOAD="$CAP" "$BIN" -f sdl -w 600 -h 800 -b 32 \
-  "file://$HTML" > "$R/live-netsurf.log" 2>&1 &
+CODEX_SDL_CAPTURE_ENABLE=PW3_ATTENDED CODEX_SDL_INPUT_ENABLE=PW3_ATTENDED \
+SDL_VIDEODRIVER=dummy DISPLAY= LD_PRELOAD="$CAP:$INPUT" \
+"$BIN" -f sdl -w 600 -h 800 -b 32 \
+  "file://$HTML" < /dev/tty > "$R/live-netsurf.log" 2>&1 &
 browser_pid=$!
 CODEX_BROWSER_LIVE_TRIAL=EXPLICIT python3 "$PY" --follow-seconds 33 \
   > "$R/live-converter.log" 2>&1 &
