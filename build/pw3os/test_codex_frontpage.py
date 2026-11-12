@@ -48,7 +48,7 @@ for (const char *p = "Codex"; *p; p++) {}
 class TestCodexFrontpage(unittest.TestCase):
     def test_static_date_and_no_periodic_refresh(self):
         s = patch_codex_frontpage(FIXTURE)
-        self.assertIn('strftime(day_number, sizeof day_number, "%d"', s)
+        self.assertIn('snprintf(day_number, sizeof day_number, "%d", today->tm_mday)', s)
         self.assertIn('strftime(weekday, sizeof weekday, "%A"', s)
         self.assertIn('strftime(month_year, sizeof month_year, "%B %Y"', s)
         self.assertIn('text(&f_serif_bold, 264', s)
