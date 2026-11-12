@@ -18,6 +18,36 @@ The Codex NetSurf offscreen workflow should produce the artifact **codex-netsurf
 
 The separate full Alpine build publishes codex-browser-panel-preview in the **pw3os-apps-overlay** artifact, without requiring a new OS installation.
 
+## New: true headless NetSurf rendering path (no X server)
+
+NetSurf's Alpine framebuffer binary embeds libnsfb, so no external
+`libnsfb-dev` package exists. The tested alternative intercepts its
+**dynamically linked SDL 1.2 framebuffer** using
+`build/pw3os/codex-sdl-live-capture.c`. It captures the browser's actual
+`SDL_Surface`, then validates local HTML/CSS pixels and converts the
+result into a PW3 grayscale image.
+
+The ARMv7 test has already confirmed direct SDL capture under Xvfb.
+A further CI test renders through `SDL_VIDEODRIVER=dummy` without X11;
+read `.github/workflows/codex-netsurf-offscreen.yml` for its exact status.
+The current full-image builder stages the dynamically linked ARMv7
+`/usr/local/lib/codex/libcodex-sdl-capture.so` and its Python validator
+alongside `/usr/local/bin/codex-browser`. They are **not** started at boot.
+
+An *attended* headless dry run on existing Alpine, after successful build
+and runtime compatibility checks, uses:
+
+```sh
+CODEX_BROWSER_ATTENDED=EXPLICIT codex-browser --capture-offscreen
+```
+
+Run from an interactive terminal (for SSH, request a TTY). It uses only
+the local HTML fixture and the SDL dummy driver, then exits after a
+bounded duration. The output is
+`/run/codex-browser/codex-browser-live-pw3.pgm`. It does **not** alter
+the Kindle screen or open evdev. This is the next meaningful on-device
+compatibility gate, not an interactive browser.
+
 ## Optional attended test — existing Alpine on a confirmed PW3 only
 
 Do not run on stock Kindle OS or while another app is refreshing the screen. This test changes the visible screen temporarily. Require a confirmed framebuffer preflight before enabling it.
