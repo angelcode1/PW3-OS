@@ -14,7 +14,7 @@ int codex_rgba_to_gray(const uint8_t *src, size_t stride,
     for (unsigned y = 0; y < h; y++)
         for (unsigned x = 0; x < w; x++) {
             const uint8_t *p = src + (size_t)y * stride + 4u * x;
-            /* Rec.709 linear weighted 8-bit grayscale, integer rounded. */
+            /* Approximate Rec.709 luma on encoded RGB; gamma/dithering remain future work. */
             gray[(size_t)y * w + x] =
                 (uint8_t)((2126u * p[0] + 7152u * p[1] +
                            722u * p[2] + 5000u) / 10000u);
