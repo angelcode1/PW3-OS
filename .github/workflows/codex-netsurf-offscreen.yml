@@ -35,6 +35,13 @@ jobs:
             -o /tmp/codex-browser-viewport-test
           /tmp/codex-browser-viewport-test
           cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
+            build/pw3os/test_codex_sdl_touch_input.c \
+            build/pw3os/codex-browser-viewport.c -ldl \
+            -o /tmp/codex-sdl-touch-input-test
+          /tmp/codex-sdl-touch-input-test
+          bash -n build/pw3os/codex-browser-live-trial.sh
+          python3 -m py_compile build/pw3os/codex-browser-live-frames.py
+          cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
             build/pw3os/codex-display-probe.c -o /tmp/codex-display-probe-test
           /tmp/codex-display-probe-test --selftest
           cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
@@ -54,6 +61,11 @@ jobs:
           if /tmp/codex-browser-panel-preview-test \
               --display-once /tmp/does-not-exist.pgm --confirm-pw3; then
             echo "Panel write was not gated" >&2
+            exit 1
+          fi
+          if /tmp/codex-browser-panel-preview-test \
+              --follow-pgm /tmp/does-not-exist.pgm --confirm-pw3; then
+            echo "Live browser display was not explicitly gated" >&2
             exit 1
           fi
 
