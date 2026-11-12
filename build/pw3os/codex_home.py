@@ -41,10 +41,10 @@ static void codex_draw_footer(void) {
         px -= 2;
         lines = text_wrap(&f_hand, px, verse, max_w, NULL, NULL);
     }
-    /* Align the complete verse above a fixed bottom margin, even if it
-     * needs three lines at the smallest permitted font size. */
+    /* Keep the complete verse below the original frontlight thumb at
+     * SLIDER_Y + SLIDER_H / 2. Two or three compact lines fit at the foot. */
     codex_footer_context context = {
-        px, H - 28 - lines * (px + 3)
+        px, H - 8 - lines * (px + 2)
     };
     text_wrap(&f_hand, px, verse, max_w, codex_footer_line, &context);
 }
