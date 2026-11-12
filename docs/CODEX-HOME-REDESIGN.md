@@ -33,5 +33,5 @@ No on-device visual or power validation has been performed. Check long weekday/m
 
 - Confirm typography and touch targets at 300 dpi.
 - Test with five, six, nine and sixteen apps, especially when Browser is added.
-- Confirm Alpine local timezone. Date uses localtime, while the wisdom verse currently rotates by Unix day; aligning both to local calendar days can be a follow-up.
+- Confirm Alpine local timezone. Both the date and the wisdom-verse rotation now use localtime; the footer changes only on a natural redraw, never with a midnight timer.
 - Avoid animations, recurring refresh timers, online quote fetches or permanently active widgets.
