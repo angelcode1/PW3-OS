@@ -90,7 +90,7 @@ jobs:
             -v "$PWD/build/pw3os:/project:ro" \
             -v "$PWD/out/netsurf-visual:/reports" \
             alpine:3.24 sh -ec '
-              apk add --no-cache netsurf-framebuffer font-dejavu xvfb scrot build-base libnsfb-dev
+              apk add --no-cache netsurf-framebuffer font-dejavu xvfb scrot build-base
               mkdir -p /usr/share/codex
               cp /project/browser-smoke.html /usr/share/codex/browser-smoke.html
               CODEX_BROWSER_VISUAL_CI=1 \
@@ -98,8 +98,8 @@ jobs:
             '
           python3 build/pw3os/verify_browser_capture.py \
             out/netsurf-visual/baseline.png out/netsurf-visual/netsurf-sdl.png
-          python3 build/pw3os/verify_nsfb_live_pgm.py \
-            out/netsurf-visual/codex-live-nsfb.pgm
+          python3 build/pw3os/verify_direct_sdl.py \
+            out/netsurf-visual/codex-live-sdl.bmp out/netsurf-visual/codex-browser-live-pw3.pgm
           python3 build/pw3os/browser_capture_to_pw3.py \
             out/netsurf-visual/netsurf-sdl.png out/netsurf-visual/codex-browser-pw3-preview.pgm
           cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic \
