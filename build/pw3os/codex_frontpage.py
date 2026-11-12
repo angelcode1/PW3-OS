@@ -103,7 +103,10 @@ def patch_codex_frontpage(source: str) -> str:
     source = replace_once(source, "    draw_slider();\n    codex_draw_footer();",
                           "    draw_slider();\n    ornament(1255);\n    codex_draw_footer();")
     source = replace_once(source, "    float k = cell_h / (float)CELL_H;",
-                          "    float k = a->r.h / (float)CELL_H;")
+                          "    float k = a->r.h / (float)CELL_H;\n"
+                          "    if (a->r.h >= 280)\n"
+                          "        frame(a->r.x + 8, a->r.y + 5,\n"
+                          "              a->r.w - 16, a->r.h - 10, 2, 0xC0);")
     source = replace_once(source,
                           "int r = (int)(84 * cell_h / (float)CELL_H);",
                           "int r = (int)(84 * apps[i].r.h / (float)CELL_H);")
