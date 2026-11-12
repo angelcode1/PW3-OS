@@ -28,8 +28,8 @@ class TestCodexSleep(unittest.TestCase):
 
     def test_only_the_two_text_strings_change(self):
         result = patch_codex_sleep(self.source)
-        self.assertIn('Codex is resting', result)
-        self.assertIn("press power when you're ready", result)
+        self.assertIn('Codex is closed', result)
+        self.assertIn("press power to turn the page", result)
         self.assertNotIn('Inkwell is asleep', result)
         self.assertNotIn('press the power button to wake', result)
         self.assertEqual(result.replace(NEW_TITLE, OLD_TITLE)
