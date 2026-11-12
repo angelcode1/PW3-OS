@@ -27,7 +27,7 @@ KOREADER_SHA = 'ea1f575c54492a2c679d128b7f3210fd7d6a87e5f5a1ff1f7a7fe2080ff68f86
 VPLS = {'web':'engwebp_vpl.zip', 'kjv':'eng-kjv_vpl.zip', 'asv':'eng-asv_vpl.zip'}
 PKGS = ['dropbear','dropbear-scp','dropbear-dbclient','busybox-extras',
         'wpa_supplicant','tzdata','curl','ca-certificates','python3',
-        'python3-pyc','libstdc++','libgcc','gcompat',NETSURF_PACKAGE]
+        'python3-pyc','libstdc++','libgcc','gcompat','font-dejavu',NETSURF_PACKAGE]
 
 
 def run(*cmd, cwd=None, acceptable=(0,)):
