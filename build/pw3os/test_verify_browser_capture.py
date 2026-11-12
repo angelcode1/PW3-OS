@@ -11,12 +11,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from verify_browser_capture import read_png, compare
 
 
-def png(width, height, white_rectangle=False):
+def png(width, height, white_rectangle=False, proof=True):
     rows = []
     for y in range(height):
         row = bytearray()
         for x in range(width):
-            if white_rectangle and x < width - 20 and 20 <= y < 60:
+            if white_rectangle and proof and x < width - 20 and 20 <= y < 60:
                 row.extend((204, 42, 119))
             else:
                 white = white_rectangle and x < width - 20
@@ -42,6 +42,10 @@ class TestBrowserCapture(unittest.TestCase):
             compare(baseline, rendered)
             with self.assertRaises(ValueError):
                 compare(baseline, baseline)
+            # A visible blank browser window must not pass without CSS proof.
+            rendered.write_bytes(png(200, 200, True, proof=False))
+            with self.assertRaises(ValueError):
+                compare(baseline, rendered)
 
     def test_corrupt_png_rejected(self):
         with tempfile.TemporaryDirectory() as td:
