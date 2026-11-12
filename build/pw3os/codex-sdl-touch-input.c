@@ -72,7 +72,13 @@ static int active_gate(void) {
     if (strcmp(g,"PW3_ATTENDED")==0) return isatty(STDIN_FILENO);
     /* Home-launched apps are deliberately headless. Check their actual
      * /proc process ancestry, not only a spoofable environment variable. */
-    if (strcmp(g,"PW3_HOME_PREVIEW")==0) return codex_browser_from_home();
+    if (strcmp(g,"PW3_HOME_PREVIEW")==0) {
+        /* Verified exactly once: the browser subprocess is started by
+         * Home and its ancestry stays fixed for this bounded session. */
+        static int ancestry=-1;
+        if (ancestry<0) ancestry=codex_browser_from_home();
+        return ancestry;
+    }
     return 0;
 }
 static void queue_bytes(const void *event, unsigned len) {
