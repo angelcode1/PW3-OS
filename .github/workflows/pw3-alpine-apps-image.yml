@@ -48,6 +48,10 @@ jobs:
           test -s codex-display-probe
           test -s codex-browser-panel-preview
           test -s codex-browser-touch-probe
+          test -s libcodex-sdl-touch-input.so
+          test -s codex-browser-live-frames.py
+          test -s codex-browser-live-trial
+          file libcodex-sdl-touch-input.so | grep -E 'ELF 32-bit.*shared object, ARM'
           test -s codex-netsurf-test-bundle.tar.gz
           tar -tzf codex-netsurf-test-bundle.tar.gz | grep -Fx usr/bin/netsurf-framebuffer
           tar -tzf codex-netsurf-test-bundle.tar.gz | grep -Fx codex-browser-trial.sh
