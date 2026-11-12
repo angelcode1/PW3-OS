@@ -51,6 +51,8 @@ jobs:
           test -s libcodex-sdl-touch-input.so
           test -s codex-browser-live-frames.py
           test -s codex-browser-live-trial
+          test -s codex-browser-home-preview
+          test -s browser-interactive.html
           file libcodex-sdl-touch-input.so | grep -E 'ELF 32-bit.*shared object, ARM'
           test -s codex-netsurf-test-bundle.tar.gz
           tar -tzf codex-netsurf-test-bundle.tar.gz | grep -Fx usr/bin/netsurf-framebuffer
@@ -138,6 +140,8 @@ jobs:
             out/pw3os/libcodex-sdl-touch-input.so
             out/pw3os/codex-browser-live-frames.py
             out/pw3os/codex-browser-live-trial
+            out/pw3os/codex-browser-home-preview
+            out/pw3os/browser-interactive.html
             out/pw3os/koreader_update.py
             out/pw3os/2-pw3os-autoupdate.lua
           retention-days: 14
