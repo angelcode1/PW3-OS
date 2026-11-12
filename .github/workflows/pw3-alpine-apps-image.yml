@@ -40,7 +40,9 @@ jobs:
           test -s pw3-debugmount
           test -s BUILD-MANIFEST.json
           test -s README-DEPLOY.txt
+          test -s home
           test -s codex-browser
+          test -s codex-display-probe
           python3 - <<'PY'
           import json
           with open('BUILD-MANIFEST.json') as f:
@@ -58,6 +60,8 @@ jobs:
           name: pw3os-apps-overlay
           path: |
             out/pw3os/apps
+            out/pw3os/home
+            out/pw3os/codex-display-probe
             out/pw3os/pw3-games
             out/pw3os/pw3-koreader
             out/pw3os/settings
