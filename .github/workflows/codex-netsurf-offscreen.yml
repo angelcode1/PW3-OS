@@ -63,3 +63,26 @@ jobs:
               echo "OFFSCREEN_NETSURF_ARMV7_PROCESS_ALIVE_PASS"
               cat /tmp/browser.log
             '
+      - name: Render NetSurf in virtual portrait X11 and capture screenshot
+        run: |
+          mkdir -p out/netsurf-visual
+          docker run --rm --platform linux/arm/v7 --shm-size=128m \
+            -v "$PWD/build/pw3os:/project:ro" \
+            -v "$PWD/out/netsurf-visual:/reports" \
+            alpine:3.24 sh -ec '
+              apk add --no-cache netsurf-framebuffer font-dejavu xvfb scrot
+              mkdir -p /usr/share/codex
+              cp /project/browser-smoke.html /usr/share/codex/browser-smoke.html
+              CODEX_BROWSER_VISUAL_CI=1 \
+                /bin/sh /project/codex-browser-visual-ci.sh
+            '
+          python3 build/pw3os/verify_browser_capture.py \
+            out/netsurf-visual/baseline.png out/netsurf-visual/netsurf-sdl.png
+      - name: Upload browser screenshots and logs even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-netsurf-armv7-offscreen-visual
+          path: out/netsurf-visual/
+          retention-days: 14
+          if-no-files-found: warn
