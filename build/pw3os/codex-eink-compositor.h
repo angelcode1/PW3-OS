@@ -1,6 +1,6 @@
 /* Codex e-ink offscreen compositor (no Kindle device access).
  * Pure buffer operations; caller owns both frames and any EPDC integration.
- * Input pixels are explicitly RGBA byte order, NOT a libnsfb ABI assertion.
+ * Byte order is explicit for supported little-endian 32-bit NetSurf formats.
  */
 #ifndef CODEX_EINK_COMPOSITOR_H
 #define CODEX_EINK_COMPOSITOR_H
@@ -20,7 +20,16 @@ typedef struct {
     codex_rect rects[CODEX_MAX_RECTS];
 } codex_plan;
 
-/* Converts 4-byte/pixel RGBA into 8-bit luma. Ignores alpha (opaque output). */
+/* On little-endian ARM:
+ * libnsfb NSFB_FMT_ABGR8888: byte order R,G,B,A
+ * libnsfb NSFB_FMT_ARGB8888: byte order B,G,R,A
+ * This enum is our own API, not a libnsfb ABI layout guarantee.
+ */
+typedef enum { CODEX_FMT_ABGR8888_LE = 1, CODEX_FMT_ARGB8888_LE = 2 } codex_pixfmt;
+int codex_nsfb32_to_gray(const uint8_t *src, size_t src_stride,
+                         uint8_t *gray, unsigned w, unsigned h,
+                         codex_pixfmt format);
+/* Legacy RGBA input is identical to little-endian ABGR8888 byte order. */
 int codex_rgba_to_gray(const uint8_t *src, size_t src_stride,
                        uint8_t *gray, unsigned w, unsigned h);
 /* Computes changed 64x64 tiles. A frame is never submitted to EPDC here. */
