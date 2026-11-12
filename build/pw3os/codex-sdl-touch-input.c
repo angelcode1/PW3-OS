@@ -9,6 +9,7 @@
  */
 #define _GNU_SOURCE
 #include "codex-browser-viewport.h"
+#include "codex-browser-home-origin.h"
 #include <dlfcn.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -66,7 +67,13 @@ static int first_log;
 
 static int active_gate(void) {
     const char *g=getenv("CODEX_SDL_INPUT_ENABLE");
-    return g && strcmp(g,"PW3_ATTENDED")==0 && isatty(STDIN_FILENO);
+    if (!g) return 0;
+    /* Retain the already proven attended SSH trial unchanged. */
+    if (strcmp(g,"PW3_ATTENDED")==0) return isatty(STDIN_FILENO);
+    /* Home-launched apps are deliberately headless. Check their actual
+     * /proc process ancestry, not only a spoofable environment variable. */
+    if (strcmp(g,"PW3_HOME_PREVIEW")==0) return codex_browser_from_home();
+    return 0;
 }
 static void queue_bytes(const void *event, unsigned len) {
     unsigned nxt=(back+1u)%EVENT_CAP;
