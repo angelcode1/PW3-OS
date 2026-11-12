@@ -21,6 +21,7 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
+#include "codex-browser-home-origin.h"
 
 #define PW3_W 1072u
 #define PW3_H 1448u
@@ -376,6 +377,15 @@ static int follow_pgm(const char *source) {
 }
 
 int main(int argc, char **argv) {
+    if (argc == 2 && strcmp(argv[1], "--home-origin-check") == 0) {
+        /* This is a read-only ancestry check used before starting NetSurf. */
+        if (codex_browser_from_home()) {
+            puts("CODEX_BROWSER_HOME_ORIGIN_CONFIRMED");
+            return 0;
+        }
+        fputs("CODEX_BROWSER_HOME_ORIGIN_DENIED\n", stderr);
+        return 78;
+    }
     if (argc == 2 && strcmp(argv[1], "--selftest") == 0) return selftest();
     if (argc == 3 && strcmp(argv[1], "--inspect") == 0) {
         unsigned char *pgm = NULL;
@@ -384,6 +394,16 @@ int main(int argc, char **argv) {
                PW3_W, PW3_H, SCREEN_BYTES, pixel_checksum(pgm));
         free(pgm);
         return 0;
+    }
+    if (argc == 4 && strcmp(argv[1], "--follow-pgm") == 0 &&
+        strcmp(argv[3], "--confirm-home") == 0) {
+        const char *gate = getenv("CODEX_BROWSER_PANEL_TRIAL");
+        if (!gate || strcmp(gate, "HOME_PREVIEW") != 0 ||
+            !codex_browser_from_home()) {
+            fputs("Codex Home browser preview denied: not launched from Home\n", stderr);
+            return 78;
+        }
+        return follow_pgm(argv[2]);
     }
     if (argc == 4 && strcmp(argv[1], "--follow-pgm") == 0 &&
         strcmp(argv[3], "--confirm-pw3") == 0) {
@@ -411,6 +431,8 @@ int main(int argc, char **argv) {
     }
     fputs("Usage: codex-browser-panel-preview --selftest | --inspect image.pgm\n"
           "  --display-once image.pgm --confirm-pw3 (tty + trial env required)\n"
-          "  --follow-pgm image.pgm --confirm-pw3 (bounded 30s, tty + gate)\n", stderr);
+          "  --follow-pgm image.pgm --confirm-pw3 (bounded 30s, tty + gate)\n"
+          "  --home-origin-check (read-only Home ancestry check)\n"
+          "  --follow-pgm image.pgm --confirm-home (Home-only 30s preview)\n", stderr);
     return 64;
 }
